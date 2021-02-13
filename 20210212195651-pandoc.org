@@ -1,0 +1,18 @@
+#+title: pandoc
+#+roam_tags: pandoc org-mode
+
+
+* Resources
+  
+  [[https://pandoc.org/MANUAL.html#][Pandoc Manual]]
+
+* CLI
+
+
+  Converts from gfm (GitHub flavored md) to org. Outputs to file named test.org
+  using test.md as the source
+  #+begin_src shell
+
+    pandoc -f gfm -t org -o hubex_1179.org hubex_1179.md
+
+  #+end_src

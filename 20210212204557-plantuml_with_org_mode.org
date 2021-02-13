@@ -1,0 +1,21 @@
+#+title: Plantuml with org-mode
+#+roam_tags: org-mode plantuml
+
+
+* Basic Usage
+
+  - Use code block syntax
+  - Use =:file= header to render the results below
+    
+  #+begin_src plantuml :file plantuml_demo.png
+    Alice -> Bobby: synchronous call
+    Alice ->> Bobby: asynchronous call
+  #+end_src
+
+  #+results:
+  [[file:plantuml_demo.png]]
+
+
+  ~SPC m ,=~ (org-ctrl-c-ctrl) press inside the codeblock to evaluate
+
+  =SPC m T i= (org-toggle-inline-images)
