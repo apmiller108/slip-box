@@ -1,0 +1,29 @@
+#+title: Org-roam Cheatsheet
+#+roam_alias: "Org-roam stuff"
+#+roam_tags: org-roam org-mode emacs
+#+roam_key: "https://foo.com"
+
+
+[[https://www.orgroam.com/manual.html][Org-roam online manual]]
+
+* Settings
+
+  You can define these anywhere, but it makes sense to define them at the top
+  along with the Org-mode [[file:20210214104302-org_mode_export_settings.org][Export Settings]]. See example in this file.
+
+  - ~roam_alias~ is a title alias. Useful when finding files.
+  - ~roam_tags~ is for categorization. Also useful when finding files.
+  - ~roam_key~ is a reference. Shows notes with that reference as a link in the
+    backlinks buffer.
+
+
+* Templates
+
+  Example with two templates.
+
+  #+begin_src elisp
+    (setq org-roam-capture-templates '(
+                                        ("d" "default" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n" :unnarrowed t)
+                                        ("t" "test" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n" :unnarrowed t)
+                                        ))
+  #+end_src

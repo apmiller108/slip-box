@@ -1,5 +1,5 @@
 #+title: Plantuml with org-mode
-#+roam_tags: org-mode plantuml
+#+roam_tags: org-mode plantuml emacs
 
 
 * Basic Usage
