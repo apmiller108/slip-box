@@ -1,6 +1,9 @@
 #+title: Plantuml with org-mode
 #+roam_tags: org-mode plantuml emacs
 
+* Resources
+  [[http://www.alvinsim.com/diagrams-with-plantuml-and-emacs/][Blog Post: Diagrams with Plantuml and Emacs]]
+
 
 * Basic Usage
 
