@@ -1,8 +1,8 @@
 #+title: pandoc
 #+roam_tags: pandoc org-mode
 
-
 * Resources
+  
   
   [[https://pandoc.org/MANUAL.html#][Pandoc Manual]]
 

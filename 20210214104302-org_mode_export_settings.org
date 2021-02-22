@@ -9,7 +9,3 @@
 
   - Takes the form of ~#+VARIABLE-NAME: value~
   - See manual for all the available variables.
-
-  #+begin_quote
-    This is a quote
-  #+end_quote
