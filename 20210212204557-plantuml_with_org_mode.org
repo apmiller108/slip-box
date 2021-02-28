@@ -8,8 +8,12 @@
 * Basic Usage
 
   - Use code block syntax
-  - Use =:file= header to render the results below
-    
+  - Use =:file= header to render the results below, by evaluating the codeblock.
+    The =+results:= section will be created automatically along with a png and
+    the file link.
+  - ~SPC m ,=~ (org-ctrl-c-ctrl-c) press inside the codeblock to evaluate.
+  - =SPC m T i= (org-toggle-inline-images) to show the image result.
+
   #+begin_src plantuml :file plantuml_demo.png
     Alice -> Bobby: synchronous call
     Alice ->> Bobby: asynchronous call
@@ -18,7 +22,3 @@
   #+results:
   [[file:plantuml_demo.png]]
 
-
-  ~SPC m ,=~ (org-ctrl-c-ctrl) press inside the codeblock to evaluate
-
-  =SPC m T i= (org-toggle-inline-images)
