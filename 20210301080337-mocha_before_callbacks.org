@@ -1,0 +1,34 @@
+#+title: Mocha before callbacks
+#+date: 2021-03-01 08:03 AM
+#+roam_tags: testing javascript mocha
+
+TL'DR
+- All befores run first in nested order
+- Then all beforeEaches run in nested order
+
+From [[https://gist.github.com/harto/c97d2fc9d0bfaf20706eb2acbf48c908][before.js gist]]:
+
+#+begin_src javascript
+'use strict';
+
+describe('mocha before hooks', function () {
+	before(() => console.log('*** top-level before()'));
+	beforeEach(() => console.log('*** top-level beforeEach()'));
+	describe('nesting', function () {
+		before(() => console.log('*** nested before()'));
+		beforeEach(() => console.log('*** nested beforeEach()'));
+		it('is a nested spec', () => true);
+	});
+});
+
+//   mocha before hooks
+// *** top-level before()
+//     nesting
+// *** nested before()
+// *** top-level beforeEach()
+// *** nested beforeEach()
+//       ✓ is a nested spec
+//
+//
+//   1 passing (8ms)
+#+end_src
