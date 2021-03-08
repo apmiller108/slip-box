@@ -19,6 +19,5 @@
     Alice ->> Bobby: asynchronous call
   #+end_src
 
-  #+results:
+  #+RESULTS:
   [[file:plantuml_demo.png]]
-

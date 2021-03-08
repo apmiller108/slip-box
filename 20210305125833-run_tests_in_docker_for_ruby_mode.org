@@ -1,0 +1,23 @@
+#+title: Run tests in docker for ruby-mode
+#+date: 2021-03-05 12:58 PM
+#+roam_tags: ruby-mode spacemacs docker
+
+* How to run tests in docker container in ruby-mode
+
+  - See [[https://github.com/pezra/rspec-mode][rspec-mode]] docs
+
+  You could use a ~.dir-locals.el~ file in the root of the project directory,
+  configured like this:
+  
+  #+begin_src lisp
+  (
+  (ruby-mode
+    (eval . (setq-local rspec-use-docker-when-possible t))
+    (eval . (setq-local rspec-docker-command "docker-compose run --rm"))
+    (eval . (setq-local rspec-docker-container "ruby"))
+    (eval . (setq-local rspec-docker-file-name "Dockerfile"))
+    )
+  )
+  #+end_src
+
+

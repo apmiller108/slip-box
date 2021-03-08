@@ -1,0 +1,36 @@
+#+title: mssql data migration with rollback
+#+date: 2021-03-03 14:30 PM
+#+roam_tags: sql mssql
+
+* Example data migration with rollback (MSSQL)
+
+** Migration
+   
+  #+begin_src sql
+  IF NOT EXISTS (SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'rollback_schema')
+  BEGIN
+    EXEC sp_executesql N'CREATE SCHEMA rollback_schema'
+  END
+
+  CREATE TABLE rollback_schema.update_foos_bar (id INT, bar VARCHAR(255);
+
+  IF EXISTS (select 1 from foos where bizz = 'Update this')
+  BEGIN
+    UPDATE foos
+    SET bar = 'Updated value'
+    OUTPUT deleted.id, deleted.bar INTO rollback_schema.update_foos_bar
+    WHERE bizz = 'Update this'
+  END
+  #+end_src
+
+** Rollback
+
+   #+begin_src sql
+  UPDATE f
+  SET bar = r.bar
+  FROM foos f
+  JOIN rollback_schema.update_foos_bar
+  ON f.id = r.id
+
+  DROP TABLE rollback_schema.update_foos_bar
+   #+end_src

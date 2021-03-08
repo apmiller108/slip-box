@@ -13,6 +13,6 @@
   using test.md as the source
   #+begin_src shell
 
-    pandoc -f gfm -t org -o hubex_1179.org hubex_1179.md
+    pandoc -f gfm -t org -o test.org test.md
 
   #+end_src
