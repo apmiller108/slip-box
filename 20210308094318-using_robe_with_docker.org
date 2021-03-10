@@ -1,0 +1,24 @@
+#+title: Using robe with docker
+#+date: 2021-03-08 09:43 AM
+#+roam_tags: robe emacs
+
+* Using robe with docker containers
+  - Put [[https://github.com/aki2o/emacs-docker-robe][emacs-docker-robe package]] somewhere in your [[https://www.emacswiki.org/emacs/LoadPath][Load Path]] (I put it in
+    ~/emacs.d/lisp and added the directory to my load paths)
+
+   [[file:~/.emacs.d/lisp/docker-robe.el][docker-robe.el]] 
+
+    #+begin_src lisp
+     (add-to-list 'load-path "~/.emacs.d/lisp/")
+    #+end_src
+    
+  - You might need to make some changes to the package, for example for some projects
+     - set the ~robe-host~ to "0.0.0.0".
+     - Added `-u 0` to run the `mkdir` command as root user.
+  - eval ~(require 'docker-rob)~
+  - eval ~(docker-robe:activate)~
+  - This will start a question set and cache your answers in your emacs directory
+    in the file ~.docker-robe-project~
+    - Note that it didn't seem to store my answers properly and I had to manaully
+      edit this file to make the corrections.
+    
