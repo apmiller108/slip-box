@@ -5,7 +5,7 @@
 * With docker images build for a different environment
   Consider this a case where you can't immediately use gems in the ~group :development~
   You might have a ~/bundle/config~ file that looks like:
-
+  
   #+begin_example
   ---
   BUNDLE_WITHOUT: "development"
