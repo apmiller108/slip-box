@@ -1,0 +1,18 @@
+#+title: Spring with RSpec
+#+date: 2021-03-11 09:40 AM
+#+roam_tags: spring rspec ruby
+
+* With docker images build for a different environment
+  Consider this a case where you can't immediately use gems in the ~group :development~
+  You might have a ~/bundle/config~ file that looks like:
+
+  #+begin_example
+  ---
+  BUNDLE_WITHOUT: "development"
+  #+end_example
+
+  - ~bundle config unset --local without~ : Removes the ~BUNDLE_WITHOUT~ setting.
+  - ~bundle install~ : Will install the development environment gems.
+  - ~bin/spring rspec~ : Use Spring
+
+  [[https://bundler.io/man/bundle-config.1.html][Bundle config docs]]
