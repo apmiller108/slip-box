@@ -1,5 +1,5 @@
 #+title: Convert boostnotes to org notes
-#+roam_tags: org-mode
+#+roam_tags: project org-mode
 
 * DONE Load ~boostnote.json~
   CLOSED: [2021-02-26 Fri 13:44]
@@ -7,7 +7,15 @@
 * TODO Set roam tags variable to folder name
 * TODO Add tags list to roam tags
 * TODO Only process where ~type: "MARKDOWN_NOTE"~
-* TODO Convert content markdown to org note with pandoc
-* TODO Replace plantuml syntax with org note code block with results
+* DONE Convert content markdown to org note with pandoc
+  CLOSED: [2021-03-19 Fri 13:10]
+* DONE Replace plantuml syntax with org note code block with results
+  CLOSED: [2021-03-19 Fri 13:10]
   See [[file:20210212204557-plantuml_with_org_mode.org][Plantuml with org-mode]] for the formatting.
 * TODO Copy images from /attachments folder and link them
+
+  #+begin_src
+
+  [[file:plantuml_demo.png]]
+
+  #+end_src
