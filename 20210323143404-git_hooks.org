@@ -1,0 +1,18 @@
+#+title: Git hooks
+#+date: 2021-03-23 14:34 PM
+#+roam_tags: git
+
+* Git Hooks
+  [[https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks][Git hooks documentation]]
+  
+  Add executable file to ~.git/hooks/~ named by the hook you want.
+
+  ~post-commit~ example
+
+  ~.git/hooks/post-commit~
+  #+begin_src
+    #!/bin/sh
+    git push origin main
+  #+end_src
+
+  Don't forget to make it executable: ~chomod +x .git/hooks/post-commit~
