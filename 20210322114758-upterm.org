@@ -1,0 +1,35 @@
+#+title: Upterm
+#+date: 2021-03-22 11:47 AM
+#+roam_tags: shell
+
+* Upterm
+
+  [[https://github.com/owenthereal/upterm][Github Repo]]
+
+  [[https://owenou.com/upterm/][Blog post by the maintainer]]
+
+** Basics
+
+   #+begin_src
+     upterm host --server ssh://upterm.myserver.net:22 --
+   #+end_src
+
+   - Leave off the ~--server~~ option to use the public server
+     
+** Paranoid?
+   Run the session in a docker container to limit access to your machine.
+
+   #+begin_src
+     upterm host -- docker run --rm -ti ubuntu bash
+   #+end_src
+   
+
+** Add terminal prompt
+   Have your terminal prompt show you when you're hosting a session.
+
+   #+begin_src
+     export PS1="$([[ ! -z "${UPTERM_ADMIN_SOCKET}"  ]] && echo -e  "\033[0;31mupterm ")$PS1"
+   #+end_src
+
+   - This prepends a red ~upterm~ to the terminal prompt.
+
