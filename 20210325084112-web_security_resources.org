@@ -1,0 +1,14 @@
+#+title: Web security resources
+#+date: 2021-03-25 08:41 AM
+#+roam_tags: security
+
+* Web security resources
+  [[https://cheatsheetseries.owasp.org/index.html][OWASP Cheatsheet]]
+  [[https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite][SameSite mozilla docs]]
+  
+
+** Tools
+   [[https://github.com/presidentbeef/brakeman][Brakeman]] (Ruby)
+   [[https://en.wikipedia.org/wiki/OWASP_ZAP][OWASP ZAP]]
+   [[https://dependabot.com/][Dependabot]]
+   [[https://en.wikipedia.org/wiki/Argon2][Argon2]]
