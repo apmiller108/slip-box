@@ -1,0 +1,29 @@
+#+title: Emacs profiles
+#+date: 2021-03-26 09:29 AM
+#+roam_tags: emacs
+
+* Emacs profiles
+  Use [[https://github.com/plexus/chemacs2][Chemacs2]]. Just follow the instructions in the README.md. It's really easy.
+
+  Example ~.emacs-profiles.el~
+
+  #+begin_src emacs-lisp
+    (("default" . ((user-emacs-directory . "~/spacemacs")))
+    ("spacemacs" . ((user-emacs-directory . "~/spacemacs")))
+    ("doom"   . ((user-emacs-directory . "~/doom")))
+    ("vanilla"   . ((user-emacs-directory . "~/.emacs.default"))))
+  #+end_src
+
+  - This runs spacemacs, doom and vanilla emacs side-by-side
+  - spacemacs is the default when no profile is specified.
+  - Its nice to have shell aliases for these profiles, for example:
+
+    #+begin_src sh
+      alias sm="emacs --with-profile spacemacs"
+      alias spacemacsbg="sm --daemon=spacemacs"
+      alias spacemacsc="emacsclient --create-frame --no-wait --socket-name=spacemacs"
+      alias spacemacs="spacemacsbg && spacemacsc"
+      alias spacemacskill="emacsclient --socket-name=spacemacs -e '(kill-emacs)'"
+    #+end_src
+  
+ 
