@@ -1,0 +1,18 @@
+#+title: Emacs cheatsheet
+#+date: 2021-03-28 18:32 PM
+#+roam_tags: emacs
+
+* Emacs cheatsheet
+  This is just a dump or random things I learn how to do but probably wont
+  remember exactly how to do them.
+
+  *Word Wrapping*
+
+  - ~auto-fill-mode~ is what you need. This will automatically wrap words after
+    the line exceeds whatever value is set for [[elisp:(describe-variable 'fill-column)][fill-column]]
+
+    For example, turn it on for org-mode
+    #+begin_src elisp
+      (setq-default fill-column 80)
+      (add-hook 'org-mode-hook (lambda () (auto-fill-mode 1)))
+    #+end_src

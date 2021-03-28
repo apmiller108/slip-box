@@ -1,0 +1,20 @@
+#+title: Org-mode basics
+#+date: 2021-03-26 12:45 PM
+#+roam_tags: org-mode
+
+* Org-mode basics
+** Headings
+  Rotate heading type (eg, TODO, DONE, etc) with:
+  - ~S-RIGHT S-LEFT~ 
+  - ~C-c C-t~
+  - ~SPC m T T~ (spacemacs)
+    
+  To change the collapse state ellipsis set variable:
+  
+  ~(set-q org-ellipsis " ▼")~
+
+  To remove the underline face on the ellipsis, you can use a hook:
+
+  #+begin_src emacs-lisp
+    (add-hook 'org-mode-hook (lambda () (set-face-underline 'org-ellipsis nil)))
+  #+end_src
