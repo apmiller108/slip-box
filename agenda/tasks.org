@@ -1,0 +1,6 @@
+* TODO Example Task
+  DEADLINE: <2021-03-28 Sun> SCHEDULED: <2021-03-31 Wed>
+* Birthdays
+** Kung Rat
+   <1978-03-30 +1y> 
+   

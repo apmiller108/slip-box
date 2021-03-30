@@ -1,0 +1,23 @@
+#+title: Org-agenda
+#+date: 2021-03-29 20:20 PM
+#+roam_tags: org-agenda org-mode
+
+* Org-agenda
+** Setup
+   #+begin_src elisp
+    (use-package org
+      :custom
+      (org-agenda-start-with-log-mode t)
+      (org-log-done 'time)
+      (org-log-into-drawer t)
+      (org-agenda-files '("~/slip-box/agenda"))
+   #+end_src
+** Useful commands
+   - org-time-stamp
+   - org-deadline
+   - org-schedule
+
+   Recurring example: <1978-03-30 +1y>  (every 1 year from date)
+
+** Other noteworthy things
+   - Desktop notifications with [[https://github.com/akhramov/org-wild-notifier.el][org-wild-notifier.el]]
