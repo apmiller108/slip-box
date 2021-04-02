@@ -1,6 +1,11 @@
-* TODO Example Task
+* TODO Example Task                                                    :work:
   DEADLINE: <2021-03-28 Sun> SCHEDULED: <2021-03-31 Wed>
+* TODO Example Task 2
+  :PROPERTIES:
+  :Effort:   5
+  :END:
+  
 * Birthdays
-** Kung Rat
-   <1978-03-30 +1y> 
-   
+** Kung Rat                                                        :birthday:
+   <1978-03-30 +1y>
+

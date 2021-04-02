@@ -5,6 +5,7 @@
 
 
 [[https://www.orgroam.com/manual.html][Org-roam online manual]]
+See also [[file:20210326124530-org_mode_basics.org][Org-mode basics]]   
 
 * Settings
 
@@ -17,13 +18,26 @@
     backlinks buffer.
 
 
-* Templates
+* Capture Templates
 
   Example with two templates.
 
   #+begin_src elisp
-    (setq org-roam-capture-templates '(
-                                        ("d" "default" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n" :unnarrowed t)
-                                        ("t" "test" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n" :unnarrowed t)
-                                        ))
+    (setq org-roam-capture-templates
+          '(("d" "default" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n" :unnarrowed t)
+            ("t" "test" plain #'org-roam-capture--get-point "%?" :file-name "%<%Y%m%d%H%M%S>-${slug}" :head "#+title: ${title}\n" :unnarrowed t)))
+  #+end_src
+
+  - ~%^{Input}~ to ask for "Input" value when initiating the capture.
+  - ~%i~ Active region when capture was called.
+  - [[https://orgmode.org/manual/Template-expansion.html#Template-expansion][Org-mode template expansion docs]]
+
+* Linking Notes
+  - ~org-roam-insert~
+    
+  One cool trick is to link to a heading in a note. After the filename add
+  ~::*Header Name~.
+
+  #+begin_src
+    [[file:note.org::*My heading][Note - My Heading]] 
   #+end_src

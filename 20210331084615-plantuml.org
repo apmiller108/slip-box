@@ -1,0 +1,15 @@
+#+title: Plantuml
+#+date: 2021-03-31 08:46 AM
+#+roam_tags: plantuml
+
+* Plantuml
+** General Stuff
+   - Scale rendering: ~scale~
+     For example to make the rendering 50% larger, add ~scale 1.5~ to the top.
+** Class Diagrams
+   [[https://www.youtube.com/watch?v=UI6lqHOVHic][Lucid chart class diagram tutorial on YouTube]]
+
+   [[https://plantuml.com/class-diagram][Class diagram docs]]
+
+** With Emacs' org-mode
+   [[file:20210212204557-plantuml_with_org_mode.org][Plantuml with org-mode]]

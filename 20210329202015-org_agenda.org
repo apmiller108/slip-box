@@ -2,6 +2,8 @@
 #+date: 2021-03-29 20:20 PM
 #+roam_tags: org-agenda org-mode
 
+See also [[file:20210326124530-org_mode_basics.org][Org-mode basics]]
+
 * Org-agenda
 ** Setup
    #+begin_src elisp
@@ -13,9 +15,9 @@
       (org-agenda-files '("~/slip-box/agenda"))
    #+end_src
 ** Useful commands
-   - org-time-stamp
-   - org-deadline
-   - org-schedule
+   - ~org-time-stamp~
+   - ~org-deadline~
+   - ~org-schedule~
 
    Recurring example: <1978-03-30 +1y>  (every 1 year from date)
 

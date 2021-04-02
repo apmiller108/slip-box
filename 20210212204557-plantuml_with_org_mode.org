@@ -2,6 +2,7 @@
 #+roam_tags: org-mode plantuml emacs
 
 * Resources
+  [[file:20210331084615-plantuml.org][Plantuml]] 
   [[http://www.alvinsim.com/diagrams-with-plantuml-and-emacs/][Blog Post: Diagrams with Plantuml and Emacs]]
 
 

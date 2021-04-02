@@ -5,12 +5,12 @@
 * Org-mode basics
 ** Headings
   Rotate heading type (eg, TODO, DONE, etc) with:
-  - ~S-RIGHT S-LEFT~ 
+  - ~S-RIGHT S-LEFT~
   - ~C-c C-t~
   - ~SPC m T T~ (spacemacs)
-    
+
   To change the collapse state ellipsis set variable:
-  
+
   ~(set-q org-ellipsis " ▼")~
 
   To remove the underline face on the ellipsis, you can use a hook:
@@ -18,3 +18,45 @@
   #+begin_src emacs-lisp
     (add-hook 'org-mode-hook (lambda () (set-face-underline 'org-ellipsis nil)))
   #+end_src
+
+** Tags
+   - Puts tags on headings
+     ~org-set-tags-command~
+
+   - Add multiple tags with ~:~ separator (eg, ~:tag1:tag2:~)
+
+** Properties
+   :PROPERTIES:
+   :DESCRIPTION: This is a property. Set is with ~org-set-property~
+   :END:
+
+** Displaying images
+   - Set image size
+
+     ~#+attr_html: :width 500~
+
+     Make sure to have variable: ~org-image-actual-width nil~.
+     This will use the attribute size and fallback to actual.
+
+** Displaying boundaries
+   Common use case is an 80 character column indicator.
+   See
+   [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Displaying-Boundaries.html][Displaying boundaries docs]]
+
+   - To change the column color set the face foreground:
+    #+begin_src elisp
+      (set-face-foreground 'fill-column-indicator "pink")
+    #+end_src
+    
+** Source code
+   - Eval with ~C-c C-c~
+   - Edit in another buffer (optional): ~C-c '~
+     This is useful when writing code in source blocks. Indention will actually
+     work properly.
+     [[https://orgmode.org/manual/Editing-Source-Code.html][Editing-Source-Code docs]]
+     - Save without closing it: ~C-x C-s~
+
+** Capture templates
+   See [[file:20210213184252-org_roam_cheatsheet.org::*Capture Templates][Org-roam Capture Templates]]  
+
+   

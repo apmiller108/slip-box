@@ -6,7 +6,7 @@
   This is just a dump or random things I learn how to do but probably wont
   remember exactly how to do them.
 
-  *Word Wrapping*
+** Word Wrapping
 
   - ~auto-fill-mode~ is what you need. This will automatically wrap words after
     the line exceeds whatever value is set for [[elisp:(describe-variable 'fill-column)][fill-column]]
@@ -16,3 +16,15 @@
       (setq-default fill-column 80)
       (add-hook 'org-mode-hook (lambda () (auto-fill-mode 1)))
     #+end_src
+
+** Advising Functions
+   [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][Advising-Functions docs]]
+
+*** After callback example
+    #+begin_src elisp
+      ;; Save Org buffers after refiling
+      (advice-add 'org-refile :after 'org-save-all-org-buffers)
+    #+end_src
+
+** Surrounding
+   Just use [[file:20210401083839-evil_surround.org][Evil-surround]].

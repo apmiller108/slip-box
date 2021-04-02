@@ -1,0 +1,20 @@
+#+title: Evil-surround
+#+date: 2021-04-01 08:38 AM
+#+roam_tags: emacs "spacemacs"
+
+* evil-surround
+  [[https://github.com/emacs-evil/evil-surround][evil-surround repo]]
+
+** Quick Reference
+   
+*** Visual select mode
+    ~s<surround-character>~
+    
+*** Normal mode
+    - New surround pairs
+      ~ys<text-object><surround-character>~
+      Example: ~ysw"~
+    - Edit surround pairs
+      ~cs<current-surround-character><new-surround-character>~
+      Example: (inside the current surround pairs) ~cs"'~
+      
