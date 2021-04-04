@@ -1,0 +1,37 @@
+#+title: Projectile
+#+date: 2021-04-02 13:57 PM
+#+roam_tags: emacs
+
+* Projectile
+  
+** Resources
+   - [[https://docs.projectile.mx/projectile/index.html][Online documentation]]
+   - [[https://github.com/bbatsov/projectile][GitHub Repo]]
+   - [[https://youtu.be/INTu30BHZGk][System Crafters YouTube video]]
+
+
+** Configuration
+   Example configuration:
+    #+begin_src elisp
+      (use-package projectile
+        :diminish projectile-mode
+        :config (projectile-mode)
+        :custom ((projectile-completion-system 'ivy))
+        :bind-keymap
+        ("C-c p" . projectile-command-map)
+        :init
+        (setq projectile-switch-project-action #'projectile-dired))
+    #+end_src
+
+    - See [[https://github.com/jwiegley/use-package][use-package]].
+    - [[https://github.com/emacsmirror/diminish][diminish]] hides or abbreviates the mode-line for that mode.
+    - The ~init~ block runs /before/ the package is loaded. In this example it
+      just sets ~projectile-switch-project-action~ -- which tells projectile what
+      to do when switching to a project -- to list the project files.
+    - ~config~ is ruby /after/ the package is loaded.
+
+** Some interesting commands
+   Most of the stuff you can do with this are discoverable with the keymap
+   binding above (Or ~SPC p~ in spacemacs), but some noteworthy things are:
+   - ~projectile-edit-dir-locals~
+   - ~projectile-find-file-in-known-projects~
