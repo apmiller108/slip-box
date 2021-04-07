@@ -1,0 +1,23 @@
+#+title: HTTP Cookies
+#+date: 2021-04-06 09:28 AM
+#+roam_tags: "web development" "security"
+
+* HTTP Cookies
+  [[https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies][Mozilla HTTP cookies docs]]
+
+
+** Properties
+   
+*** Expires / Max-Age
+   See https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#define_the_lifetime_of_a_cookie
+
+*** Secure
+    Only sent over HTTPS (except on localhost).
+    
+*** HttpOnly
+    Makes the cookie inaccessible to JavaScript.
+
+*** SameSite
+    This controls if cookies should be restricted to being first-party (ie
+    loading an image on a 3rd party site).
+    See https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite

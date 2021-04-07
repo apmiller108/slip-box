@@ -1,0 +1,20 @@
+#+title: Helm
+#+date: 2021-04-06 18:00 PM
+#+roam_tags: spacemacs emacs
+
+* Helm
+  This is about the helm emacs package. There's going to be a lot of spacemacs
+  stuff here too since helm is so central to it (and I use it).
+** helm-swoop
+   Super cool way to find things in buffers.
+
+   Checkout:
+   - [[https://github.com/emacsorphanage/helm-swoop][Helm-swoop repo]]
+   - [[https://develop.spacemacs.org/layers/+completion/helm/README.html#helm-swoop][Spacemacs helm-swoop]]
+
+*** Some quick commands to get started
+    
+   | keys      | execution                               |
+   |-----------+-----------------------------------------|
+   | ~SPC s s~ | ~helm-swoop~                            |
+   | ~SPC s S~ | ~helm-multi-swoop~ (swoops all buffers) |
