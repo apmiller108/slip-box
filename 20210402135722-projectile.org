@@ -35,3 +35,6 @@
    binding above (Or ~SPC p~ in spacemacs), but some noteworthy things are:
    - ~projectile-edit-dir-locals~
    - ~projectile-find-file-in-known-projects~
+
+** Extensions
+   - [[https://github.com/bbatsov/helm-projectile][helm-projectile]]
