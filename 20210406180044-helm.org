@@ -18,3 +18,12 @@
    |-----------+-----------------------------------------|
    | ~SPC s s~ | ~helm-swoop~                            |
    | ~SPC s S~ | ~helm-multi-swoop~ (swoops all buffers) |
+
+** Helm-ag
+   - See [[file:20210407075214-project_wide_find_and_replace_in_spacemacs.org][Project-wide find and replace in Spacemacs]] for more.
+
+   To copy search results to buffer
+   - ~SPC s p~ to do a project search
+   - ~C-z save results in buffer(f3)~
+   - ~SPC s l~ to view buffer
+     

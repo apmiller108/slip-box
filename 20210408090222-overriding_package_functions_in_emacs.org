@@ -1,0 +1,23 @@
+#+title: Overriding package functions in emacs
+#+date: 2021-04-08 09:02 AM
+#+roam_tags: emacs elisp 
+
+
+* eval-after-load
+  
+  See [[https://stackoverflow.com/a/15725437/5974855][this StackOverflow answer]].
+
+  One option is to redefine the function after the package is loaded. So, use
+  [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Hooks-for-Loading.html][eval-after-load]].
+
+  This is how I overrode rspec-mode's function to use spring by only checking
+  the flag rather than all the additional PID checking it was originally doing.
+  I did this so I could more easily use with Docker.
+
+  #+begin_src elisp
+  (eval-after-load 'rspec-mode
+    '(defun rspec-spring-p () 'rspec-use-spring-when-possible)
+    )
+  #+end_src
+
+  [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][Advising Functions]] is more appropriate for adding callbacks to existing behavior.
