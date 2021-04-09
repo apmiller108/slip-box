@@ -18,8 +18,18 @@
 ** Rebasing
    Only a few things in Magit are not intuitive. Rebasing is one of them.
 
-*** Interactive   
-   -  ~g -i~ starts an interactive rebase
+*** Interactive with ~-i~ flag
+   - ~r -i~ starts an interactive rebase
+   - Choose what to rebase onto (tip you're not limited to the options presented
+     and can override this with whatever you want like ~HEAD~2~ or something)
    - Nagivate up and down and press the letter corresponding to the action (eg
      ~s~ to squash)
-   - ~C-c C-c~ to proceed to the next prompt or finish.
+   - ~C-c C-c~ to commit and proceed to the next prompt or finish.
+
+*** Interactive
+    - ~r i~
+    - Navigate to the commit from which you want to start the rebase.
+    - ~C-c C-c~
+   - Nagivate up and down and press the letter corresponding to the action (eg
+     ~s~ to squash)
+   - ~C-c C-c~ to commit and proceed to the next prompt or finish.
