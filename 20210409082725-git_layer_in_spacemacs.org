@@ -1,0 +1,16 @@
+#+title: Git layer in Spacemacs
+#+date: 2021-04-09 08:27 AM
+#+roam_tags: spacemacs git
+
+* Magit
+  [[https://magit.vc/][Magit]] is the central component to this layer. Learning how to use it is key.
+
+  Some useful commands listed here, but mostly it's easy to discover what you
+  can do by pressing ~?~ while in a Magit buffer.
+
+  | Key       | Command                   | Notes                                   |
+  |-----------+---------------------------+-----------------------------------------|
+  | ~SPC g L~ | ~magit-list-repositories~ | Requires ~magit-repository-directories~ |
+  |           |                           |                                         |
+   
+ 
