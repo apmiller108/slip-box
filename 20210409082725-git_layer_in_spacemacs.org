@@ -12,4 +12,14 @@
   |-----------+---------------------------+-----------------------------------------|
   | ~SPC g L~ | ~magit-list-repositories~ | Requires ~magit-repository-directories~ |
   | ~SPC g s~ | ~magit-status~            | Press ~?~ for menu.                     |
-   
+
+  - Unmerged commits will show at the top of the git status screen.
+    
+** Rebasing
+   Only a few things in Magit are not intuitive. Rebasing is one of them.
+
+*** Interactive   
+   -  ~g -i~ starts an interactive rebase
+   - Nagivate up and down and press the letter corresponding to the action (eg
+     ~s~ to squash)
+   - ~C-c C-c~ to proceed to the next prompt or finish.
