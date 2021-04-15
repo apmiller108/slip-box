@@ -1,0 +1,9 @@
+#+title: Window management tools for Mac
+#+roam_tags: macOS
+
+* Paid
+  - [[https://magnet.crowdcafe.com/index.html][Magnet]]
+  - [[https://manytricks.com/moom/][Moom]]
+
+* Free
+  - [[https://github.com/rxhanson/Rectangle][Rectangle]]

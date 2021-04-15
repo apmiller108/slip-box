@@ -1,0 +1,27 @@
+#+title: Org-mode publishing
+#+date: 2021-04-14 21:07 PM
+#+roam_tags: org-mode emacs
+
+* Resources
+  [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
+  [[https://youtu.be/618uCFTNNpE][System Crafters YouTube Episode: Static Websites with Emacs, Org Mode and Sourcehut]]
+  
+* Syntax highlighting
+
+  #+begin_src elisp
+    (setq  org-html-htmlize-output-type 'css)
+  #+end_src
+
+  - Provides syntax highlighting with stylesheet not inline CSS, which is the
+    default.
+  - Call ~org-html-htmlize-generate-css~ to generate a stylesheet to a buffer.
+    This will use the colors of your current theme. You might need to add some
+    additional CSS -- another stylesheet -- to match the background-color to
+    your theme as well.
+    - Get your background color with ~(face-attribute 'default :background)~
+  - Save the stylesheet somewhere in your publishing directory.
+  - Link the stylesheet in the ~<head>~ of your markup:
+    #+begin_src elisp
+      (link (@ (rel "stylesheet")
+                (href "/css/code.css")))
+    #+end_src
