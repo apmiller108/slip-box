@@ -20,4 +20,6 @@
     )
   #+end_src
 
-  [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][Advising Functions]] is more appropriate for adding callbacks to existing behavior.
+  [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][Advising Functions]] is more appropriate for adding callbacks to existing
+  behavior. More about this in [[file:20210328183203-emacs_cheatsheet.org][Emacs cheatsheet]].
+  
