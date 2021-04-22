@@ -1,11 +1,13 @@
 #+title: Org-mode Export Settings
 #+date: 2021-02-14 10:43 AM
 #+roam_tags: org-mode emacs
+#+FILETAGS: foo
 
-* Export Settings
+[[file:20210326124530-org_mode_basics.org][Org-mode]] export settings. See also [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]].
 
-  [[https://orgmode.org/manual/Export-Settings.html#Export-Settings][Org-mode manual: Export Settings]]
+* Basics
+
+  See [[https://orgmode.org/manual/Export-Settings.html#Export-Settings][Org-mode manual: Export Settings]]
   
-
   - Takes the form of ~#+VARIABLE-NAME: value~
   - See manual for all the available variables.

@@ -17,7 +17,6 @@ See also [[file:20210326124530-org_mode_basics.org][Org-mode basics]]
   - ~roam_key~ is a reference. Shows notes with that reference as a link in the
     backlinks buffer.
 
-
 * Capture Templates
 
   Example with two templates.

@@ -2,61 +2,69 @@
 #+date: 2021-03-26 12:45 PM
 #+roam_tags: org-mode
 
-* Org-mode basics
-** Headings
-  Rotate heading type (eg, TODO, DONE, etc) with:
-  - ~S-RIGHT S-LEFT~
-  - ~C-c C-t~
-  - ~SPC m T T~ (spacemacs)
+This is a dump of notes on basic org-mode stuff.
 
-  To change the collapse state ellipsis set variable:
+See also [[file:20210213184252-org_roam_cheatsheet.org][Org-roam stuff]]   
 
-  ~(set-q org-ellipsis " ▼")~
+* Headings
+ Rotate heading type (eg, TODO, DONE, etc) with:
+ - ~S-RIGHT S-LEFT~
+ - ~C-c C-t~
+ - ~SPC m T T~ (spacemacs)
 
-  To remove the underline face on the ellipsis, you can use a hook:
+ To change the collapse state ellipsis set variable:
 
-  #+begin_src emacs-lisp
-    (add-hook 'org-mode-hook (lambda () (set-face-underline 'org-ellipsis nil)))
-  #+end_src
+ ~(set-q org-ellipsis " ▼")~
 
-** Tags
-   - Puts tags on headings
-     ~org-set-tags-command~
+ To remove the underline face on the ellipsis, you can use a hook:
 
-   - Add multiple tags with ~:~ separator (eg, ~:tag1:tag2:~)
+ #+begin_src emacs-lisp
+   (add-hook 'org-mode-hook (lambda () (set-face-underline 'org-ellipsis nil)))
+ #+end_src
 
-** Properties
-   :PROPERTIES:
-   :DESCRIPTION: This is a property. Set is with ~org-set-property~
-   :END:
+* Tags
+  - Puts tags on headings
+    ~org-set-tags-command~
 
-** Displaying images
-   - Set image size
+  - Add multiple tags with ~:~ separator (eg, ~:tag1:tag2:~)
 
-     ~#+attr_html: :width 500~
+* Properties
+  :PROPERTIES:
+  :DESCRIPTION: This is a property. Set is with ~org-set-property~
+  :END:
 
-     Make sure to have variable: ~org-image-actual-width nil~.
-     This will use the attribute size and fallback to actual.
+* Displaying images
+  - Set image size
 
-** Displaying boundaries
-   Common use case is an 80 character column indicator.
-   See
-   [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Displaying-Boundaries.html][Displaying boundaries docs]]
+    ~#+attr_html: :width 500~
 
-   - To change the column color set the face foreground:
-    #+begin_src elisp
-      (set-face-foreground 'fill-column-indicator "pink")
-    #+end_src
+    Make sure to have variable: ~org-image-actual-width nil~.
+    This will use the attribute size and fallback to actual.
+
+* Displaying boundaries
+  Common use case is an 80 character column indicator.
+  See
+  [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Displaying-Boundaries.html][Displaying boundaries docs]]
+
+  - To change the column color set the face foreground:
+   #+begin_src elisp
+     (set-face-foreground 'fill-column-indicator "pink")
+   #+end_src
     
-** Source code
-   - Eval with ~C-c C-c~
-   - Edit in another buffer (optional): ~C-c '~
-     This is useful when writing code in source blocks. Indention will actually
-     work properly.
-     [[https://orgmode.org/manual/Editing-Source-Code.html][Editing-Source-Code docs]]
-     - Save without closing it: ~C-x C-s~
+* Source code
+  - Eval with ~C-c C-c~
+  - Edit in another buffer (optional): ~C-c '~
+    This is useful when writing code in source blocks. Indention will actually
+    work properly.
+    [[https://orgmode.org/manual/Editing-Source-Code.html][Editing-Source-Code docs]]
+    - Save without closing it: ~C-x C-s~
 
-** Capture templates
-   See [[file:20210213184252-org_roam_cheatsheet.org::*Capture Templates][Org-roam Capture Templates]]  
+* Capture templates
+  See [[file:20210213184252-org_roam_cheatsheet.org::*Capture Templates][Org-roam Capture Templates]]  
 
-   
+* Export Settings
+  See the following for more on this topic.
+  - [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]]
+  - [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]] 
+  
+  

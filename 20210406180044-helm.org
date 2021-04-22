@@ -2,28 +2,29 @@
 #+date: 2021-04-06 18:00 PM
 #+roam_tags: spacemacs emacs
 
-* Helm
-  This is about the helm emacs package. There's going to be a lot of spacemacs
-  stuff here too since helm is so central to it (and I use it).
-** helm-swoop
-   Super cool way to find things in buffers.
+This is about the Helm Emacs package. There's going to be a lot of spacemacs
+stuff here too since helm is so central to it (and I use spacemacs).
+* helm-swoop
+ Super cool way to find things in buffers.
 
-   Checkout:
-   - [[https://github.com/emacsorphanage/helm-swoop][Helm-swoop repo]]
-   - [[https://develop.spacemacs.org/layers/+completion/helm/README.html#helm-swoop][Spacemacs helm-swoop]]
+ Checkout:
+ - [[https://github.com/emacsorphanage/helm-swoop][Helm-swoop repo]]
+ - [[https://develop.spacemacs.org/layers/+completion/helm/README.html#helm-swoop][Spacemacs helm-swoop]]
 
-*** Some quick commands to get started
-    
-   | keys      | execution                               |
-   |-----------+-----------------------------------------|
-   | ~SPC s s~ | ~helm-swoop~                            |
-   | ~SPC s S~ | ~helm-multi-swoop~ (swoops all buffers) |
+** Some quick commands to get started
 
-** Helm-ag
-   - See [[file:20210407075214-project_wide_find_and_replace_in_spacemacs.org][Project-wide find and replace in Spacemacs]] for more.
+ | keys      | execution                               |
+ |-----------+-----------------------------------------|
+ | ~SPC s s~ | ~helm-swoop~                            |
+ | ~SPC s S~ | ~helm-multi-swoop~ (swoops all buffers) |
 
-   To copy search results to buffer
-   - ~SPC s p~ to do a project search
-   - ~C-z save results in buffer(f3)~
-   - ~SPC s l~ to view buffer
-     
+* Helm-ag
+ - See [[file:20210407075214-project_wide_find_and_replace_in_spacemacs.org][Project-wide find and replace in Spacemacs]] for more.
+
+ To copy search results to buffer
+ - ~SPC s p~ to do a project search
+ - ~C-z save results in buffer(f3)~
+ - ~SPC s l~ to view buffer
+
+* spacemacs/help-jump-in-buffer
+ This lets you jump to method definitions or org-mode headlines.

@@ -2,56 +2,58 @@
 #+date: 2021-04-14 21:07 PM
 #+roam_tags: org-mode emacs
 
-* Org-mode Publishing
-** Resources
-   [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
-   [[https://youtu.be/618uCFTNNpE][System Crafters YouTube Episode: Static Websites with Emacs, Org Mode and Sourcehut]]
+* Resources
+  [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
+  [[https://youtu.be/618uCFTNNpE][System Crafters YouTube Episode: Static Websites with Emacs, Org Mode and Sourcehut]]
 
-** Publishing Backend
-   You can use different backends for producing HTML from org files. One is
-   *ox-slimhtml* which is now part of org-mode. I'm not sure where the
-   documentation is going to ultimately live, but the original repo has a handy
-   [[https://github.com/balddotcat/ox-slimhtml#readme][README]].
+* Publishing Backend
+  You can use different backends for producing HTML from org files. One is
+  *ox-slimhtml* which is now part of org-mode. I'm not sure where the
+  documentation is going to ultimately live, but the original repo has a handy
+  [[https://github.com/balddotcat/ox-slimhtml#readme][README]].
 
-*** Overriding the backend functions
-    You can derive a custom backend that inherits from an existing one and
-    override certain functions. In this example, ~my-site-html~ inherits from
-    ~slimhtml~ and overrides template, link, code and headline functions.
-
-    #+begin_src elisp
-      (org-export-define-derived-backend 'my-site-html
-          'slimhtml
-        :translate-alist
-        '((template . my/org-html-template)
-          (link . my/org-html-link)
-          (code . ox-slimhtml-verbatim)
-          (headline . my/org-html-headline))
-        :options-alist ;; No idea what this stuff does =(.
-        '((:page-type "PAGE-TYPE" nil nil t)
-          (:html-use-infojs nil nil nil)))
-    #+end_src
-
-** Serving locally
-   From the [[https://github.com/skeeto/emacs-web-server][emacs-web-server package]], use ~httpd-serve-directory~ and point it
-   at the publishing directory. It will serve the site on http://localhost:8080/.
-    
-** Syntax highlighting
+** Overriding the backend functions
+   You can derive a custom backend that inherits from an existing one and
+   override certain functions. In this example, ~my-site-html~ inherits from
+   ~slimhtml~ and overrides template, link, code and headline functions.
 
    #+begin_src elisp
-     (setq  org-html-htmlize-output-type 'css)
+     (org-export-define-derived-backend 'my-site-html
+         'slimhtml
+       :translate-alist
+       '((template . my/org-html-template)
+         (link . my/org-html-link)
+         (code . ox-slimhtml-verbatim)
+         (headline . my/org-html-headline))
+       :options-alist ;; No idea what this stuff does =(.
+       '((:page-type "PAGE-TYPE" nil nil t)
+         (:html-use-infojs nil nil nil)))
    #+end_src
 
-   - Provides syntax highlighting with stylesheet not inline CSS, which is the
-     default.
-   - Call ~org-html-htmlize-generate-css~ to generate a stylesheet to a buffer.
-     This will use the colors of your current theme. You might need to add some
-     additional CSS -- another stylesheet -- to match the background-color to
-     your theme as well.
-     - Get your background color with ~(face-attribute 'default :background)~
-   - Save the stylesheet somewhere in your publishing directory.
-   - Link the stylesheet in the ~<head>~ of your markup:
-     #+begin_src elisp
-       (link (@ (rel "stylesheet")
-                 (href "/css/code.css")))
-     #+end_src
-   - Check out [[https://github.com/gongzhitaao/orgcss][Org css]] for more on this.
+* Export Settings
+  See [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]].
+  
+* Serving locally
+  From the [[https://github.com/skeeto/emacs-web-server][emacs-web-server package]], use ~httpd-serve-directory~ and point it
+  at the publishing directory. It will serve the site on http://localhost:8080/.
+    
+* Syntax highlighting
+
+  #+begin_src elisp
+    (setq  org-html-htmlize-output-type 'css)
+  #+end_src
+
+  - Provides syntax highlighting with stylesheet not inline CSS, which is the
+    default.
+  - Call ~org-html-htmlize-generate-css~ to generate a stylesheet to a buffer.
+    This will use the colors of your current theme. You might need to add some
+    additional CSS -- another stylesheet -- to match the background-color to
+    your theme as well.
+    - Get your background color with ~(face-attribute 'default :background)~
+  - Save the stylesheet somewhere in your publishing directory.
+  - Link the stylesheet in the ~<head>~ of your markup:
+    #+begin_src elisp
+      (link (@ (rel "stylesheet")
+                (href "/css/code.css")))
+    #+end_src
+  - Check out [[https://github.com/gongzhitaao/orgcss][Org css]] for more on this.
