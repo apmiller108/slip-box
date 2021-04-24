@@ -20,7 +20,7 @@
    #+begin_src elisp
      (org-export-define-derived-backend 'my-site-html
          'slimhtml
-       :translate-alist
+       :translate-alist ;; Override functions for org-mode elements.
        '((template . my/org-html-template)
          (link . my/org-html-link)
          (code . ox-slimhtml-verbatim)

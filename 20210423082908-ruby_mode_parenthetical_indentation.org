@@ -1,0 +1,18 @@
+#+title: Ruby-mode parenthetical indentation
+#+date: 2021-04-23 08:29 AM
+#+roam_tags: ruby-mode emacs
+
+* How to fix this messed up parenthetical indentation
+
+  #+begin_src ruby
+    it 'shows fucked up parenthetical indentation' do
+      expact(these_parens).not_to be(
+                                    fucked_up_like_this
+                                  )
+    end
+  #+end_src
+
+** Things to try
+   I might need to do a combination of these two things:
+   - [[https://github.com/syl20bnr/spacemacs/issues/5322#issuecomment-790685466][Spacemacs ruby layer Github issue]]
+   - [[https://stackoverflow.com/a/8278816/5974855][SO post with ruby-indent-line defadvice]]
