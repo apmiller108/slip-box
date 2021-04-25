@@ -1,6 +1,7 @@
 #+title: Org-mode publishing
 #+date: 2021-04-14 21:07 PM
 #+roam_tags: org-mode emacs
+#+page-type: note
 
 * Resources
   - [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
@@ -25,13 +26,90 @@
          (link . my/org-html-link)
          (code . ox-slimhtml-verbatim)
          (headline . my/org-html-headline))
-       :options-alist ;; No idea what this stuff does =(.
+       :options-alist ;; Map keywords to custom export properties
        '((:page-type "PAGE-TYPE" nil nil t)
          (:html-use-infojs nil nil nil)))
    #+end_src
 
+   - The ~:translate-alist~ part allows you to map an org element to a function
+     handler.
+   - The ~:options-alist~ gives you the ability to define keywords that map to
+     export properties. You can use this for custom export properties or
+     override existing properties. For more on this see the following:
+     - https://orgmode.org/worg/dev/org-export-reference.html
+     - http://doc.endlessparentheses.com/Var/org-export-options-alist.html
+     - [[https://emacs.stackexchange.com/q/64516/32224][An emacs.stackexchange question]] I asked about how to use ~#+roam_tags~
+       when publishing.
+ 
 * Export Settings
   See [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]].
+
+* Images
+** Copy images to publishing directory
+   The way I did it was to create another publish project to handle images. It
+   just copies them to the publishing directory. I could do the same thing for
+   generic attachments like PDFs and whatnot.
+
+   #+begin_src elisp
+    (setq org-publish-project-alist
+          (list
+          (list "notes.alex-miller.co"
+                :base-extension "org"
+                :base-directory "./"
+                :publishing-function '(my/org-html-publish-to-html)
+                :publishing-directory "./public"
+                :auto-sitemap t
+                :sitemap-title "Notes"
+                :sitemap-format-entry 'my/sitemap-format-entry
+                :with-title nil)
+          (list "images"
+                :base-extension "png\\|jpg\\|svg"
+                :base-directory "./images" ;; The dir where store images I link in my org notes
+                :publishing-directory "./public/images"
+                :publishing-function 'org-publish-attachment)
+          (list "site" :components '("notes.alex-miller.co" "images"))))
+   #+end_src
+  
+** Inline images vs links 
+  Images should either be links or displayed in-line (eg, ~<img>~ tag). Ideally,
+  if the org file link has a label, then make it a link, otherwise display
+  in-line. It is supposed to work that way by default, but I had to jump through
+  some hoops for some reason to make it work. So using a derived backend with a
+  custom link handler, like so:
+  
+  #+begin_src elisp
+    (defun my/org-html-link (link contents info)
+      "Removes file extension and changes the path into lowercase org file:// links."
+      (when (and (string= 'file (org-element-property :type link))
+                (string= "org" (file-name-extension (org-element-property :path link))))
+        (org-element-put-property link :path
+                                  (downcase
+                                  (file-name-sans-extension
+                                    (org-element-property :path link)))))
+
+      (if (and (string= 'file (org-element-property :type link))
+              (file-name-extension (org-element-property :path link))
+              (string-match "png\\|jpg\\|svg"
+                            (file-name-extension
+                              (org-element-property :path link)))
+              (equal contents nil))
+          (format "<img src=%s >" (org-element-property :path link))
+        (if (and (equal contents nil)
+                (or (not (file-name-extension (org-element-property :path link)))
+                    (and (file-name-extension (org-element-property :path link))
+                          (not (string-match "png\\|jpg\\|svg"
+                                            (file-name-extension
+                                              (org-element-property :path link)))))))
+            (format "<a href=\"%s\">%s</a>"
+                    (org-element-property :raw-link link)
+                    (org-element-property :raw-link link))
+          (org-export-with-backend 'slimhtml link contents info))))
+  #+end_src
+  - If it is a link to an org-mode file, just change the path property to be the
+    filename without the extension. So ~[[file:post.org][My Post]]~ becomes
+    ~<a href="post">My Post</a>~ (no ~.html~ on the path)
+  - If it is a file link to an image, create an ~<img>~ tag.
+  - Otherwise just create a link with path and extension.
   
 * Serving locally
   From the [[https://github.com/skeeto/emacs-web-server][emacs-web-server package]], use ~httpd-serve-directory~ and point it
@@ -47,7 +125,7 @@
     default.
   - Call ~org-html-htmlize-generate-css~ to generate a stylesheet to a buffer.
     This will use the colors of your current theme. You might need to add some
-    additional CSS -- another stylesheet -- to match the background-color to
+    additional CSS (ie, another stylesheet) to match the background-color to
     your theme as well.
     - Get your background color with ~(face-attribute 'default :background)~
   - Save the stylesheet somewhere in your publishing directory.

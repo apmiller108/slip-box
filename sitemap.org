@@ -1,34 +1,34 @@
 #+TITLE: Notes
 
-- [[file:20210219142859-convert_boostnotes_to_org_notes.org][Convert boostnotes to org notes]]
-- [[file:20210416140142-custom_faces_for_mode.org][Custom faces for mode]]
-- [[file:20210328183203-emacs_cheatsheet.org][Emacs cheatsheet]]
-- [[file:20210326092932-emacs_profiles.org][Emacs profiles]]
-- [[file:20210401083839-evil_surround.org][Evil-surround]]
-- [[file:20210323143404-git_hooks.org][Git hooks]]
-- [[file:20210409082725-git_layer_in_spacemacs.org][Git layer in Spacemacs]]
-- [[file:20210406092859-http_cookies.org][HTTP Cookies]]
-- [[file:20210406180044-helm.org][Helm]]
-- [[file:20210218151600-my_transition_from_dev_to_manager_by_scott_mascio.org][MY Transition from Dev to Manager by Scott Mascio]]
-- [[file:20210301080337-mocha_before_callbacks.org][Mocha before callbacks]]
-- [[file:20210329202015-org_agenda.org][Org-agenda]]
-- [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]] (foo)
-- [[file:20210326124530-org_mode_basics.org][Org-mode basics]]
-- [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]]
-- [[file:20210213184252-org_roam_cheatsheet.org][Org-roam Cheatsheet]]
+- [[file:20210219142859-convert_boostnotes_to_org_notes.org][Convert boostnotes to org notes]] (project, org-mode)
+- [[file:20210416140142-custom_faces_for_mode.org][Custom faces for mode]] (emacs)
+- [[file:20210328183203-emacs_cheatsheet.org][Emacs cheatsheet]] (emacs)
+- [[file:20210326092932-emacs_profiles.org][Emacs profiles]] (emacs)
+- [[file:20210401083839-evil_surround.org][Evil-surround]] (emacs, "spacemacs")
+- [[file:20210323143404-git_hooks.org][Git hooks]] (git)
+- [[file:20210409082725-git_layer_in_spacemacs.org][Git layer in Spacemacs]] (spacemacs, git)
+- [[file:20210406092859-http_cookies.org][HTTP Cookies]] ("web, development", "security")
+- [[file:20210406180044-helm.org][Helm]] (spacemacs, emacs)
+- [[file:20210218151600-my_transition_from_dev_to_manager_by_scott_mascio.org][MY Transition from Dev to Manager by Scott Mascio]] (cmm)
+- [[file:20210301080337-mocha_before_callbacks.org][Mocha before callbacks]] (testing, javascript, mocha)
+- [[file:20210329202015-org_agenda.org][Org-agenda]] (org-agenda, org-mode)
+- [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]] (org-mode, emacs)
+- [[file:20210326124530-org_mode_basics.org][Org-mode basics]] (org-mode)
+- [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]] (org-mode, emacs)
+- [[file:20210213184252-org_roam_cheatsheet.org][Org-roam Cheatsheet]] (org-roam, org-mode, emacs)
 - [[file:20210213184356-org_roam_link_demo.org][Org-roam link demo]]
-- [[file:20210408090222-overriding_package_functions_in_emacs.org][Overriding package functions in emacs]]
-- [[file:20210331084615-plantuml.org][Plantuml]]
-- [[file:20210212204557-plantuml_with_org_mode.org][Plantuml with org-mode]]
-- [[file:20210323162128-prepared_sql_statements.org][Prepared SQL statements]]
-- [[file:20210407075214-project_wide_find_and_replace_in_spacemacs.org][Project-wide find and replace in Spacemacs]]
-- [[file:20210402135722-projectile.org][Projectile]]
-- [[file:20210423082908-ruby_mode_parenthetical_indentation.org][Ruby-mode parenthetical indentation]]
-- [[file:20210305125833-run_tests_in_docker_for_ruby_mode.org][Run tests in docker for ruby-mode]]
-- [[file:20210311094016-spring_with_rspec.org][Spring with RSpec]]
-- [[file:20210322114758-upterm.org][Upterm]]
-- [[file:20210308094318-using_robe_with_docker.org][Using robe with docker]]
-- [[file:20210325084112-web_security_resources.org][Web security resources]]
-- [[file:20210303144927-capybara_window_management.org][capybara window management]]
-- [[file:20210303143037-mssql_data_migration_with_rollback.org][mssql data migration with rollback]]
-- [[file:20210212195651-pandoc.org][pandoc]]
+- [[file:20210408090222-overriding_package_functions_in_emacs.org][Overriding package functions in emacs]] (emacs, elisp)
+- [[file:20210331084615-plantuml.org][Plantuml]] (plantuml)
+- [[file:20210212204557-plantuml_with_org_mode.org][Plantuml with org-mode]] (org-mode, plantuml, emacs)
+- [[file:20210323162128-prepared_sql_statements.org][Prepared SQL statements]] (postgres, sql)
+- [[file:20210407075214-project_wide_find_and_replace_in_spacemacs.org][Project-wide find and replace in Spacemacs]] (spacemacs, emacs)
+- [[file:20210402135722-projectile.org][Projectile]] (emacs)
+- [[file:20210423082908-ruby_mode_parenthetical_indentation.org][Ruby-mode parenthetical indentation]] (ruby-mode, emacs)
+- [[file:20210305125833-run_tests_in_docker_for_ruby_mode.org][Run tests in docker for ruby-mode]] (ruby-mode, spacemacs, docker)
+- [[file:20210311094016-spring_with_rspec.org][Spring with RSpec]] (spring, rspec, ruby)
+- [[file:20210322114758-upterm.org][Upterm]] (shell)
+- [[file:20210308094318-using_robe_with_docker.org][Using robe with docker]] (robe, emacs)
+- [[file:20210325084112-web_security_resources.org][Web security resources]] (security)
+- [[file:20210303144927-capybara_window_management.org][capybara window management]] (capybara, ruby)
+- [[file:20210303143037-mssql_data_migration_with_rollback.org][mssql data migration with rollback]] (sql, mssql)
+- [[file:20210212195651-pandoc.org][pandoc]] (pandoc, org-mode)

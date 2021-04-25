@@ -150,14 +150,14 @@
                                  (p (@ (class "test-container"))
                                     ,(org-export-data (plist-get info :page-type) info))
                                  ,contents
-                                 ,(let ((tags (org-export-data (plist-get info :filetags) info)))
+                                 ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
                                     (when (and tags (> (length tags) 0))
                                       `(p (@ (class "blog-post-tags"))
                                           "Tags: "
                                           ,(mapconcat (lambda (tag) tag)
                                                         ;; TODO: We don't have tag pages yet
                                                         ;; (format "<a href=\"/tags/%s/\">%s</a>" tag tag))
-                                                      (plist-get info :filetags)
+                                                      (plist-get info :roam_tags)
                                                       ", "))))
                                  ,(when (equal "note" (plist-get info :page-type))
                                     ;; TODO: Make repo public. Take out personal and agenda.
@@ -188,13 +188,12 @@
                           (org-element-property :path link)))
            (equal contents nil))
       (format "<img src=%s >" (org-element-property :path link))
-    (if (and
-         (equal contents nil)
-         (or (not (file-name-extension (org-element-property :path link)))
-             (and (file-name-extension (org-element-property :path link))
-                  (not (string-match "png\\|jpg\\|svg"
-                                     (file-name-extension
-                                      (org-element-property :path link)))))))
+    (if (and (equal contents nil)
+             (or (not (file-name-extension (org-element-property :path link)))
+                 (and (file-name-extension (org-element-property :path link))
+                      (not (string-match "png\\|jpg\\|svg"
+                                         (file-name-extension
+                                          (org-element-property :path link)))))))
         (format "<a href=\"%s\">%s</a>"
                 (org-element-property :raw-link link)
                 (org-element-property :raw-link link))
@@ -248,9 +247,10 @@
     (link . my/org-html-link)
     (code . ox-slimhtml-verbatim)
     (headline . my/org-html-headline))
-  :options-alist
+  :options-alist ;; Define custom options. See docs for org-export-options-alist
   '((:page-type "PAGE-TYPE" nil nil t)
-    (:html-use-infojs nil nil nil)))
+    (:html-use-infojs nil nil nil)
+    (:roam_tags "ROAM_TAGS" nil nil split)))
 
 (defun my/org-html-publish-to-html (plist filename pub-dir)
   "Publish an org file to HTML, using the FILENAME as the output directory."
@@ -266,14 +266,19 @@
                           article-path))))
 
 (defun my/sitemap-format-entry (entry style project)
+  ;; entry is the filename
+  ;; style (eg `tree')
+  ;; project is the a-list
+  (print (org-publish-find-property entry :roam_tags project 'site-html))
   (concat (format "[[file:%s][%s]]"
                   entry
                   (org-publish-find-title entry project))
-          (if (org-publish-find-property entry :filetags project)
+          ;; If we have roam_tags, place them after the link formatted like: `(tag1, tag2)'
+          (if (org-publish-find-property entry :roam_tags project 'site-html)
               (concat " ("
                       (mapconcat (lambda (tag) tag)
-                                (split-string (nth 0 (org-publish-find-property entry :filetags project)))
-                                ", ")
+                                 (org-publish-find-property entry :roam_tags project 'site-html)
+                                 ", ")
                       ")"))))
 
 
