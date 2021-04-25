@@ -3,8 +3,8 @@
 #+roam_tags: org-mode emacs
 
 * Resources
-  [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
-  [[https://youtu.be/618uCFTNNpE][System Crafters YouTube Episode: Static Websites with Emacs, Org Mode and Sourcehut]]
+  - [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
+  - [[https://youtu.be/618uCFTNNpE][System Crafters YouTube Episode: Static Websites with Emacs, Org Mode and Sourcehut]]
 
 * Publishing Backend
   You can use different backends for producing HTML from org files. One is
