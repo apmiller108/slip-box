@@ -1,2 +1,5 @@
 org-roam.db
 **/cmm
+.org-cache/
+.packages/
+public/
