@@ -46,8 +46,9 @@
 
 * Images
 ** Copy images to publishing directory
-   The way I did it was to create another publish project to handle images. It
-   just copies them to the publishing directory. I could do the same thing for
+   The way I did it was to create another publish project to handle images (See
+   [[https://emacs.stackexchange.com/a/555/32224][emacs.stackexchange answer]] for where I got the idea). It just copies them to
+   the publishing directory. I could do the same thing for 
    generic attachments like PDFs and whatnot.
 
    #+begin_src elisp

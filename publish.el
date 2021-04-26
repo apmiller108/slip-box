@@ -98,7 +98,7 @@
                 (div (@ (class "col-sm col-md text-sm-left text-md-right text-lg-right text-xl-right"))
                      (p "Made with " ,(plist-get info :creator))))))) ;; this gets the :creator key's value from the info plist
    (sxml-to-xml
-    `(script (@ (src "/js/bootstrap.bundle.min.js"))))))
+    `(script (@ (src "/js/site.js"))))))
 
 (defun get-article-output-path (org-file pub-dir)
   (let ((article-dir (concat pub-dir
@@ -127,15 +127,13 @@
             (meta (@ (name "viewport")
                      (content "width=device-width, initial-scale=1, shrink-to-fit=no")))
             (link (@ (rel "stylesheet")
-                     (href "/css/bootstrap.min.css")))
-            (link (@ (rel "stylesheet")
-                     (href "/fonts/iosevka-aile/iosevka-aile.css")))
-            (link (@ (rel "stylesheet")
-                     (href "/fonts/jetbrains-mono/jetbrains-mono.css")))
+                     (href "/css/uikit.min.css")))
             (link (@ (rel "stylesheet")
                      (href "/css/code.css")))
             (link (@ (rel "stylesheet")
                      (href "/css/site.css")))
+            (script (@ (src "/js/uikit.min.js")) nil)
+            (script (@ (src "/js/uikit-icons.min.js")) nil)
             (title ,(concat (org-export-data (plist-get info :title) info) " - notes.alex-miller.com")))
            (body
              ,(my/site-header info)
@@ -269,7 +267,6 @@
   ;; entry is the filename
   ;; style (eg `tree')
   ;; project is the a-list
-  (print (org-publish-find-property entry :roam_tags project 'site-html))
   (concat (format "[[file:%s][%s]]"
                   entry
                   (org-publish-find-title entry project))
