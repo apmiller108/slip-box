@@ -42,8 +42,8 @@
 (require 'ox-publish) ;; publishing system for org-mode
 
 ;; Set variables
-(setq my/site-title   "Site Title")
-(setq my/site-tagline "Site Tagline")
+(setq my/site-title   "Alex's Org-mode Dump")
+(setq my/site-tagline "These are my notes")
 
 ;; NOTE some of these may be overridden by the publishing backend and may not be needed here.
 (setq org-publish-use-timestamps-flag t
@@ -64,28 +64,15 @@
   (let* ((file (plist-get info :output-file)))
     (concat
      (sxml-to-xml
-      `(div (div (@ (class "blog-header")) ;; `@' is the attribute function
-                 (div (@ (class "container"))
-                      (div (@ (class "row align-items-center justify-content-between"))
-                           (div (@ (class "col-sm-12 col-md-8"))
-                                (div (@ (class "blog-title"))
-                                     ,my/site-title))
-                           (div (@ (class "col-sm col-md"))
-                                (div (@ (class "blog-description text-sm-left text-md-right text-lg-right text-xl-right"))
-                                     ,my/site-tagline)))))
-
-            (div (@ (class "blog-masthead"))
-                 (div (@ (class "container"))
-                      (div (@ (class "row align-items-center justify-content-between"))
-                           (div (@ (class "col-sm-12 col-md-12"))
-                                (nav (@ (class "nav"))
-                                     (a (@ (class "nav-link") (href "/")) "Main") " "
-                                     (a (@ (class "nav-link") (href "/emacs")) "Emacs") " "
-                                     (a (@ (class "nav-link") (href "/desktop")) "Desktop Environment") " "
-                                     (a (@ (class "nav-link") (href "/systems")) "System Configs") " "
-                                     (a (@ (class "nav-link") (href "/workflow")) "Workflow") " "
-                                     (a (@ (class "nav-link") (href "/mail")) "Mail") " "
-                                     (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co")))))))))))
+      `(div (div (@ (class "heading uk-container")) ;; `@' is the attribute function
+                 (div (@ (class "site-title uk-heading-medium")) ,my/site-title)
+                 (div (@ (class "site-tagline uk-text-lead")) ,my/site-tagline))
+            (div (@ (class "uk-container"))
+                 (nav (@ (class "uk-nav-primary"))
+                      (a (@ (class "nav-link") (href "/")) "Notes Index") " "
+                      (a (@ (class "nav-link") (href "https://blog.alex-miller.co")) "Blog") " "
+                      (a (@ (class "nav-link") (href "https://github.com/apmiller108")) "Github") " "
+                      (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co"))))))))
 
 ;; Footer function
 (defun my/site-footer (info) ;; info is a plist passed in from org-mode
