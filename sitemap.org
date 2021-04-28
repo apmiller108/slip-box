@@ -1,4 +1,4 @@
-#+TITLE: Notes
+#+TITLE: Notes Index
 
 - [[file:20210219142859-convert_boostnotes_to_org_notes.org][Convert boostnotes to org notes]] (project, org-mode)
 - [[file:20210416140142-custom_faces_for_mode.org][Custom faces for mode]] (emacs)
@@ -7,7 +7,7 @@
 - [[file:20210401083839-evil_surround.org][Evil-surround]] (emacs, "spacemacs")
 - [[file:20210323143404-git_hooks.org][Git hooks]] (git)
 - [[file:20210409082725-git_layer_in_spacemacs.org][Git layer in Spacemacs]] (spacemacs, git)
-- [[file:20210406092859-http_cookies.org][HTTP Cookies]] ("web, development", "security")
+- [[file:20210406092859-http_cookies.org][HTTP Cookies]] (web-development, security)
 - [[file:20210406180044-helm.org][Helm]] (spacemacs, emacs)
 - [[file:20210218151600-my_transition_from_dev_to_manager_by_scott_mascio.org][MY Transition from Dev to Manager by Scott Mascio]] (cmm)
 - [[file:20210301080337-mocha_before_callbacks.org][Mocha before callbacks]] (testing, javascript, mocha)

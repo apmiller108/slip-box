@@ -41,9 +41,10 @@
 
 (require 'ox-publish) ;; publishing system for org-mode
 
-;; Set variables
-(setq my/site-title   "Alex's Org-mode Dump")
-(setq my/site-tagline "These are my notes")
+;; Set site variables
+(setq my/site-title   "Alex's Org-mode Dump"
+      my/site-tagline "These are my org-mode notes"
+      my/sitemap-title "Notes Index")
 
 ;; NOTE some of these may be overridden by the publishing backend and may not be needed here.
 (setq org-publish-use-timestamps-flag t
@@ -57,7 +58,6 @@
 
 (setq make-backup-files nil)
 
-;; Header markup function
 ;; The backquote quotes a list but allows use of the `,' to evalulate expressions selectively.
 ;; See for more on this https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html
 (defun my/site-header (info)
@@ -74,16 +74,14 @@
                       (a (@ (class "nav-link") (href "https://github.com/apmiller108")) "Github") " "
                       (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co"))))))))
 
-;; Footer function
 (defun my/site-footer (info) ;; info is a plist passed in from org-mode
   (concat
    ;; "</div></div>"
    (sxml-to-xml
     `(footer (@ (class "blog-footer"))
-      (div (@ (class "container"))
-           (div (@ (class "row"))
-                (div (@ (class "col-sm col-md text-sm-left text-md-right text-lg-right text-xl-right"))
-                     (p "Made with " ,(plist-get info :creator))))))) ;; this gets the :creator key's value from the info plist
+      (div (@ (class "uk-container"))
+           (div (@ (class "made-with"))
+                (p "Made with " ,(plist-get info :creator)))))) ;; this gets the :creator key's value from the info plist
    (sxml-to-xml
     `(script (@ (src "/js/site.js"))))))
 
@@ -124,7 +122,7 @@
             (title ,(concat (org-export-data (plist-get info :title) info) " - notes.alex-miller.com")))
            (body
              ,(my/site-header info)
-             (div (@ (class "container"))
+             (div (@ (class "uk-container"))
                   (div (@ (class "row"))
                        (div (@ (class "col-sm-12 blog-main"))
                             (div (@ (class "blog-post"))
@@ -144,13 +142,12 @@
                                                         ;; (format "<a href=\"/tags/%s/\">%s</a>" tag tag))
                                                       (plist-get info :roam_tags)
                                                       ", "))))
-                                 ,(when (equal "note" (plist-get info :page-type))
-                                    ;; TODO: Make repo public. Take out personal and agenda.
+                                 ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
                                     "<script src=\"https://utteranc.es/client.js\"
                                              repo=\"apmiller108/slip-box\"
                                              issue-term=\"title\"
                                              label=\"comments\"
-                                             theme=\"photon-dark\"
+                                             theme=\"boxy-light\"
                                              crossorigin=\"anonymous\"
                                              async>
                                      </script>")))))
@@ -295,7 +292,7 @@
              :publishing-function '(my/org-html-publish-to-html)
              :publishing-directory "./public"
              :auto-sitemap t
-             :sitemap-title "Notes"
+             :sitemap-title my/sitemap-title
              :sitemap-format-entry 'my/sitemap-format-entry
              :with-title nil)
        (list "images"
