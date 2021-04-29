@@ -1,4 +1,4 @@
-;; Based on David Wilson's publish.el
+;; This is based on David Wilson's publish.el
 ;; Author: David Wilson <david@daviwil.com>
 ;; Maintainer: David Wilson <david@daviwil.com>
 ;; URL: https://sr.ht/~daviwil/dotfiles
@@ -6,7 +6,6 @@
 ;; Usage:
 ;; emacs -Q --batch -l ./publish.el --funcall my/publish
 
-;; Initialize package sources
 (require 'package)
 
 ;; Set the package installation directory so that packages aren't stored in the
@@ -16,28 +15,25 @@
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
 
-;; Initialize the package system
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
 
-;; Install use-package
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (require 'use-package)
 
-;; Install other dependencies
-(use-package esxml ;; provides writing markup in lisp
-  :ensure t)
+;; Provides writing markup in lisp
+(use-package esxml :ensure t)
 
-(use-package ox-slimhtml ;; more sane html markup
-  :ensure t)
+;; A publishing backend
+(use-package ox-slimhtml :ensure t)
 
-(use-package htmlize ;; syntax highlighting
-  :ensure t)
+;; Syntax highlighting
+(use-package htmlize :ensure t)
 
-(use-package webfeeder ;; generate rss/atom feed
-  :ensure t)
+;; rss/atom feed
+(use-package webfeeder :ensure t)
 
 (require 'ox-publish) ;; publishing system for org-mode
 
@@ -75,15 +71,11 @@
                       (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co"))))))))
 
 (defun my/site-footer (info) ;; info is a plist passed in from org-mode
-  (concat
-   ;; "</div></div>"
-   (sxml-to-xml
-    `(footer (@ (class "blog-footer"))
-      (div (@ (class "uk-container"))
-           (div (@ (class "made-with"))
-                (p "Made with " ,(plist-get info :creator)))))) ;; this gets the :creator key's value from the info plist
-   (sxml-to-xml
-    `(script (@ (src "/js/site.js"))))))
+  (sxml-to-xml
+   `(footer (@ (class "blog-footer"))
+            (div (@ (class "uk-container"))
+                 (div (@ (class "made-with"))
+                      (p "Made with " ,(plist-get info :creator))))))) ;; this gets the :creator key's value from the info plist
 
 (defun get-article-output-path (org-file pub-dir)
   (let ((article-dir (concat pub-dir
@@ -91,8 +83,8 @@
                               (file-name-as-directory
                                (file-name-sans-extension
                                 (file-name-nondirectory org-file)))))))
-
-    (if (string-match "\\/sitemap.org$" org-file) ;; Makes the sitemap the root index.html file
+    ;; Makes the sitemap the root index.html file
+    (if (string-match "\\/sitemap.org$" org-file)
         pub-dir
         (progn
           (unless (file-directory-p article-dir)
@@ -119,6 +111,7 @@
                      (href "/css/site.css")))
             (script (@ (src "/js/uikit.min.js")) nil)
             (script (@ (src "/js/uikit-icons.min.js")) nil)
+            (script (@ (src "/js/site.js")) nil)
             (title ,(concat (org-export-data (plist-get info :title) info) " - notes.alex-miller.com")))
            (body
              ,(my/site-header info)
@@ -155,7 +148,9 @@
              ,(my/site-footer info))))))
 
 (defun my/org-html-link (link contents info)
-  "Removes file extension and changes the path into lowercase org file:// links."
+  "Removes file extension and changes the path into lowercase org file:// links.
+   Handles creating inline images with `<img>' tags for png, jpg, and svg files
+   when the link doesn't have a label, otherwise just creates a link."
   (when (and (string= 'file (org-element-property :type link))
              (string= "org" (file-name-extension (org-element-property :path link))))
     (org-element-put-property link :path
@@ -248,29 +243,30 @@
                           article-path))))
 
 (defun my/sitemap-format-entry (entry style project)
-  ;; entry is the filename
-  ;; style (eg `tree')
-  ;; project is the a-list
-  (concat (format "[[file:%s][%s]]"
-                  entry
-                  (org-publish-find-title entry project))
+  (concat (format-time-string "<span class=\"sitemap-entry-date\">%Y-%m-%d</span>" (org-publish-find-date entry project))
+          (format " <a href=/%s>%s</a>"
+                          (file-name-sans-extension entry)
+                          (org-publish-find-title entry project))
           ;; If we have roam_tags, place them after the link formatted like: `(tag1, tag2)'
           (if (org-publish-find-property entry :roam_tags project 'site-html)
-              (concat " ("
+              (concat " <span class=\"sitemap-entry-tags\">("
                       (mapconcat (lambda (tag) tag)
                                  (org-publish-find-property entry :roam_tags project 'site-html)
                                  ", ")
-                      ")"))))
+                      ")</span>"))))
 
+;; (delete-dups (append '("a" "b" "c") '("c" "d" "e" "f")))
 
-(defun my/generate-sitemap (title list)
+(defun my/sitemap (title list)
+  (print list)
   (concat
     "#+TITLE: " title "\n\n"
     "#+BEGIN_EXPORT html\n"
-    (mapconcat (lambda (item)
-                 (car item))
-               (cdr list)
-               "\n")
+    (concat "<ul class=\"sitemap-entries\">"
+            (mapconcat (lambda (item) (format "<li>%s</li>" (car item)))
+                       (cdr list)
+                       "\n")
+            "</ul>")
     "\n#+END_EXPORT\n"))
 
 (setq org-html-preamble  #'my/site-header
@@ -292,8 +288,10 @@
              :publishing-function '(my/org-html-publish-to-html)
              :publishing-directory "./public"
              :auto-sitemap t
+             :sitemap-function 'my/sitemap
              :sitemap-title my/sitemap-title
              :sitemap-format-entry 'my/sitemap-format-entry
+             :sitemap-sort-files 'anti-chronologically
              :with-title nil)
        (list "images"
              :base-extension "png\\|jpg\\|svg"

@@ -1,6 +1,6 @@
 #+title: Git layer in Spacemacs
 #+date: 2021-04-09 08:27 AM
-#+roam_tags: spacemacs git
+#+roam_tags: spacemacs magit git
 
 * Magit
   [[https://magit.vc/][Magit]] is the central component to this layer. Learning how to use it is key.
@@ -30,6 +30,6 @@
     - ~r i~
     - Navigate to the commit from which you want to start the rebase.
     - ~C-c C-c~
-   - Nagivate up and down and press the letter corresponding to the action (eg
-     ~s~ to squash)
-   - ~C-c C-c~ to commit and proceed to the next prompt or finish.
+    - Navigate up and down and press the letter corresponding to the action (eg
+      ~s~ to squash)
+    - ~C-c C-c~ to commit and proceed to the next prompt or finish.
