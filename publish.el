@@ -243,31 +243,46 @@
                           article-path))))
 
 (defun my/sitemap-format-entry (entry style project)
-  (concat (format-time-string "<span class=\"sitemap-entry-date\">%Y-%m-%d</span>" (org-publish-find-date entry project))
-          (format " <a href=/%s>%s</a>"
-                          (file-name-sans-extension entry)
-                          (org-publish-find-title entry project))
-          ;; If we have roam_tags, place them after the link formatted like: `(tag1, tag2)'
-          (if (org-publish-find-property entry :roam_tags project 'site-html)
-              (concat " <span class=\"sitemap-entry-tags\">("
-                      (mapconcat (lambda (tag) tag)
-                                 (org-publish-find-property entry :roam_tags project 'site-html)
-                                 ", ")
-                      ")</span>"))))
-
-;; (delete-dups (append '("a" "b" "c") '("c" "d" "e" "f")))
+  "Formats sitemap entry <date> <title> (<tags>). Returns a list containing the
+   sitemap entry string and roam tags"
+  (let* ((roam-tags (org-publish-find-property entry :roam_tags project 'site-html))
+         (entry
+          (concat
+           (format-time-string "<span class=\"sitemap-entry-date\">%Y-%m-%d</span>" (org-publish-find-date entry project))
+           (format " <a href=/%s>%s</a>"
+                   (file-name-sans-extension entry)
+                   (org-publish-find-title entry project))
+           (if roam-tags
+               (concat " <span class=\"sitemap-entry-tags\">("
+                       (mapconcat (lambda (tag) tag)
+                                  (org-publish-find-property entry :roam_tags project 'site-html)
+                                  ", ")
+                       ")</span>")))))
+    (list entry roam-tags)))
 
 (defun my/sitemap (title list)
-  (print list)
-  (concat
-    "#+TITLE: " title "\n\n"
-    "#+BEGIN_EXPORT html\n"
-    (concat "<ul class=\"sitemap-entries\">"
-            (mapconcat (lambda (item) (format "<li>%s</li>" (car item)))
-                       (cdr list)
-                       "\n")
-            "</ul>")
-    "\n#+END_EXPORT\n"))
+  (let* ((unique-tags
+          (sort
+           (delete-dups
+            (flatten-tree
+              (mapcar (lambda (item) (cdr (car item)))
+                      (cdr list))))
+           (lambda (a b) (string< a b)))))
+    (concat
+     "#+TITLE: " title "\n\n"
+     "#+BEGIN_EXPORT html\n"
+     (concat
+      "<div class=\"tags\">"
+      (mapconcat (lambda (item) (format "<span><a href=/?=%s>%s</a></span>" item item))
+                 unique-tags
+                 "\n")
+      "</div>"
+      "<ul class=\"sitemap-entries\">"
+      (mapconcat (lambda (item) (format "<li>%s</li>" (car (car item))))
+                 (cdr list)
+                 "\n")
+      "</ul>")
+     "\n#+END_EXPORT\n")))
 
 (setq org-html-preamble  #'my/site-header
       org-html-postamble #'my/site-footer

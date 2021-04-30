@@ -1,7 +1,35 @@
 #+TITLE: Notes Index
 
 #+BEGIN_EXPORT html
-<ul class="sitemap-entries"><li><span class="sitemap-entry-date">2021-04-28</span> <a href=/20210409082725-git_layer_in_spacemacs>Git layer in Spacemacs</a> <span class="sitemap-entry-tags">(spacemacs, magit, git)</span></li>
+<div class="tags"><span><a href=/?=capybara>capybara</a></span>
+<span><a href=/?=cmm>cmm</a></span>
+<span><a href=/?=docker>docker</a></span>
+<span><a href=/?=elisp>elisp</a></span>
+<span><a href=/?=emacs>emacs</a></span>
+<span><a href=/?=git>git</a></span>
+<span><a href=/?=javascript>javascript</a></span>
+<span><a href=/?=magit>magit</a></span>
+<span><a href=/?=mocha>mocha</a></span>
+<span><a href=/?=mssql>mssql</a></span>
+<span><a href=/?=org-agenda>org-agenda</a></span>
+<span><a href=/?=org-mode>org-mode</a></span>
+<span><a href=/?=org-roam>org-roam</a></span>
+<span><a href=/?=pandoc>pandoc</a></span>
+<span><a href=/?=plantuml>plantuml</a></span>
+<span><a href=/?=postgres>postgres</a></span>
+<span><a href=/?=project>project</a></span>
+<span><a href=/?=robe>robe</a></span>
+<span><a href=/?=rspec>rspec</a></span>
+<span><a href=/?=ruby>ruby</a></span>
+<span><a href=/?=ruby-mode>ruby-mode</a></span>
+<span><a href=/?=security>security</a></span>
+<span><a href=/?=shell>shell</a></span>
+<span><a href=/?=spacemacs>spacemacs</a></span>
+<span><a href=/?=spring>spring</a></span>
+<span><a href=/?=sql>sql</a></span>
+<span><a href=/?=testing>testing</a></span>
+<span><a href=/?=web-development>web-development</a></span></div><ul class="sitemap-entries"><li><span class="sitemap-entry-date">2021-04-29</span> <a href=/20210401083839-evil_surround>Evil-surround</a> <span class="sitemap-entry-tags">(emacs, spacemacs)</span></li>
+<li><span class="sitemap-entry-date">2021-04-28</span> <a href=/20210409082725-git_layer_in_spacemacs>Git layer in Spacemacs</a> <span class="sitemap-entry-tags">(spacemacs, magit, git)</span></li>
 <li><span class="sitemap-entry-date">2021-04-27</span> <a href=/20210406092859-http_cookies>HTTP Cookies</a> <span class="sitemap-entry-tags">(web-development, security)</span></li>
 <li><span class="sitemap-entry-date">2021-04-25</span> <a href=/20210414210731-org_mode_publishing>Org-mode publishing</a> <span class="sitemap-entry-tags">(org-mode, emacs)</span></li>
 <li><span class="sitemap-entry-date">2021-04-25</span> <a href=/20210213184356-org_roam_link_demo>Org-roam link demo</a></li>
@@ -18,7 +46,6 @@
 <li><span class="sitemap-entry-date">2021-04-07</span> <a href=/20210407075214-project_wide_find_and_replace_in_spacemacs>Project-wide find and replace in Spacemacs</a> <span class="sitemap-entry-tags">(spacemacs, emacs)</span></li>
 <li><span class="sitemap-entry-date">2021-04-02</span> <a href=/20210329202015-org_agenda>Org-agenda</a> <span class="sitemap-entry-tags">(org-agenda, org-mode)</span></li>
 <li><span class="sitemap-entry-date">2021-04-01</span> <a href=/20210331084615-plantuml>Plantuml</a> <span class="sitemap-entry-tags">(plantuml)</span></li>
-<li><span class="sitemap-entry-date">2021-04-01</span> <a href=/20210401083839-evil_surround>Evil-surround</a> <span class="sitemap-entry-tags">(emacs, "spacemacs")</span></li>
 <li><span class="sitemap-entry-date">2021-03-28</span> <a href=/20210219142859-convert_boostnotes_to_org_notes>Convert boostnotes to org notes</a> <span class="sitemap-entry-tags">(project, org-mode)</span></li>
 <li><span class="sitemap-entry-date">2021-03-26</span> <a href=/20210326092932-emacs_profiles>Emacs profiles</a> <span class="sitemap-entry-tags">(emacs)</span></li>
 <li><span class="sitemap-entry-date">2021-03-25</span> <a href=/20210325084112-web_security_resources>Web security resources</a> <span class="sitemap-entry-tags">(security)</span></li>
