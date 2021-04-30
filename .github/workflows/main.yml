@@ -32,5 +32,10 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          sudo apt-get install emacs
+          sudo add-apt-repository ppa:kelleyk/emacs
+          sudo apt-get update
+          sudo apt-get install emacs27
           echo `emacs --version`
+          emacs -Q --batch -l ./publish.el --funcall my/publish
+          cp -r site_assets/* public/
+          echo `ls -al public`
