@@ -112,6 +112,14 @@
             (script (@ (src "/js/uikit.min.js")) nil)
             (script (@ (src "/js/uikit-icons.min.js")) nil)
             (script (@ (src "/js/site.js")) nil)
+            (script (@ (src "https://www.googletagmanager.com/gtag/js?id=G-YM3EHHB2YQ")) nil)
+            (script
+             "window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-YM3EHHB2YQ');"
+             )
             (title ,(concat (org-export-data (plist-get info :title) info) " - notes.alex-miller.com")))
            (body
              ,(my/site-header info)
