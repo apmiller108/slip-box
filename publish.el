@@ -75,7 +75,7 @@
    `(footer (@ (class "blog-footer"))
             (div (@ (class "uk-container"))
                  (div (@ (class "made-with"))
-                      (p "Made with " ,(plist-get info :creator))))))) ;; this gets the :creator key's value from the info plist
+                      (p "Made with " ,(plist-get info :creator))))))) ;; creator is "Emacs version# (Org mode version#)"
 
 (defun get-article-output-path (org-file pub-dir)
   (let ((article-dir (concat pub-dir
@@ -116,41 +116,36 @@
            (body
              ,(my/site-header info)
              (div (@ (class "uk-container"))
-                  (div (@ (class "row"))
-                       (div (@ (class "col-sm-12 blog-main"))
-                            (div (@ (class "blog-post"))
-                                 (h1 (@ (class "blog-post-title"))
-                                     ,(org-export-data (plist-get info :title) info))
-                                 (p (@ (class "blog-post-meta"))
-                                    ,(org-export-data (org-export-get-date info "%B %e, %Y") info)) ;; Comes from the `#date:' export option
-                                 (p (@ (class "test-container"))
-                                    ,(org-export-data (plist-get info :page-type) info))
-                                 ,contents
-                                 ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
-                                    (when (and tags (> (length tags) 0))
-                                      `(p (@ (class "blog-post-tags"))
-                                          "Tags: "
-                                          ,(mapconcat (lambda (tag) tag)
-                                                        ;; TODO: We don't have tag pages yet
-                                                        ;; (format "<a href=\"/tags/%s/\">%s</a>" tag tag))
-                                                      (plist-get info :roam_tags)
-                                                      ", "))))
-                                 ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
-                                    "<script src=\"https://utteranc.es/client.js\"
-                                             repo=\"apmiller108/slip-box\"
-                                             issue-term=\"title\"
-                                             label=\"comments\"
-                                             theme=\"boxy-light\"
-                                             crossorigin=\"anonymous\"
-                                             async>
-                                     </script>")))))
-
-             ,(my/site-footer info))))))
+                  (div (@ (class "note"))
+                       (div (@ (class "blog-post"))
+                            (h1 (@ (class "blog-post-title"))
+                                ,(org-export-data (plist-get info :title) info))
+                            (p (@ (class "blog-post-meta"))
+                              ,(org-export-data (org-export-get-date info "%B %e, %Y") info)) ;; Comes from the `#date:' export option
+                            ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
+                               (when (and tags (> (length tags) 0))
+                                 `(p (@ (class "blog-post-tags"))
+                                     "Tags: "
+                                     ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
+                                                 (plist-get info :roam_tags)
+                                                 ", "))))
+                            ,contents)
+                       ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
+                          '(script (@ (src "https://utteranc.es/client.js")
+                                      (repo "apmiller108/slip-box")
+                                      (issue-term "title")
+                                      (label "comments")
+                                      (theme "boxy-light")
+                                      (crossorigin "anonymous")
+                                      (asycn))
+                                   nil))))
+                  ,(my/site-footer info))))))
 
 (defun my/org-html-link (link contents info)
   "Removes file extension and changes the path into lowercase org file:// links.
    Handles creating inline images with `<img>' tags for png, jpg, and svg files
    when the link doesn't have a label, otherwise just creates a link."
+  ;; TODO: refactor this mess
   (when (and (string= 'file (org-element-property :type link))
              (string= "org" (file-name-extension (org-element-property :path link))))
     (org-element-put-property link :path
