@@ -23,9 +23,8 @@ a:hover {
   color: #333;
 }
 
-.nav-link {
-  display: flex;
-  flex-direction: row-reverse;
+.uk-navbar-nav .nav-link {
+  font-size: 1.75rem;
 }
 
 .nav-link svg {

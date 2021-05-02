@@ -1,5 +1,6 @@
 #+title: pandoc
 #+roam_tags: pandoc org-mode
+#+date: 2021-02-12 19:56 PM
 
 * Resources
   

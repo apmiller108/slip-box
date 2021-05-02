@@ -50,6 +50,7 @@
       org-export-with-smart-quotes t ;; improves the look of quotations
       org-export-with-sub-superscripts nil
       org-export-with-tags 'not-in-toc
+      org-export-date-timestamp-format "Y-%m-%d %H:%M %p"
       org-export-with-toc t) ;; toc = table of contents
 
 (setq make-backup-files nil)
@@ -63,16 +64,16 @@
       `(div (div (@ (class "heading uk-container")) ;; `@' is the attribute function
                  (div (@ (class "site-title-container uk-flex uk-flex-middle"))
                       (span (@ (uk-icon "icon: user; ratio: 2.5")) nil)
-                      (div (@ (class "site-title uk-heading-medium")) ,my/site-title))
+                      (h1 (@ (class "site-title uk-h1 uk-heading-medium")) ,my/site-title))
                  (div (@ (class "site-tagline uk-text-lead")) ,my/site-tagline))
             (div (@ (class "uk-container"))
                  (nav (@ (class "uk-navbar-container uk-navbar-transparent")
                          (uk-navbar))
                       (div (@ (class "uk-navbar-left"))
                               (ul (@ (class "uk-navbar-nav"))
-                                  (li (a (@ (class "nav-link uk-icon-link") (uk-icon "album") (href "/")) "Notes"))
-                                  (li (a (@ (class "nav-link uk-icon-link") (uk-icon "file-text") (href "https://blog.alex-miller.co")) "Blog"))
-                                  (li (a (@ (class "nav-link uk-icon-link") (uk-icon "github-alt") (href "https://github.com/apmiller108")) "Github"))
+                                  (li (a (@ (class "nav-link") (href "/")) "Notes"))
+                                  (li (a (@ (class "nav-link") (href "https://blog.alex-miller.co")) "Blog"))
+                                  (li (a (@ (class "nav-link") (href "https://github.com/apmiller108")) "Github"))
                                   (li (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co")))))))))))
 
 (defun my/site-footer (info) ;; info is a plist passed in from org-mode
@@ -131,7 +132,7 @@
              (div (@ (class "uk-container"))
                   (div (@ (class "note"))
                        (div (@ (class "blog-post"))
-                            (h1 (@ (class "blog-post-title"))
+                            (h1 (@ (class "blog-post-title uk-h1"))
                                 ,(org-export-data (plist-get info :title) info))
                             (p (@ (class "blog-post-meta"))
                               ,(org-export-data (org-export-get-date info "%B %e, %Y") info)) ;; Comes from the `#date:' export option
@@ -254,18 +255,21 @@
   "Formats sitemap entry <date> <title> (<tags>). Returns a list containing the
    sitemap entry string and roam tags"
   (let* ((roam-tags (org-publish-find-property entry :roam_tags project 'site-html))
+         (created-at (format-time-string "%Y-%m-%d"
+                                         (date-to-time
+                                          (format "%s" (nth 0 (org-publish-find-property entry :date project))))))
          (entry
           (concat
-           (format-time-string "<span class=\"sitemap-entry-date\">%Y-%m-%d</span>" (org-publish-find-date entry project))
+           (format "<div data-date=\"%s\" data-tags=\"[%s]\">" created-at (mapconcat (lambda (tag) tag) roam-tags ", "))
+           (format "<span class=\"sitemap-entry-date\">%s</span>" created-at)
            (format " <a href=/%s>%s</a>"
                    (file-name-sans-extension entry)
                    (org-publish-find-title entry project))
            (if roam-tags
                (concat " <span class=\"sitemap-entry-tags\">("
-                       (mapconcat (lambda (tag) tag)
-                                  (org-publish-find-property entry :roam_tags project 'site-html)
-                                  ", ")
-                       ")</span>")))))
+                       (mapconcat (lambda (tag) tag) roam-tags ", ")
+                       ")</span>"))
+           "</div>")))
     (list entry roam-tags)))
 
 (defun my/sitemap (title list)
@@ -314,7 +318,7 @@
              :sitemap-function 'my/sitemap
              :sitemap-title my/sitemap-title
              :sitemap-format-entry 'my/sitemap-format-entry
-             :sitemap-sort-files 'anti-chronologically
+             :sitemap-sort-files 'alphabetically
              :with-title nil)
        (list "images"
              :base-extension "png\\|jpg\\|svg"

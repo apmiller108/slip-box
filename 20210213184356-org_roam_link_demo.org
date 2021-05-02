@@ -1,7 +1,0 @@
-#+title: Org-roam link demo
-
-[[https://foo.com][FooDotCom]]
-
-- This link is used as a roam_key reference in another file for demo purposes.
-  In that other file, the backlinks buffer will show this note.
-
