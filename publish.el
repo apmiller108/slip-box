@@ -61,14 +61,19 @@
     (concat
      (sxml-to-xml
       `(div (div (@ (class "heading uk-container")) ;; `@' is the attribute function
-                 (div (@ (class "site-title uk-heading-medium")) ,my/site-title)
+                 (div (@ (class "site-title-container uk-flex uk-flex-middle"))
+                      (span (@ (uk-icon "icon: user; ratio: 2.5")) nil)
+                      (div (@ (class "site-title uk-heading-medium")) ,my/site-title))
                  (div (@ (class "site-tagline uk-text-lead")) ,my/site-tagline))
             (div (@ (class "uk-container"))
-                 (nav (@ (class "uk-nav-primary"))
-                      (a (@ (class "nav-link") (href "/")) "Notes Index") " "
-                      (a (@ (class "nav-link") (href "https://blog.alex-miller.co")) "Blog") " "
-                      (a (@ (class "nav-link") (href "https://github.com/apmiller108")) "Github") " "
-                      (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co"))))))))
+                 (nav (@ (class "uk-navbar-container uk-navbar-transparent")
+                         (uk-navbar))
+                      (div (@ (class "uk-navbar-left"))
+                              (ul (@ (class "uk-navbar-nav"))
+                                  (li (a (@ (class "nav-link uk-icon-link") (uk-icon "album") (href "/")) "Notes"))
+                                  (li (a (@ (class "nav-link uk-icon-link") (uk-icon "file-text") (href "https://blog.alex-miller.co")) "Blog"))
+                                  (li (a (@ (class "nav-link uk-icon-link") (uk-icon "github-alt") (href "https://github.com/apmiller108")) "Github"))
+                                  (li (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co")))))))))))
 
 (defun my/site-footer (info) ;; info is a plist passed in from org-mode
   (sxml-to-xml
@@ -145,7 +150,7 @@
                                       (label "comments")
                                       (theme "boxy-light")
                                       (crossorigin "anonymous")
-                                      (asycn))
+                                      (async))
                                    nil))))
                   ,(my/site-footer info))))))
 
@@ -280,7 +285,7 @@
                  unique-tags
                  "\n")
       "</div>"
-      "<ul class=\"sitemap-entries\">"
+      "<ul class=\"sitemap-entries uk-list uk-list-disc uk-list-emphasis\">"
       (mapconcat (lambda (item) (format "<li>%s</li>" (car (car item))))
                  (cdr list)
                  "\n")

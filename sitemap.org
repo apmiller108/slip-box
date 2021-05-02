@@ -28,7 +28,7 @@
 <span><a href=/?=spring>spring</a></span>
 <span><a href=/?=sql>sql</a></span>
 <span><a href=/?=testing>testing</a></span>
-<span><a href=/?=web-development>web-development</a></span></div><ul class="sitemap-entries"><li><span class="sitemap-entry-date">2021-04-29</span> <a href=/20210401083839-evil_surround>Evil-surround</a> <span class="sitemap-entry-tags">(emacs, spacemacs)</span></li>
+<span><a href=/?=web-development>web-development</a></span></div><ul class="sitemap-entries uk-list uk-list-disc uk-list-emphasis"><li><span class="sitemap-entry-date">2021-04-29</span> <a href=/20210401083839-evil_surround>Evil-surround</a> <span class="sitemap-entry-tags">(emacs, spacemacs)</span></li>
 <li><span class="sitemap-entry-date">2021-04-28</span> <a href=/20210409082725-git_layer_in_spacemacs>Git layer in Spacemacs</a> <span class="sitemap-entry-tags">(spacemacs, magit, git)</span></li>
 <li><span class="sitemap-entry-date">2021-04-27</span> <a href=/20210406092859-http_cookies>HTTP Cookies</a> <span class="sitemap-entry-tags">(web-development, security)</span></li>
 <li><span class="sitemap-entry-date">2021-04-25</span> <a href=/20210414210731-org_mode_publishing>Org-mode publishing</a> <span class="sitemap-entry-tags">(org-mode, emacs)</span></li>

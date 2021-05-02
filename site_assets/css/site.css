@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  /* color: #fff8dc; */
+  /* background-color: #1c1c1c; */
+}
+
+nav {
+  margin-left: -15px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.heading .site-title {
+  font-weight: 300;
+  margin: 0 0 0 1rem;
+}
+
+.site-title-container .uk-icon {
+  color: #333;
+}
+
+.nav-link {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.nav-link svg {
+  margin: 0 0.5rem 0 0;
+}
