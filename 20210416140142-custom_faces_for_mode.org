@@ -1,19 +1,20 @@
 #+title: Custom faces for mode
 #+date: 2021-04-16 14:01 PM
+#+updated: 2021-05-02 16:51 PM
 #+roam_tags: emacs
 
-* Customize faces for modes
-  I don't like how the ~dakrone~ theme colors the ~org-level-3~ face. It's the same
-  color as a link. One way to solve it is to create a custom function that
-  changes the face and add it to the ~org-mode-hook~.
+I don't like how the ~dakrone~ theme colors the ~org-level-3~ face. It's the same
+color as a link. One way to solve it is to create a custom function that
+changes the face and add it to the ~org-mode-hook~.
 
-  #+begin_src elisp
-    (defun my/org-mode-faces ()
-      "Org-mode face remapping for `org-mode-hook'."
-      (when (string-equal "dakrone" spacemacs--cur-theme)
-        (face-remap-add-relative 'org-level-3
-                                :foreground "dark magenta")))
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (my/org-mode-faces)))
-  #+end_src
+
+#+begin_src elisp
+  (defun my/org-mode-faces ()
+    "Org-mode face remapping for `org-mode-hook'."
+    (when (string-equal "dakrone" spacemacs--cur-theme)
+      (face-remap-add-relative 'org-level-3
+                              :foreground "dark magenta")))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (my/org-mode-faces)))
+#+end_src

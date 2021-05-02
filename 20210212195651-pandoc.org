@@ -1,19 +1,16 @@
 #+title: pandoc
 #+roam_tags: pandoc org-mode
 #+date: 2021-02-12 19:56 PM
+#+updated: 2021-05-02 16:53 PM
 
 * Resources
-  
   
   [[https://pandoc.org/MANUAL.html#][Pandoc Manual]]
 
 * CLI
 
-
   Converts from gfm (GitHub flavored md) to org. Outputs to file named test.org
   using test.md as the source
   #+begin_src shell
-
     pandoc -f gfm -t org -o test.org test.md
-
   #+end_src
