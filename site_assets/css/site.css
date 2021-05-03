@@ -16,14 +16,26 @@ a:hover {
 
 .heading .site-title {
   font-weight: 300;
+  margin: 0;
 }
 
 .site-title-container .uk-icon {
   color: #333;
 }
 
+.uk-navbar-container.uk-navbar {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.uk-navbar-nav {
+  flex-wrap: wrap;
+  min-height: 0;
+}
+
 .uk-navbar-nav .nav-link {
   font-size: 1.75rem;
+  min-height: 0;
 }
 
 .nav-link svg {
@@ -33,4 +45,8 @@ a:hover {
 .note .utterances {
   margin-left: 0;
   margin-right: 0;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
 }
