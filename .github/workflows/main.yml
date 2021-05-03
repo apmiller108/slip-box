@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: macos-10.15
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -26,9 +26,9 @@ jobs:
       - name: build_site
         run: |
           echo Starting build step...
-          sudo add-apt-repository ppa:kelleyk/emacs
-          sudo apt-get update
-          sudo apt-get install emacs27
+          brew tap d12frosted/emacs-plus
+          brew install emacs-plus@28
+          brew link emacs-plus
           echo `emacs --version`
           emacs -Q --batch -l ./publish.el --funcall my/publish
           cp -r site_assets/* public/
@@ -39,7 +39,7 @@ jobs:
         run: |
           echo Starting deploy step...
           echo Installing dependencies...
-          sudo npm install netlify-cli@3.24.4 -g
+          npm install netlify-cli@3.24.4 -g
           echo Deploying to netlify...
           netlify deploy --dir=public --prod
 
