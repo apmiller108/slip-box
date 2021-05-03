@@ -54,5 +54,5 @@
 <li><div data-date="2021-03-25" data-tags="[security]"><span class="sitemap-entry-date">2021-03-25</span> <a href=/20210325084112-web_security_resources>Web security resources</a> <span class="sitemap-entry-tags">(security)</span></div></li>
 <li><div data-date="2021-03-03" data-tags="[capybara, ruby]"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303144927-capybara_window_management>capybara window management</a> <span class="sitemap-entry-tags">(capybara, ruby)</span></div></li>
 <li><div data-date="2021-03-03" data-tags="[sql, mssql]"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303143037-mssql_data_migration_with_rollback>mssql data migration with rollback</a> <span class="sitemap-entry-tags">(sql, mssql)</span></div></li>
-<li><div data-date="1990-01-01" data-tags="[pandoc, org-mode]"><span class="sitemap-entry-date">1990-01-01</span> <a href=/20210212195651-pandoc>pandoc</a> <span class="sitemap-entry-tags">(pandoc, org-mode)</span></div></li></ul>
+<li><div data-date="2021-02-12" data-tags="[pandoc, org-mode]"><span class="sitemap-entry-date">2021-02-12</span> <a href=/20210212195651-pandoc>pandoc</a> <span class="sitemap-entry-tags">(pandoc, org-mode)</span></div></li></ul>
 #+END_EXPORT

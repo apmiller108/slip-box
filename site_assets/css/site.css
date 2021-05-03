@@ -16,7 +16,6 @@ a:hover {
 
 .heading .site-title {
   font-weight: 300;
-  margin: 0 0 0 1rem;
 }
 
 .site-title-container .uk-icon {
@@ -29,4 +28,9 @@ a:hover {
 
 .nav-link svg {
   margin: 0 0.5rem 0 0;
+}
+
+.note .utterances {
+  margin-left: 0;
+  margin-right: 0;
 }

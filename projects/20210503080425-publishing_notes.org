@@ -1,0 +1,27 @@
+#+title: Publishing notes
+
+* TODO Include org-roam backlinks in each note
+  https://doubleloop.net/2020/08/21/how-publish-org-roam-wiki-org-publish/
+  https://gitlab.com/ngm/commonplace/-/blob/master/publish.el#L176-190
+* TODO Fix non-responsive navbar
+* TODO Fix broken links in notes  
+* TODO Remove site title icon
+* TODO Add underline hover style to navbar links  
+* TODO Add favicon
+  - Copy assets from: https://github.com/apmiller108/blog/tree/master/assets/favicon
+  - And copy head links from https://blog.alex-miller.co/
+* DONE Show last updated on notes
+  CLOSED: [2021-05-03 Mon 13:05]
+* TODO Wire up tag filtering on index page
+  :PROPERTIES:
+  :CATEGORY: JS
+  :END:
+* TODO Handle tag filtering on index page from navigation with query param
+* TODO Add order by date created on index page
+* TODO Add order by title on index page
+* TODO Document the publish.el
+
+
+* Things picked up along that way that might be worth documenting
+  - https://stackoverflow.com/a/2701743/5974855
+  - https://org-roam.discourse.group/t/update-a-field-last-modified-at-save/321/19

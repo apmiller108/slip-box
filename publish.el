@@ -63,7 +63,6 @@
      (sxml-to-xml
       `(div (div (@ (class "heading uk-container")) ;; `@' is the attribute function
                  (div (@ (class "site-title-container uk-flex uk-flex-middle"))
-                      (span (@ (uk-icon "icon: user; ratio: 2.5")) nil)
                       (h1 (@ (class "site-title uk-h1 uk-heading-medium")) ,my/site-title))
                  (div (@ (class "site-tagline uk-text-lead")) ,my/site-tagline))
             (div (@ (class "uk-container"))
@@ -131,18 +130,22 @@
              ,(my/site-header info)
              (div (@ (class "uk-container"))
                   (div (@ (class "note"))
-                       (div (@ (class "blog-post"))
-                            (h1 (@ (class "blog-post-title uk-h1"))
+                       (div (@ (class "note-content"))
+                            (h1 (@ (class "note-title uk-h1"))
                                 ,(org-export-data (plist-get info :title) info))
-                            (p (@ (class "blog-post-meta"))
-                              ,(org-export-data (org-export-get-date info "%B %e, %Y") info)) ;; Comes from the `#date:' export option
-                            ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
-                               (when (and tags (> (length tags) 0))
-                                 `(p (@ (class "blog-post-tags"))
-                                     "Tags: "
-                                     ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
-                                                 (plist-get info :roam_tags)
-                                                 ", "))))
+                            (div (@ (class "note-meta"))
+                                 (p (@ (class "note-created"))
+                                    ,(format "Created on: %s" (org-export-data (org-export-get-date info "%B %e, %Y") info)))
+                                 ,(when (plist-get info :updated)
+                                    `(p (@ (class "note-updated"))
+                                        ,(format "Last updated on: %s" (plist-get info :updated))))
+                                 ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
+                                    (when (and tags (> (length tags) 0))
+                                      `(p (@ (class "blog-post-tags"))
+                                          "Tags: "
+                                          ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
+                                                      (plist-get info :roam_tags)
+                                                      ", ")))))
                             ,contents)
                        ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
                           '(script (@ (src "https://utteranc.es/client.js")
@@ -236,6 +239,7 @@
   :options-alist ;; Define custom options. See docs for org-export-options-alist
   '((:page-type "PAGE-TYPE" nil nil t)
     (:html-use-infojs nil nil nil)
+    (:updated "UPDATED" nil nil t)
     (:roam_tags "ROAM_TAGS" nil nil split)))
 
 (defun my/org-html-publish-to-html (plist filename pub-dir)
