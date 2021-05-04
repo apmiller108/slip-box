@@ -5,7 +5,8 @@
   - https://gitlab.com/ngm/commonplace/-/blob/master/publish.el#L176-190
 * DONE Fix non-responsive navbar
   CLOSED: [2021-05-03 Mon 15:58]
-* TODO Fix broken links in notes on production builds
+* DONE Fix broken links in notes on production builds
+  CLOSED: [2021-05-03 Mon 22:14]
 * DONE Remove site title icon
   CLOSED: [2021-05-03 Mon 15:00]
 * DONE Add underline hover style to navbar links  

@@ -25,9 +25,11 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: build_site
         run: |
-          echo Starting build step...
-          sudo snap install emacs --channel=beta --classic
-          snap run emacs -Q --batch -l ./publish.el --funcall my/publish
+          sudo add-apt-repository ppa:kelleyk/emacs
+          sudo apt-get update
+          sudo apt-get install emacs27
+          echo `emacs --version`
+          emacs -Q --batch -l ./publish.el --funcall my/publish
           cp -r site_assets/* public/
       - name: deploy_site
         env:
@@ -35,10 +37,9 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           npm_config_user: "root"
         run: |
-          echo Starting deploy step...
           echo Installing dependencies...
           sudo npm install netlify-cli -g --unsafe-perm=true
-          echo Deploying to netlify...
+          echo Deploying...
           netlify deploy --dir=public --prod
 
 
