@@ -1,6 +1,4 @@
 ;; This is based on David Wilson's publish.el
-;; Author: David Wilson <david@daviwil.com>
-;; Maintainer: David Wilson <david@daviwil.com>
 ;; URL: https://sr.ht/~daviwil/dotfiles
 
 ;; Usage:
@@ -35,6 +33,9 @@
 ;; rss/atom feed
 (use-package webfeeder :ensure t)
 
+;; sanity when working with date and time
+(use-package ts :ensure t)
+
 (require 'ox-publish) ;; publishing system for org-mode
 
 ;; Set site variables
@@ -51,7 +52,7 @@
       org-export-with-sub-superscripts nil
       org-export-with-tags 'not-in-toc
       org-export-date-timestamp-format "Y-%m-%d %H:%M %p"
-      org-export-with-toc t) ;; toc = table of contents
+      org-export-with-toc nil)
 
 (setq make-backup-files nil)
 
@@ -150,11 +151,11 @@
                                 ,(org-export-data (plist-get info :title) info))
                             (div (@ (class "note-meta"))
                                  ,(when (plist-get info :date)
-                                    `(p (@ (class "note-created"))
-                                        ,(format "Created on: %s" (org-export-data (org-export-get-date info "%B %e, %Y") info))))
+                                    `(p (@ (class "note-created uk-article-meta"))
+                                        ,(format "Created on: %s" (ts-format "%B %e, %Y" (ts-parse (org-export-data (plist-get info :date) info))))))
                                  ,(when (plist-get info :updated)
-                                    `(p (@ (class "note-updated"))
-                                        ,(format "Last updated on: %s" (plist-get info :updated))))
+                                    `(p (@ (class "note-updated uk-article-meta"))
+                                        ,(format "Updated on: %s" (ts-format "%B %e, %Y" (ts-parse (plist-get info :updated))))))
                                  ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
                                     (when (and tags (> (length tags) 0))
                                       `(p (@ (class "blog-post-tags"))
@@ -247,7 +248,7 @@
        (format "</%s>" (cl-subseq container 0 (cl-search " " container)))))))
 
 (org-export-define-derived-backend 'site-html ;; Create a new back-end as a variant of an existing one.
-    'slimhtml
+    'html
   :translate-alist ;; These are override functions for various org elements.
   '((template . my/org-html-template)
     (link . my/org-html-link)
@@ -271,6 +272,10 @@
                                           "html"))
                           plist
                           article-path))))
+
+(defun my/org-html-table (table contents info)
+  (print table)
+  (print (org-export-data (org-element-property :begin table) info)))
 
 (defun my/sitemap-format-entry (entry style project)
   "Formats sitemap entry <date> <title> (<tags>). Returns a list containing the

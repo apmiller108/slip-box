@@ -54,3 +54,16 @@ pre {
   color: #fff8dc;
   background-color: #1c1c1c;
 }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.5rem;
+}
+
+.note-created, .note-updated {
+  margin: 0;
+}

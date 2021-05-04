@@ -1,8 +1,11 @@
 #+title: Publishing notes
 
-* TODO Include org-roam backlinks in each note
+* Include org-roam backlinks in each note
   - https://doubleloop.net/2020/08/21/how-publish-org-roam-wiki-org-publish/
   - https://gitlab.com/ngm/commonplace/-/blob/master/publish.el#L176-190
+
+  This would involve querying against the sql-lite database which creates too
+  much complexity in the build process to make this worth it.
 * DONE Fix non-responsive navbar
   CLOSED: [2021-05-03 Mon 15:58]
 * DONE Fix broken links in notes on production builds
@@ -28,8 +31,14 @@
 * TODO Add order by date created on index page
 * TODO Add order by title on index page
 * TODO Look into using Uikit description list for note meta data
-* TODO Figure out why tables don't export to HTML  
+* DONE Figure out why tables don't export to HTML
+  CLOSED: [2021-05-04 Tue 15:46]
+* TODO Enable TOC and customize TOC
+  - Fix target links
 * TODO Document the publish.el
 
 
-* Things picked up along that way that might be worth documenting - https://stackoverflow.com/a/2701743/5974855 - https://org-roam.discourse.group/t/update-a-field-last-modified-at-save/321/19
+* Things picked up along that way that might be worth documenting
+  
+  - https://stackoverflow.com/a/2701743/5974855
+  - https://org-roam.discourse.group/t/update-a-field-last-modified-at-save/321/19

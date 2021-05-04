@@ -10,6 +10,7 @@
 <span><a href=/?=magit>magit</a></span>
 <span><a href=/?=mocha>mocha</a></span>
 <span><a href=/?=mssql>mssql</a></span>
+<span><a href=/?=npm>npm</a></span>
 <span><a href=/?=org-agenda>org-agenda</a></span>
 <span><a href=/?=org-mode>org-mode</a></span>
 <span><a href=/?=org-roam>org-roam</a></span>
@@ -39,7 +40,7 @@
 <li><div data-date="2021-02-14" data-tags="[org-mode, emacs]"><span class="sitemap-entry-date">2021-02-14</span> <a href=/20210214104302-org_mode_export_settings>Org-mode Export Settings</a> <span class="sitemap-entry-tags">(org-mode, emacs)</span></div></li>
 <li><div data-date="2021-03-26" data-tags="[org-mode]"><span class="sitemap-entry-date">2021-03-26</span> <a href=/20210326124530-org_mode_basics>Org-mode basics</a> <span class="sitemap-entry-tags">(org-mode)</span></div></li>
 <li><div data-date="2021-04-14" data-tags="[org-mode, emacs]"><span class="sitemap-entry-date">2021-04-14</span> <a href=/20210414210731-org_mode_publishing>Org-mode publishing</a> <span class="sitemap-entry-tags">(org-mode, emacs)</span></div></li>
-<li><div data-date="2021-02-13" data-tags="[org-roam, org-mode, emacs]"><span class="sitemap-entry-date">2021-02-13</span> <a href=/20210213184252-org_roam_cheatsheet>Org-roam Cheatsheet</a> <span class="sitemap-entry-tags">(org-roam, org-mode, emacs)</span></div></li>
+<li><div data-date="2021-02-13" data-tags="[org-roam, org-mode, emacs]"><span class="sitemap-entry-date">2021-02-13</span> <a href=/20210213184252-org_roam>Org-roam</a> <span class="sitemap-entry-tags">(org-roam, org-mode, emacs)</span></div></li>
 <li><div data-date="2021-04-08" data-tags="[emacs, elisp]"><span class="sitemap-entry-date">2021-04-08</span> <a href=/20210408090222-overriding_package_functions_in_emacs>Overriding package functions in emacs</a> <span class="sitemap-entry-tags">(emacs, elisp)</span></div></li>
 <li><div data-date="2021-03-31" data-tags="[plantuml]"><span class="sitemap-entry-date">2021-03-31</span> <a href=/20210331084615-plantuml>Plantuml</a> <span class="sitemap-entry-tags">(plantuml)</span></div></li>
 <li><div data-date="2021-02-12" data-tags="[org-mode, plantuml, emacs]"><span class="sitemap-entry-date">2021-02-12</span> <a href=/20210212204557-plantuml_with_org_mode>Plantuml with org-mode</a> <span class="sitemap-entry-tags">(org-mode, plantuml, emacs)</span></div></li>
@@ -54,6 +55,6 @@
 <li><div data-date="2021-03-25" data-tags="[security]"><span class="sitemap-entry-date">2021-03-25</span> <a href=/20210325084112-web_security_resources>Web security resources</a> <span class="sitemap-entry-tags">(security)</span></div></li>
 <li><div data-date="2021-03-03" data-tags="[capybara, ruby]"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303144927-capybara_window_management>capybara window management</a> <span class="sitemap-entry-tags">(capybara, ruby)</span></div></li>
 <li><div data-date="2021-03-03" data-tags="[sql, mssql]"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303143037-mssql_data_migration_with_rollback>mssql data migration with rollback</a> <span class="sitemap-entry-tags">(sql, mssql)</span></div></li>
-<li><div data-date="2021-05-04" data-tags="[]"><span class="sitemap-entry-date">2021-05-04</span> <a href=/20210504091420-npm_install_and_permissions>npm install and permissions</a></div></li>
+<li><div data-date="2021-05-04" data-tags="[npm, javascript]"><span class="sitemap-entry-date">2021-05-04</span> <a href=/20210504091420-npm_install_and_permissions>npm install and permissions</a> <span class="sitemap-entry-tags">(npm, javascript)</span></div></li>
 <li><div data-date="2021-02-12" data-tags="[pandoc, org-mode]"><span class="sitemap-entry-date">2021-02-12</span> <a href=/20210212195651-pandoc>pandoc</a> <span class="sitemap-entry-tags">(pandoc, org-mode)</span></div></li></ul>
 #+END_EXPORT
