@@ -2,34 +2,33 @@
 #+date: 2021-04-09 08:27 AM
 #+roam_tags: spacemacs magit git
 
-* Magit
-  [[https://magit.vc/][Magit]] is the central component to this layer. Learning how to use it is key.
+[[https://magit.vc/][Magit]] is the central component to this layer. Learning how to use it is key.
 
-  Some useful commands listed here, but mostly it's easy to discover what you
-  can do by pressing ~?~ while in a Magit buffer. Change
+Some useful commands listed here, but mostly it's easy to discover what you
+can do by pressing ~?~ while in a Magit buffer. Change
 
-  | Key       | Command                   | Notes                                   |
-  |-----------+---------------------------+-----------------------------------------|
-  | ~SPC g L~ | ~magit-list-repositories~ | Requires ~magit-repository-directories~ |
-  | ~SPC g s~ | ~magit-status~            | Press ~?~ for menu.                     |
+| Key       | Command                   | Notes                                   |
+|-----------+---------------------------+-----------------------------------------|
+| ~SPC g L~ | ~magit-list-repositories~ | Requires ~magit-repository-directories~ |
+| ~SPC g s~ | ~magit-status~            | Press ~?~ for menu.                     |
 
-  - Unmerged commits will show at the top of the git status screen.
-    
-** Rebasing
-   Only a few things in Magit are not intuitive. Rebasing is one of them.
+- Unmerged commits will show at the top of the git status screen.
 
-*** Interactive with ~-i~ flag
-   - ~r -i~ starts an interactive rebase
-   - Choose what to rebase onto (tip you're not limited to the options presented
-     and can override this with whatever you want like ~HEAD~2~ or something)
-   - Nagivate up and down and press the letter corresponding to the action (eg
-     ~s~ to squash)
-   - ~C-c C-c~ to commit and proceed to the next prompt or finish.
+* Rebasing
+ Only a few things in Magit are not intuitive. Rebasing is one of them.
 
-*** Interactive
-    - ~r i~
-    - Navigate to the commit from which you want to start the rebase.
-    - ~C-c C-c~
-    - Navigate up and down and press the letter corresponding to the action (eg
-      ~s~ to squash)
-    - ~C-c C-c~ to commit and proceed to the next prompt or finish.
+** Interactive with ~-i~ flag
+ - ~r -i~ starts an interactive rebase
+ - Choose what to rebase onto (tip you're not limited to the options presented
+   and can override this with whatever you want like ~HEAD~2~ or something)
+ - Nagivate up and down and press the letter corresponding to the action (eg
+   ~s~ to squash)
+ - ~C-c C-c~ to commit and proceed to the next prompt or finish.
+
+** Interactive
+ - ~r i~
+ - Navigate to the commit from which you want to start the rebase.
+ - ~C-c C-c~
+ - Navigate up and down and press the letter corresponding to the action (eg
+   ~s~ to squash)
+ - ~C-c C-c~ to commit and proceed to the next prompt or finish.

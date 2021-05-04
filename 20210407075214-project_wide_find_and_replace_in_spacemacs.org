@@ -2,26 +2,20 @@
 #+date: 2021-04-07 07:52 AM
 #+roam_tags: spacemacs emacs
 
-* Project-wide find and replace in Spacemacs
-
-** Projectile
-   See [[file:20210402135722-projectile.org][Projectile]] notes for more on this package.
+* Projectile
+  - See [[file:20210402135722-projectile.org][Projectile]] notes for more on this package.
+  - See [[https://stackoverflow.com/a/50843675/5974855][my StackOverflow question on this]].
    
-   See [[https://stackoverflow.com/a/50843675/5974855][my StackOverflow question on this]].
-   
-   ~projectile-replace~
-   #+begin_quote
-    Runs interactive query-replace on all files in the projects.
-   #+end_quote
+  ~projectile-replace~
+  - Runs interactive query-replace on all files in the projects.
+  - See [[https://docs.projectile.mx/projectile/usage.html#interactive-commands][Projectile docs on interactive commands]].
 
-   See [[https://docs.projectile.mx/projectile/usage.html#interactive-commands][Projectile docs on interactive commands]].
-
-   - Use ~SPC p R~
-   - Use ~SPC f S~ (~evil-write-all~) to save the buffers.
+  In spacemacs:
+  - Use ~SPC p R~
+  - Then ~SPC f S~ (~evil-write-all~) to save the buffers.
     
-** Helm-ag
-   - ~SPC s p~
-   - ~C-c C-e~ (~helm-ag-edit~)
-   - ~SPC s e~ (~iedit-mode~)
-   - ~C-c C-c~ to commit that changes
-
+* Helm-ag
+  - ~SPC s p~
+  - ~C-c C-e~ (~helm-ag-edit~)
+  - ~SPC s e~ (~iedit-mode~)
+  - ~C-c C-c~ to commit that changes

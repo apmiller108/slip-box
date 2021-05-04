@@ -2,19 +2,15 @@
 #+date: 2021-03-03 14:49 PM
 #+roam_tags: capybara ruby
 
-* Capybara window management
-  
-  [[https://stackoverflow.com/a/25093517/5974855][SO Answer]]
+See this [[https://stackoverflow.com/a/25093517/5974855][SO Answer]]
 
+- ~window_opened_by~ method with block passed that contains the action that
+  will open a new browser window.
+- ~within_window~ the switch to a window context to run expections
 
-  - ~window_opened_by~ method with block passed that contains the action that
-    will open a new browser window.
-  - ~within_window~ the switch to a window context to run expections
-    
-  #+begin_src ruby
-  new_window = window_opened_by { click_link 'will open a new window' }
-  within_window new_window do
-    expect(page).to have_current_path '/new/window/url'
-  end
-  #+end_src
-
+#+begin_src ruby -n
+new_window = window_opened_by { click_link 'will open a new window' }
+within_window new_window do
+  expect(page).to have_current_path '/new/window/url'
+end
+#+end_src

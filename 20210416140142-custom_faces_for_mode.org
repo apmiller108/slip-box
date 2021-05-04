@@ -1,12 +1,11 @@
 #+title: Custom faces for mode
 #+date: 2021-04-16 14:01 PM
-#+updated: 2021-05-04 10:33 AM
+#+updated: 2021-05-04 11:13 AM
 #+roam_tags: emacs
 
 I don't like how the ~dakrone~ theme colors the ~org-level-3~ face. It's the same
 color as a link. One way to solve it is to create a custom function that
 changes the face and add it to the ~org-mode-hook~.
-
 
 #+begin_src elisp -n
   (defun my/org-mode-faces ()

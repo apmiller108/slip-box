@@ -2,13 +2,14 @@
 #+date: 2021-03-01 08:03 AM
 #+roam_tags: testing javascript mocha
 
-TL'DR
-- All befores run first in nested order
-- Then all beforeEaches run in nested order
+* TL'DR
+  - All ~before~ block run first in top down order
+  - Then all ~beforeEach~ blocks run in top down order
 
+* Example    
 From [[https://gist.github.com/harto/c97d2fc9d0bfaf20706eb2acbf48c908][before.js gist]]:
 
-#+begin_src javascript
+#+begin_src javascript -n
 'use strict';
 
 describe('mocha before hooks', function () {

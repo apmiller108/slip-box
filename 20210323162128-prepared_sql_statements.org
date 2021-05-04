@@ -1,16 +1,17 @@
 #+title: Prepared SQL statements
 #+date: 2021-03-23 16:21 PM
+#+updated: 2021-05-04 11:01 AM
 #+roam_tags: postgres sql 
 
-* Prepared SQL Statements / Parameterized Query
-  [[https://www.postgresql.org/docs/13/sql-prepare.html][Postgres PREPARE]]
-  
-  #+begin_src
+aka Parameterized Query
+
+  #+begin_src sql -n
     PREPARE foo(int) AS
       SELECT * FROM users where id = $1;
     EXECUTE foo(1);
     DEALLOCATE foo;
   #+end_src
 
-  - Prepared statements only last for the duration of the current database
-    session, but can be cleaned up manually with ~DEALLOCATE~
+- Prepared statements only last for the duration of the current database
+  session, but can be cleaned up manually with ~DEALLOCATE~
+- See [[https://www.postgresql.org/docs/13/sql-prepare.html][Postgres PREPARE]]

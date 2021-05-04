@@ -1,8 +1,9 @@
 #+title: Git hooks
 #+date: 2021-03-23 14:34 PM
+#+updated: 2021-05-04 10:59 AM
 #+roam_tags: git
 
-* Git Hooks
+* The basics
   [[https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks][Git hooks documentation]]
   
   Add executable file to ~.git/hooks/~ named by the hook you want.

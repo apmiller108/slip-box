@@ -1,6 +1,8 @@
 #+title: npm install and permissions
 #+date: 2021-05-04 09:14 AM
-#+updated: 2021-05-04 09:46 AM
+#+updated: 2021-05-04 11:14 AM
+#+roam_tags: npm javascript
+
 
 * The problem
   While working on the [[https://github.com/apmiller108/slip-box/blob/main/.github/workflows/main.yml][CI script]] for [[https://note.alex-miller.co][notes.alex-mille.co]], I ran into a permissions

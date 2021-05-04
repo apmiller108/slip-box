@@ -1,5 +1,6 @@
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
+#+updated: 2021-05-04 11:06 AM
 #+roam_tags: emacs
 
 This is just a dump or random things I've learned how to do in Emacs but will

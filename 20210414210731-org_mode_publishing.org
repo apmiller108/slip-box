@@ -1,5 +1,6 @@
 #+title: Org-mode publishing
 #+date: 2021-04-14 21:07 PM
+#+updated: 2021-05-04 11:13 AM
 #+roam_tags: org-mode emacs
 #+page-type: note
 
@@ -137,4 +138,5 @@
     #+end_src
   - Check out [[https://github.com/gongzhitaao/orgcss][Org css]] for more on this.
   - Use the ~-n~ flag on the source block to show line numbers. (eg,
-    ~#+begin_src ruby -n~)
+    ~#+begin_src ruby -n~). Use ~+n~ to have the numbers continue to increment
+    from the previous block.

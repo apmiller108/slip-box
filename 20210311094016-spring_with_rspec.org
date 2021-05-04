@@ -2,7 +2,7 @@
 #+date: 2021-03-11 09:40 AM
 #+roam_tags: spring rspec ruby
 
-* With docker images build for a different environment
+* With docker images built for a different environment
   Consider this a case where you can't immediately use gems in the ~group :development~
   You might have a ~/bundle/config~ file that looks like:
   

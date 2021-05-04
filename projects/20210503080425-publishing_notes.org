@@ -27,7 +27,8 @@
 * TODO Handle tag filtering on index page from navigation with query param
 * TODO Add order by date created on index page
 * TODO Add order by title on index page
-* TODO Look into using Uikit description list for note meta data  
+* TODO Look into using Uikit description list for note meta data
+* TODO Figure out why tables don't export to HTML  
 * TODO Document the publish.el
 
 

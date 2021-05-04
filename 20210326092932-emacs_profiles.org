@@ -2,9 +2,11 @@
 #+date: 2021-03-26 09:29 AM
 #+roam_tags: emacs
 
-* Emacs profiles
-  Use [[https://github.com/plexus/chemacs2][Chemacs2]]. Just follow the instructions in the README.md. It's really easy.
+Have side-by-side emacs configurations. For example I have spacemacs, doom and
+vanilla emacs. Use [[https://github.com/plexus/chemacs2][Chemacs2]]. Just follow the instructions in the README.md.
+It's really easy.
 
+* My profile configuration
   Example ~.emacs-profiles.el~
 
   #+begin_src emacs-lisp
@@ -25,5 +27,3 @@
       alias spacemacs="spacemacsbg && spacemacsc"
       alias spacemacskill="emacsclient --socket-name=spacemacs -e '(kill-emacs)'"
     #+end_src
-  
- 

@@ -1,4 +1,4 @@
-#+title: Org-roam Cheatsheet
+#+title: Org-roam
 #+date: 2021-02-13 18:43 PM
 #+roam_alias: "Org-roam stuff"
 #+roam_tags: org-roam org-mode emacs
