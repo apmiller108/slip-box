@@ -7,29 +7,29 @@
   - Then all ~beforeEach~ blocks run in top down order
 
 * Example    
-From [[https://gist.github.com/harto/c97d2fc9d0bfaf20706eb2acbf48c908][before.js gist]]:
+This is from [[https://gist.github.com/harto/c97d2fc9d0bfaf20706eb2acbf48c908][before.js gist]]:
 
 #+begin_src javascript -n
-'use strict';
+  describe('mocha before hooks', function () {
+    before(() => console.log('*** top-level before()'));
+    beforeEach(() => console.log('*** top-level beforeEach()'));
+    describe('nesting', function () {
+      before(() => console.log('*** nested before()'));
+      beforeEach(() => console.log('*** nested beforeEach()'));
+      it('is a nested spec', () => true);
+    });
+  });
+#+end_src
 
-describe('mocha before hooks', function () {
-	before(() => console.log('*** top-level before()'));
-	beforeEach(() => console.log('*** top-level beforeEach()'));
-	describe('nesting', function () {
-		before(() => console.log('*** nested before()'));
-		beforeEach(() => console.log('*** nested beforeEach()'));
-		it('is a nested spec', () => true);
-	});
-});
+#+begin_src
+   mocha before hooks
+ *** top-level before()
+     nesting
+ *** nested before()
+ *** top-level beforeEach()
+ *** nested beforeEach()
+       ✓ is a nested spec
 
-//   mocha before hooks
-// *** top-level before()
-//     nesting
-// *** nested before()
-// *** top-level beforeEach()
-// *** nested beforeEach()
-//       ✓ is a nested spec
-//
-//
-//   1 passing (8ms)
+
+   1 passing (8ms)
 #+end_src
