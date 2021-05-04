@@ -1,60 +1,65 @@
 #+TITLE: Notes Index
 
 #+BEGIN_EXPORT html
-<div class="tags"><span><a href=/?=capybara>capybara</a></span>
-<span><a href=/?=docker>docker</a></span>
-<span><a href=/?=elisp>elisp</a></span>
-<span><a href=/?=emacs>emacs</a></span>
-<span><a href=/?=git>git</a></span>
-<span><a href=/?=javascript>javascript</a></span>
-<span><a href=/?=magit>magit</a></span>
-<span><a href=/?=mocha>mocha</a></span>
-<span><a href=/?=mssql>mssql</a></span>
-<span><a href=/?=npm>npm</a></span>
-<span><a href=/?=org-agenda>org-agenda</a></span>
-<span><a href=/?=org-mode>org-mode</a></span>
-<span><a href=/?=org-roam>org-roam</a></span>
-<span><a href=/?=pandoc>pandoc</a></span>
-<span><a href=/?=plantuml>plantuml</a></span>
-<span><a href=/?=postgres>postgres</a></span>
-<span><a href=/?=robe>robe</a></span>
-<span><a href=/?=rspec>rspec</a></span>
-<span><a href=/?=ruby>ruby</a></span>
-<span><a href=/?=ruby-mode>ruby-mode</a></span>
-<span><a href=/?=security>security</a></span>
-<span><a href=/?=shell>shell</a></span>
-<span><a href=/?=spacemacs>spacemacs</a></span>
-<span><a href=/?=spring>spring</a></span>
-<span><a href=/?=sql>sql</a></span>
-<span><a href=/?=testing>testing</a></span>
-<span><a href=/?=web-development>web-development</a></span></div><ul class="sitemap-entries uk-list uk-list-disc uk-list-emphasis"><li><div data-date="2021-04-16" data-tags="[emacs]"><span class="sitemap-entry-date">2021-04-16</span> <a href=/20210416140142-custom_faces_for_mode>Custom faces for mode</a> <span class="sitemap-entry-tags">(emacs)</span></div></li>
-<li><div data-date="2021-03-28" data-tags="[emacs]"><span class="sitemap-entry-date">2021-03-28</span> <a href=/20210328183203-emacs_cheatsheet>Emacs cheatsheet</a> <span class="sitemap-entry-tags">(emacs)</span></div></li>
-<li><div data-date="2021-03-26" data-tags="[emacs]"><span class="sitemap-entry-date">2021-03-26</span> <a href=/20210326092932-emacs_profiles>Emacs profiles</a> <span class="sitemap-entry-tags">(emacs)</span></div></li>
-<li><div data-date="2021-04-01" data-tags="[emacs, spacemacs]"><span class="sitemap-entry-date">2021-04-01</span> <a href=/20210401083839-evil_surround>Evil-surround</a> <span class="sitemap-entry-tags">(emacs, spacemacs)</span></div></li>
-<li><div data-date="2021-03-23" data-tags="[git]"><span class="sitemap-entry-date">2021-03-23</span> <a href=/20210323143404-git_hooks>Git hooks</a> <span class="sitemap-entry-tags">(git)</span></div></li>
-<li><div data-date="2021-04-09" data-tags="[spacemacs, magit, git]"><span class="sitemap-entry-date">2021-04-09</span> <a href=/20210409082725-git_layer_in_spacemacs>Git layer in Spacemacs</a> <span class="sitemap-entry-tags">(spacemacs, magit, git)</span></div></li>
-<li><div data-date="2021-04-06" data-tags="[web-development, security]"><span class="sitemap-entry-date">2021-04-06</span> <a href=/20210406092859-http_cookies>HTTP Cookies</a> <span class="sitemap-entry-tags">(web-development, security)</span></div></li>
-<li><div data-date="2021-04-06" data-tags="[spacemacs, emacs]"><span class="sitemap-entry-date">2021-04-06</span> <a href=/20210406180044-helm>Helm</a> <span class="sitemap-entry-tags">(spacemacs, emacs)</span></div></li>
-<li><div data-date="2021-03-01" data-tags="[testing, javascript, mocha]"><span class="sitemap-entry-date">2021-03-01</span> <a href=/20210301080337-mocha_before_callbacks>Mocha before callbacks</a> <span class="sitemap-entry-tags">(testing, javascript, mocha)</span></div></li>
-<li><div data-date="2021-03-29" data-tags="[org-agenda, org-mode]"><span class="sitemap-entry-date">2021-03-29</span> <a href=/20210329202015-org_agenda>Org-agenda</a> <span class="sitemap-entry-tags">(org-agenda, org-mode)</span></div></li>
-<li><div data-date="2021-02-14" data-tags="[org-mode, emacs]"><span class="sitemap-entry-date">2021-02-14</span> <a href=/20210214104302-org_mode_export_settings>Org-mode Export Settings</a> <span class="sitemap-entry-tags">(org-mode, emacs)</span></div></li>
-<li><div data-date="2021-03-26" data-tags="[org-mode]"><span class="sitemap-entry-date">2021-03-26</span> <a href=/20210326124530-org_mode_basics>Org-mode basics</a> <span class="sitemap-entry-tags">(org-mode)</span></div></li>
-<li><div data-date="2021-04-14" data-tags="[org-mode, emacs]"><span class="sitemap-entry-date">2021-04-14</span> <a href=/20210414210731-org_mode_publishing>Org-mode publishing</a> <span class="sitemap-entry-tags">(org-mode, emacs)</span></div></li>
-<li><div data-date="2021-02-13" data-tags="[org-roam, org-mode, emacs]"><span class="sitemap-entry-date">2021-02-13</span> <a href=/20210213184252-org_roam>Org-roam</a> <span class="sitemap-entry-tags">(org-roam, org-mode, emacs)</span></div></li>
-<li><div data-date="2021-04-08" data-tags="[emacs, elisp]"><span class="sitemap-entry-date">2021-04-08</span> <a href=/20210408090222-overriding_package_functions_in_emacs>Overriding package functions in emacs</a> <span class="sitemap-entry-tags">(emacs, elisp)</span></div></li>
-<li><div data-date="2021-03-31" data-tags="[plantuml]"><span class="sitemap-entry-date">2021-03-31</span> <a href=/20210331084615-plantuml>Plantuml</a> <span class="sitemap-entry-tags">(plantuml)</span></div></li>
-<li><div data-date="2021-02-12" data-tags="[org-mode, plantuml, emacs]"><span class="sitemap-entry-date">2021-02-12</span> <a href=/20210212204557-plantuml_with_org_mode>Plantuml with org-mode</a> <span class="sitemap-entry-tags">(org-mode, plantuml, emacs)</span></div></li>
-<li><div data-date="2021-03-23" data-tags="[postgres, sql]"><span class="sitemap-entry-date">2021-03-23</span> <a href=/20210323162128-prepared_sql_statements>Prepared SQL statements</a> <span class="sitemap-entry-tags">(postgres, sql)</span></div></li>
-<li><div data-date="2021-04-07" data-tags="[spacemacs, emacs]"><span class="sitemap-entry-date">2021-04-07</span> <a href=/20210407075214-project_wide_find_and_replace_in_spacemacs>Project-wide find and replace in Spacemacs</a> <span class="sitemap-entry-tags">(spacemacs, emacs)</span></div></li>
-<li><div data-date="2021-04-02" data-tags="[emacs]"><span class="sitemap-entry-date">2021-04-02</span> <a href=/20210402135722-projectile>Projectile</a> <span class="sitemap-entry-tags">(emacs)</span></div></li>
-<li><div data-date="2021-04-23" data-tags="[ruby-mode, emacs]"><span class="sitemap-entry-date">2021-04-23</span> <a href=/20210423082908-ruby_mode_parenthetical_indentation>Ruby-mode parenthetical indentation</a> <span class="sitemap-entry-tags">(ruby-mode, emacs)</span></div></li>
-<li><div data-date="2021-03-05" data-tags="[ruby-mode, spacemacs, docker]"><span class="sitemap-entry-date">2021-03-05</span> <a href=/20210305125833-run_tests_in_docker_for_ruby_mode>Run tests in docker for ruby-mode</a> <span class="sitemap-entry-tags">(ruby-mode, spacemacs, docker)</span></div></li>
-<li><div data-date="2021-03-11" data-tags="[spring, rspec, ruby]"><span class="sitemap-entry-date">2021-03-11</span> <a href=/20210311094016-spring_with_rspec>Spring with RSpec</a> <span class="sitemap-entry-tags">(spring, rspec, ruby)</span></div></li>
-<li><div data-date="2021-03-22" data-tags="[shell]"><span class="sitemap-entry-date">2021-03-22</span> <a href=/20210322114758-upterm>Upterm</a> <span class="sitemap-entry-tags">(shell)</span></div></li>
-<li><div data-date="2021-03-08" data-tags="[robe, emacs]"><span class="sitemap-entry-date">2021-03-08</span> <a href=/20210308094318-using_robe_with_docker>Using robe with docker</a> <span class="sitemap-entry-tags">(robe, emacs)</span></div></li>
-<li><div data-date="2021-03-25" data-tags="[security]"><span class="sitemap-entry-date">2021-03-25</span> <a href=/20210325084112-web_security_resources>Web security resources</a> <span class="sitemap-entry-tags">(security)</span></div></li>
-<li><div data-date="2021-03-03" data-tags="[capybara, ruby]"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303144927-capybara_window_management>capybara window management</a> <span class="sitemap-entry-tags">(capybara, ruby)</span></div></li>
-<li><div data-date="2021-03-03" data-tags="[sql, mssql]"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303143037-mssql_data_migration_with_rollback>mssql data migration with rollback</a> <span class="sitemap-entry-tags">(sql, mssql)</span></div></li>
-<li><div data-date="2021-05-04" data-tags="[npm, javascript]"><span class="sitemap-entry-date">2021-05-04</span> <a href=/20210504091420-npm_install_and_permissions>npm install and permissions</a> <span class="sitemap-entry-tags">(npm, javascript)</span></div></li>
-<li><div data-date="2021-02-12" data-tags="[pandoc, org-mode]"><span class="sitemap-entry-date">2021-02-12</span> <a href=/20210212195651-pandoc>pandoc</a> <span class="sitemap-entry-tags">(pandoc, org-mode)</span></div></li></ul>
+<div uk-filter="target: .js-filter">
+<div class="tags uk-subnav subnav-pill">
+<span uk-filter-control="filter: .capybara"><a href="#">capybara</a></span>
+<span uk-filter-control="filter: .docker"><a href="#">docker</a></span>
+<span uk-filter-control="filter: .elisp"><a href="#">elisp</a></span>
+<span uk-filter-control="filter: .emacs"><a href="#">emacs</a></span>
+<span uk-filter-control="filter: .git"><a href="#">git</a></span>
+<span uk-filter-control="filter: .javascript"><a href="#">javascript</a></span>
+<span uk-filter-control="filter: .magit"><a href="#">magit</a></span>
+<span uk-filter-control="filter: .mocha"><a href="#">mocha</a></span>
+<span uk-filter-control="filter: .mssql"><a href="#">mssql</a></span>
+<span uk-filter-control="filter: .npm"><a href="#">npm</a></span>
+<span uk-filter-control="filter: .org-agenda"><a href="#">org-agenda</a></span>
+<span uk-filter-control="filter: .org-mode"><a href="#">org-mode</a></span>
+<span uk-filter-control="filter: .org-roam"><a href="#">org-roam</a></span>
+<span uk-filter-control="filter: .pandoc"><a href="#">pandoc</a></span>
+<span uk-filter-control="filter: .plantuml"><a href="#">plantuml</a></span>
+<span uk-filter-control="filter: .postgres"><a href="#">postgres</a></span>
+<span uk-filter-control="filter: .robe"><a href="#">robe</a></span>
+<span uk-filter-control="filter: .rspec"><a href="#">rspec</a></span>
+<span uk-filter-control="filter: .ruby"><a href="#">ruby</a></span>
+<span uk-filter-control="filter: .ruby-mode"><a href="#">ruby-mode</a></span>
+<span uk-filter-control="filter: .security"><a href="#">security</a></span>
+<span uk-filter-control="filter: .shell"><a href="#">shell</a></span>
+<span uk-filter-control="filter: .spacemacs"><a href="#">spacemacs</a></span>
+<span uk-filter-control="filter: .spring"><a href="#">spring</a></span>
+<span uk-filter-control="filter: .sql"><a href="#">sql</a></span>
+<span uk-filter-control="filter: .testing"><a href="#">testing</a></span>
+<span uk-filter-control="filter: .web-development"><a href="#">web-development</a></span></div>
+<ul class="sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter">
+<li data-date="2021-04-16" class="emacs"><span class="sitemap-entry-date">2021-04-16</span> <a href=/20210416140142-custom_faces_for_mode>Custom faces for mode</a> <span class="sitemap-entry-tags">(emacs)</span></li>
+<li data-date="2021-03-28" class="emacs"><span class="sitemap-entry-date">2021-03-28</span> <a href=/20210328183203-emacs_cheatsheet>Emacs cheatsheet</a> <span class="sitemap-entry-tags">(emacs)</span></li>
+<li data-date="2021-03-26" class="emacs"><span class="sitemap-entry-date">2021-03-26</span> <a href=/20210326092932-emacs_profiles>Emacs profiles</a> <span class="sitemap-entry-tags">(emacs)</span></li>
+<li data-date="2021-04-01" class="emacs spacemacs"><span class="sitemap-entry-date">2021-04-01</span> <a href=/20210401083839-evil_surround>Evil-surround</a> <span class="sitemap-entry-tags">(emacs, spacemacs)</span></li>
+<li data-date="2021-03-23" class="git"><span class="sitemap-entry-date">2021-03-23</span> <a href=/20210323143404-git_hooks>Git hooks</a> <span class="sitemap-entry-tags">(git)</span></li>
+<li data-date="2021-04-09" class="spacemacs magit git"><span class="sitemap-entry-date">2021-04-09</span> <a href=/20210409082725-git_layer_in_spacemacs>Git layer in Spacemacs</a> <span class="sitemap-entry-tags">(spacemacs, magit, git)</span></li>
+<li data-date="2021-04-06" class="web-development security"><span class="sitemap-entry-date">2021-04-06</span> <a href=/20210406092859-http_cookies>HTTP Cookies</a> <span class="sitemap-entry-tags">(web-development, security)</span></li>
+<li data-date="2021-04-06" class="spacemacs emacs"><span class="sitemap-entry-date">2021-04-06</span> <a href=/20210406180044-helm>Helm</a> <span class="sitemap-entry-tags">(spacemacs, emacs)</span></li>
+<li data-date="2021-03-01" class="testing javascript mocha"><span class="sitemap-entry-date">2021-03-01</span> <a href=/20210301080337-mocha_before_callbacks>Mocha before callbacks</a> <span class="sitemap-entry-tags">(testing, javascript, mocha)</span></li>
+<li data-date="2021-03-29" class="org-agenda org-mode"><span class="sitemap-entry-date">2021-03-29</span> <a href=/20210329202015-org_agenda>Org-agenda</a> <span class="sitemap-entry-tags">(org-agenda, org-mode)</span></li>
+<li data-date="2021-02-14" class="org-mode emacs"><span class="sitemap-entry-date">2021-02-14</span> <a href=/20210214104302-org_mode_export_settings>Org-mode Export Settings</a> <span class="sitemap-entry-tags">(org-mode, emacs)</span></li>
+<li data-date="2021-03-26" class="org-mode"><span class="sitemap-entry-date">2021-03-26</span> <a href=/20210326124530-org_mode_basics>Org-mode basics</a> <span class="sitemap-entry-tags">(org-mode)</span></li>
+<li data-date="2021-04-14" class="org-mode emacs"><span class="sitemap-entry-date">2021-04-14</span> <a href=/20210414210731-org_mode_publishing>Org-mode publishing</a> <span class="sitemap-entry-tags">(org-mode, emacs)</span></li>
+<li data-date="2021-02-13" class="org-roam org-mode emacs"><span class="sitemap-entry-date">2021-02-13</span> <a href=/20210213184252-org_roam>Org-roam</a> <span class="sitemap-entry-tags">(org-roam, org-mode, emacs)</span></li>
+<li data-date="2021-04-08" class="emacs elisp"><span class="sitemap-entry-date">2021-04-08</span> <a href=/20210408090222-overriding_package_functions_in_emacs>Overriding package functions in emacs</a> <span class="sitemap-entry-tags">(emacs, elisp)</span></li>
+<li data-date="2021-03-31" class="plantuml"><span class="sitemap-entry-date">2021-03-31</span> <a href=/20210331084615-plantuml>Plantuml</a> <span class="sitemap-entry-tags">(plantuml)</span></li>
+<li data-date="2021-02-12" class="org-mode plantuml emacs"><span class="sitemap-entry-date">2021-02-12</span> <a href=/20210212204557-plantuml_with_org_mode>Plantuml with org-mode</a> <span class="sitemap-entry-tags">(org-mode, plantuml, emacs)</span></li>
+<li data-date="2021-03-23" class="postgres sql"><span class="sitemap-entry-date">2021-03-23</span> <a href=/20210323162128-prepared_sql_statements>Prepared SQL statements</a> <span class="sitemap-entry-tags">(postgres, sql)</span></li>
+<li data-date="2021-04-07" class="spacemacs emacs"><span class="sitemap-entry-date">2021-04-07</span> <a href=/20210407075214-project_wide_find_and_replace_in_spacemacs>Project-wide find and replace in Spacemacs</a> <span class="sitemap-entry-tags">(spacemacs, emacs)</span></li>
+<li data-date="2021-04-02" class="emacs"><span class="sitemap-entry-date">2021-04-02</span> <a href=/20210402135722-projectile>Projectile</a> <span class="sitemap-entry-tags">(emacs)</span></li>
+<li data-date="2021-04-23" class="ruby-mode emacs"><span class="sitemap-entry-date">2021-04-23</span> <a href=/20210423082908-ruby_mode_parenthetical_indentation>Ruby-mode parenthetical indentation</a> <span class="sitemap-entry-tags">(ruby-mode, emacs)</span></li>
+<li data-date="2021-03-05" class="ruby-mode spacemacs docker"><span class="sitemap-entry-date">2021-03-05</span> <a href=/20210305125833-run_tests_in_docker_for_ruby_mode>Run tests in docker for ruby-mode</a> <span class="sitemap-entry-tags">(ruby-mode, spacemacs, docker)</span></li>
+<li data-date="2021-03-11" class="spring rspec ruby"><span class="sitemap-entry-date">2021-03-11</span> <a href=/20210311094016-spring_with_rspec>Spring with RSpec</a> <span class="sitemap-entry-tags">(spring, rspec, ruby)</span></li>
+<li data-date="2021-03-22" class="shell"><span class="sitemap-entry-date">2021-03-22</span> <a href=/20210322114758-upterm>Upterm</a> <span class="sitemap-entry-tags">(shell)</span></li>
+<li data-date="2021-03-08" class="robe emacs"><span class="sitemap-entry-date">2021-03-08</span> <a href=/20210308094318-using_robe_with_docker>Using robe with docker</a> <span class="sitemap-entry-tags">(robe, emacs)</span></li>
+<li data-date="2021-03-25" class="security"><span class="sitemap-entry-date">2021-03-25</span> <a href=/20210325084112-web_security_resources>Web security resources</a> <span class="sitemap-entry-tags">(security)</span></li>
+<li data-date="2021-03-03" class="capybara ruby"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303144927-capybara_window_management>capybara window management</a> <span class="sitemap-entry-tags">(capybara, ruby)</span></li>
+<li data-date="2021-03-03" class="sql mssql"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303143037-mssql_data_migration_with_rollback>mssql data migration with rollback</a> <span class="sitemap-entry-tags">(sql, mssql)</span></li>
+<li data-date="2021-05-04" class="npm javascript"><span class="sitemap-entry-date">2021-05-04</span> <a href=/20210504091420-npm_install_and_permissions>npm install and permissions</a> <span class="sitemap-entry-tags">(npm, javascript)</span></li>
+<li data-date="2021-02-12" class="pandoc org-mode"><span class="sitemap-entry-date">2021-02-12</span> <a href=/20210212195651-pandoc>pandoc</a> <span class="sitemap-entry-tags">(pandoc, org-mode)</span></li></ul>
+</div>
 #+END_EXPORT

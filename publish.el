@@ -286,7 +286,7 @@
                                           (format "%s" (nth 0 (org-publish-find-property entry :date project))))))
          (entry
           (concat
-           (format "<div data-date=\"%s\" data-tags=\"[%s]\">" created-at (mapconcat (lambda (tag) tag) roam-tags ", "))
+           (format "<li data-date=\"%s\" class=\"%s\">" created-at (mapconcat (lambda (tag) tag) roam-tags " "))
            (format "<span class=\"sitemap-entry-date\">%s</span>" created-at)
            (format " <a href=/%s>%s</a>"
                    (file-name-sans-extension entry)
@@ -295,7 +295,7 @@
                (concat " <span class=\"sitemap-entry-tags\">("
                        (mapconcat (lambda (tag) tag) roam-tags ", ")
                        ")</span>"))
-           "</div>")))
+           "</li>")))
     (list entry roam-tags)))
 
 (defun my/sitemap (title list)
@@ -310,16 +310,19 @@
      "#+TITLE: " title "\n\n"
      "#+BEGIN_EXPORT html\n"
      (concat
-      "<div class=\"tags\">"
-      (mapconcat (lambda (item) (format "<span><a href=/?=%s>%s</a></span>" item item))
+      "<div uk-filter=\"target: .js-filter\">\n"
+      "<div class=\"tags uk-subnav subnav-pill\">\n"
+      (mapconcat (lambda (item) (format "<span uk-filter-control=\"filter: .%s\"><a href=\"#\">%s</a></span>" item item))
                  unique-tags
                  "\n")
-      "</div>"
-      "<ul class=\"sitemap-entries uk-list uk-list-disc uk-list-emphasis\">"
-      (mapconcat (lambda (item) (format "<li>%s</li>" (car (car item))))
+      "</div>\n"
+      "<ul class=\"sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter\">\n"
+      (mapconcat (lambda (item) (car (car item)))
                  (cdr list)
                  "\n")
-      "</ul>")
+      "</ul>\n"
+      "</div>"
+      )
      "\n#+END_EXPORT\n")))
 
 (setq org-html-preamble  #'my/site-header
