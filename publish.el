@@ -182,9 +182,10 @@
   (when (and (string= 'file (org-element-property :type link))
              (string= "org" (file-name-extension (org-element-property :path link))))
     (org-element-put-property link :path
-                              (downcase
-                               (file-name-sans-extension
-                                (org-element-property :path link)))))
+                              (concat "/"
+                                      (downcase
+                                       (file-name-sans-extension
+                                        (org-element-property :path link))))))
 
   (if (and (string= 'file (org-element-property :type link))
            (file-name-extension (org-element-property :path link))
@@ -192,7 +193,7 @@
                          (file-name-extension
                           (org-element-property :path link)))
            (equal contents nil))
-      (format "<img src=%s >" (org-element-property :path link))
+      (format "<img src=/%s >" (org-element-property :path link))
     (if (and (equal contents nil)
              (or (not (file-name-extension (org-element-property :path link)))
                  (and (file-name-extension (org-element-property :path link))
