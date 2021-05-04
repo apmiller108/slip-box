@@ -136,3 +136,5 @@
                 (href "/css/code.css")))
     #+end_src
   - Check out [[https://github.com/gongzhitaao/orgcss][Org css]] for more on this.
+  - Use the ~-n~ flag on the source block to show line numbers. (eg,
+    ~#+begin_src ruby -n~)
