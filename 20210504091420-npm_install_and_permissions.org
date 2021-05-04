@@ -1,0 +1,48 @@
+#+title: npm install and permissions
+#+date: 2021-05-04 09:14 AM
+#+updated: 2021-05-04 09:46 AM
+
+* The problem
+  While working on the [[https://github.com/apmiller108/slip-box/blob/main/.github/workflows/main.yml][CI script]] for [[https://note.alex-miller.co][notes.alex-mille.co]], I ran into a permissions
+  problem when installing the [[https://cli.netlify.com/][netlify-cli]].
+
+  #+begin_src shell
+    sudo npm install netlify-cli -g
+  #+end_src
+
+  #+begin_src
+    > esbuild@0.11.18 postinstall /usr/local/lib/node_modules/netlify-cli/node_modules/esbuild
+    > node install.js
+
+    Trying to install "esbuild-linux-64" using npm
+    Failed to install "esbuild-linux-64" using npm: EACCES: permission denied, mkdir '/usr/local/lib/node_modules/netlify-cli/node_modules/esbuild/esbuild-pwn6zf0scfg'
+    Trying to download "https://registry.npmjs.org/esbuild-linux-64/-/esbuild-linux-64-0.11.18.tgz"
+    /usr/local/lib/node_modules/netlify-cli/node_modules/esbuild/install.js:195
+          throw e;
+          ^
+
+    Error: EACCES: permission denied, open '/usr/local/lib/node_modules/netlify-cli/node_modules/esbuild/bin/esbuild__'
+        at Object.openSync (fs.js:476:3)
+        at Object.writeFileSync (fs.js:1467:35)
+        at installBinaryFromPackage (/usr/local/lib/node_modules/netlify-cli/node_modules/esbuild/install.js:58:6)
+        at processTicksAndRejections (internal/process/task_queues.js:93:5) {
+      errno: -13,
+      syscall: 'open',
+      code: 'EACCES',
+      path: '/usr/local/lib/node_modules/netlify-cli/node_modules/esbuild/bin/esbuild__'
+    }
+  #+end_src
+
+  So it looks like the error is being thrown from a postinstall script for ~esbuild~.
+
+* The solution
+  Make the npm scripts run in the same context as the originally command (ie,
+  no user switching). To do this use the ~--unsafe-perm~ flag.
+
+  #+begin_src shell
+    sudo npm install netlify-cli -g --unsafe-perm=true
+  #+end_src
+
+  See these posts for more details:
+  - [[https://stackoverflow.com/a/49085422/5974855][StackOverflow post]]
+  - [[https://geedew.com/What-does-unsafe-perm-in-npm-actually-do/][@geedew's blog post What does unsafe-perm in npm actually do?]]
