@@ -3,7 +3,6 @@
 body {
   font-family: 'Roboto', sans-serif;
   /* color: #fff8dc; */
-  /* background-color: #1c1c1c; */
 }
 
 nav {
@@ -49,4 +48,9 @@ a:hover {
 
 .nav-link:hover {
   text-decoration: underline;
+}
+
+pre {
+  color: #fff8dc;
+  background-color: #1c1c1c;
 }
