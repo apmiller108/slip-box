@@ -51,8 +51,7 @@
       org-export-with-smart-quotes t ;; improves the look of quotations
       org-export-with-sub-superscripts nil
       org-export-with-tags 'not-in-toc
-      org-export-date-timestamp-format "Y-%m-%d %H:%M %p"
-      org-export-with-toc nil)
+      org-export-date-timestamp-format "Y-%m-%d %H:%M %p")
 
 (setq make-backup-files nil)
 
@@ -232,7 +231,7 @@
      (when (and container (not (string= "" container)))
        (format "<%s%s>" container (if container-class (format " class=\"%s\"" container-class) "")))
      (if (not (org-export-low-level-p headline info))
-         (format "<h%d%s><a id=\"%s\" class=\"anchor\" href=\"#%s\">¶</a>%s</h%d>%s"
+         (format "<h%d%s><a id=\"%s\" class=\"anchor\" href=\"#%s\"><i># </i></a>%s</h%d>%s"
                  level
                  (or attributes "")
                  anchor-name
@@ -262,6 +261,9 @@
 
 (defun my/org-html-publish-to-html (plist filename pub-dir)
   "Publish an org file to HTML, using the FILENAME as the output directory."
+  (with-current-buffer (find-file filename) ;; Add TOC if more than 3 headlines
+    (when (> (length (org-map-entries t)) 3)
+      (insert "#+OPTIONS: toc:t\n")))
   (let ((article-path (get-article-output-path filename pub-dir)))
     (cl-letf (((symbol-function 'org-export-output-file-name)
                (lambda (extension &optional subtreep pub-dir)
@@ -272,10 +274,6 @@
                                           "html"))
                           plist
                           article-path))))
-
-(defun my/org-html-table (table contents info)
-  (print table)
-  (print (org-export-data (org-element-property :begin table) info)))
 
 (defun my/sitemap-format-entry (entry style project)
   "Formats sitemap entry <date> <title> (<tags>). Returns a list containing the
@@ -310,10 +308,14 @@
      "#+TITLE: " title "\n\n"
      "#+BEGIN_EXPORT html\n"
      (concat
-      "<div uk-filter=\"target: .js-filter\">\n
+      "<div id=\"tag-filter-component\" uk-filter=\"target: .js-filter\">\n
       <div class=\"tags uk-subnav uk-subnav-pill\">\n
       <span uk-filter-control=\"group: tag\"><a href=\"#\">ALL</a></span>\n"
-      (mapconcat (lambda (item) (format "<span uk-filter-control=\"filter: .%s; group: tag\"><a href=\"#\">%s</a></span>" item item))
+      (mapconcat (lambda (item)
+                   (format "<span id=\"%s\" uk-filter-control=\"filter: .%s; group: tag\"><a href=\"#\">%s</a></span>"
+                           (concat "filter-" item)
+                           item
+                           item))
                  unique-tags
                  "\n")
       "</div>\n"
@@ -353,7 +355,8 @@
              :sitemap-title my/sitemap-title
              :sitemap-format-entry 'my/sitemap-format-entry
              :sitemap-sort-files 'alphabetically
-             :with-title nil)
+             :with-title nil
+             :with-toc nil)
        (list "images"
              :base-extension "png\\|jpg\\|svg"
              :base-directory "./images"

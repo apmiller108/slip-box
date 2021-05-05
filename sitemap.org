@@ -1,38 +1,38 @@
 #+TITLE: Notes Index
 
 #+BEGIN_EXPORT html
-<div uk-filter="target: .js-filter">
+<div id="tag-filter-component" uk-filter="target: .js-filter">
 
       <div class="tags uk-subnav uk-subnav-pill">
 
       <span uk-filter-control="group: tag"><a href="#">ALL</a></span>
-<span uk-filter-control="filter: .capybara; group: tag"><a href="#">capybara</a></span>
-<span uk-filter-control="filter: .docker; group: tag"><a href="#">docker</a></span>
-<span uk-filter-control="filter: .elisp; group: tag"><a href="#">elisp</a></span>
-<span uk-filter-control="filter: .emacs; group: tag"><a href="#">emacs</a></span>
-<span uk-filter-control="filter: .git; group: tag"><a href="#">git</a></span>
-<span uk-filter-control="filter: .javascript; group: tag"><a href="#">javascript</a></span>
-<span uk-filter-control="filter: .magit; group: tag"><a href="#">magit</a></span>
-<span uk-filter-control="filter: .mocha; group: tag"><a href="#">mocha</a></span>
-<span uk-filter-control="filter: .mssql; group: tag"><a href="#">mssql</a></span>
-<span uk-filter-control="filter: .npm; group: tag"><a href="#">npm</a></span>
-<span uk-filter-control="filter: .org-agenda; group: tag"><a href="#">org-agenda</a></span>
-<span uk-filter-control="filter: .org-mode; group: tag"><a href="#">org-mode</a></span>
-<span uk-filter-control="filter: .org-roam; group: tag"><a href="#">org-roam</a></span>
-<span uk-filter-control="filter: .pandoc; group: tag"><a href="#">pandoc</a></span>
-<span uk-filter-control="filter: .plantuml; group: tag"><a href="#">plantuml</a></span>
-<span uk-filter-control="filter: .postgres; group: tag"><a href="#">postgres</a></span>
-<span uk-filter-control="filter: .robe; group: tag"><a href="#">robe</a></span>
-<span uk-filter-control="filter: .rspec; group: tag"><a href="#">rspec</a></span>
-<span uk-filter-control="filter: .ruby; group: tag"><a href="#">ruby</a></span>
-<span uk-filter-control="filter: .ruby-mode; group: tag"><a href="#">ruby-mode</a></span>
-<span uk-filter-control="filter: .security; group: tag"><a href="#">security</a></span>
-<span uk-filter-control="filter: .shell; group: tag"><a href="#">shell</a></span>
-<span uk-filter-control="filter: .spacemacs; group: tag"><a href="#">spacemacs</a></span>
-<span uk-filter-control="filter: .spring; group: tag"><a href="#">spring</a></span>
-<span uk-filter-control="filter: .sql; group: tag"><a href="#">sql</a></span>
-<span uk-filter-control="filter: .testing; group: tag"><a href="#">testing</a></span>
-<span uk-filter-control="filter: .web-development; group: tag"><a href="#">web-development</a></span></div>
+<span id="filter-capybara" uk-filter-control="filter: .capybara; group: tag"><a href="#">capybara</a></span>
+<span id="filter-docker" uk-filter-control="filter: .docker; group: tag"><a href="#">docker</a></span>
+<span id="filter-elisp" uk-filter-control="filter: .elisp; group: tag"><a href="#">elisp</a></span>
+<span id="filter-emacs" uk-filter-control="filter: .emacs; group: tag"><a href="#">emacs</a></span>
+<span id="filter-git" uk-filter-control="filter: .git; group: tag"><a href="#">git</a></span>
+<span id="filter-javascript" uk-filter-control="filter: .javascript; group: tag"><a href="#">javascript</a></span>
+<span id="filter-magit" uk-filter-control="filter: .magit; group: tag"><a href="#">magit</a></span>
+<span id="filter-mocha" uk-filter-control="filter: .mocha; group: tag"><a href="#">mocha</a></span>
+<span id="filter-mssql" uk-filter-control="filter: .mssql; group: tag"><a href="#">mssql</a></span>
+<span id="filter-npm" uk-filter-control="filter: .npm; group: tag"><a href="#">npm</a></span>
+<span id="filter-org-agenda" uk-filter-control="filter: .org-agenda; group: tag"><a href="#">org-agenda</a></span>
+<span id="filter-org-mode" uk-filter-control="filter: .org-mode; group: tag"><a href="#">org-mode</a></span>
+<span id="filter-org-roam" uk-filter-control="filter: .org-roam; group: tag"><a href="#">org-roam</a></span>
+<span id="filter-pandoc" uk-filter-control="filter: .pandoc; group: tag"><a href="#">pandoc</a></span>
+<span id="filter-plantuml" uk-filter-control="filter: .plantuml; group: tag"><a href="#">plantuml</a></span>
+<span id="filter-postgres" uk-filter-control="filter: .postgres; group: tag"><a href="#">postgres</a></span>
+<span id="filter-robe" uk-filter-control="filter: .robe; group: tag"><a href="#">robe</a></span>
+<span id="filter-rspec" uk-filter-control="filter: .rspec; group: tag"><a href="#">rspec</a></span>
+<span id="filter-ruby" uk-filter-control="filter: .ruby; group: tag"><a href="#">ruby</a></span>
+<span id="filter-ruby-mode" uk-filter-control="filter: .ruby-mode; group: tag"><a href="#">ruby-mode</a></span>
+<span id="filter-security" uk-filter-control="filter: .security; group: tag"><a href="#">security</a></span>
+<span id="filter-shell" uk-filter-control="filter: .shell; group: tag"><a href="#">shell</a></span>
+<span id="filter-spacemacs" uk-filter-control="filter: .spacemacs; group: tag"><a href="#">spacemacs</a></span>
+<span id="filter-spring" uk-filter-control="filter: .spring; group: tag"><a href="#">spring</a></span>
+<span id="filter-sql" uk-filter-control="filter: .sql; group: tag"><a href="#">sql</a></span>
+<span id="filter-testing" uk-filter-control="filter: .testing; group: tag"><a href="#">testing</a></span>
+<span id="filter-web-development" uk-filter-control="filter: .web-development; group: tag"><a href="#">web-development</a></span></div>
 <ul class="uk-subnav uk-subnav-pill">
         <li uk-filter-control="sort: data-date; group: date"><a href="#">Ascending</a></li>
         <li class="uk-active" uk-filter-control="sort: data-date; order: desc; group: date"><a href="#">Descending</a></li>

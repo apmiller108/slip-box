@@ -22,23 +22,24 @@
   CLOSED: [2021-05-03 Mon 13:05]
 * DONE Conditionally render created
   CLOSED: [2021-05-03 Mon 16:55]
-* TODO Wire up tag filtering on index page
-  :PROPERTIES:
-  :CATEGORY: JS
-  :END:
+* DONE Wire up tag filtering on index page
+  CLOSED: [2021-05-04 Tue 20:43]
   - checkout https://getuikit.com/docs/filter
 * TODO Handle tag filtering on index page from navigation with query param
-* TODO Add order by date created on index page
-* TODO Add order by title on index page
-* TODO Look into using Uikit description list for note meta data
+  - See https://getuikit.com/docs/filter#active-state
+* DONE Add order by date created on index page
+  CLOSED: [2021-05-04 Tue 20:43]
+* DONE Look into using Uikit description list for note meta data
+  CLOSED: [2021-05-04 Tue 17:02]
 * DONE Figure out why tables don't export to HTML
   CLOSED: [2021-05-04 Tue 15:46]
 * TODO Enable TOC and customize TOC
   - Fix target links
+* TODO clean up publish.el
 * TODO Document the publish.el
 
 
 * Things picked up along that way that might be worth documenting
-  
   - https://stackoverflow.com/a/2701743/5974855
   - https://org-roam.discourse.group/t/update-a-field-last-modified-at-save/321/19
+  - https://github.com/alphapapa/ts.el

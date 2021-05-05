@@ -4,22 +4,21 @@
 
 See also [[file:20210326124530-org_mode_basics.org][Org-mode basics]]
 
-* Org-agenda
-** Setup
-   #+begin_src elisp
-    (use-package org
-      :custom
-      (org-agenda-start-with-log-mode t)
-      (org-log-done 'time)
-      (org-log-into-drawer t)
-      (org-agenda-files '("~/slip-box/agenda"))
-   #+end_src
-** Useful commands
-   - ~org-time-stamp~
-   - ~org-deadline~
-   - ~org-schedule~
+* Setup
+  #+begin_src elisp
+   (use-package org
+     :custom
+     (org-agenda-start-with-log-mode t)
+     (org-log-done 'time)
+     (org-log-into-drawer t)
+     (org-agenda-files '("~/slip-box/agenda"))
+  #+end_src
+* Useful commands
+  - ~org-time-stamp~
+  - ~org-deadline~
+  - ~org-schedule~
 
-   Recurring example: <1978-03-30 +1y>  (every 1 year from date)
+  Recurring example: <1978-03-30 +1y>  (every 1 year from date)
 
-** Other noteworthy things
-   - Desktop notifications with [[https://github.com/akhramov/org-wild-notifier.el][org-wild-notifier.el]]
+* Other noteworthy things
+  - Desktop notifications with [[https://github.com/akhramov/org-wild-notifier.el][org-wild-notifier.el]]
