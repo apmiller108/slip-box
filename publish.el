@@ -310,12 +310,17 @@
      "#+TITLE: " title "\n\n"
      "#+BEGIN_EXPORT html\n"
      (concat
-      "<div uk-filter=\"target: .js-filter\">\n"
-      "<div class=\"tags uk-subnav subnav-pill\">\n"
-      (mapconcat (lambda (item) (format "<span uk-filter-control=\"filter: .%s\"><a href=\"#\">%s</a></span>" item item))
+      "<div uk-filter=\"target: .js-filter\">\n
+      <div class=\"tags uk-subnav uk-subnav-pill\">\n
+      <span uk-filter-control=\"group: tag\"><a href=\"#\">ALL</a></span>\n"
+      (mapconcat (lambda (item) (format "<span uk-filter-control=\"filter: .%s; group: tag\"><a href=\"#\">%s</a></span>" item item))
                  unique-tags
                  "\n")
       "</div>\n"
+      "<ul class=\"uk-subnav uk-subnav-pill\">
+        <li uk-filter-control=\"sort: data-date; group: date\"><a href=\"#\">Ascending</a></li>
+        <li class=\"uk-active\" uk-filter-control=\"sort: data-date; order: desc; group: date\"><a href=\"#\">Descending</a></li>
+      </ul>"
       "<ul class=\"sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter\">\n"
       (mapconcat (lambda (item) (car (car item)))
                  (cdr list)

@@ -2,35 +2,41 @@
 
 #+BEGIN_EXPORT html
 <div uk-filter="target: .js-filter">
-<div class="tags uk-subnav subnav-pill">
-<span uk-filter-control="filter: .capybara"><a href="#">capybara</a></span>
-<span uk-filter-control="filter: .docker"><a href="#">docker</a></span>
-<span uk-filter-control="filter: .elisp"><a href="#">elisp</a></span>
-<span uk-filter-control="filter: .emacs"><a href="#">emacs</a></span>
-<span uk-filter-control="filter: .git"><a href="#">git</a></span>
-<span uk-filter-control="filter: .javascript"><a href="#">javascript</a></span>
-<span uk-filter-control="filter: .magit"><a href="#">magit</a></span>
-<span uk-filter-control="filter: .mocha"><a href="#">mocha</a></span>
-<span uk-filter-control="filter: .mssql"><a href="#">mssql</a></span>
-<span uk-filter-control="filter: .npm"><a href="#">npm</a></span>
-<span uk-filter-control="filter: .org-agenda"><a href="#">org-agenda</a></span>
-<span uk-filter-control="filter: .org-mode"><a href="#">org-mode</a></span>
-<span uk-filter-control="filter: .org-roam"><a href="#">org-roam</a></span>
-<span uk-filter-control="filter: .pandoc"><a href="#">pandoc</a></span>
-<span uk-filter-control="filter: .plantuml"><a href="#">plantuml</a></span>
-<span uk-filter-control="filter: .postgres"><a href="#">postgres</a></span>
-<span uk-filter-control="filter: .robe"><a href="#">robe</a></span>
-<span uk-filter-control="filter: .rspec"><a href="#">rspec</a></span>
-<span uk-filter-control="filter: .ruby"><a href="#">ruby</a></span>
-<span uk-filter-control="filter: .ruby-mode"><a href="#">ruby-mode</a></span>
-<span uk-filter-control="filter: .security"><a href="#">security</a></span>
-<span uk-filter-control="filter: .shell"><a href="#">shell</a></span>
-<span uk-filter-control="filter: .spacemacs"><a href="#">spacemacs</a></span>
-<span uk-filter-control="filter: .spring"><a href="#">spring</a></span>
-<span uk-filter-control="filter: .sql"><a href="#">sql</a></span>
-<span uk-filter-control="filter: .testing"><a href="#">testing</a></span>
-<span uk-filter-control="filter: .web-development"><a href="#">web-development</a></span></div>
-<ul class="sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter">
+
+      <div class="tags uk-subnav uk-subnav-pill">
+
+      <span uk-filter-control="group: tag"><a href="#">ALL</a></span>
+<span uk-filter-control="filter: .capybara; group: tag"><a href="#">capybara</a></span>
+<span uk-filter-control="filter: .docker; group: tag"><a href="#">docker</a></span>
+<span uk-filter-control="filter: .elisp; group: tag"><a href="#">elisp</a></span>
+<span uk-filter-control="filter: .emacs; group: tag"><a href="#">emacs</a></span>
+<span uk-filter-control="filter: .git; group: tag"><a href="#">git</a></span>
+<span uk-filter-control="filter: .javascript; group: tag"><a href="#">javascript</a></span>
+<span uk-filter-control="filter: .magit; group: tag"><a href="#">magit</a></span>
+<span uk-filter-control="filter: .mocha; group: tag"><a href="#">mocha</a></span>
+<span uk-filter-control="filter: .mssql; group: tag"><a href="#">mssql</a></span>
+<span uk-filter-control="filter: .npm; group: tag"><a href="#">npm</a></span>
+<span uk-filter-control="filter: .org-agenda; group: tag"><a href="#">org-agenda</a></span>
+<span uk-filter-control="filter: .org-mode; group: tag"><a href="#">org-mode</a></span>
+<span uk-filter-control="filter: .org-roam; group: tag"><a href="#">org-roam</a></span>
+<span uk-filter-control="filter: .pandoc; group: tag"><a href="#">pandoc</a></span>
+<span uk-filter-control="filter: .plantuml; group: tag"><a href="#">plantuml</a></span>
+<span uk-filter-control="filter: .postgres; group: tag"><a href="#">postgres</a></span>
+<span uk-filter-control="filter: .robe; group: tag"><a href="#">robe</a></span>
+<span uk-filter-control="filter: .rspec; group: tag"><a href="#">rspec</a></span>
+<span uk-filter-control="filter: .ruby; group: tag"><a href="#">ruby</a></span>
+<span uk-filter-control="filter: .ruby-mode; group: tag"><a href="#">ruby-mode</a></span>
+<span uk-filter-control="filter: .security; group: tag"><a href="#">security</a></span>
+<span uk-filter-control="filter: .shell; group: tag"><a href="#">shell</a></span>
+<span uk-filter-control="filter: .spacemacs; group: tag"><a href="#">spacemacs</a></span>
+<span uk-filter-control="filter: .spring; group: tag"><a href="#">spring</a></span>
+<span uk-filter-control="filter: .sql; group: tag"><a href="#">sql</a></span>
+<span uk-filter-control="filter: .testing; group: tag"><a href="#">testing</a></span>
+<span uk-filter-control="filter: .web-development; group: tag"><a href="#">web-development</a></span></div>
+<ul class="uk-subnav uk-subnav-pill">
+        <li uk-filter-control="sort: data-date; group: date"><a href="#">Ascending</a></li>
+        <li class="uk-active" uk-filter-control="sort: data-date; order: desc; group: date"><a href="#">Descending</a></li>
+      </ul><ul class="sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter">
 <li data-date="2021-04-16" class="emacs"><span class="sitemap-entry-date">2021-04-16</span> <a href=/20210416140142-custom_faces_for_mode>Custom faces for mode</a> <span class="sitemap-entry-tags">(emacs)</span></li>
 <li data-date="2021-03-28" class="emacs"><span class="sitemap-entry-date">2021-03-28</span> <a href=/20210328183203-emacs_cheatsheet>Emacs cheatsheet</a> <span class="sitemap-entry-tags">(emacs)</span></li>
 <li data-date="2021-03-26" class="emacs"><span class="sitemap-entry-date">2021-03-26</span> <a href=/20210326092932-emacs_profiles>Emacs profiles</a> <span class="sitemap-entry-tags">(emacs)</span></li>
