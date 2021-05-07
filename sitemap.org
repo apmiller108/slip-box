@@ -57,6 +57,7 @@
 <li data-date="2021-03-23" class="postgres sql"><span class="sitemap-entry-date">2021-03-23</span> <a href=/20210323162128-prepared_sql_statements>Prepared SQL statements</a> <span class="sitemap-entry-tags">(postgres, sql)</span></li>
 <li data-date="2021-04-07" class="spacemacs emacs"><span class="sitemap-entry-date">2021-04-07</span> <a href=/20210407075214-project_wide_find_and_replace_in_spacemacs>Project-wide find and replace in Spacemacs</a> <span class="sitemap-entry-tags">(spacemacs, emacs)</span></li>
 <li data-date="2021-04-02" class="emacs"><span class="sitemap-entry-date">2021-04-02</span> <a href=/20210402135722-projectile>Projectile</a> <span class="sitemap-entry-tags">(emacs)</span></li>
+<li data-date="1999-12-31" class=""><span class="sitemap-entry-date">1999-12-31</span> <a href=/publish>Publish Slip-box</a></li>
 <li data-date="2021-04-23" class="ruby-mode emacs"><span class="sitemap-entry-date">2021-04-23</span> <a href=/20210423082908-ruby_mode_parenthetical_indentation>Ruby-mode parenthetical indentation</a> <span class="sitemap-entry-tags">(ruby-mode, emacs)</span></li>
 <li data-date="2021-03-05" class="ruby-mode spacemacs docker"><span class="sitemap-entry-date">2021-03-05</span> <a href=/20210305125833-run_tests_in_docker_for_ruby_mode>Run tests in docker for ruby-mode</a> <span class="sitemap-entry-tags">(ruby-mode, spacemacs, docker)</span></li>
 <li data-date="2021-03-11" class="spring rspec ruby"><span class="sitemap-entry-date">2021-03-11</span> <a href=/20210311094016-spring_with_rspec>Spring with RSpec</a> <span class="sitemap-entry-tags">(spring, rspec, ruby)</span></li>
@@ -66,6 +67,7 @@
 <li data-date="2021-03-03" class="capybara ruby"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303144927-capybara_window_management>capybara window management</a> <span class="sitemap-entry-tags">(capybara, ruby)</span></li>
 <li data-date="2021-03-03" class="sql mssql"><span class="sitemap-entry-date">2021-03-03</span> <a href=/20210303143037-mssql_data_migration_with_rollback>mssql data migration with rollback</a> <span class="sitemap-entry-tags">(sql, mssql)</span></li>
 <li data-date="2021-05-04" class="npm javascript"><span class="sitemap-entry-date">2021-05-04</span> <a href=/20210504091420-npm_install_and_permissions>npm install and permissions</a> <span class="sitemap-entry-tags">(npm, javascript)</span></li>
-<li data-date="2021-02-12" class="pandoc org-mode"><span class="sitemap-entry-date">2021-02-12</span> <a href=/20210212195651-pandoc>pandoc</a> <span class="sitemap-entry-tags">(pandoc, org-mode)</span></li></ul>
+<li data-date="2021-02-12" class="pandoc org-mode"><span class="sitemap-entry-date">2021-02-12</span> <a href=/20210212195651-pandoc>pandoc</a> <span class="sitemap-entry-tags">(pandoc, org-mode)</span></li>
+<li data-date="1999-12-31" class=""><span class="sitemap-entry-date">1999-12-31</span> <a href=/test>test</a></li></ul>
 </div>
 #+END_EXPORT

@@ -1,0 +1,15 @@
+#+title: Automatically generate an updated at timestamp when saving an org file
+#+date: 2021-05-07 15:37 PM
+#+updated: 2021-05-07 15:44 PM
+
+For this to work, the export option ~#+updated:\s~ (yes, including the space)
+must already be present in the file.
+#+begin_src elisp -n
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (setq-local time-stamp-active t
+                          time-stamp-start "#\\+updated: [ \t]*"
+                          time-stamp-end "$"
+                          time-stamp-format "%Y-%m-%d %H:%M %p")
+              (add-hook 'before-save-hook 'time-stamp nil 'local))
+#+end_src
