@@ -1,12 +1,8 @@
 #+title: Org-mode publishing
 #+date: 2021-04-14 21:07 PM
-#+updated: 2021-05-04 11:13 AM
+#+updated: 2021-05-07 13:17 PM
 #+roam_tags: org-mode emacs
 #+page-type: note
-
-* Resources
-  - [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
-  - [[https://youtu.be/618uCFTNNpE][System Crafters YouTube Episode: Static Websites with Emacs, Org Mode and Sourcehut]]
 
 * Publishing Backend
   You can use different backends for producing HTML from org files. One is
