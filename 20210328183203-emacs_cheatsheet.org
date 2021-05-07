@@ -1,6 +1,6 @@
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2021-05-04 11:06 AM
+#+updated: 2021-05-07 13:20 PM
 #+roam_tags: emacs
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -17,6 +17,8 @@ probably forget.
      (add-hook 'org-mode-hook (lambda () (auto-fill-mode 1)))
    #+end_src
 
+ - ~fill-region~ does what is says
+   
 * Advising Functions
   [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][Advising-Functions docs]]
 
