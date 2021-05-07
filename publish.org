@@ -1,373 +1,503 @@
 #+title: Publish Slip-box
+#+date: 2021-05-06 21:24 PM
+#+updated: 2021-05-07 15:43 PM
+#+roam_tags: org-mode org-roam emacs
 
-#+BEGIN_SRC emacs-lisp
-  ;; This is based on David Wilson's publish.el
-  ;; URL: https://sr.ht/~daviwil/dotfiles
+* Overview
+  This is a self-documenting org-mode publishing script. It is run by executing
+  all the source code blocks herein. The actual [[https://github.com/apmiller108/slip-box/blob/main/publish.el][publish.el]] script just loads
+  this file in a buffer and calls ~org-babel-execute-buffer~ followed by the
+  function that starts the publishing process.
 
-  ;; Usage:
-  ;; emacs -Q --batch -l ./publish.el --funcall my/org-publish
+  - This is based on [[https://github.com/daviwil/dotfiles/blob/master/.site/publish.el][David Wilson's publish.el]] which itself is based on
+    [[https://gitlab.com/ambrevar/ambrevar.gitlab.io/-/blob/master/publish.el][Pierre Neidhardt's publish.el]]. Huge thanks for both.
+  - It requires emacs v27+
+  - I'm using [[https://getuikit.com/][UIkit]] CSS framework.
+  - Reader comments powered by [[https://utteranc.es/][Utterances]].
+  - There's a little bit of JavaScript, mostly for the tags.
+    
+** Learning resources for org-mode publishing
+  - [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
+  - [[https://youtu.be/618uCFTNNpE][System Crafters YouTube Episode: Static Websites with Emacs, Org Mode and Sourcehut]]
 
-  (require 'package)
+** Usage
+   ~emacs -Q --batch -l ./publish.el --funcall my/publish~
 
-  ;; Set the package installation directory so that packages aren't stored in the
-  ;; ~/.emacs.d/elpa path.
-  (setq package-user-dir (expand-file-name "./.packages"))
+* Dependencies
 
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                          ("elpa" . "https://elpa.gnu.org/packages/")))
+** Package repositories
+   
+  - Adds ~melpa~ and ~elpa~ archives.
+  - Sets the package archives directory so that packages aren't installed in
+    ~~/.emacs.d/elpa~.
 
-  (package-initialize)
-  (unless package-archive-contents
-    (package-refresh-contents))
+  #+begin_src emacs-lisp +n :results silent
+    (require 'package)
 
-  (unless (package-installed-p 'use-package)
-    (package-install 'use-package))
-  (require 'use-package)
+    (setq package-user-dir (expand-file-name "./.packages"))
 
-  ;; Provides writing markup in lisp
-  (use-package esxml :ensure t)
+    (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                            ("elpa" . "https://elpa.gnu.org/packages/")))
 
-  ;; A publishing backend
-  (use-package ox-slimhtml :ensure t)
+    (package-initialize)
+    (unless package-archive-contents
+      (package-refresh-contents))
+  #+end_src
 
-  ;; Syntax highlighting
-  (use-package htmlize :ensure t)
+** use-package
 
-  ;; rss/atom feed
-  (use-package webfeeder :ensure t)
+   See [[https://github.com/jwiegley/use-package][use-package repo]] for more on this. It's a clean way to handle
+   dependencies in emacs.
+ 
+  #+begin_src emacs-lisp +n :results silent
+    (unless (package-installed-p 'use-package)
+      (package-install 'use-package))
+    (require 'use-package)
+  #+end_src
 
-  ;; sanity when working with date and time
-  (use-package ts :ensure t)
+** esxml
 
-  (require 'ox-publish) ;; publishing system for org-mode
+   [[https://github.com/tali713/esxml][esxml]] provides elisp functions to generate HTML markup. Basically this means
+   less reliance on ugly ~concat~ and ~format~ function calls.
 
-  ;; Set site variables
+  #+begin_src emacs-lisp +n :results silent
+    (use-package esxml :ensure t)
+  #+end_src
+
+** ox-slimhtml
+
+   [[https://github.com/balddotcat/ox-slimhtml#readme][ox-slimhtml]] is a publishing backend with a minimal set of trans-coders. I
+   actually use a derived backend based on the [[https://orgmode.org/manual/HTML-Export.html#HTML-Export][org-mode html]] backend since I
+   have things like tables, and will likely have additional markups in the
+   future. Right now this is only used when links are generated, but will at
+   some point remove this dependency.
+
+   #+begin_src emacs-lisp +n :results silent
+    (use-package ox-slimhtml :ensure t)
+   #+end_src
+
+** htmlize
+
+   - I don't really know much about [[https://github.com/hniksic/emacs-htmlize][emacs-htmlize]] and all of its capabilities,
+     but in the context of this script, it provides CSS styling for code syntax
+     highlighting.
+   - I believe the default is to use inline CSS, but it can generate a style
+     sheet based on your emacs theme by calling ~org-html-htmlize-generate-css~.
+     I did that then linked the stylesheet in the HTML document ~<head>~.
+   - Tell it to use a stylesheet over line styles by setting the
+     ~org-html-htmlize-output-type~ variable. See below.
+   
+   #+begin_src emacs-lisp +n :results silent
+    (use-package htmlize :ensure t)
+   #+end_src
+
+** webfeeder
+
+   [[https://github.com/emacsmirror/webfeeder][webfeeder]] is for making atom/rss feeds. I
+   haven't used it yet, but I probably will later.
+
+   #+begin_src emacs-lisp +n :results silent
+     (use-package webfeeder :ensure t)
+   #+end_src
+
+** ts
+
+   [[https://github.com/alphapapa/ts.el][ts.el]] for sanity when formatting and parsing dates.
+
+   #+begin_src emacs-lisp +n :results silent
+    (use-package ts :ensure t)
+   #+end_src
+    
+** ox-publish
+
+   The publishing system for org-mode
+
+   #+begin_src emacs-lisp +n :results silent
+     (require 'ox-publish)
+   #+end_src
+
+* Variables
+** Site variables
+   These get referenced when generating the HTML. 
+   
+   #+begin_src elisp +n :results silent
   (setq my/site-title   "Alex's Slip-box"
-        my/site-tagline "These are my org-mode notes in Zettelkasten style"
+        my/site-tagline "These are my org-mode notes in sort of Zettelkasten style"
         my/sitemap-title "Notes Index")
+   #+end_src
 
-  ;; NOTE some of these may be overridden by the publishing backend and may not be needed here.
-  (setq org-publish-use-timestamps-flag t
-        org-publish-timestamp-directory "./.org-cache/"
-        org-export-with-section-numbers nil
-        org-export-use-babel nil ;; set this to nil to prevent execution of code blocks
-        org-export-with-smart-quotes t ;; improves the look of quotations
-        org-export-with-sub-superscripts nil
-        org-export-with-tags 'not-in-toc
-        org-export-date-timestamp-format "Y-%m-%d %H:%M %p")
+** Org publish and export variables
+   I'm not going to bother explaining all these since they're thoroughly
+   explained with ~describe-variable~
 
-  (setq make-backup-files nil)
+   #+begin_src elisp +n :results silent
+   (setq org-publish-use-timestamps-flag t
+         org-publish-timestamp-directory "./.org-cache/"
+         org-export-with-section-numbers nil
+         org-export-use-babel nil
+         org-export-with-smart-quotes t
+         org-export-with-sub-superscripts nil
+         org-export-with-tags 'not-in-toc
+         org-export-date-timestamp-format "Y-%m-%d %H:%M %p")
+   #+end_src
 
-  ;; The backquote quotes a list but allows use of the `,' to evalulate expressions selectively.
-  ;; See for more on this https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html
-  (defun my/site-header (info)
-    (let* ((file (plist-get info :output-file)))
-      (concat
+** HTML exporter variables
+   - Tell ~htmlize~ to use a CSS stylesheet rather than inline styles.
+   - Use ~describe-variable~ to learn about the rest of them.
+   
+   #+begin_src emacs-lisp +n :results silent
+     (setq org-html-metadata-timestamp-format "%Y-%m-%d"
+           org-html-checkbox-type 'site-html
+           org-html-html5-fancy nil
+           org-html-htmlize-output-type 'css
+           org-html-self-link-headlines t
+           org-html-validation-link nil
+           org-html-inline-images t
+           org-html-doctype "html5")
+   #+end_src
+
+** Other variables
+   This is backed by a git repository, so we don't need backups
+   #+begin_src emacs-lisp +n :results silent
+     (setq make-backup-files nil)
+   #+end_src
+   
+* Site header
+  - This function is called when generating the HTML template below.
+    - ~info~ arg is a plist from which we can get configuration details about
+      the org document. I'm not using it here, but it comes in handy in other
+      functions to get things like the document title, date, etc.
+  - Here I am using ~esxml~ to declare the markup in elisp.
+    - It's quoted (with ~`~) but we can use ~,~ to selectively evaluate
+      expressions therein. Noice.
+      - See [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html][Backquote docs]] for more.
+    - ~@~ function is for declaring node attributes like ~class~, ~id~ or
+      whatever.
+  #+begin_src elisp +n :results silent
+    (defun my/site-header (info)
       (sxml-to-xml
-        `(div (div (@ (class "heading uk-container")) ;; `@' is the attribute function
+       `(div (div (@ (class "heading uk-container"))
                   (div (@ (class "site-title-container uk-flex uk-flex-middle"))
-                        (h1 (@ (class "site-title uk-h1 uk-heading-medium")) ,my/site-title))
+                       (h1 (@ (class "site-title uk-h1 uk-heading-medium")) ,my/site-title))
                   (div (@ (class "site-tagline uk-text-lead")) ,my/site-tagline))
-              (div (@ (class "uk-container"))
+             (div (@ (class "uk-container"))
                   (nav (@ (class "uk-navbar-container uk-navbar-transparent")
                           (uk-navbar))
-                        (div (@ (class "uk-navbar-left"))
-                                (ul (@ (class "uk-navbar-nav"))
-                                    (li (a (@ (class "nav-link") (href "/")) "Notes"))
-                                    (li (a (@ (class "nav-link") (href "https://blog.alex-miller.co")) "Blog"))
-                                    (li (a (@ (class "nav-link") (href "https://github.com/apmiller108")) "Github"))
-                                    (li (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co")))))))))))
+                       (div (@ (class "uk-navbar-left"))
+                            (ul (@ (class "uk-navbar-nav"))
+                                (li (a (@ (class "nav-link") (href "/")) "Notes"))
+                                (li (a (@ (class "nav-link") (href "https://blog.alex-miller.co")) "Blog"))
+                                (li (a (@ (class "nav-link") (href "https://github.com/apmiller108")) "Github"))
+                                (li (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co")))))))))
+  #+end_src
 
-  (defun my/site-footer (info) ;; info is a plist passed in from org-mode
-    (sxml-to-xml
-    `(footer (@ (class "blog-footer"))
-              (div (@ (class "uk-container"))
-                  (div (@ (class "made-with"))
-                        (p "Made with " ,(plist-get info :creator))))))) ;; creator is "Emacs version# (Org mode version#)"
+* Site footer
+  - This function is called when generating the HTML template below.
+  - ~creator~ is ~Emacs {{version}} (Org mode {{version}})~~
+  
+  #+begin_src elisp +n :results silent
+    (defun my/site-footer (info)
+      (sxml-to-xml
+      `(footer (@ (class "blog-footer"))
+                (div (@ (class "uk-container"))
+                    (div (@ (class "made-with"))
+                          (p "Made with " ,(plist-get info :creator))))))) 
+  #+end_src
 
-  (defun get-article-output-path (org-file pub-dir)
-    (let ((article-dir (concat pub-dir
-                              (downcase
-                                (file-name-as-directory
-                                (file-name-sans-extension
-                                  (file-name-nondirectory org-file)))))))
-      ;; Makes the sitemap the root index.html file
-      (if (string-match "\\/sitemap.org$" org-file)
-          pub-dir
-          (progn
-            (unless (file-directory-p article-dir)
-              (make-directory article-dir t))
-            article-dir))
-      ))
+* The HTML Template
+  - This is the whole page layout. It makes use of the header and footer functions
+    above and injects the org-mode document exported HTML (the ~contents~ arg).
+  - I think all of this is pretty self explanatory, but one thing I should call
+    out is the use of ~:roam_tags~ to generate the tag links. ~:roam_tags~ (from
+    [[https://www.orgroam.com/][org-roam]] package) are not automatically available from the ~info~ plist.
+    This needs to first be declared as a custom export option in the derived
+    backend. See below. I took me a while to figure that out.
+    [[https://emacs.stackexchange.com/questions/64516/using-org-roam-tags-when-org-publishing][I even asked on emacs.stackexchange]], but eventually figured it out and
+    answered my own question.
+  - Same with the ~:updated~ property.
+    - This is a timestamp this is automatically generated when an org-mode file
+      is saved. See
+      [[file:20210507153704-automatically_generate_an_updated_at_timestamp_when_saving_an_org_file.org][Automatically generate an updated at timestamp when saving an org file]]
+      for how that works.
 
-  (defun my/org-html-template (contents info)
-    (concat
-    "<!DOCTYPE html>"
-    (sxml-to-xml
-      `(html (@ (lang "en"))
-            (head
-              "<!-- " ,(org-export-data (org-export-get-date info "%Y-%m-%d") info) " -->"
-              (meta (@ (charset "utf-8")))
-              (meta (@ (author "Alex P. Miller")))
-              (meta (@ (name "viewport")
-                      (content "width=device-width, initial-scale=1, shrink-to-fit=no")))
-              (link (@ (rel "apple-touch-icon")
-                      (sizes "180x180")
-                      (href "/favicon/apple-touch-icon.png?v=1")))
-              (link (@ (rel "icon")
-                      (type "image/png")
-                      (sizes "32x32")
-                      (href "/favicon/favicon-32x32.png?v=1")))
-              (link (@ (rel "icon")
-                      (type "image/png")
-                      (sizes "16x16")
-                      (href "/favicon/favicon-16x16.png?v=1")))
-              (link (@ (rel "manifest")
-                      (href "/favicon/manifest.json?v=1")))
-              (link (@ (rel "mask-icon")
-                      (href "/favicon/safari-pinned-tab.svg?v=1")))
-              (link (@ (rel "stylesheet")
-                      (href "/css/uikit.min.css")))
-              (link (@ (rel "stylesheet")
-                      (href "/css/code.css")))
-              (link (@ (rel "stylesheet")
-                      (href "/css/site.css")))
-              (script (@ (src "/js/uikit.min.js")) nil)
-              (script (@ (src "/js/uikit-icons.min.js")) nil)
-              (script (@ (src "/js/site.js")) nil)
-              (script (@ (src "https://www.googletagmanager.com/gtag/js?id=G-YM3EHHB2YQ")) nil)
-              (script
-              "window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
+  #+begin_src elisp +n :results silent
+    (defun my/org-html-template (contents info)
+      (concat
+      "<!DOCTYPE html>"
+      (sxml-to-xml
+        `(html (@ (lang "en"))
+              (head
+                "<!-- " ,(org-export-data (org-export-get-date info "%Y-%m-%d") info) " -->"
+                (meta (@ (charset "utf-8")))
+                (meta (@ (author "Alex P. Miller")))
+                (meta (@ (name "viewport")
+                        (content "width=device-width, initial-scale=1, shrink-to-fit=no")))
+                (link (@ (rel "apple-touch-icon")
+                        (sizes "180x180")
+                        (href "/favicon/apple-touch-icon.png?v=1")))
+                (link (@ (rel "icon")
+                        (type "image/png")
+                        (sizes "32x32")
+                        (href "/favicon/favicon-32x32.png?v=1")))
+                (link (@ (rel "icon")
+                        (type "image/png")
+                        (sizes "16x16")
+                        (href "/favicon/favicon-16x16.png?v=1")))
+                (link (@ (rel "manifest")
+                        (href "/favicon/manifest.json?v=1")))
+                (link (@ (rel "mask-icon")
+                        (href "/favicon/safari-pinned-tab.svg?v=1")))
+                (link (@ (rel "stylesheet")
+                        (href "/css/uikit.min.css")))
+                (link (@ (rel "stylesheet")
+                        (href "/css/code.css")))
+                (link (@ (rel "stylesheet")
+                        (href "/css/site.css")))
+                (script (@ (src "/js/uikit.min.js")) nil)
+                (script (@ (src "/js/uikit-icons.min.js")) nil)
+                (script (@ (src "/js/site.js")) nil)
+                (script (@ (src "https://www.googletagmanager.com/gtag/js?id=G-YM3EHHB2YQ")) nil)
+                (script
+                "window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
 
-                gtag('config', 'G-YM3EHHB2YQ');"
-              )
-              (title ,(concat (org-export-data (plist-get info :title) info) " - notes.alex-miller.com")))
-            (body
-              ,(my/site-header info)
-              (div (@ (class "uk-container"))
-                    (div (@ (class "note"))
-                        (div (@ (class "note-content"))
-                              (h1 (@ (class "note-title uk-h1"))
-                                  ,(org-export-data (plist-get info :title) info))
-                              (div (@ (class "note-meta"))
-                                  ,(when (plist-get info :date)
-                                      `(p (@ (class "note-created uk-article-meta"))
-                                          ,(format "Created on: %s" (ts-format "%B %e, %Y" (ts-parse (org-export-data (plist-get info :date) info))))))
-                                  ,(when (plist-get info :updated)
-                                      `(p (@ (class "note-updated uk-article-meta"))
-                                          ,(format "Updated on: %s" (ts-format "%B %e, %Y" (ts-parse (plist-get info :updated))))))
-                                  ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
-                                      (when (and tags (> (length tags) 0))
-                                        `(p (@ (class "blog-post-tags"))
-                                            "Tags: "
-                                            ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
-                                                        (plist-get info :roam_tags)
-                                                        ", ")))))
-                              ,contents)
-                        ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
-                            '(script (@ (src "https://utteranc.es/client.js")
-                                        (repo "apmiller108/slip-box")
-                                        (issue-term "title")
-                                        (label "comments")
-                                        (theme "boxy-light")
-                                        (crossorigin "anonymous")
-                                        (async))
-                                    nil))))
-                    ,(my/site-footer info))))))
+                  gtag('config', 'G-YM3EHHB2YQ');"
+                )
+                (title ,(concat (org-export-data (plist-get info :title) info) " - notes.alex-miller.com")))
+              (body
+                ,(my/site-header info)
+                (div (@ (class "uk-container"))
+                      (div (@ (class "note"))
+                          (div (@ (class "note-content"))
+                                (h1 (@ (class "note-title uk-h1"))
+                                    ,(org-export-data (plist-get info :title) info))
+                                (div (@ (class "note-meta"))
+                                    ,(when (plist-get info :date)
+                                        `(p (@ (class "note-created uk-article-meta"))
+                                            ,(format "Created on: %s" (ts-format "%B %e, %Y" (ts-parse (org-export-data (plist-get info :date) info))))))
+                                    ,(when (plist-get info :updated)
+                                        `(p (@ (class "note-updated uk-article-meta"))
+                                            ,(format "Updated on: %s" (ts-format "%B %e, %Y" (ts-parse (plist-get info :updated))))))
+                                    ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
+                                        (when (and tags (> (length tags) 0))
+                                          `(p (@ (class "blog-post-tags"))
+                                              "Tags: "
+                                              ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
+                                                          (plist-get info :roam_tags)
+                                                          ", ")))))
+                                ,contents)
+                          ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
+                              '(script (@ (src "https://utteranc.es/client.js")
+                                          (repo "apmiller108/slip-box")
+                                          (issue-term "title")
+                                          (label "comments")
+                                          (theme "boxy-light")
+                                          (crossorigin "anonymous")
+                                          (async))
+                                      nil))))
+                      ,(my/site-footer info))))))
+  #+end_src
 
-  (defun my/org-html-link (link contents info)
-    "Removes file extension and changes the path into lowercase org file:// links.
-    Handles creating inline images with `<img>' tags for png, jpg, and svg files
-    when the link doesn't have a label, otherwise just creates a link."
-    ;; TODO: refactor this mess
-    (when (and (string= 'file (org-element-property :type link))
-              (string= "org" (file-name-extension (org-element-property :path link))))
-      (org-element-put-property link :path
-                                (concat "/"
+  
+* The rest
+ #+BEGIN_SRC emacs-lisp +n :results silent
+
+
+            (defun my/org-html-link (link contents info)
+              "Removes file extension and changes the path into lowercase org file:// links.
+              Handles creating inline images with `<img>' tags for png, jpg, and svg files
+              when the link doesn't have a label, otherwise just creates a link."
+              ;; TODO: refactor this mess
+              (when (and (string= 'file (org-element-property :type link))
+                        (string= "org" (file-name-extension (org-element-property :path link))))
+                (org-element-put-property link :path
+                                          (concat "/"
+                                                  (downcase
+                                                  (file-name-sans-extension
+                                                    (org-element-property :path link))))))
+
+              (if (and (string= 'file (org-element-property :type link))
+                      (file-name-extension (org-element-property :path link))
+                      (string-match "png\\|jpg\\|svg"
+                                    (file-name-extension
+                                      (org-element-property :path link)))
+                      (equal contents nil))
+                  (format "<img src=/%s >" (org-element-property :path link))
+                (if (and (equal contents nil)
+                        (or (not (file-name-extension (org-element-property :path link)))
+                            (and (file-name-extension (org-element-property :path link))
+                                  (not (string-match "png\\|jpg\\|svg"
+                                                    (file-name-extension
+                                                      (org-element-property :path link)))))))
+                    (format "<a href=\"%s\">%s</a>"
+                            (org-element-property :raw-link link)
+                            (org-element-property :raw-link link))
+                  (org-export-with-backend 'slimhtml link contents info))))
+
+            ;; Make sure we have thread-last
+            (require 'subr-x)
+
+            (defun my/make-heading-anchor-name (headline-text)
+              (thread-last headline-text
+                (downcase)
+                (replace-regexp-in-string " " "-")
+                (replace-regexp-in-string "[^[:alnum:]_-]" "")))
+
+            (defun my/org-html-headline (headline contents info)
+              (let* ((text (org-export-data (org-element-property :title headline) info))
+                    (level (org-export-get-relative-level headline info))
+                    (level (min 7 (when level (1+ level))))
+                    (anchor-name (my/make-heading-anchor-name text))
+                    (attributes (org-element-property :ATTR_HTML headline))
+                    (container (org-element-property :HTML_CONTAINER headline))
+                    (container-class (and container (org-element-property :HTML_CONTAINER_CLASS headline))))
+                (when attributes
+                  (setq attributes
+                        (format " %s" (org-html--make-attribute-string
+                                      (org-export-read-attribute 'attr_html `(nil
+                                                                              (attr_html ,(split-string attributes))))))))
+                (concat
+                (when (and container (not (string= "" container)))
+                  (format "<%s%s>" container (if container-class (format " class=\"%s\"" container-class) "")))
+                (if (not (org-export-low-level-p headline info))
+                    (format "<h%d%s><a id=\"%s\" class=\"anchor\" href=\"#%s\"><i># </i></a>%s</h%d>%s"
+                            level
+                            (or attributes "")
+                            anchor-name
+                            anchor-name
+                            text
+                            level
+                            (or contents ""))
+                  (concat
+                    (when (org-export-first-sibling-p headline info) "<ul>")
+                    (format "<li>%s%s</li>" text (or contents ""))
+                    (when (org-export-last-sibling-p headline info) "</ul>")))
+                (when (and container (not (string= "" container)))
+                  (format "</%s>" (cl-subseq container 0 (cl-search " " container)))))))
+
+            (org-export-define-derived-backend 'site-html ;; Create a new back-end as a variant of an existing one.
+                'html
+              :translate-alist ;; These are override functions for various org elements.
+              '((template . my/org-html-template)
+                (link . my/org-html-link)
+                (headline . my/org-html-headline))
+              :options-alist ;; Define custom options. See docs for org-export-options-alist
+              '((:page-type "PAGE-TYPE" nil nil t)
+                (:html-use-infojs nil nil nil)
+                (:updated "UPDATED" nil nil t)
+                (:roam_tags "ROAM_TAGS" nil nil split)))
+
+            (defun get-article-output-path (org-file pub-dir)
+              (let ((article-dir (concat pub-dir
                                         (downcase
-                                        (file-name-sans-extension
-                                          (org-element-property :path link))))))
+                                          (file-name-as-directory
+                                          (file-name-sans-extension
+                                            (file-name-nondirectory org-file)))))))
+                ;; Makes the sitemap the root index.html file
+                (if (string-match "\\/sitemap.org$" org-file)
+                    pub-dir
+                    (progn
+                      (unless (file-directory-p article-dir)
+                        (make-directory article-dir t))
+                      article-dir))
+                ))
 
-    (if (and (string= 'file (org-element-property :type link))
-            (file-name-extension (org-element-property :path link))
-            (string-match "png\\|jpg\\|svg"
-                          (file-name-extension
-                            (org-element-property :path link)))
-            (equal contents nil))
-        (format "<img src=/%s >" (org-element-property :path link))
-      (if (and (equal contents nil)
-              (or (not (file-name-extension (org-element-property :path link)))
-                  (and (file-name-extension (org-element-property :path link))
-                        (not (string-match "png\\|jpg\\|svg"
-                                          (file-name-extension
-                                            (org-element-property :path link)))))))
-          (format "<a href=\"%s\">%s</a>"
-                  (org-element-property :raw-link link)
-                  (org-element-property :raw-link link))
-        (org-export-with-backend 'slimhtml link contents info))))
+            (defun my/org-html-publish-to-html (plist filename pub-dir)
+              "Publish an org file to HTML, using the FILENAME as the output directory."
+              (with-current-buffer (find-file filename) ;; Add TOC if more than 3 headlines
+                (when (> (length (org-map-entries t)) 3)
+                  (insert "#+OPTIONS: toc:t\n")))
+              (let ((article-path (get-article-output-path filename pub-dir)))
+                (cl-letf (((symbol-function 'org-export-output-file-name)
+                          (lambda (extension &optional subtreep pub-dir)
+                            (concat article-path "index" extension))))
+                  (org-publish-org-to 'site-html ;; Use the derrived backend defined above.
+                                      filename
+                                      (concat "." (or (plist-get plist :html-extension)
+                                                      "html"))
+                                      plist
+                                      article-path))))
 
-  ;; Make sure we have thread-last
-  (require 'subr-x)
+            (defun my/sitemap-format-entry (entry style project)
+              "Formats sitemap entry <date> <title> (<tags>). Returns a list containing the
+              sitemap entry string and roam tags"
+              (let* ((roam-tags (org-publish-find-property entry :roam_tags project 'site-html))
+                    (created-at (format-time-string "%Y-%m-%d"
+                                                    (date-to-time
+                                                      (format "%s" (nth 0 (org-publish-find-property entry :date project))))))
+                    (entry
+                      (concat
+                      (format "<li data-date=\"%s\" class=\"%s\">" created-at (mapconcat (lambda (tag) tag) roam-tags " "))
+                      (format "<span class=\"sitemap-entry-date\">%s</span>" created-at)
+                      (format " <a href=/%s>%s</a>"
+                              (file-name-sans-extension entry)
+                              (org-publish-find-title entry project))
+                      (if roam-tags
+                          (concat " <span class=\"sitemap-entry-tags\">("
+                                  (mapconcat (lambda (tag) tag) roam-tags ", ")
+                                  ")</span>"))
+                      "</li>")))
+                (list entry roam-tags)))
 
-  (defun my/make-heading-anchor-name (headline-text)
-    (thread-last headline-text
-      (downcase)
-      (replace-regexp-in-string " " "-")
-      (replace-regexp-in-string "[^[:alnum:]_-]" "")))
+            (defun my/sitemap (title list)
+              (let* ((unique-tags
+                      (sort
+                      (delete-dups
+                        (flatten-tree
+                          (mapcar (lambda (item) (cdr (car item)))
+                                  (cdr list))))
+                      (lambda (a b) (string< a b)))))
+                (concat
+                "#+TITLE: " title "\n\n"
+                "#+BEGIN_EXPORT html\n"
+                (concat
+                  "<div id=\"tag-filter-component\" uk-filter=\"target: .js-filter\">\n
+                  <div class=\"tags uk-subnav uk-subnav-pill\">\n
+                  <span uk-filter-control=\"group: tag\"><a href=\"#\">ALL</a></span>\n"
+                  (mapconcat (lambda (item)
+                              (format "<span id=\"%s\" uk-filter-control=\"filter: .%s; group: tag\"><a href=\"#\">%s</a></span>"
+                                      (concat "filter-" item)
+                                      item
+                                      item))
+                            unique-tags
+                            "\n")
+                  "</div>\n"
+                  "<ul class=\"uk-subnav uk-subnav-pill\">
+                    <li uk-filter-control=\"sort: data-date; group: date\"><a href=\"#\">Ascending</a></li>
+                    <li class=\"uk-active\" uk-filter-control=\"sort: data-date; order: desc; group: date\"><a href=\"#\">Descending</a></li>
+                  </ul>"
+                  "<ul class=\"sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter\">\n"
+                  (mapconcat (lambda (item) (car (car item)))
+                            (cdr list)
+                            "\n")
+                  "</ul>\n"
+                  "</div>"
+                  )
+                "\n#+END_EXPORT\n")))
 
-  (defun my/org-html-headline (headline contents info)
-    (let* ((text (org-export-data (org-element-property :title headline) info))
-          (level (org-export-get-relative-level headline info))
-          (level (min 7 (when level (1+ level))))
-          (anchor-name (my/make-heading-anchor-name text))
-          (attributes (org-element-property :ATTR_HTML headline))
-          (container (org-element-property :HTML_CONTAINER headline))
-          (container-class (and container (org-element-property :HTML_CONTAINER_CLASS headline))))
-      (when attributes
-        (setq attributes
-              (format " %s" (org-html--make-attribute-string
-                            (org-export-read-attribute 'attr_html `(nil
-                                                                    (attr_html ,(split-string attributes))))))))
-      (concat
-      (when (and container (not (string= "" container)))
-        (format "<%s%s>" container (if container-class (format " class=\"%s\"" container-class) "")))
-      (if (not (org-export-low-level-p headline info))
-          (format "<h%d%s><a id=\"%s\" class=\"anchor\" href=\"#%s\"><i># </i></a>%s</h%d>%s"
-                  level
-                  (or attributes "")
-                  anchor-name
-                  anchor-name
-                  text
-                  level
-                  (or contents ""))
-        (concat
-          (when (org-export-first-sibling-p headline info) "<ul>")
-          (format "<li>%s%s</li>" text (or contents ""))
-          (when (org-export-last-sibling-p headline info) "</ul>")))
-      (when (and container (not (string= "" container)))
-        (format "</%s>" (cl-subseq container 0 (cl-search " " container)))))))
+            (setq org-publish-project-alist
+                  (list
+                   (list "notes.alex-miller.co"
+                         :base-extension "org"
+                         :base-directory "./"
+                         :publishing-function '(my/org-html-publish-to-html)
+                         :publishing-directory "./public"
+                         :auto-sitemap t
+                         :sitemap-function 'my/sitemap
+                         :sitemap-title my/sitemap-title
+                         :sitemap-format-entry 'my/sitemap-format-entry
+                         :sitemap-sort-files 'alphabetically
+                         :with-title nil
+                         :with-toc nil)
+                   (list "images"
+                         :base-extension "png\\|jpg\\|svg"
+                         :base-directory "./images"
+                         :publishing-directory "./public/images"
+                         :publishing-function 'org-publish-attachment)
+                   (list "site" :components '("notes.alex-miller.co" "images"))))
 
-  (org-export-define-derived-backend 'site-html ;; Create a new back-end as a variant of an existing one.
-      'html
-    :translate-alist ;; These are override functions for various org elements.
-    '((template . my/org-html-template)
-      (link . my/org-html-link)
-      (code . ox-slimhtml-verbatim)
-      (headline . my/org-html-headline))
-    :options-alist ;; Define custom options. See docs for org-export-options-alist
-    '((:page-type "PAGE-TYPE" nil nil t)
-      (:html-use-infojs nil nil nil)
-      (:updated "UPDATED" nil nil t)
-      (:roam_tags "ROAM_TAGS" nil nil split)))
-
-  (defun my/org-html-publish-to-html (plist filename pub-dir)
-    "Publish an org file to HTML, using the FILENAME as the output directory."
-    (with-current-buffer (find-file filename) ;; Add TOC if more than 3 headlines
-      (when (> (length (org-map-entries t)) 3)
-        (insert "#+OPTIONS: toc:t\n")))
-    (let ((article-path (get-article-output-path filename pub-dir)))
-      (cl-letf (((symbol-function 'org-export-output-file-name)
-                (lambda (extension &optional subtreep pub-dir)
-                  (concat article-path "index" extension))))
-        (org-publish-org-to 'site-html ;; Use the derrived backend defined above.
-                            filename
-                            (concat "." (or (plist-get plist :html-extension)
-                                            "html"))
-                            plist
-                            article-path))))
-
-  (defun my/sitemap-format-entry (entry style project)
-    "Formats sitemap entry <date> <title> (<tags>). Returns a list containing the
-    sitemap entry string and roam tags"
-    (let* ((roam-tags (org-publish-find-property entry :roam_tags project 'site-html))
-          (created-at (format-time-string "%Y-%m-%d"
-                                          (date-to-time
-                                            (format "%s" (nth 0 (org-publish-find-property entry :date project))))))
-          (entry
-            (concat
-            (format "<li data-date=\"%s\" class=\"%s\">" created-at (mapconcat (lambda (tag) tag) roam-tags " "))
-            (format "<span class=\"sitemap-entry-date\">%s</span>" created-at)
-            (format " <a href=/%s>%s</a>"
-                    (file-name-sans-extension entry)
-                    (org-publish-find-title entry project))
-            (if roam-tags
-                (concat " <span class=\"sitemap-entry-tags\">("
-                        (mapconcat (lambda (tag) tag) roam-tags ", ")
-                        ")</span>"))
-            "</li>")))
-      (list entry roam-tags)))
-
-  (defun my/sitemap (title list)
-    (let* ((unique-tags
-            (sort
-            (delete-dups
-              (flatten-tree
-                (mapcar (lambda (item) (cdr (car item)))
-                        (cdr list))))
-            (lambda (a b) (string< a b)))))
-      (concat
-      "#+TITLE: " title "\n\n"
-      "#+BEGIN_EXPORT html\n"
-      (concat
-        "<div id=\"tag-filter-component\" uk-filter=\"target: .js-filter\">\n
-        <div class=\"tags uk-subnav uk-subnav-pill\">\n
-        <span uk-filter-control=\"group: tag\"><a href=\"#\">ALL</a></span>\n"
-        (mapconcat (lambda (item)
-                    (format "<span id=\"%s\" uk-filter-control=\"filter: .%s; group: tag\"><a href=\"#\">%s</a></span>"
-                            (concat "filter-" item)
-                            item
-                            item))
-                  unique-tags
-                  "\n")
-        "</div>\n"
-        "<ul class=\"uk-subnav uk-subnav-pill\">
-          <li uk-filter-control=\"sort: data-date; group: date\"><a href=\"#\">Ascending</a></li>
-          <li class=\"uk-active\" uk-filter-control=\"sort: data-date; order: desc; group: date\"><a href=\"#\">Descending</a></li>
-        </ul>"
-        "<ul class=\"sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter\">\n"
-        (mapconcat (lambda (item) (car (car item)))
-                  (cdr list)
-                  "\n")
-        "</ul>\n"
-        "</div>"
-        )
-      "\n#+END_EXPORT\n")))
-
-  (setq org-html-preamble  #'my/site-header
-        org-html-postamble #'my/site-footer
-        org-html-metadata-timestamp-format "%Y-%m-%d"
-        org-html-checkbox-type 'site-html
-        org-html-html5-fancy nil
-        org-html-htmlize-output-type 'css ;; syntax highlighting with stylesheet not inline css. Use
-        org-html-self-link-headlines t    ;; org-html-htmlize-generate-css to generate a stylesheet
-        org-html-validation-link nil
-        org-html-inline-images t
-        org-html-doctype "html5")
-
-  (setq org-publish-project-alist
-        (list
-        (list "notes.alex-miller.co"
-              :base-extension "org"
-              :base-directory "./"
-              :publishing-function '(my/org-html-publish-to-html)
-              :publishing-directory "./public"
-              :auto-sitemap t
-              :sitemap-function 'my/sitemap
-              :sitemap-title my/sitemap-title
-              :sitemap-format-entry 'my/sitemap-format-entry
-              :sitemap-sort-files 'alphabetically
-              :with-title nil
-              :with-toc nil)
-        (list "images"
-              :base-extension "png\\|jpg\\|svg"
-              :base-directory "./images"
-              :publishing-directory "./public/images"
-              :publishing-function 'org-publish-attachment)
-        (list "site" :components '("notes.alex-miller.co" "images"))))
-
-  (defun my/org-publish ()
-    (interactive)
-    (org-publish-all t))
-#+END_SRC
+            (defun my/org-publish ()
+              (interactive)
+              (org-publish-all t))
+ #+END_SRC
