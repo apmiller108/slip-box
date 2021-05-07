@@ -1,45 +1,62 @@
 #+title: Publishing notes
 
-* Include org-roam backlinks in each note
-  - https://doubleloop.net/2020/08/21/how-publish-org-roam-wiki-org-publish/
-  - https://gitlab.com/ngm/commonplace/-/blob/master/publish.el#L176-190
+* Version 0.1 TODOs
+** DONE Fix non-responsive navbar
+   CLOSED: [2021-05-03 Mon 15:58]
+** DONE Fix broken links in notes on production builds
+   CLOSED: [2021-05-03 Mon 22:14]
+** DONE Remove site title icon
+   CLOSED: [2021-05-03 Mon 15:00]
+** DONE Add underline hover style to navbar links  
+   CLOSED: [2021-05-03 Mon 15:41]
+** DONE Add favicon
+   CLOSED: [2021-05-03 Mon 16:33]
+   - Copy assets from: https://github.com/apmiller108/blog/tree/master/assets/favicon
+   - And copy head links from https://blog.alex-miller.co/
+** DONE Show last updated on notes
+   CLOSED: [2021-05-03 Mon 13:05]
+** DONE Conditionally render created
+   CLOSED: [2021-05-03 Mon 16:55]
+** DONE Wire up tag filtering on index page
+   CLOSED: [2021-05-04 Tue 20:43]
+   - checkout https://getuikit.com/docs/filter
+** DONE Handle tag filtering on index page from navigation with query param
+   CLOSED: [2021-05-05 Wed 16:24]
+   - See https://getuikit.com/docs/filter#active-state
+** DONE Add order by date created on index page
+   CLOSED: [2021-05-04 Tue 20:43]
+** DONE Look into using Uikit description list for note meta data
+   CLOSED: [2021-05-04 Tue 17:02]
+** DONE Figure out why tables don't export to HTML
+   CLOSED: [2021-05-04 Tue 15:46]
+** DONE Enable TOC and customize TOC
+   CLOSED: [2021-05-05 Wed 16:24]
+   - Fix target links
+** TODO clean up publish.el
+** TODO Convert publish.el self documenting as publish.org
 
-  This would involve querying against the sql-lite database which creates too
-  much complexity in the build process to make this worth it.
-* DONE Fix non-responsive navbar
-  CLOSED: [2021-05-03 Mon 15:58]
-* DONE Fix broken links in notes on production builds
-  CLOSED: [2021-05-03 Mon 22:14]
-* DONE Remove site title icon
-  CLOSED: [2021-05-03 Mon 15:00]
-* DONE Add underline hover style to navbar links  
-  CLOSED: [2021-05-03 Mon 15:41]
-* DONE Add favicon
-  CLOSED: [2021-05-03 Mon 16:33]
-  - Copy assets from: https://github.com/apmiller108/blog/tree/master/assets/favicon
-  - And copy head links from https://blog.alex-miller.co/
-* DONE Show last updated on notes
-  CLOSED: [2021-05-03 Mon 13:05]
-* DONE Conditionally render created
-  CLOSED: [2021-05-03 Mon 16:55]
-* DONE Wire up tag filtering on index page
-  CLOSED: [2021-05-04 Tue 20:43]
-  - checkout https://getuikit.com/docs/filter
-* TODO Handle tag filtering on index page from navigation with query param
-  - See https://getuikit.com/docs/filter#active-state
-* DONE Add order by date created on index page
-  CLOSED: [2021-05-04 Tue 20:43]
-* DONE Look into using Uikit description list for note meta data
-  CLOSED: [2021-05-04 Tue 17:02]
-* DONE Figure out why tables don't export to HTML
-  CLOSED: [2021-05-04 Tue 15:46]
-* TODO Enable TOC and customize TOC
-  - Fix target links
-* TODO clean up publish.el
-* TODO Document the publish.el
+* Version 0.2 TODOs
+** TODO Include org-roam backlinks in each note
+*** Example  
+   - https://doubleloop.net/2020/08/21/how-publish-org-roam-wiki-org-publish/
+   - https://gitlab.com/ngm/commonplace/-/blob/master/publish.el#L176-190
+    
+*** Idea
+   This would involve querying against the sqllite database which creates some
+   additional complexity in the build process.
+   - Add org-roam to the publish script dependencies.
+   - Set the database slip box location and make sure it matches what  I have set
+     locally. Create the dir in the CI script.
+     #+begin_src elisp
+       (setq org-roam-directory "~/slip-box")
+     #+end_src
+   - Call ~(org-roam-db-build-cache)~ which I think will create the database.
+   - Then follow the example above and hope for the best.
 
 
 * Things picked up along that way that might be worth documenting
   - https://stackoverflow.com/a/2701743/5974855
   - https://org-roam.discourse.group/t/update-a-field-last-modified-at-save/321/19
   - https://github.com/alphapapa/ts.el
+  - https://orgmode.org/manual/Using-the-Mapping-API.html
+  - https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams#browser_compatibility
