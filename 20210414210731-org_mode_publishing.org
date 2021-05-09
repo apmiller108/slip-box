@@ -1,45 +1,8 @@
 #+title: Org-mode publishing
 #+date: 2021-04-14 21:07 PM
-#+updated: 2021-05-07 13:17 PM
+#+updated: 2021-05-08 20:18 PM
 #+roam_tags: org-mode emacs
 #+page-type: note
-
-* Publishing Backend
-  You can use different backends for producing HTML from org files. One is
-  *ox-slimhtml* which is now part of org-mode. I'm not sure where the
-  documentation is going to ultimately live, but the original repo has a handy
-  [[https://github.com/balddotcat/ox-slimhtml#readme][README]].
-
-** Overriding the backend functions
-   You can derive a custom backend that inherits from an existing one and
-   override certain functions. In this example, ~my-site-html~ inherits from
-   ~slimhtml~ and overrides template, link, code and headline functions.
-
-   #+begin_src elisp
-     (org-export-define-derived-backend 'my-site-html
-         'slimhtml
-       :translate-alist ;; Override functions for org-mode elements.
-       '((template . my/org-html-template)
-         (link . my/org-html-link)
-         (code . ox-slimhtml-verbatim)
-         (headline . my/org-html-headline))
-       :options-alist ;; Map keywords to custom export properties
-       '((:page-type "PAGE-TYPE" nil nil t)
-         (:html-use-infojs nil nil nil)))
-   #+end_src
-
-   - The ~:translate-alist~ part allows you to map an org element to a function
-     handler.
-   - The ~:options-alist~ gives you the ability to define keywords that map to
-     export properties. You can use this for custom export properties or
-     override existing properties. For more on this see the following:
-     - https://orgmode.org/worg/dev/org-export-reference.html
-     - http://doc.endlessparentheses.com/Var/org-export-options-alist.html
-     - [[https://emacs.stackexchange.com/q/64516/32224][An emacs.stackexchange question]] I asked about how to use ~#+roam_tags~
-       when publishing.
- 
-* Export Settings
-  See [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]].
 
 * Images
 ** Copy images to publishing directory

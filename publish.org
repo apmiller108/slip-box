@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-08 20:06 PM
+#+updated: 2021-05-08 20:18 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -368,7 +368,7 @@
       tags of the corresponding level with anchor tag handles, IDs that can be
       easily linked to, while respecting export options.
 
-    #+begin_src elisp +n :results silent"
+    #+begin_src elisp +n :results silent
       (defun my/org-html-headline (headline contents info)
         (let* ((text (org-export-data (org-element-property :title headline) info))
               (level (org-export-get-relative-level headline info))
@@ -403,22 +403,41 @@
              (format "</%s>" (cl-subseq container 0 (cl-search " " container)))))))
     #+end_src
 
+* Derived backend
+   You can derive a custom backend from an existing one and can override certain
+   functions. In this example, ~my-site-html~ derives from ~html~ and overrides
+   template, link, and headline functions.
+   
+   - The ~:translate-alist~ part allows you to map an org element to a function
+     handler.
+   - The ~:options-alist~ gives you the ability to define keywords that map to
+     export properties. You can use this for custom export properties or
+     override existing properties. For more on this see the following:
+     - See [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]].
+     - https://orgmode.org/worg/dev/org-export-reference.html
+     - http://doc.endlessparentheses.com/Var/org-export-options-alist.html
+     - [[https://emacs.stackexchange.com/q/64516/32224][An emacs.stackexchange question]] I asked about how to use ~#+roam_tags~
+       when publishing.
+  
+  #+begin_src elisp +n
+    (org-export-define-derived-backend
+        'site-html
+        'html
+      :translate-alist
+      '((template . my/org-html-template)
+        (link . my/org-html-link)
+        (headline . my/org-html-headline))
+      :options-alist
+      '((:page-type "PAGE-TYPE" nil nil t)
+        (:html-use-infojs nil nil nil)
+        (:updated "UPDATED" nil nil t)
+        (:roam_tags "ROAM_TAGS" nil nil split)))
+  #+end_src
 * The rest
   This is a WIP and I am working through documenting all this stuff.
   
  #+BEGIN_SRC emacs-lisp +n :results silent
 
-   (org-export-define-derived-backend 'site-html ;; Create a new back-end as a variant of an existing one.
-       'html
-     :translate-alist ;; These are override functions for various org elements.
-     '((template . my/org-html-template)
-       (link . my/org-html-link)
-       (headline . my/org-html-headline))
-     :options-alist ;; Define custom options. See docs for org-export-options-alist
-     '((:page-type "PAGE-TYPE" nil nil t)
-       (:html-use-infojs nil nil nil)
-       (:updated "UPDATED" nil nil t)
-       (:roam_tags "ROAM_TAGS" nil nil split)))
 
    (defun get-article-output-path (org-file pub-dir)
      (let ((article-dir (concat pub-dir
