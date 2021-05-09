@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-07 15:56 PM
+#+updated: 2021-05-08 20:06 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -15,6 +15,8 @@
   - I'm using [[https://getuikit.com/][UIkit]] CSS framework.
   - Reader comments powered by [[https://utteranc.es/][Utterances]].
   - There's a little bit of JavaScript, mostly for the tags.
+  - CI is run on GitHub actions where this is built and deployed to Netlify.
+    It is hosted at https://notes.alex-miller.co/. See [[https://github.com/apmiller108/slip-box/blob/main/.github/workflows/main.yml][CI configuration.]] 
     
 ** Learning resources for org-mode publishing
   - [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
@@ -162,219 +164,249 @@
      (setq make-backup-files nil)
    #+end_src
    
-* Site header
-  - This function is called when generating the HTML template below.
-    - ~info~ arg is a plist from which we can get configuration details about
-      the org document. I'm not using it here, but it comes in handy in other
-      functions to get things like the document title, date, etc.
-  - Here I am using ~esxml~ to declare the markup in elisp.
-    - It's quoted (with ~`~) but we can use ~,~ to selectively evaluate
-      expressions therein. Noice.
-      - See [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html][Backquote docs]] for more.
-    - ~@~ function is for declaring node attributes like ~class~, ~id~ or
-      whatever.
-  #+begin_src elisp +n :results silent
-    (defun my/site-header (info)
-      (sxml-to-xml
-       `(div (div (@ (class "heading uk-container"))
-                  (div (@ (class "site-title-container uk-flex uk-flex-middle"))
-                       (h1 (@ (class "site-title uk-h1 uk-heading-medium")) ,my/site-title))
-                  (div (@ (class "site-tagline uk-text-lead")) ,my/site-tagline))
-             (div (@ (class "uk-container"))
-                  (nav (@ (class "uk-navbar-container uk-navbar-transparent")
-                          (uk-navbar))
-                       (div (@ (class "uk-navbar-left"))
-                            (ul (@ (class "uk-navbar-nav"))
-                                (li (a (@ (class "nav-link") (href "/")) "Notes"))
-                                (li (a (@ (class "nav-link") (href "https://blog.alex-miller.co")) "Blog"))
-                                (li (a (@ (class "nav-link") (href "https://github.com/apmiller108")) "Github"))
-                                (li (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co")))))))))
-  #+end_src
+* Export document 
+** Site header
+   - This function is called when generating the HTML template below.
+     - ~info~ arg is a plist from which we can get configuration details about
+       the org document. I'm not using it here, but it comes in handy in other
+       functions to get things like the document title, date, etc.
+   - Here I am using ~esxml~ to declare the markup in elisp.
+     - It's quoted (with ~`~) but we can use ~,~ to selectively evaluate
+       expressions therein. Noice.
+       - See [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html][Backquote docs]] for more.
+     - ~@~ function is for declaring node attributes like ~class~, ~id~ or
+       whatever.
+   #+begin_src elisp +n :results silent
+     (defun my/site-header (info)
+       (sxml-to-xml
+        `(div (div (@ (class "heading uk-container"))
+                   (div (@ (class "site-title-container uk-flex uk-flex-middle"))
+                        (h1 (@ (class "site-title uk-h1 uk-heading-medium")) ,my/site-title))
+                   (div (@ (class "site-tagline uk-text-lead")) ,my/site-tagline))
+              (div (@ (class "uk-container"))
+                   (nav (@ (class "uk-navbar-container uk-navbar-transparent")
+                           (uk-navbar))
+                        (div (@ (class "uk-navbar-left"))
+                             (ul (@ (class "uk-navbar-nav"))
+                                 (li (a (@ (class "nav-link") (href "/")) "Notes"))
+                                 (li (a (@ (class "nav-link") (href "https://blog.alex-miller.co")) "Blog"))
+                                 (li (a (@ (class "nav-link") (href "https://github.com/apmiller108")) "Github"))
+                                 (li (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co")))))))))
+   #+end_src
 
-* Site footer
-  - This function is called when generating the HTML template below.
-  - ~creator~ is ~Emacs {{version}} (Org mode {{version}})~
+** Site footer
+   - This function is called when generating the HTML template below.
+   - ~creator~ is ~Emacs {{version}} (Org mode {{version}})~
   
-  #+begin_src elisp +n :results silent
-    (defun my/site-footer (info)
-      (sxml-to-xml
-      `(footer (@ (class "blog-footer"))
-                (div (@ (class "uk-container"))
-                    (div (@ (class "made-with"))
-                          (p "Made with " ,(plist-get info :creator))))))) 
-  #+end_src
+   #+begin_src elisp +n :results silent
+     (defun my/site-footer (info)
+       (sxml-to-xml
+       `(footer (@ (class "blog-footer"))
+                 (div (@ (class "uk-container"))
+                     (div (@ (class "made-with"))
+                           (p "Made with " ,(plist-get info :creator))))))) 
+   #+end_src
 
-* The HTML Template
-  - This is the whole page layout. It makes use of the header and footer functions
-    above and injects the org-mode document exported HTML (the ~contents~ arg).
-  - I think all of this is pretty self explanatory, but one thing I should call
-    out is the use of ~:roam_tags~ to generate the tag links. ~:roam_tags~ (from
-    [[https://www.orgroam.com/][org-roam]] package) are not automatically available from the ~info~ plist.
-    This needs to first be declared as a custom export option in the derived
-    backend. See below. I took me a while to figure that out.
-    [[https://emacs.stackexchange.com/questions/64516/using-org-roam-tags-when-org-publishing][I even asked on emacs.stackexchange]], but eventually figured it out and
-    answered my own question.
-  - Same with the ~:updated~ property.
-    - This is a timestamp this is automatically generated when an org-mode file
-      is saved. See
-      [[file:20210507153704-automatically_generate_an_updated_at_timestamp_when_saving_an_org_file.org][Automatically generate an updated at timestamp when saving an org file]]
-      for how that works.
+** The HTML Template
+   - This is the whole page layout. It makes use of the header and footer functions
+     above and injects the org-mode document exported HTML (the ~contents~ arg).
+   - I think all of this is pretty self explanatory, but one thing I should call
+     out is the use of ~:roam_tags~ to generate the tag links. ~:roam_tags~ (from
+     [[https://www.orgroam.com/][org-roam]] package) are not automatically available from the ~info~ plist.
+     This needs to first be declared as a custom export option in the derived
+     backend. See below. I took me a while to figure that out.
+     [[https://emacs.stackexchange.com/questions/64516/using-org-roam-tags-when-org-publishing][I even asked on emacs.stackexchange]], but eventually figured it out and
+     answered my own question.
+   - Same with the ~:updated~ property.
+     - This is a timestamp this is automatically generated when an org-mode file
+       is saved. See
+       [[file:20210507153704-automatically_generate_an_updated_at_timestamp_when_saving_an_org_file.org][Automatically generate an updated at timestamp when saving an org file]]
+       for how that works.
 
-  #+begin_src elisp +n :results silent
-    (defun my/org-html-template (contents info)
-      (concat
-      "<!DOCTYPE html>"
-      (sxml-to-xml
-        `(html (@ (lang "en"))
-              (head
-                "<!-- " ,(org-export-data (org-export-get-date info "%Y-%m-%d") info) " -->"
-                (meta (@ (charset "utf-8")))
-                (meta (@ (author "Alex P. Miller")))
-                (meta (@ (name "viewport")
-                        (content "width=device-width, initial-scale=1, shrink-to-fit=no")))
-                (link (@ (rel "apple-touch-icon")
-                        (sizes "180x180")
-                        (href "/favicon/apple-touch-icon.png?v=1")))
-                (link (@ (rel "icon")
-                        (type "image/png")
-                        (sizes "32x32")
-                        (href "/favicon/favicon-32x32.png?v=1")))
-                (link (@ (rel "icon")
-                        (type "image/png")
-                        (sizes "16x16")
-                        (href "/favicon/favicon-16x16.png?v=1")))
-                (link (@ (rel "manifest")
-                        (href "/favicon/manifest.json?v=1")))
-                (link (@ (rel "mask-icon")
-                        (href "/favicon/safari-pinned-tab.svg?v=1")))
-                (link (@ (rel "stylesheet")
-                        (href "/css/uikit.min.css")))
-                (link (@ (rel "stylesheet")
-                        (href "/css/code.css")))
-                (link (@ (rel "stylesheet")
-                        (href "/css/site.css")))
-                (script (@ (src "/js/uikit.min.js")) nil)
-                (script (@ (src "/js/uikit-icons.min.js")) nil)
-                (script (@ (src "/js/site.js")) nil)
-                (script (@ (src "https://www.googletagmanager.com/gtag/js?id=G-YM3EHHB2YQ")) nil)
-                (script
-                "window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
+   #+begin_src elisp +n :results silent
+     (defun my/org-html-template (contents info)
+       (concat
+       "<!DOCTYPE html>"
+       (sxml-to-xml
+         `(html (@ (lang "en"))
+               (head
+                 "<!-- " ,(org-export-data (org-export-get-date info "%Y-%m-%d") info) " -->"
+                 (meta (@ (charset "utf-8")))
+                 (meta (@ (author "Alex P. Miller")))
+                 (meta (@ (name "viewport")
+                         (content "width=device-width, initial-scale=1, shrink-to-fit=no")))
+                 (link (@ (rel "apple-touch-icon")
+                         (sizes "180x180")
+                         (href "/favicon/apple-touch-icon.png?v=1")))
+                 (link (@ (rel "icon")
+                         (type "image/png")
+                         (sizes "32x32")
+                         (href "/favicon/favicon-32x32.png?v=1")))
+                 (link (@ (rel "icon")
+                         (type "image/png")
+                         (sizes "16x16")
+                         (href "/favicon/favicon-16x16.png?v=1")))
+                 (link (@ (rel "manifest")
+                         (href "/favicon/manifest.json?v=1")))
+                 (link (@ (rel "mask-icon")
+                         (href "/favicon/safari-pinned-tab.svg?v=1")))
+                 (link (@ (rel "stylesheet")
+                         (href "/css/uikit.min.css")))
+                 (link (@ (rel "stylesheet")
+                         (href "/css/code.css")))
+                 (link (@ (rel "stylesheet")
+                         (href "/css/site.css")))
+                 (script (@ (src "/js/uikit.min.js")) nil)
+                 (script (@ (src "/js/uikit-icons.min.js")) nil)
+                 (script (@ (src "/js/site.js")) nil)
+                 (script (@ (src "https://www.googletagmanager.com/gtag/js?id=G-YM3EHHB2YQ")) nil)
+                 (script
+                 "window.dataLayer = window.dataLayer || [];
+                   function gtag(){dataLayer.push(arguments);}
+                   gtag('js', new Date());
 
-                  gtag('config', 'G-YM3EHHB2YQ');"
-                )
-                (title ,(concat (org-export-data (plist-get info :title) info) " - notes.alex-miller.com")))
-              (body
-                ,(my/site-header info)
-                (div (@ (class "uk-container"))
-                      (div (@ (class "note"))
-                          (div (@ (class "note-content"))
-                                (h1 (@ (class "note-title uk-h1"))
-                                    ,(org-export-data (plist-get info :title) info))
-                                (div (@ (class "note-meta"))
-                                    ,(when (plist-get info :date)
-                                        `(p (@ (class "note-created uk-article-meta"))
-                                            ,(format "Created on: %s" (ts-format "%B %e, %Y" (ts-parse (org-export-data (plist-get info :date) info))))))
-                                    ,(when (plist-get info :updated)
-                                        `(p (@ (class "note-updated uk-article-meta"))
-                                            ,(format "Updated on: %s" (ts-format "%B %e, %Y" (ts-parse (plist-get info :updated))))))
-                                    ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
-                                        (when (and tags (> (length tags) 0))
-                                          `(p (@ (class "blog-post-tags"))
-                                              "Tags: "
-                                              ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
-                                                          (plist-get info :roam_tags)
-                                                          ", ")))))
-                                ,contents)
-                          ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
-                              '(script (@ (src "https://utteranc.es/client.js")
-                                          (repo "apmiller108/slip-box")
-                                          (issue-term "title")
-                                          (label "comments")
-                                          (theme "boxy-light")
-                                          (crossorigin "anonymous")
-                                          (async))
-                                      nil))))
-                      ,(my/site-footer info))))))
-  #+end_src
+                   gtag('config', 'G-YM3EHHB2YQ');"
+                 )
+                 (title ,(concat (org-export-data (plist-get info :title) info) " - notes.alex-miller.com")))
+               (body
+                 ,(my/site-header info)
+                 (div (@ (class "uk-container"))
+                       (div (@ (class "note"))
+                           (div (@ (class "note-content"))
+                                 (h1 (@ (class "note-title uk-h1"))
+                                     ,(org-export-data (plist-get info :title) info))
+                                 (div (@ (class "note-meta"))
+                                     ,(when (plist-get info :date)
+                                         `(p (@ (class "note-created uk-article-meta"))
+                                             ,(format "Created on: %s" (ts-format "%B %e, %Y" (ts-parse (org-export-data (plist-get info :date) info))))))
+                                     ,(when (plist-get info :updated)
+                                         `(p (@ (class "note-updated uk-article-meta"))
+                                             ,(format "Updated on: %s" (ts-format "%B %e, %Y" (ts-parse (plist-get info :updated))))))
+                                     ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
+                                         (when (and tags (> (length tags) 0))
+                                           `(p (@ (class "blog-post-tags"))
+                                               "Tags: "
+                                               ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
+                                                           (plist-get info :roam_tags)
+                                                           ", ")))))
+                                 ,contents)
+                           ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
+                               '(script (@ (src "https://utteranc.es/client.js")
+                                           (repo "apmiller108/slip-box")
+                                           (issue-term "title")
+                                           (label "comments")
+                                           (theme "boxy-light")
+                                           (crossorigin "anonymous")
+                                           (async))
+                                       nil))))
+                       ,(my/site-footer info))))))
+   #+end_src
+
+** Element customization
+*** Links and Images
+    - The link paths need to match the actual file paths of the exported files. The
+      exported files are downcased and without filename extensions. So, this
+      function ensures the link paths match that format.
+    - I have some inline images in my org files. These are file links without a
+      label that point to files with image extensions. Mostly these are plantuml
+      renderings. They get converted to HTML ~img~ tags.
+    - For everything else, just render a good old fashion anchor tag.
+
+    #+begin_src elisp +n :results silent
+     (defun my/org-html-link (link contents info)
+       "Removes file extension and changes the path into lowercase org file:// links.
+       Handles creating inline images with `<img>' tags for png, jpg, and svg files
+       when the link doesn't have a label, otherwise just creates a link."
+       ;; TODO: refactor this mess
+       (when (and (string= 'file (org-element-property :type link))
+                 (string= "org" (file-name-extension (org-element-property :path link))))
+         (org-element-put-property link :path
+                                   (concat "/"
+                                           (downcase
+                                           (file-name-sans-extension
+                                             (org-element-property :path link))))))
+
+       (if (and (string= 'file (org-element-property :type link))
+               (file-name-extension (org-element-property :path link))
+               (string-match "png\\|jpg\\|svg"
+                             (file-name-extension
+                               (org-element-property :path link)))
+               (equal contents nil))
+           (format "<img src=/%s >" (org-element-property :path link))
+         (if (and (equal contents nil)
+                 (or (not (file-name-extension (org-element-property :path link)))
+                     (and (file-name-extension (org-element-property :path link))
+                           (not (string-match "png\\|jpg\\|svg"
+                                             (file-name-extension
+                                               (org-element-property :path link)))))))
+             (format "<a href=\"%s\">%s</a>"
+                     (org-element-property :raw-link link)
+                     (org-element-property :raw-link link))
+           (org-export-with-backend 'slimhtml link contents info))))
+    #+end_src
+
+*** Headings
+    This part is largely unchanged from David Wilson's publish.el on which
+    this is based.     
+    - Maybe something else already requires [[https://github.com/emacs-mirror/emacs/blob/emacs-27.2/lisp/emacs-lisp/subr-x.el][subx-r.el]], but we make sure we can
+      use ~thread-last~.
+    - This helper function is used when rendering headlines. It kebab cases the
+      cases the headline text for use as the HTML element's ID.
+      
+    #+begin_src emacs-lisp +n :results silent
+      (require 'subr-x)
+
+      (defun my/make-heading-anchor-name (headline-text)
+        (print (downcase headline-text))
+        (thread-last headline-text
+          (downcase)
+          (replace-regexp-in-string " " "-")
+          (replace-regexp-in-string "[^[:alnum:]_-]" "")))
+    #+end_src
+
+    - Basically, this translates the org-mode headlines to HTML ~h~
+      tags of the corresponding level with anchor tag handles, IDs that can be
+      easily linked to, while respecting export options.
+
+    #+begin_src elisp +n :results silent"
+      (defun my/org-html-headline (headline contents info)
+        (let* ((text (org-export-data (org-element-property :title headline) info))
+              (level (org-export-get-relative-level headline info))
+              (level (min 7 (when level (1+ level))))
+              (anchor-name (my/make-heading-anchor-name text))
+              (attributes (org-element-property :ATTR_HTML headline))
+              (container (org-element-property :HTML_CONTAINER headline))
+              (container-class (and container (org-element-property :HTML_CONTAINER_CLASS headline))))
+          (when attributes
+            (setq attributes
+                  (format " %s" (org-html--make-attribute-string
+                                 (org-export-read-attribute 'attr_html
+                                                            `(nil
+                                                              (attr_html ,(split-string attributes))))))))
+          (concat
+           (when (and container (not (string= "" container)))
+             (format "<%s%s>" container (if container-class (format " class=\"%s\"" container-class) "")))
+           (if (not (org-export-low-level-p headline info))
+               (format "<h%d%s><a id=\"%s\" class=\"anchor\" href=\"#%s\"><i># </i></a>%s</h%d>%s"
+                      level
+                      (or attributes "")
+                      anchor-name
+                      anchor-name
+                      text
+                      level
+                      (or contents ""))
+             (concat
+              (when (org-export-first-sibling-p headline info) "<ul>")
+              (format "<li>%s%s</li>" text (or contents ""))
+              (when (org-export-last-sibling-p headline info) "</ul>")))
+           (when (and container (not (string= "" container)))
+             (format "</%s>" (cl-subseq container 0 (cl-search " " container)))))))
+    #+end_src
 
 * The rest
   This is a WIP and I am working through documenting all this stuff.
   
  #+BEGIN_SRC emacs-lisp +n :results silent
-
-   (defun my/org-html-link (link contents info)
-     "Removes file extension and changes the path into lowercase org file:// links.
-     Handles creating inline images with `<img>' tags for png, jpg, and svg files
-     when the link doesn't have a label, otherwise just creates a link."
-     ;; TODO: refactor this mess
-     (when (and (string= 'file (org-element-property :type link))
-               (string= "org" (file-name-extension (org-element-property :path link))))
-       (org-element-put-property link :path
-                                 (concat "/"
-                                         (downcase
-                                         (file-name-sans-extension
-                                           (org-element-property :path link))))))
-
-     (if (and (string= 'file (org-element-property :type link))
-             (file-name-extension (org-element-property :path link))
-             (string-match "png\\|jpg\\|svg"
-                           (file-name-extension
-                             (org-element-property :path link)))
-             (equal contents nil))
-         (format "<img src=/%s >" (org-element-property :path link))
-       (if (and (equal contents nil)
-               (or (not (file-name-extension (org-element-property :path link)))
-                   (and (file-name-extension (org-element-property :path link))
-                         (not (string-match "png\\|jpg\\|svg"
-                                           (file-name-extension
-                                             (org-element-property :path link)))))))
-           (format "<a href=\"%s\">%s</a>"
-                   (org-element-property :raw-link link)
-                   (org-element-property :raw-link link))
-         (org-export-with-backend 'slimhtml link contents info))))
-
-   ;; Make sure we have thread-last
-   (require 'subr-x)
-
-   (defun my/make-heading-anchor-name (headline-text)
-     (thread-last headline-text
-       (downcase)
-       (replace-regexp-in-string " " "-")
-       (replace-regexp-in-string "[^[:alnum:]_-]" "")))
-
-   (defun my/org-html-headline (headline contents info)
-     (let* ((text (org-export-data (org-element-property :title headline) info))
-           (level (org-export-get-relative-level headline info))
-           (level (min 7 (when level (1+ level))))
-           (anchor-name (my/make-heading-anchor-name text))
-           (attributes (org-element-property :ATTR_HTML headline))
-           (container (org-element-property :HTML_CONTAINER headline))
-           (container-class (and container (org-element-property :HTML_CONTAINER_CLASS headline))))
-       (when attributes
-         (setq attributes
-               (format " %s" (org-html--make-attribute-string
-                             (org-export-read-attribute 'attr_html `(nil
-                                                                     (attr_html ,(split-string attributes))))))))
-       (concat
-       (when (and container (not (string= "" container)))
-         (format "<%s%s>" container (if container-class (format " class=\"%s\"" container-class) "")))
-       (if (not (org-export-low-level-p headline info))
-           (format "<h%d%s><a id=\"%s\" class=\"anchor\" href=\"#%s\"><i># </i></a>%s</h%d>%s"
-                   level
-                   (or attributes "")
-                   anchor-name
-                   anchor-name
-                   text
-                   level
-                   (or contents ""))
-         (concat
-           (when (org-export-first-sibling-p headline info) "<ul>")
-           (format "<li>%s%s</li>" text (or contents ""))
-           (when (org-export-last-sibling-p headline info) "</ul>")))
-       (when (and container (not (string= "" container)))
-         (format "</%s>" (cl-subseq container 0 (cl-search " " container)))))))
 
    (org-export-define-derived-backend 'site-html ;; Create a new back-end as a variant of an existing one.
        'html
