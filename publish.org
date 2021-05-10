@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-08 20:18 PM
+#+updated: 2021-05-09 20:41 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -357,7 +357,6 @@
       (require 'subr-x)
 
       (defun my/make-heading-anchor-name (headline-text)
-        (print (downcase headline-text))
         (thread-last headline-text
           (downcase)
           (replace-regexp-in-string " " "-")
@@ -403,6 +402,66 @@
              (format "</%s>" (cl-subseq container 0 (cl-search " " container)))))))
     #+end_src
 
+** The Sitemap (the home page)
+   #+begin_src elisp +n :results silent
+     (defun my/sitemap-format-entry (entry style project)
+       "Formats sitemap entry <date> <title> (<tags>). Returns a list containing the
+       sitemap entry string and roam tags"
+       (let* ((roam-tags (org-publish-find-property entry :roam_tags project 'site-html))
+             (created-at (format-time-string "%Y-%m-%d"
+                                             (date-to-time
+                                               (format "%s" (nth 0 (org-publish-find-property entry :date project))))))
+             (entry
+               (concat
+               (format "<li data-date=\"%s\" class=\"%s\">" created-at (mapconcat (lambda (tag) tag) roam-tags " "))
+               (format "<span class=\"sitemap-entry-date\">%s</span>" created-at)
+               (format " <a href=/%s>%s</a>"
+                       (file-name-sans-extension entry)
+                       (org-publish-find-title entry project))
+               (if roam-tags
+                   (concat " <span class=\"sitemap-entry-tags\">("
+                           (mapconcat (lambda (tag) tag) roam-tags ", ")
+                           ")</span>"))
+               "</li>")))
+         (list entry roam-tags)))
+
+     (defun my/sitemap (title list)
+       (let* ((unique-tags
+               (sort
+               (delete-dups
+                 (flatten-tree
+                   (mapcar (lambda (item) (cdr (car item)))
+                           (cdr list))))
+               (lambda (a b) (string< a b)))))
+         (concat
+         "#+TITLE: " title "\n\n"
+         "#+BEGIN_EXPORT html\n"
+         (concat
+           "<div id=\"tag-filter-component\" uk-filter=\"target: .js-filter\">\n
+           <div class=\"tags uk-subnav uk-subnav-pill\">\n
+           <span uk-filter-control=\"group: tag\"><a href=\"#\">ALL</a></span>\n"
+           (mapconcat (lambda (item)
+                       (format "<span id=\"%s\" uk-filter-control=\"filter: .%s; group: tag\"><a href=\"#\">%s</a></span>"
+                               (concat "filter-" item)
+                               item
+                               item))
+                     unique-tags
+                     "\n")
+           "</div>\n"
+           "<ul class=\"uk-subnav uk-subnav-pill\">
+             <li uk-filter-control=\"sort: data-date; group: date\"><a href=\"#\">Ascending</a></li>
+             <li class=\"uk-active\" uk-filter-control=\"sort: data-date; order: desc; group: date\"><a href=\"#\">Descending</a></li>
+           </ul>"
+           "<ul class=\"sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter\">\n"
+           (mapconcat (lambda (item) (car (car item)))
+                     (cdr list)
+                     "\n")
+           "</ul>\n"
+           "</div>"
+           )
+         "\n#+END_EXPORT\n")))
+
+   #+end_src
 * Derived backend
    You can derive a custom backend from an existing one and can override certain
    functions. In this example, ~my-site-html~ derives from ~html~ and overrides
@@ -419,7 +478,7 @@
      - [[https://emacs.stackexchange.com/q/64516/32224][An emacs.stackexchange question]] I asked about how to use ~#+roam_tags~
        when publishing.
   
-  #+begin_src elisp +n
+  #+begin_src elisp +n :results silent
     (org-export-define-derived-backend
         'site-html
         'html
@@ -433,122 +492,69 @@
         (:updated "UPDATED" nil nil t)
         (:roam_tags "ROAM_TAGS" nil nil split)))
   #+end_src
-* The rest
-  This is a WIP and I am working through documenting all this stuff.
-  
- #+BEGIN_SRC emacs-lisp +n :results silent
+* Publishing
+  #+begin_src elisp +n :results silent
+    (defun get-article-output-path (org-file pub-dir)
+      (let ((article-dir (concat pub-dir
+                                (downcase
+                                  (file-name-as-directory
+                                  (file-name-sans-extension
+                                    (file-name-nondirectory org-file)))))))
+        ;; Makes the sitemap the root index.html file
+        (if (string-match "\\/sitemap.org$" org-file)
+            pub-dir
+            (progn
+              (unless (file-directory-p article-dir)
+                (make-directory article-dir t))
+              article-dir))
+        ))
 
+    (defun my/org-html-publish-to-html (plist filename pub-dir)
+      "Publish an org file to HTML, using the FILENAME as the output directory."
+      (with-current-buffer (find-file filename) ;; Add TOC if more than 3 headlines
+        (when (> (length (org-map-entries t)) 3)
+          (insert "#+OPTIONS: toc:t\n")))
+      (let ((article-path (get-article-output-path filename pub-dir)))
+        (cl-letf (((symbol-function 'org-export-output-file-name)
+                  (lambda (extension &optional subtreep pub-dir)
+                    (concat article-path "index" extension))))
+          (org-publish-org-to 'site-html ;; Use the derrived backend defined above.
+                              filename
+                              (concat "." (or (plist-get plist :html-extension)
+                                              "html"))
+                              plist
+                              article-path))))
 
-   (defun get-article-output-path (org-file pub-dir)
-     (let ((article-dir (concat pub-dir
-                               (downcase
-                                 (file-name-as-directory
-                                 (file-name-sans-extension
-                                   (file-name-nondirectory org-file)))))))
-       ;; Makes the sitemap the root index.html file
-       (if (string-match "\\/sitemap.org$" org-file)
-           pub-dir
-           (progn
-             (unless (file-directory-p article-dir)
-               (make-directory article-dir t))
-             article-dir))
-       ))
+  #+end_src
 
-   (defun my/org-html-publish-to-html (plist filename pub-dir)
-     "Publish an org file to HTML, using the FILENAME as the output directory."
-     (with-current-buffer (find-file filename) ;; Add TOC if more than 3 headlines
-       (when (> (length (org-map-entries t)) 3)
-         (insert "#+OPTIONS: toc:t\n")))
-     (let ((article-path (get-article-output-path filename pub-dir)))
-       (cl-letf (((symbol-function 'org-export-output-file-name)
-                 (lambda (extension &optional subtreep pub-dir)
-                   (concat article-path "index" extension))))
-         (org-publish-org-to 'site-html ;; Use the derrived backend defined above.
-                             filename
-                             (concat "." (or (plist-get plist :html-extension)
-                                             "html"))
-                             plist
-                             article-path))))
+** The project alist
+   #+BEGIN_SRC emacs-lisp +n :results silent
+      (setq org-publish-project-alist
+            (list
+            (list "notes.alex-miller.co"
+                  :base-extension "org"
+                  :base-directory "./"
+                  :publishing-function '(my/org-html-publish-to-html)
+                  :publishing-directory "./public"
+                  :auto-sitemap t
+                  :sitemap-function 'my/sitemap
+                  :sitemap-title my/sitemap-title
+                  :sitemap-format-entry 'my/sitemap-format-entry
+                  :sitemap-sort-files 'alphabetically
+                  :with-title nil
+                  :with-toc nil)
+            (list "images"
+                  :base-extension "png\\|jpg\\|svg"
+                  :base-directory "./images"
+                  :publishing-directory "./public/images"
+                  :publishing-function 'org-publish-attachment)
+            (list "site" :components '("notes.alex-miller.co" "images"))))
 
-   (defun my/sitemap-format-entry (entry style project)
-     "Formats sitemap entry <date> <title> (<tags>). Returns a list containing the
-     sitemap entry string and roam tags"
-     (let* ((roam-tags (org-publish-find-property entry :roam_tags project 'site-html))
-           (created-at (format-time-string "%Y-%m-%d"
-                                           (date-to-time
-                                             (format "%s" (nth 0 (org-publish-find-property entry :date project))))))
-           (entry
-             (concat
-             (format "<li data-date=\"%s\" class=\"%s\">" created-at (mapconcat (lambda (tag) tag) roam-tags " "))
-             (format "<span class=\"sitemap-entry-date\">%s</span>" created-at)
-             (format " <a href=/%s>%s</a>"
-                     (file-name-sans-extension entry)
-                     (org-publish-find-title entry project))
-             (if roam-tags
-                 (concat " <span class=\"sitemap-entry-tags\">("
-                         (mapconcat (lambda (tag) tag) roam-tags ", ")
-                         ")</span>"))
-             "</li>")))
-       (list entry roam-tags)))
+   #+END_SRC
 
-   (defun my/sitemap (title list)
-     (let* ((unique-tags
-             (sort
-             (delete-dups
-               (flatten-tree
-                 (mapcar (lambda (item) (cdr (car item)))
-                         (cdr list))))
-             (lambda (a b) (string< a b)))))
-       (concat
-       "#+TITLE: " title "\n\n"
-       "#+BEGIN_EXPORT html\n"
-       (concat
-         "<div id=\"tag-filter-component\" uk-filter=\"target: .js-filter\">\n
-         <div class=\"tags uk-subnav uk-subnav-pill\">\n
-         <span uk-filter-control=\"group: tag\"><a href=\"#\">ALL</a></span>\n"
-         (mapconcat (lambda (item)
-                     (format "<span id=\"%s\" uk-filter-control=\"filter: .%s; group: tag\"><a href=\"#\">%s</a></span>"
-                             (concat "filter-" item)
-                             item
-                             item))
-                   unique-tags
-                   "\n")
-         "</div>\n"
-         "<ul class=\"uk-subnav uk-subnav-pill\">
-           <li uk-filter-control=\"sort: data-date; group: date\"><a href=\"#\">Ascending</a></li>
-           <li class=\"uk-active\" uk-filter-control=\"sort: data-date; order: desc; group: date\"><a href=\"#\">Descending</a></li>
-         </ul>"
-         "<ul class=\"sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter\">\n"
-         (mapconcat (lambda (item) (car (car item)))
-                   (cdr list)
-                   "\n")
-         "</ul>\n"
-         "</div>"
-         )
-       "\n#+END_EXPORT\n")))
-
-   (setq org-publish-project-alist
-         (list
-          (list "notes.alex-miller.co"
-                :base-extension "org"
-                :base-directory "./"
-                :publishing-function '(my/org-html-publish-to-html)
-                :publishing-directory "./public"
-                :auto-sitemap t
-                :sitemap-function 'my/sitemap
-                :sitemap-title my/sitemap-title
-                :sitemap-format-entry 'my/sitemap-format-entry
-                :sitemap-sort-files 'alphabetically
-                :with-title nil
-                :with-toc nil)
-          (list "images"
-                :base-extension "png\\|jpg\\|svg"
-                :base-directory "./images"
-                :publishing-directory "./public/images"
-                :publishing-function 'org-publish-attachment)
-          (list "site" :components '("notes.alex-miller.co" "images"))))
-
-   (defun my/org-publish ()
-     (interactive)
-     (org-publish-all t))
- #+END_SRC
+** Publish all
+   #+begin_src elisp +n :results silent
+     (defun my/org-publish ()
+       (interactive)
+       (org-publish-all t))
+   #+end_src
