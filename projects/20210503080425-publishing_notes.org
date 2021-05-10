@@ -32,8 +32,14 @@
 ** DONE Enable TOC and customize TOC
    CLOSED: [2021-05-05 Wed 16:24]
    - Fix target links
-** TODO clean up publish.el
-** TODO Convert publish.el self documenting as publish.org
+** DONE Convert publish.el self documenting as publish.org
+   CLOSED: [2021-05-09 Sun 20:44]
+
+** TODO clean up sitemap
+** TODO document sitemap
+** TODO document publishing functions
+** TODO document project alist
+** TODO Create git tag for v0.1 
 
 * Version 0.2 TODOs
 ** TODO Include org-roam backlinks in each note

@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-09 20:41 PM
+#+updated: 2021-05-10 08:11 AM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -478,7 +478,7 @@
      - [[https://emacs.stackexchange.com/q/64516/32224][An emacs.stackexchange question]] I asked about how to use ~#+roam_tags~
        when publishing.
   
-  #+begin_src elisp +n :results silent
+  #+begin_src emacs-lisp +n :results silent
     (org-export-define-derived-backend
         'site-html
         'html
