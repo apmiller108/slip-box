@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-11 13:38 PM
+#+updated: 2021-05-11 14:14 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -117,7 +117,7 @@
    #+begin_src elisp +n :results silent
   (setq my/site-title   "Alex's Slip-box"
         my/site-tagline "These are my org-mode notes in sort of Zettelkasten style"
-        my/sitemap-title "Notes Index")
+        my/sitemap-title "")
    #+end_src
 
 ** Org publish and export variables
@@ -460,7 +460,7 @@
                      (li (@ (uk-filter-control "sort: data-date; order: desc; group: date")
                             (class "uk-active"))
                          (a (@ (href "#")) "Descending")))
-                 (ul (@ (class "sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter"))
+                 (ul (@ (class "sitemap-entries uk-list uk-list-emphasis js-filter"))
                      ,(mapconcat (lambda (item) (car (car item)))
                                 (cdr list)
                                 "\n"))))
@@ -596,4 +596,5 @@
 
 *** site
     It contains everything needed to build the site.
+    
     

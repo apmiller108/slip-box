@@ -28,6 +28,10 @@ a:hover {
   margin: 1rem 0 0;
 }
 
+.heading .site-tagline {
+  font-size: 1rem;
+}
+
 .site-title-container .uk-icon {
   color: #333;
 }
@@ -43,16 +47,21 @@ a:hover {
 }
 
 .uk-navbar-nav .nav-link {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   min-height: 0;
 }
 
-.nav-link svg {
-  margin: 0 0.5rem 0 0;
+.uk-navbar-container.uk-navbar {
+  margin-top: 0;
+  margin-bottom: 0;
 }
-
 .nav-link:hover {
   text-decoration: underline;
+}
+
+.uk-subnav-pill>*>:first-child {
+  font-size: 1rem;
+  padding: 0.25rem 0.25rem;
 }
 
 .note .utterances {
