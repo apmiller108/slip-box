@@ -1,6 +1,6 @@
-#+title: Publish Slip-box
+#+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-11 15:16 PM
+#+updated: 2021-05-11 16:11 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -15,9 +15,9 @@
  - I'm using [[https://getuikit.com/][UIkit]] CSS framework.
  - Reader comments powered by [[https://utteranc.es/][Utterances]].
  - There's a little bit of JavaScript, mostly for the tags used to filter and
-    sort on the homepage.
+   sort on the homepage.
  - CI is run on GitHub actions where this is built and deployed to Netlify.
-    It is hosted at https://notes.alex-miller.co/. See [[https://github.com/apmiller108/slip-box/blob/main/.github/workflows/main.yml][CI configuration.]]
+   It is hosted at https://notes.alex-miller.co/. See [[https://github.com/apmiller108/slip-box/blob/main/.github/workflows/main.yml][CI configuration.]]
     
 ** Learning resources for org-mode publishing
   - [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
@@ -26,6 +26,16 @@
 ** Usage
    ~emacs -Q --batch -l ./publish.el --funcall my/publish~
 
+** Development
+*** Assets
+    Assets like CSS and JS files are stored in a git backed directory
+    ~site_asstes~. The files therein are symlinked in the ~publish~ directory
+    which is gitignored.
+*** Serving locally
+    After building locally to the ~public~ directory, I use the
+    [[https://github.com/skeeto/emacs-web-server][emacs-web-server package]] to serve it locally. Use ~httpd-serve-directory~
+    and point it at the publishing directory. It will serve the site on
+    http://localhost:8080/. 
 * Dependencies
 
 ** Package repositories
@@ -89,6 +99,7 @@
      I did that then linked the stylesheet in the HTML document ~<head>~.
    - Tell it to use a stylesheet over line styles by setting the
      ~org-html-htmlize-output-type~ variable. See below.
+   - Check out [[https://github.com/gongzhitaao/orgcss][Org css]] for more on this.
    
    #+begin_src emacs-lisp +n :results silent
     (use-package htmlize :ensure t)
@@ -298,7 +309,9 @@
 *** Links and Images
     - The link paths need to match the actual file paths of the exported files. The
       exported files are downcased and without filename extensions. So, this
-      function ensures the link paths match that format.
+      function ensures the link paths match that format. So
+      ~[[file:my_post.org][My Post]]~  becomes ~<a href="my_post">My Post</a>~
+      (no ~.html~ on the path).
     - I have some inline images in my org files. These are file links without a
       label that point to files with image extensions. Mostly these are plantuml
       renderings. They get converted to HTML ~img~ tags.
@@ -592,9 +605,8 @@
     I sometimes link and display images in my org-notes, like plantuml
     renderings. I put these in the ~./images~ directory. This basically just
     copies them over to the ~/images~ directory of the site. This ensure that
-    links and/or inline images work.
+    links and/or inline images work. (See [[https://emacs.stackexchange.com/a/555/32224][this emacs.stackexchange answer]] for
+    where I got the idea).
 
 *** site
     It contains everything needed to build the site.
-    
-    

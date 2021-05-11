@@ -49,7 +49,9 @@
    CLOSED: [2021-05-11 Tue 14:33]
 ** DONE Improve styling of Post title and meta data
    CLOSED: [2021-05-11 Tue 15:21]
-** TODO Create git tag for v0.1 
+** DONE Create git tag for v0.1 
+   CLOSED: [2021-05-11 Tue 15:44]
+
 
 * Version 0.2 TODOs
 ** TODO Include org-roam backlinks in each note
