@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-10 21:06 PM
+#+updated: 2021-05-10 21:18 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -509,39 +509,46 @@
         (:roam_tags "ROAM_TAGS" nil nil split)))
   #+end_src
 * Publishing
-  #+begin_src elisp +n :results silent
-    (defun get-article-output-path (org-file pub-dir)
-      (let ((article-dir (concat pub-dir
-                                (downcase
-                                  (file-name-as-directory
-                                  (file-name-sans-extension
-                                    (file-name-nondirectory org-file)))))))
-        ;; Makes the sitemap the root index.html file
-        (if (string-match "\\/sitemap.org$" org-file)
-            pub-dir
-            (progn
-              (unless (file-directory-p article-dir)
-                (make-directory article-dir t))
-              article-dir))
-        ))
 
-    (defun my/org-html-publish-to-html (plist filename pub-dir)
-      "Publish an org file to HTML, using the FILENAME as the output directory."
-      (with-current-buffer (find-file filename) ;; Add TOC if more than 3 headlines
-        (when (> (length (org-map-entries t)) 3)
-          (insert "#+OPTIONS: toc:t\n")))
-      (let ((article-path (get-article-output-path filename pub-dir)))
-        (cl-letf (((symbol-function 'org-export-output-file-name)
-                  (lambda (extension &optional subtreep pub-dir)
-                    (concat article-path "index" extension))))
-          (org-publish-org-to 'site-html ;; Use the derrived backend defined above.
-                              filename
-                              (concat "." (or (plist-get plist :html-extension)
-                                              "html"))
-                              plist
-                              article-path))))
+** Output paths
 
-  #+end_src
+   #+begin_src emacs-lisp +n :results silent
+     (defun get-article-output-path (org-file pub-dir)
+       (let ((article-dir (concat pub-dir
+                                 (downcase
+                                   (file-name-as-directory
+                                   (file-name-sans-extension
+                                     (file-name-nondirectory org-file)))))))
+         ;; Makes the sitemap the root index.html file
+         (if (string-match "\\/sitemap.org$" org-file)
+             pub-dir
+             (progn
+               (unless (file-directory-p article-dir)
+                 (make-directory article-dir t))
+               article-dir))
+         ))
+   #+end_src
+
+** The publishing function (and conditional TOCs)
+   
+   #+begin_src emacs-lisp +n :results silent
+      (defun my/org-html-publish-to-html (plist filename pub-dir)
+        "Publish an org file to HTML, using the FILENAME as the output directory."
+        (with-current-buffer (find-file filename) ;; Add TOC if more than 3 headlines
+          (when (> (length (org-map-entries t)) 3)
+            (insert "#+OPTIONS: toc:t\n")))
+        (let ((article-path (get-article-output-path filename pub-dir)))
+          (cl-letf (((symbol-function 'org-export-output-file-name)
+                    (lambda (extension &optional subtreep pub-dir)
+                      (concat article-path "index" extension))))
+            (org-publish-org-to 'site-html ;; Use the derrived backend defined above.
+                                filename
+                                (concat "." (or (plist-get plist :html-extension)
+                                                "html"))
+                                plist
+                                article-path))))
+
+   #+end_src
 
 ** The project alist
    #+BEGIN_SRC emacs-lisp +n :results silent
