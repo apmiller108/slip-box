@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-11 13:36 PM
+#+updated: 2021-05-11 13:38 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -11,12 +11,12 @@
 
  - This is based on [[https://github.com/daviwil/dotfiles/blob/master/.site/publish.el][David Wilson's publish.el]] which itself is based on
     [[https://gitlab.com/ambrevar/ambrevar.gitlab.io/-/blob/master/publish.el][Pierre Neidhardt's publish.el]]. Huge thanks for both.
-  - It requires emacs v27+
-  - I'm using [[https://getuikit.com/][UIkit]] CSS framework.
-  - Reader comments powered by [[https://utteranc.es/][Utterances]].
-  - There's a little bit of JavaScript, mostly for the tags used to filter and
+ - It requires emacs v27+
+ - I'm using [[https://getuikit.com/][UIkit]] CSS framework.
+ - Reader comments powered by [[https://utteranc.es/][Utterances]].
+ - There's a little bit of JavaScript, mostly for the tags used to filter and
     sort on the homepage.
-  - CI is run on GitHub actions where this is built and deployed to Netlify.
+ - CI is run on GitHub actions where this is built and deployed to Netlify.
     It is hosted at https://notes.alex-miller.co/. See [[https://github.com/apmiller108/slip-box/blob/main/.github/workflows/main.yml][CI configuration.]]
     
 ** Learning resources for org-mode publishing

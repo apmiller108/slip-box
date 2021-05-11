@@ -39,8 +39,10 @@
    CLOSED: [2021-05-10 Mon 21:07]
 ** DONE document sitemap
    CLOSED: [2021-05-10 Mon 21:07]
-** TODO document publishing functions
-** TODO document project alist
+** DONE document publishing functions
+   CLOSED: [2021-05-11 Tue 13:37]
+** DONE document project alist
+   CLOSED: [2021-05-11 Tue 13:37]
 ** DONE remove webfeeder
    CLOSED: [2021-05-11 Tue 12:49]
 ** TODO Improve styling of the index items
