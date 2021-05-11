@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-11 14:14 PM
+#+updated: 2021-05-11 15:16 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -270,17 +270,17 @@
                                  (div (@ (class "note-meta"))
                                      ,(when (plist-get info :date)
                                          `(p (@ (class "note-created uk-article-meta"))
-                                             ,(format "Created on: %s" (ts-format "%B %e, %Y" (ts-parse (org-export-data (plist-get info :date) info))))))
+                                             ,(format "Created on %s" (ts-format "%B %e, %Y" (ts-parse (org-export-data (plist-get info :date) info))))))
                                      ,(when (plist-get info :updated)
                                          `(p (@ (class "note-updated uk-article-meta"))
-                                             ,(format "Updated on: %s" (ts-format "%B %e, %Y" (ts-parse (plist-get info :updated))))))
-                                     ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
-                                         (when (and tags (> (length tags) 0))
-                                           `(p (@ (class "blog-post-tags"))
-                                               "Tags: "
-                                               ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
-                                                           (plist-get info :roam_tags)
-                                                           ", ")))))
+                                             ,(format "Updated on %s" (ts-format "%B %e, %Y" (ts-parse (plist-get info :updated)))))))
+                                 ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
+                                    (when (and tags (> (length tags) 0))
+                                      `(p (@ (class "blog-post-tags"))
+                                          "Tags: "
+                                          ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
+                                                      (plist-get info :roam_tags)
+                                                      ", "))))
                                  ,contents)
                            ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
                                '(script (@ (src "https://utteranc.es/client.js")

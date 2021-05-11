@@ -69,8 +69,17 @@ a:hover {
   margin-right: 0;
 }
 
+.note-meta {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .note-created, .note-updated {
-  margin: 0;
+  margin: 0 1rem 0 0;
+}
+
+.note-content .note-title {
+  margin: 1rem 0 0;
 }
 
 pre {
