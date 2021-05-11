@@ -1,21 +1,20 @@
 #+title: Org-mode mapping API
 #+date: 2021-05-11 15:46 PM
-#+updated: 2021-05-11 16:26 PM
+#+updated: 2021-05-11 16:30 PM
 #+roam_tags: org-mode emacs
 
-~org-map-entries~
+* org-map-entries
+** Counting entries (headlines)
+   This is probably the most basic use case for this. I needed in [[file:publish.org][publish.org]] to
+   count the number of headlines. I add a table of contents export option only
+   when there are more than 3 headlines in an org note.
 
-See [[https://orgmode.org/manual/Using-the-Mapping-API.html][Using the Mapping API docs]].
+   Get the number of headlines 
+   #+begin_src emacs-lisp
+     (length (org-map-entries t))
+   #+end_src
 
-* Counting entries (headlines)
-  This is probably the most basic use case for this. I needed in [[file:publish.org][publish.org]] to
-  count the number of headlines. I add a table of contents export option only
-  when there are more than 3 headlines in an org note.
-
-  Get the number of headlines 
-  #+begin_src emacs-lisp
-    (length (org-map-entries t))
-  #+end_src
-
-  #+RESULTS:
-  : 1
+   #+RESULTS:
+   : 3
+** Resources
+   See [[https://orgmode.org/manual/Using-the-Mapping-API.html][Using the Mapping API docs]].
