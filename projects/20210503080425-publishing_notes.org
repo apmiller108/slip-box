@@ -35,8 +35,10 @@
 ** DONE Convert publish.el self documenting as publish.org
    CLOSED: [2021-05-09 Sun 20:44]
 
-** TODO clean up sitemap
-** TODO document sitemap
+** DONE clean up sitemap
+   CLOSED: [2021-05-10 Mon 21:07]
+** DONE document sitemap
+   CLOSED: [2021-05-10 Mon 21:07]
 ** TODO document publishing functions
 ** TODO document project alist
 ** TODO Create git tag for v0.1 

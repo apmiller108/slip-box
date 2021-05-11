@@ -6,6 +6,15 @@ body {
   font-weight: 600;
 }
 
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.5rem;
+}
+
 nav {
   margin-left: -15px;
 }
@@ -42,13 +51,17 @@ a:hover {
   margin: 0 0.5rem 0 0;
 }
 
+.nav-link:hover {
+  text-decoration: underline;
+}
+
 .note .utterances {
   margin-left: 0;
   margin-right: 0;
 }
 
-.nav-link:hover {
-  text-decoration: underline;
+.note-created, .note-updated {
+  margin: 0;
 }
 
 pre {
@@ -57,15 +70,6 @@ pre {
   font-family: 'Oxygen Mono', monospace;
 }
 
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 0.5rem;
-}
-
-.note-created, .note-updated {
-  margin: 0;
+.sitemap-entries a {
+  margin: 0 0.5rem;
 }

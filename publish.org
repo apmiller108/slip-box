@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-10 08:11 AM
+#+updated: 2021-05-10 21:06 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -403,65 +403,78 @@
     #+end_src
 
 ** The Sitemap (the home page)
-   #+begin_src elisp +n :results silent
-     (defun my/sitemap-format-entry (entry style project)
-       "Formats sitemap entry <date> <title> (<tags>). Returns a list containing the
-       sitemap entry string and roam tags"
-       (let* ((roam-tags (org-publish-find-property entry :roam_tags project 'site-html))
-             (created-at (format-time-string "%Y-%m-%d"
-                                             (date-to-time
-                                               (format "%s" (nth 0 (org-publish-find-property entry :date project))))))
-             (entry
-               (concat
-               (format "<li data-date=\"%s\" class=\"%s\">" created-at (mapconcat (lambda (tag) tag) roam-tags " "))
-               (format "<span class=\"sitemap-entry-date\">%s</span>" created-at)
-               (format " <a href=/%s>%s</a>"
-                       (file-name-sans-extension entry)
-                       (org-publish-find-title entry project))
-               (if roam-tags
-                   (concat " <span class=\"sitemap-entry-tags\">("
-                           (mapconcat (lambda (tag) tag) roam-tags ", ")
-                           ")</span>"))
-               "</li>")))
-         (list entry roam-tags)))
+*** Sitemap Entry
+    Formats sitemap entry as ~{date} {title} ({roam_tags})~. Returns a list
+    containing the sitemap entry string and the ~roam_tags~. A unique list of the
+    ~roam_tags~ is created on the sitemap page from this list, that's why they're
+    returned from this function.
 
-     (defun my/sitemap (title list)
-       (let* ((unique-tags
-               (sort
-               (delete-dups
-                 (flatten-tree
-                   (mapcar (lambda (item) (cdr (car item)))
-                           (cdr list))))
-               (lambda (a b) (string< a b)))))
-         (concat
-         "#+TITLE: " title "\n\n"
-         "#+BEGIN_EXPORT html\n"
-         (concat
-           "<div id=\"tag-filter-component\" uk-filter=\"target: .js-filter\">\n
-           <div class=\"tags uk-subnav uk-subnav-pill\">\n
-           <span uk-filter-control=\"group: tag\"><a href=\"#\">ALL</a></span>\n"
-           (mapconcat (lambda (item)
-                       (format "<span id=\"%s\" uk-filter-control=\"filter: .%s; group: tag\"><a href=\"#\">%s</a></span>"
-                               (concat "filter-" item)
-                               item
-                               item))
-                     unique-tags
-                     "\n")
-           "</div>\n"
-           "<ul class=\"uk-subnav uk-subnav-pill\">
-             <li uk-filter-control=\"sort: data-date; group: date\"><a href=\"#\">Ascending</a></li>
-             <li class=\"uk-active\" uk-filter-control=\"sort: data-date; order: desc; group: date\"><a href=\"#\">Descending</a></li>
-           </ul>"
-           "<ul class=\"sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter\">\n"
-           (mapconcat (lambda (item) (car (car item)))
-                     (cdr list)
-                     "\n")
-           "</ul>\n"
-           "</div>"
-           )
-         "\n#+END_EXPORT\n")))
+    #+begin_src elisp +n :results silent
+      (defun my/sitemap-format-entry (entry style project)
+        (let* ((roam-tags (org-publish-find-property entry :roam_tags project 'site-html))
+               (created-at (format-time-string "%Y-%m-%d"
+                                               (date-to-time
+                                                (format "%s" (car (org-publish-find-property entry :date project))))))
+               (entry
+                (sxml-to-xml
+                 `(li (@ (data-date ,created-at)
+                         (class ,(mapconcat (lambda (tag) tag) roam-tags " ")))
+                      (span (@ (class "sitemap-entry-date")) ,created-at)
+                      (a (@ (href ,(file-name-sans-extension entry)))
+                         ,(org-publish-find-title entry project))
 
+                      ,(if roam-tags
+                           `(span (@ (class "sitemap-entry-tags"))
+                                  ,(concat "("
+                                           (mapconcat (lambda (tag) tag) roam-tags ", ")
+                                           ")")))))))
+              (list entry roam-tags)))
+    #+end_src
+
+*** Sitemap page
+    From the function above, the ~roam-tags~ are placed into a flattened list,
+    duplicate values removed and sorted alphabetical ascending. These are turned
+    into tags on the page used for filtering the entries by topic. All of the JS
+    used for filtering is provided by the [[https://getuikit.com/][UIkit]] CSS framework.
+    
+    #+begin_src emacs-lisp +n :results silent
+      (defun my/sitemap (title list)
+        (let* ((unique-tags
+                (sort
+                (delete-dups
+                  (flatten-tree
+                    (mapcar (lambda (item) (cdr (car item)))
+                            (cdr list))))
+                (lambda (a b) (string< a b)))))
+          (concat
+          "#+TITLE: " title "\n\n"
+          "#+BEGIN_EXPORT html\n\n"
+          (sxml-to-xml
+           `(div (@ (id "tag-filter-component")
+                    (uk-filter "target: .js-filter"))
+                 (div (@ (class "tags uk-subnav uk-subnav-pill"))
+                      (span (@ (uk-filter-control "group: tag"))
+                            (a (@ (href "#")) "ALL"))
+                      ,(mapconcat (lambda (item)
+                                    (format "<span id=\"%s\" uk-filter-control=\"filter: .%s; group: tag\"><a href=\"#\">%s</a></span>"
+                                            (concat "filter-" item)
+                                            item
+                                            item))
+                                  unique-tags
+                                  "\n"))
+                 (ul (@ (class "uk-subnav uk-subnav-pill"))
+                     (li (@ (uk-filter-control "sort: data-date; group: date"))
+                         (a (@ (href "#")) "Ascending"))
+                     (li (@ (uk-filter-control "sort: data-date; order: desc; group: date")
+                            (class "uk-active"))
+                         (a (@ (href "#")) "Descending")))
+                 (ul (@ (class "sitemap-entries uk-list uk-list-disc uk-list-emphasis js-filter"))
+                     ,(mapconcat (lambda (item) (car (car item)))
+                                (cdr list)
+                                "\n"))))
+          "\n#+END_EXPORT\n")))
    #+end_src
+   
 * Derived backend
    You can derive a custom backend from an existing one and can override certain
    functions. In this example, ~my-site-html~ derives from ~html~ and overrides
@@ -471,12 +484,15 @@
      handler.
    - The ~:options-alist~ gives you the ability to define keywords that map to
      export properties. You can use this for custom export properties or
-     override existing properties. For more on this see the following:
-     - See [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]].
-     - https://orgmode.org/worg/dev/org-export-reference.html
-     - http://doc.endlessparentheses.com/Var/org-export-options-alist.html
-     - [[https://emacs.stackexchange.com/q/64516/32224][An emacs.stackexchange question]] I asked about how to use ~#+roam_tags~
-       when publishing.
+     override existing properties.
+     - These are ~(KEYWORD OPTION DEFAULT BEHAVIOR)~. The full description can
+       be read by describing the ~org-export-options-alist~ variable.
+     - For more on this see the following:
+       - See [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]].
+       - https://orgmode.org/worg/dev/org-export-reference.html
+       - http://doc.endlessparentheses.com/Var/org-export-options-alist.html
+       - [[https://emacs.stackexchange.com/q/64516/32224][An emacs.stackexchange question]] I asked about how to use ~#+roam_tags~
+         when publishing.
   
   #+begin_src emacs-lisp +n :results silent
     (org-export-define-derived-backend
