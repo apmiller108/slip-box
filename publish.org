@@ -1,6 +1,6 @@
 #+title: Publish Slip-box
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-10 21:18 PM
+#+updated: 2021-05-11 12:48 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -91,15 +91,6 @@
    
    #+begin_src emacs-lisp +n :results silent
     (use-package htmlize :ensure t)
-   #+end_src
-
-** webfeeder
-
-   [[https://github.com/emacsmirror/webfeeder][webfeeder]] is for making atom/rss feeds. I
-   haven't used it yet, but I probably will later.
-
-   #+begin_src emacs-lisp +n :results silent
-     (use-package webfeeder :ensure t)
    #+end_src
 
 ** ts

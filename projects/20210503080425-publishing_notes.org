@@ -41,6 +41,9 @@
    CLOSED: [2021-05-10 Mon 21:07]
 ** TODO document publishing functions
 ** TODO document project alist
+** DONE remove webfeeder
+   CLOSED: [2021-05-11 Tue 12:49]
+** TODO Improve styling of the index items
 ** TODO Create git tag for v0.1 
 
 * Version 0.2 TODOs
@@ -61,7 +64,8 @@
    - Call ~(org-roam-db-build-cache)~ which I think will create the database.
    - Then follow the example above and hope for the best.
 
-
+** TODO Improve styling of Post title and meta data
+   
 * Things picked up along that way that might be worth documenting
   - https://stackoverflow.com/a/2701743/5974855
   - https://org-roam.discourse.group/t/update-a-field-last-modified-at-save/321/19
