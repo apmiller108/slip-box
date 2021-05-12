@@ -71,9 +71,7 @@
    - Call ~(org-roam-db-build-cache)~ which I think will create the database.
    - Then follow the example above and hope for the best.
 
+
 * Things picked up along that way that might be worth documenting
   - https://stackoverflow.com/a/2701743/5974855
-  - https://org-roam.discourse.group/t/update-a-field-last-modified-at-save/321/19
-  - https://github.com/alphapapa/ts.el
-  - https://orgmode.org/manual/Using-the-Mapping-API.html
   - https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams#browser_compatibility
