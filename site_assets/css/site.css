@@ -23,6 +23,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.header.uk-section, .main.uk-section, .footer.uk-section {
+  padding: 1rem 0;
+}
+
 .heading .site-title {
   font-weight: 300;
   margin: 1rem 0 0;
@@ -90,4 +94,26 @@ pre {
 
 .sitemap-entries a {
   margin: 0 0.5rem;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-link {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.footer-link svg {
+  margin-right: 0.25rem;
 }

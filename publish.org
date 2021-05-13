@@ -1,6 +1,6 @@
 #+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-11 16:11 PM
+#+updated: 2021-05-13 15:07 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -182,7 +182,8 @@
    #+begin_src elisp +n :results silent
      (defun my/site-header (info)
        (sxml-to-xml
-        `(div (div (@ (class "heading uk-container"))
+        `(div (@ (class "header uk-section uk-section-primary"))
+              (div (@ (class "heading uk-container"))
                    (div (@ (class "site-title-container uk-flex uk-flex-middle"))
                         (h1 (@ (class "site-title uk-h1 uk-heading-medium")) ,my/site-title))
                    (div (@ (class "site-tagline uk-text-lead")) ,my/site-tagline))
@@ -192,7 +193,6 @@
                         (div (@ (class "uk-navbar-left"))
                              (ul (@ (class "uk-navbar-nav"))
                                  (li (a (@ (class "nav-link") (href "/")) "Notes"))
-                                 (li (a (@ (class "nav-link") (href "https://blog.alex-miller.co")) "Blog"))
                                  (li (a (@ (class "nav-link") (href "https://github.com/apmiller108")) "Github"))
                                  (li (a (@ (class "nav-link") (href "https://alex-miller.co")) "alex-miller.co")))))))))
    #+end_src
@@ -204,10 +204,27 @@
    #+begin_src elisp +n :results silent
      (defun my/site-footer (info)
        (sxml-to-xml
-       `(footer (@ (class "blog-footer"))
-                 (div (@ (class "uk-container"))
-                     (div (@ (class "made-with"))
-                           (p "Made with " ,(plist-get info :creator))))))) 
+       `(footer (@ (class "footer uk-section uk-section-secondary"))
+                 (div (@ (class "uk-container footer-container"))
+                      (div (@ (class "footer-links"))
+                           (a (@ (href "https://notes.alex-miller.co/")
+                                 (class "footer-link")
+                                 (uk-icon "icon: album"))
+                                 "notes")
+                           (a (@ (href "https://github.com/apmiller108")
+                                 (class "footer-link")
+                                 (uk-icon "icon: github-alt"))
+                                 "github")
+                           (a (@ (href "https://twitter.com/apmiller108")
+                                 (class "footer-link")
+                                 (uk-icon "icon: twitter"))
+                              "@apmiller108")
+                           (a (@ (href "https://www.reddit.com/user/apmillz")
+                                 (class "footer-link")
+                                 (uk-icon "icon: reddit"))
+                              "u/apmillz"))
+                      (div (@ (class "made-with"))
+                           (p "Made with " ,(plist-get info :creator)))))))
    #+end_src
 
 ** The HTML Template
@@ -233,7 +250,6 @@
        (sxml-to-xml
          `(html (@ (lang "en"))
                (head
-                 "<!-- " ,(org-export-data (org-export-get-date info "%Y-%m-%d") info) " -->"
                  (meta (@ (charset "utf-8")))
                  (meta (@ (author "Alex P. Miller")))
                  (meta (@ (name "viewport")
@@ -273,8 +289,8 @@
                  (title ,(concat (org-export-data (plist-get info :title) info) " - notes.alex-miller.com")))
                (body
                  ,(my/site-header info)
-                 (div (@ (class "uk-container"))
-                       (div (@ (class "note"))
+                 (div (@ (class "main uk-section uk-section-muted"))
+                       (div (@ (class "note uk-container"))
                            (div (@ (class "note-content"))
                                  (h1 (@ (class "note-title uk-h1"))
                                      ,(org-export-data (plist-get info :title) info))
