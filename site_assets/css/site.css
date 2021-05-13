@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Oxygen+Mono&display=swap');
 
 body {
   font-family: 'Roboto', sans-serif;
-  font-weight: 600;
 }
 
 table, th, td {
@@ -28,11 +27,11 @@ a:hover {
 }
 
 .heading .site-title {
-  font-weight: 300;
   margin: 1rem 0 0;
 }
 
-.heading .site-tagline {
+.header .heading .site-tagline {
+  color: #fff;
   font-size: 1rem;
 }
 
@@ -50,9 +49,10 @@ a:hover {
   min-height: 0;
 }
 
-.uk-navbar-nav .nav-link {
+.uk-navbar .uk-navbar-nav .nav-link {
   font-size: 1.5rem;
   min-height: 0;
+  color: #fff !important;
 }
 
 .uk-navbar-container.uk-navbar {
@@ -65,7 +65,8 @@ a:hover {
 
 .uk-subnav-pill>*>:first-child {
   font-size: 1rem;
-  padding: 0.25rem 0.25rem;
+  padding: 0.5rem 0.5rem;
+  line-height: 1;
 }
 
 .note .utterances {
