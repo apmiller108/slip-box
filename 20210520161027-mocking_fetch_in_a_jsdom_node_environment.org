@@ -1,0 +1,55 @@
+#+title: Mocking fetch in a jsdom node environment
+#+date: 2021-05-20 16:10 PM
+#+updated: 2021-05-20 16:40 PM
+#+roam_tags: javascript testing typescript
+
+* The problem
+  Node.JS environments don't have [[https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch][fetch]]. Ok, so what, I'll just use [[https://github.com/node-fetch/node-fetch][node-fetch]],
+  right? Yes, but when I was unit testing a VueJS app, this didn't work. I think
+  it was because of an incompatibility with [[https://github.com/jsdom/jsdom][jsdom]]. My colleagues and I were
+  getting this error:
+
+  #+begin_src
+    TypeError: Cannot set property 'Headers' of undefined
+    at Object../node_modules/node-fetch/browser.js (/app/public/v2/js/webpack:/node_modules/node-fetch/browser.js:23:1)
+  #+end_src
+
+  We bailed on using node-fetch and opted to just mock the fetch instead.
+
+* Mocking Fetch in Mocha Tests
+  - This example uses [[https://sinonjs.org/][Sinon.JS]].
+  - ~fetch~ didn't exist on ~global~ which typescript was complaining about.
+    Using an ~any~ type assertion got around this.
+  - The ~json~ property on a fetch response is actually a function that returns
+    a ~~Promise~.
+
+  #+begin_src typescript
+    interface FakeResponse {
+      readonly ok: boolean;
+      readonly status: number;
+      json(): Promise<any>;
+    }
+
+    describe('something', () => {
+      const data = { foo: 'bar' }
+      const fakeJson = sinon.fake.resolves(data);
+      const fakeResponse: FakeResponse = { ok: true, status: 200, json: fakeJson };
+      const fetchStub = sinon.stub();
+      fetchStub.withArgs('https://example.com/posts.json').resolves(fakeResponse);
+
+      beforeEach(() =>{
+        (<any>global).fetch = fakeFetch;
+      })
+
+      afterEach(() => {
+        delete (<any>global).fetch;
+      })
+
+      it('gets the data', (done) => {
+        const someApi = new SomeApi();
+        expect(someApi.someMethodThatUsesFetch())
+          .to.eventually.deep.equal(data)
+          .notify(done);
+      })
+    })
+  #+end_src
