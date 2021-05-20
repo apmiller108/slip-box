@@ -1,14 +1,16 @@
 #+title: Access private property in Typescript
 #+date: 2021-05-20 09:14 AM
-#+updated: 2021-05-20 09:30 AM
+#+updated: 2021-05-20 16:01 PM
 #+roam_tags: typescript
 
-There are rare occasions when writing unit tests where I need to verify the
-value of a private property on a Typescript object instance.
+* Why
+  There are rare occasions when writing unit tests where I need to verify the
+  value of a private property on a Typescript object instance.
+  
 * Remove the type checking on the instance
 
   Imagine ~SomeObject~ has a private property called ~PrivateProp~. We can skip
-  the type checking using ~any~.
+  the type checking using ~any~ [[https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions][type assertion]].
 
   #+begin_src javascript
     it('equals some value', () => {
@@ -16,3 +18,7 @@ value of a private property on a Typescript object instance.
       expect((<any>someObject).privateProp).to.eq 'some value';
     });
   #+end_src
+
+  This could also be expresses as ~(someObject as any)~
+
+  See also [[https://stackoverflow.com/a/35627905][This SO answer]].
