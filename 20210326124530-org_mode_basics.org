@@ -1,6 +1,6 @@
 #+title: Org-mode basics
 #+date: 2021-03-26 12:45 PM
-#+updated: 2021-05-04 16:59 PM
+#+updated: 2021-05-14 09:17 AM
 #+roam_tags: org-mode
 
 This is a dump of notes on basic org-mode stuff. I recently switched from
@@ -9,20 +9,24 @@ Boostnote to org-mode.
 See also [[file:20210213184252-org_roam.org][Org-roam stuff]]   
 
 * Headings
- Rotate heading type (eg, TODO, DONE, etc) with:
- - ~S-RIGHT S-LEFT~
- - ~C-c C-t~
- - ~SPC m T T~ (spacemacs)
+  Rotate heading type (eg, TODO, DONE, etc) with:
+  - ~S-RIGHT S-LEFT~
+  - ~C-c C-t~
+  - ~SPC m T T~ (spacemacs)
 
- To change the collapse state ellipsis set variable:
+  Expand and Collapse
+  - ~Tab~ for a single heading
+  - ~S-Tab~  for all of them
 
- ~(set-q org-ellipsis " ▼")~
+  To change the collapse state ellipsis set variable:
 
- To remove the underline face on the ellipsis, you can use a hook:
+  ~(set-q org-ellipsis " ▼")~
 
- #+begin_src emacs-lisp
-   (add-hook 'org-mode-hook (lambda () (set-face-underline 'org-ellipsis nil)))
- #+end_src
+  To remove the underline face on the ellipsis, you can use a hook:
+
+  #+begin_src emacs-lisp
+    (add-hook 'org-mode-hook (lambda () (set-face-underline 'org-ellipsis nil)))
+  #+end_src
 
 * Tags
   - Puts tags on headings

@@ -1,0 +1,18 @@
+#+title: Access private property in Typescript
+#+date: 2021-05-20 09:14 AM
+#+updated: 2021-05-20 09:30 AM
+#+roam_tags: typescript
+
+There are rare occasions when writing unit tests where I need to verify the
+value of a private property on a Typescript object instance.
+* Remove the type checking on the instance
+
+  Imagine ~SomeObject~ has a private property called ~PrivateProp~. We can skip
+  the type checking using ~any~.
+
+  #+begin_src javascript
+    it('equals some value', () => {
+      const someObject = new SomeObject();
+      expect((<any>someObject).privateProp).to.eq 'some value';
+    });
+  #+end_src

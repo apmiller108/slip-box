@@ -1,0 +1,13 @@
+#+title: Cardono
+#+date: 2021-05-19 21:15 PM
+#+updated: 2021-05-19 21:18 PM
+#+roam_tags: crypto
+
+* Roadmap
+  https://roadmap.cardano.org/en/
+  
+* Smart Contracts
+** Marlowe
+*** Learning 
+   - [[https://alpha.marlowe.iohkdev.io/#/][Marlowe Playground]]
+   - [[https://alpha.marlowe.iohkdev.io/doc/marlowe/tutorials/index.html][Marlowe Tutorials]] 

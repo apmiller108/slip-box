@@ -3,16 +3,27 @@
 
 * DONE Load ~boostnote.json~
   CLOSED: [2021-02-26 Fri 13:44]
-* TODO Set title org export variable from title property
-* TODO Set roam tags variable to folder name
-* TODO Add tags list to roam tags
+* DONE Set ~#+title:~ org export variable from title property
+  CLOSED: [2021-05-14 Fri 20:20]
+* DONE Set ~#+roam_tags~ export option to folder name + boostnote tags
+  CLOSED: [2021-05-14 Fri 20:20]
+* DONE Set the ~#+date:~  export option to createdAt from cson
+  CLOSED: [2021-05-14 Fri 20:20]
+* DONE Set the ~#+updated:~  export option to updatedAt from cson
+  CLOSED: [2021-05-14 Fri 20:20]
+* TODO Write the org file
+  - Set the org file to timestamp-filename (snakecase)
+    example: ~20210326124530-org_mode_basics.org~
+  - Existing filenames look like ~4be18548-6866-4f12-aa38-0bad4b7f6522.cson~
 * TODO Only process where ~type: "MARKDOWN_NOTE"~
+* TODO Add export option ~#+boostnote_converted: t~  
 * DONE Convert content markdown to org note with pandoc
   CLOSED: [2021-03-19 Fri 13:10]
 * DONE Replace plantuml syntax with org note code block with results
   CLOSED: [2021-03-19 Fri 13:10]
   See [[file:20210212204557-plantuml_with_org_mode.org][Plantuml with org-mode]] for the formatting.
-* TODO Copy images from /attachments folder and link them
+* DONE Copy images from /attachments folder and link them
+  CLOSED: [2021-05-14 Fri 11:26]
 
   #+begin_src
 
