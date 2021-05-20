@@ -1,6 +1,6 @@
 #+title: Mocking fetch in a jsdom node environment
 #+date: 2021-05-20 16:10 PM
-#+updated: 2021-05-20 16:40 PM
+#+updated: 2021-05-20 18:41 PM
 #+roam_tags: javascript testing typescript
 
 * The problem
@@ -23,7 +23,7 @@
   - The ~json~ property on a fetch response is actually a function that returns
     a ~~Promise~.
 
-  #+begin_src typescript
+  #+begin_src javascript
     interface FakeResponse {
       readonly ok: boolean;
       readonly status: number;
