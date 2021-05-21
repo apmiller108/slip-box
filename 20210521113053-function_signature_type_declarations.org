@@ -1,0 +1,26 @@
+#+title: Function signature type declarations
+#+date: 2021-05-21 11:30 AM
+#+updated: 2021-05-21 11:50 AM
+#+roam_tags: typescript
+
+* Type or Interface
+  I needed to declare a function signature type for a callback function. I found
+  this could be done using a ~type~ or ~interface~. See [[https://www.typescriptlang.org/docs/handbook/2/functions.html#call-signatures][TS docs]] for more on this.
+ 
+  #+begin_src javascript
+    interface Options {
+      option1: string,
+      option2: number
+    }
+
+    type CallBack {
+      (name: string, options: Options) => void
+    }
+  #+end_src
+
+* Type Assertion
+
+  #+begin_src javascript
+    let callBack: (name: string, options: Options) => void;
+  #+end_src
+  
