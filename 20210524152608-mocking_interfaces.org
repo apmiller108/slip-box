@@ -1,0 +1,40 @@
+#+title: Mocking interfaces
+#+date: 2021-05-24 15:26 PM
+#+updated: 2021-05-24 16:06 PM
+#+roam_tags: typescript testing
+
+One of the problems with complex interfaces is that they can make mocking test
+data cumbersome in unit tests. TypeScript has some ways around this.
+
+* Use the Utility Types
+  Check out [[https://www.typescriptlang.org/docs/handbook/utility-types.html][Utility Types documentation]]. Here's a simple example of using the
+  ~Omit~ utility.
+
+
+  I was dealing with an interface that had a required property that was itself a
+  complex data structure with further nested objects. Kind of like this:
+
+  #+begin_src javascript
+    interface Thing {
+      prop1: string;
+      prop2: string;
+      complexData: ComplexData
+    }
+  #+end_src
+
+  In my test, I didn't need ~complexData~ at all. So, it would have been really
+  heavy-handed to mock that data in my unit test. Using the ~Omit~
+  utility, I was able to create an interface with all properties except the
+  ~complexData~ property.
+
+  #+begin_src javascript
+    type MockThing = Omit<Thing, 'complexData'>;
+
+    const thing: MockThing = {
+      prop1: 'foo',
+      prop2: 'bar'
+    }
+  #+end_src
+
+  There's a bunch of other utilities. See the [[https://www.typescriptlang.org/docs/handbook/utility-types.html][TypeScript utility types docs]] for
+  all of them.
