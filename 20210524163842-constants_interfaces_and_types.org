@@ -1,0 +1,65 @@
+#+title: Constants, interfaces and types
+#+date: 2021-05-24 16:38 PM
+#+updated: 2021-05-24 17:12 PM
+#+roam_tags: typescript
+
+* ~const~ Assertions
+
+  Using ~as const~ lets you define literal values.
+  - For objects the keys are ~readonly~
+  - Arrays become ~readonly~ tuples.
+
+  #+begin_src javascript
+    const THINGS = {
+      thing1: 1,
+      thing2: 2
+    } as const
+  #+end_src
+
+* With types
+  Here's one problem I had. This trivial example demonstrates it. Doing
+  something like this...
+
+  #+begin_src javascript
+    const thingName = Object.keys(THINGS).find((name) => {
+      return THINGS[name] === 1
+    });
+  #+end_src
+
+  ...TypeScript will fail to compile with this error:
+
+  #+begin_src 
+    Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ readonly thing1: 1; readonly thing2: 4; }'.
+    No index signature with a parameter of type 'string' was found on type '{ readonly thing1: 1; readonly thing2: 4; }'.
+  #+end_src
+
+  OK, so we have literal values here and TypeScript doesn't know what the ~name~
+  local variable is. To get around this, I defined a union type out of the
+  constants keys.
+
+  #+begin_src javascript
+    type ThingName = keyof typeof THINGS;
+  #+end_src
+
+  Then, using a type assertion on the ~name~, satisfied the compiler:
+
+  #+begin_src javascript
+    const thingName = Object.keys(THINGS).find((name) => {
+      return THINGS[name as ThingName] === 1
+    });
+  #+end_src
+
+  
+* With ~Record~ utility type
+  I didn't actually do this, but it looks like it's possible to use a
+  [[https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeystype][Record type]] if I really wanted to get crazy with it.
+
+  #+begin_src javascript
+    type ThingName = 'thing1' | 'thing2'
+    type ThingId = 1 | 2
+
+    export const THINGS: Record<ThingName, ThingId> = {
+      thing1: 1,
+      thing2: 2
+    } as const
+  #+end_src
