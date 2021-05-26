@@ -1,13 +1,36 @@
 #+title: Cardono
 #+date: 2021-05-19 21:15 PM
-#+updated: 2021-05-19 21:18 PM
+#+updated: 2021-05-26 08:44 AM
 #+roam_tags: crypto
 
-* Roadmap
-  https://roadmap.cardano.org/en/
-  
+* Ada
+  - The currency
+* Proof of Stake (PoS)
+* Ledger
+** Account type
+   Etherium uses account ledgers.
+** UTXO (unspent transaction outputs) type
+   Cardono uses a UTXO ledger.
+   - A transaction spends UTXOs and creates more.
+   - A transaction only has to deal with the inputs that it spends.
+*** Scripts and Extended UTXO
+    - Output can be locked by a script (actually a hash of a script). This is
+      called "pay to script".
+    - A script is a program that decides if a transaction is authorized to spend
+      its output. So, it's a validation script.
+**** Validator Scripts
+     These scripts are passed three args:
+     1. ~datum~: Some data/state attached to the locked output. 
+     2. ~redeemer~: data attached to the input doing the spending. Input to the
+        script from the spender.
+     3. ~context~: data about the transaction doing the spending. Makes
+        assertions about the way the output is being sent.
 * Smart Contracts
+** Plutus
+   - [[https://playground.plutus.iohkdev.io/][Plutus Playground]] 
 ** Marlowe
 *** Learning 
    - [[https://alpha.marlowe.iohkdev.io/#/][Marlowe Playground]]
    - [[https://alpha.marlowe.iohkdev.io/doc/marlowe/tutorials/index.html][Marlowe Tutorials]] 
+* Roadmap
+  https://roadmap.cardano.org/en/
