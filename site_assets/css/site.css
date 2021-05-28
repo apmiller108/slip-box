@@ -14,7 +14,7 @@ th, td {
   padding: 0.5rem;
 }
 
-h2 code {
+h2 code, h3 code, h4 code {
   font-size: inherit;
 }
 
