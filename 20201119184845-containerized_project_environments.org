@@ -1,6 +1,6 @@
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2021-05-29 20:23 PM
+#+updated: 2021-05-29 21:31 PM
 #+roam_tags: docker ruby
 
 Instead of messing about with version managers and local environment setup
@@ -111,7 +111,11 @@ language.
    #+begin_example shell
      docker-compose run --rm --service-ports ruby
    #+end_example
+   - The ~--service-ports~ is to expose the ports on a ~run~ command (as opposed
+     to ~docker-compose up~ which would be used when doing something like
+     running a server and the ports would be exposed normally)
 
+** Global docker-compose.yml   
    ...or if using a global ~docker-compose.yml~
 
    #+begin_example
@@ -121,3 +125,51 @@ language.
    - The global ~docker-compose.yml~ may have a different configuration that the
      example.
    - See https://evilmartians.com/chronicles/reusable-development-containers-with-docker-compose-and-dip
+
+* Other Examples
+** VueJS project
+
+   The ~Dockerfile~
+
+   #+begin_src dockerfile
+     FROM node:16.2-alpine3.11
+
+     WORKDIR /app
+
+     COPY package.json package-lock.json
+     RUN npm install
+
+     COPY . .
+
+     CMD ["/bin/sh"]
+   #+end_src
+
+   Open a shell prompt and setup the project:
+   
+   #+begin_example shell
+     docker run --rm -v "$PWD":/app -w /app node:16.2-alpine3.11 sh
+   #+end_example
+   - ~npm install -g @vue/cli~
+   - ~vue create my-project~
+   - ~mv my-project/* my-project/.gitignore ./~
+   - ~rmdir my-project~
+
+   The ~docker-compose.yml~
+
+   #+begin_src yaml
+     version: "3.6"
+
+     services:
+       app:
+         command: npm run serve
+         build: .
+         volumes:
+           - ${PWD}:/app:cached
+         ports:
+           - "8080:8080"
+         environment:
+           LANG: C.UTF-8
+         working_dir: /app
+   #+end_src
+
+   Run it with ~docker-compose up~
