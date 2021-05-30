@@ -1,6 +1,6 @@
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2021-05-28 13:46 PM
+#+updated: 2021-05-29 20:23 PM
 #+roam_tags: docker ruby
 
 Instead of messing about with version managers and local environment setup
@@ -98,11 +98,9 @@ language.
          command: /bin/bash 
          build: .
          volumes:
-           # filesyncing volume so don't have to rebuild.
-           - ${PWD}:/app:cached 
+           - ${PWD}:/app:cached # filesyncing volume so don't have to rebuild.
          ports:
-           # Expose a port (ie, serivce-ports) to the host if needed
-           - "12345:12345"
+           - "12345:12345" # Expose a port (ie, serivce-ports) to the host if needed
          environment:
            # Add environment variables
            LANG: C.UTF-8

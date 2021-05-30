@@ -1,0 +1,29 @@
+#+title: IPFS
+#+date: 2021-05-29 14:48 PM
+#+updated: 2021-05-29 15:42 PM
+#+roam_tags: ipfs
+
+[[https://ipfs.io/][InterPlanetary File System]]
+
+* Overview
+  - Peer-to-peer network and protocol.
+  - File contents are stored on distributed nodes.
+  - Uses content addressing (ie, a hash of the file's contents)
+    - Still, there's a naming system behind this called IPNS so a file can be
+      found be either it's hash or name.
+  - Relies on the concept of [[https://docs.ipfs.io/how-to/pin-files/#three-kinds-of-pins][pinning]] to persist files and prevent then
+    from being garbage collected. Pinning can be done on your local IPFS node
+    you can use pay for a 3rd party service like [[https://pinata.cloud/][Pinata]].
+  - Users can interact with IPFS with a [[https://docs.ipfs.io/how-to/command-line-quick-start/][CLI]] or the [[https://github.com/ipfs/ipfs-desktop][Desktop app]].
+  - You can host static websites on IPFS.
+
+* My Take on this
+  - This could be considered a data layer for the internet.
+  - The pinning concept is strange. With 3rd party services, we're back to just
+    cloud storage like DropBox, so what gives?
+  - Using IPFS for NFTs seems risky. What if I lose my node or the 3rd party
+    service goes out of business? 
+  
+* Resources
+  - https://ipfs.io/
+  - https://formulae.brew.sh/formula/ipfs#default
