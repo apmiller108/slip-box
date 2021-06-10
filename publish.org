@@ -1,6 +1,6 @@
 #+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-05-13 15:07 PM
+#+updated: 2021-06-10 09:20 AM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -373,7 +373,8 @@
       use ~thread-last~.
     - This helper function is used when rendering headlines. It kebab cases the
       cases the headline text for use as the HTML element's ID.
-      
+      - Sometimes heading words are fenced with ~~~, so the ~code~ tag is removed.
+
     #+begin_src emacs-lisp +n :results silent
       (require 'subr-x)
 
@@ -381,6 +382,7 @@
         (thread-last headline-text
           (downcase)
           (replace-regexp-in-string " " "-")
+          (replace-regexp-in-string "</?code>" "")
           (replace-regexp-in-string "[^[:alnum:]_-]" "")))
     #+end_src
 
