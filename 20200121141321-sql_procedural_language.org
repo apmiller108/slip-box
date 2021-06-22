@@ -1,0 +1,51 @@
+#+title: SQL Procedural Language
+#+date: 2020-01-21 14:13 PM
+#+updated: 2021-06-21 21:15 PM
+#+roam_tags: sql postgres 
+
+* SQL Procedural Language
+  It's a procedural programming language supported by PG.
+  [[https://www.postgresql.org/docs/12/plpgsql.html][PostgreSQL: Documentation: 12: Chapter 42. PL/pgSQL - SQL Procedural Language]]
+
+** Block Structure
+   - Stored procedures use block structure.
+     [[https://www.postgresqltutorial.com/plpgsql-block-structure/][PL/pgSQL Block Structure]]
+
+*** Basic Example of Block Structure
+    - Encapsulated in DO/END
+    - Body my be a string literal. That's what the =$$= is for.
+    - DECLARE section lets you declare variables, their types and optionally
+      default values
+
+    #+begin_src sql
+      DO $$ 
+      DECLARE
+        counter integer := 0;
+      BEGIN 
+        counter := counter + 1;
+        RAISE NOTICE 'The current value of counter is %', counter;
+      END $$;
+    #+end_src
+
+** DECLARE
+   - Declare a variable with it's datatype and optional default value
+   - You can copy the datatype from an existing table column from your
+     database. See =city_name= example below.
+   - You can declare constants too, see =TAX= example below. These can't be
+
+   #+begin_src sql
+    DO $$ 
+    DECLARE
+      counter    INTEGER := 1;
+      first_name VARCHAR(50) := 'John';
+      last_name  VARCHAR(50) := 'Doe';
+      payment    NUMERIC(11,2) := 20.5;
+      city_name  city.name%TYPE := 'San Francisco';
+      TAX CONSTANT NUMERIC := 0.075; 
+    BEGIN 
+      -- do stuff
+    END $$;
+   #+end_src
+
+** Stored Procedure
+   [[https://www.postgresqltutorial.com/postgresql-stored-procedures/][PostgreSQL Stored Procedures]]

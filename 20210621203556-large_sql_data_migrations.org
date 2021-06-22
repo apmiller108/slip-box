@@ -1,0 +1,13 @@
+#+title: Large SQL data migrations
+#+date: 2021-06-21 20:35 PM
+#+updated: 2021-06-21 21:18 PM
+#+roam_tags: sql
+
+* Use PL/psSQL
+  See [[file:20200121141321-sql_procedural_language.org][SQL Procedural Language]]
+  
+* Drop and recreate indexes
+* Use batches
+* Resources
+  http://blog.plataformatec.com.br/2019/02/migrations-in-databases-with-large-amount-of-data/
+  https://www.2ndquadrant.com/en/blog/7-best-practice-tips-for-postgresql-bulk-data-loading/
