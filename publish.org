@@ -1,6 +1,6 @@
 #+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-06-10 09:20 AM
+#+updated: 2021-06-25 13:55 PM
 #+roam_tags: org-mode org-roam emacs
 
 * Overview
@@ -76,18 +76,6 @@
   #+begin_src emacs-lisp +n :results silent
     (use-package esxml :ensure t)
   #+end_src
-
-** ox-slimhtml
-
-   [[https://github.com/balddotcat/ox-slimhtml#readme][ox-slimhtml]] is a publishing backend with a minimal set of trans-coders. I
-   actually use a derived backend based on the [[https://orgmode.org/manual/HTML-Export.html#HTML-Export][org-mode html]] backend since I
-   have things like tables, and will likely have additional markups in the
-   future. Right now this is only used when links are generated, but will at
-   some point remove this dependency.
-
-   #+begin_src emacs-lisp +n :results silent
-    (use-package ox-slimhtml :ensure t)
-   #+end_src
 
 ** htmlize
 
@@ -334,36 +322,38 @@
     - For everything else, just render a good old fashion anchor tag.
 
     #+begin_src elisp +n :results silent
-     (defun my/org-html-link (link contents info)
-       "Removes file extension and changes the path into lowercase org file:// links.
-       Handles creating inline images with `<img>' tags for png, jpg, and svg files
-       when the link doesn't have a label, otherwise just creates a link."
-       ;; TODO: refactor this mess
-       (when (and (string= 'file (org-element-property :type link))
-                 (string= "org" (file-name-extension (org-element-property :path link))))
-         (org-element-put-property link :path
-                                   (concat "/"
-                                           (downcase
-                                           (file-name-sans-extension
-                                             (org-element-property :path link))))))
+      (defun my/org-html-link (link contents info)
+        "Removes file extension and changes the path into lowercase org file:// links.
+        Handles creating inline images with `<img>' tags for png, jpg, and svg files
+        when the link doesn't have a label, otherwise just creates a link."
+        ;; TODO: refactor this mess
+        (when (and (string= 'file (org-element-property :type link))
+                  (string= "org" (file-name-extension (org-element-property :path link))))
+          (org-element-put-property link :path
+                                    (concat "/"
+                                            (downcase
+                                            (file-name-sans-extension
+                                              (org-element-property :path link))))))
 
-       (if (and (string= 'file (org-element-property :type link))
-               (file-name-extension (org-element-property :path link))
-               (string-match "png\\|jpg\\|svg"
-                             (file-name-extension
-                               (org-element-property :path link)))
-               (equal contents nil))
-           (format "<img src=/%s >" (org-element-property :path link))
-         (if (and (equal contents nil)
-                 (or (not (file-name-extension (org-element-property :path link)))
-                     (and (file-name-extension (org-element-property :path link))
-                           (not (string-match "png\\|jpg\\|svg"
-                                             (file-name-extension
-                                               (org-element-property :path link)))))))
-             (format "<a href=\"%s\">%s</a>"
-                     (org-element-property :raw-link link)
-                     (org-element-property :raw-link link))
-           (org-export-with-backend 'slimhtml link contents info))))
+        (if (and (string= 'file (org-element-property :type link))
+                (file-name-extension (org-element-property :path link))
+                (string-match "png\\|jpg\\|svg"
+                              (file-name-extension
+                                (org-element-property :path link)))
+                (equal contents nil))
+            (format "<img src=/%s >" (org-element-property :path link))
+          (if (and (equal contents nil)
+                  (or (not (file-name-extension (org-element-property :path link)))
+                      (and (file-name-extension (org-element-property :path link))
+                            (not (string-match "png\\|jpg\\|svg"
+                                              (file-name-extension
+                                                (org-element-property :path link)))))))
+              (format "<a href=\"%s\">%s</a>"
+                      (org-element-property :raw-link link)
+                      (org-element-property :raw-link link))
+            (format "<a href=\"%s\">%s</a>"
+                    (org-element-property :path link)
+                    contents))))
     #+end_src
 
 *** Headings
