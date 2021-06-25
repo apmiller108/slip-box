@@ -1,7 +1,7 @@
 #+title: Large SQL data migrations
 #+date: 2021-06-21 20:35 PM
-#+updated: 2021-06-25 10:21 AM
-#+roam_tags: sql
+#+updated: 2021-06-25 14:07 PM
+#+roam_tags: sql postgres
 
 * Use PL/pgSQL
   See [[file:20200121141321-sql_procedural_language.org][SQL Procedural Language]].
@@ -17,11 +17,19 @@
 * Drop and recreate indexes
 * Use batches
 
+  Here I'm just using a counter to increment by a certain batch size. This is a
+  kind of boiler plate template for doing this.
+
+  Also, there is the use of [[https://www.postgresql.org/docs/9.6/plpgsql-statements.html#PLPGSQL-STATEMENTS-DIAGNOSTICS][GET DIAGNOSTICS]] which is a handy tool to get
+  information about the previously executed statement. ~ROW_COUNT~ is one of the
+  items that can be used with ~GET DIAGNOSTICS~ and is not the same as
+  ~row_count~ variable in the example.
+
   #+begin_src sql
     DO $$
     DECLARE
         row_count   integer := 0;
-        batch_size  integer := 2;
+        batch_size  integer := 5000;
         batch_start integer := 1;
         batch_end   integer := batch_size;
         affected    integer;
@@ -47,5 +55,5 @@
     END $$
   #+end_src
 * Resources
-  http://blog.plataformatec.com.br/2019/02/migrations-in-databases-with-large-amount-of-data/
-  https://www.2ndquadrant.com/en/blog/7-best-practice-tips-for-postgresql-bulk-data-loading/
+  - http://blog.plataformatec.com.br/2019/02/migrations-in-databases-with-large-amount-of-data/
+  - https://www.2ndquadrant.com/en/blog/7-best-practice-tips-for-postgresql-bulk-data-loading/
