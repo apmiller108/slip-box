@@ -1,0 +1,33 @@
+#+title: ON CONFLICT (UPSERT)
+#+date: 2018-09-25 15:03 PM
+#+updated: 2021-06-25 15:50 PM
+#+roam_tags: sql postgres
+
+* ON CONFLICT (UPSERT)
+  You can use =ON CONFLICT (column_name)= to perform a different action
+  when trying to insert a record. For example, you can update the existing
+  record instead of just having a constraint exception raised.
+
+  NOTE: the columns used in =ON CONFLICT= must be backed by a database
+  constraint.
+
+*** UPSERT
+    #+begin_src sql
+      INSERT INTO vehicle_make_model_tiers (make, model, tier) 
+      VALUES ('A', 'B', 1), ('A', 'C', 2)
+      ON CONFLICT (make, model)
+      DO UPDATE SET tier = EXCLUDED.tier
+    #+end_src
+
+    - In this example we have a unique, compound index for =make= and
+      =model=
+    - So, when a conflict arises, instead of just throwing the exception...
+    - Use =DO= followed by the action.
+    - You could =DO NOTHING= or =DO UPDATE ...=
+    - Use =EXCLUDED.column_name= to access the values of the conflicting
+      insert attempt
+
+*** Resources
+
+    - [[http://www.postgresqltutorial.com/postgresql-upsert/][PostgreSQL Upsert Using INSERT ON CONFLICT statement]]
+    - [[https://hashrocket.com/blog/posts/upsert-records-with-postgresql-9-5][Upsert Records with PostgreSQL 9.5 | Hashrocket]]
