@@ -1,6 +1,6 @@
 #+title: SQL Procedural Language
 #+date: 2020-01-21 14:13 PM
-#+updated: 2021-06-21 21:15 PM
+#+updated: 2021-06-25 10:15 AM
 #+roam_tags: sql postgres 
 
 * SQL Procedural Language
@@ -49,3 +49,8 @@
 
 ** Stored Procedure
    [[https://www.postgresqltutorial.com/postgresql-stored-procedures/][PostgreSQL Stored Procedures]]
+
+   - Available in Postgres v11+.
+   - When doing [[file:20210621203556-large_sql_data_migrations.org][Large SQL data migrations]] with batches, it can be good to commit
+     at each iteration of a loop. We cannot ~COMMIT~ transactions in PL/pgSQL
+     unless using a stored procedure or function.
