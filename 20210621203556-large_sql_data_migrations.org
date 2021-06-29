@@ -1,20 +1,63 @@
 #+title: Large SQL data migrations
 #+date: 2021-06-21 20:35 PM
-#+updated: 2021-06-25 15:52 PM
+#+updated: 2021-06-29 09:11 AM
 #+roam_tags: sql postgres
 
 * Use PL/pgSQL
   See [[file:20200121141321-sql_procedural_language.org][SQL Procedural Language]].
 
-  One important caveat here is that we can't ~COMMIT~  transactions in PL/pgSQL.
-  This becomes an issue when using ~LOOP~ on batched operations where it would
-  be ideal to commit on each iteration of a loop. For this, we need to use
-  [[https://www.postgresqltutorial.com/postgresql-stored-procedures/][PostgreSQL Stored Procedures]] or a function for older PG versions. See
-  [[http://www.postgresql.cn/docs/11/plpgsql-transactions.html][plpgsql transaction management docs]].
+** Transaction Management  
+   One important caveat here is that we can't ~COMMIT~  transactions in PL/pgSQL.
+   This becomes an issue when using ~LOOP~ on batched operations where it would
+   be ideal to commit on each iteration of a loop. For this, we need to use
+   [[https://www.postgresqltutorial.com/postgresql-stored-procedures/][PostgreSQL Stored Procedures]] See [[http://www.postgresql.cn/docs/11/plpgsql-transactions.html][plpgsql transaction management docs]].
 
-  See also https://newbedev.com/postgresql-cannot-begin-end-transactions-in-pl-pgsql
+   See also
+   https://newbedev.com/postgresql-cannot-begin-end-transactions-in-pl-pgsql
+
+*** dblink extension
+    For older versions of Postgres, one hack is to use the [[https://www.postgresql.org/docs/current/contrib-dblink-function.html][dblink]] extension,
+    build a SQL string, execute it on the [[https://www.postgresql.org/docs/current/contrib-dblink-function.html][dblink]] connection and ~COMMIT~. Note
+    the use of ~format~ to interpolate any variables into the SQL string.
+    Variables declared in the script's scope won't be available to be evaluated
+    on the dblink context.
+
+    For example:
+   
+    #+begin_src sql
+      DO
+      $$
+
+          DECLARE
+              sql_string  varchar(9000);
+              my_var varchar(16) := 'foo';
+
+          BEGIN
+              CREATE EXTENSION IF NOT EXISTS dblink;
+
+              WHILE row_count > 0
+                  LOOP
+                      PERFORM dblink_connect('my_dblink','dbname=my_database port=5432 user=username');
+
+                      sql_string := $query$
+                      -- Some long SQL string
+                      $query$;
+
+                      -- Interpolate dynamic variables since dblink won't have access to them.
+                      sql_string := format(sql_string, my_var);
+
+                      PERFORM dblink('dblink_hubble', sql_string);
+                      PERFORM dblink('dblink_hubble','COMMIT;');
+                      PERFORM dblink_disconnect('dblink_hubble');
+
+                  END LOOP;
+
+            END
+      $$
+    #+end_src
   
 * Drop and recreate indexes
+  This can speed things up.
 * Use batches
 
   Here I'm just using a counter to increment by a certain batch size. This is a
@@ -58,6 +101,8 @@
   A nice feature is [[file:20180925150335-on_conflict_(upsert).org][ON CONFLICT (UPSERT)]] for taking certain actions when
   encountering issue with constraints so it doesn't blow up the entire
   migration.
+
+  Note that the ~UPDATE~ action cannot affect the same row more than once.
 * Resources
   - http://blog.plataformatec.com.br/2019/02/migrations-in-databases-with-large-amount-of-data/
   - https://www.2ndquadrant.com/en/blog/7-best-practice-tips-for-postgresql-bulk-data-loading/
