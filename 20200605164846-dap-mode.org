@@ -1,6 +1,6 @@
 #+title: dap-mode
 #+date: 2020-06-05 16:48 PM
-#+updated: 2021-07-01 13:26 PM
+#+updated: 2021-07-02 13:05 PM
 #+roam_tags: emacs spacemacs
 
 * Overview
@@ -49,27 +49,29 @@
    this worked for me.
    
    #+begin_src emacs-lisp +n :results silent
-      (defun my/dap-debug-chrome ()
-        (interactive)
-        (dap-debug (list :type "chrome"
-                         :cwd nil
-                         :mode "url"
-                         :request "launch"
-                         :webRoot (my/dap-debug-determine-project-root)
-                         :sourceMapPathOverrides (list :webpack:///src/* (concat (my/dap-debug-determine-project-root) "src/*")
-                                                       :webpack:///./src/* (concat (my/dap-debug-determine-project-root) "src/*")
-                                                       :webpack:///src/* (concat (my/dap-debug-determine-project-root) "src/*")
-                                                       :webpack:///* "*"
-                                                       :webpack:///./node_modules/* (concat (my/dap-debug-determine-project-root) "node_modules/*"))
-                         :url (or my/dap-debug-url "http://localhost:8080")
-                         :name "Chrome Javascript Debug Config")))
+     (defun my/dap-debug-chrome ()
+       (interactive)
+       (require 'dap-chrome)
+       (dap-debug (list :type "chrome"
+                        :cwd nil
+                        :mode "url"
+                        :request "launch"
+                        :webRoot (my/dap-debug-determine-project-root)
+                        :sourceMapPathOverrides (list :webpack:///src/* (concat (my/dap-debug-determine-project-root) "src/*")
+                                                      :webpack:///./src/* (concat (my/dap-debug-determine-project-root) "src/*")
+                                                      :webpack:///src/* (concat (my/dap-debug-determine-project-root) "src/*")
+                                                      :webpack:///* "*"
+                                                      :webpack:///./node_modules/* (concat (my/dap-debug-determine-project-root) "node_modules/*"))
+                        :url (or my/dap-debug-url "http://localhost:8080")
+                        :name "Chrome Javascript Debug Config")))
    #+end_src
-** Mocha test runner debug configuration
+** Mocha test runner debug configuration (VueJS)
    This runs the tests in the current buffer only.
-   
+
     #+begin_src emacs-lisp +n :results silent
       (defun my/dap-debug-mocha-vue ()
         (interactive)
+        (require 'dap-node)
         (dap-debug (list :type "node"
                          :request "launch"
                          :console "internalConsole"
