@@ -1,6 +1,6 @@
 #+title: dap-mode
 #+date: 2020-06-05 16:48 PM
-#+updated: 2021-07-02 13:46 PM
+#+updated: 2021-07-02 14:17 PM
 #+roam_tags: emacs spacemacs
 
 * Overview
@@ -12,6 +12,7 @@
   ~into /spacemacs-dir/.extension/vscode/~
 * Resources
   - [[https://github.com/emacs-lsp/dap-mode][GitHub-emacs-lsp/dap-mode: Emacs Debug Adapter Protocol]]
+    - https://emacs-lsp.github.io/dap-mode/page/configuration/
   - [[https://develop.spacemacs.org/layers/+tools/dap/README.html][Spacemacs DAP layer]]
 
 ** Configuration Recipes
@@ -91,3 +92,6 @@
   
 * Node Debugging
   ~dap-node-setup~ to install https://github.com/microsoft/vscode-node-debug2
+
+  - For configuration options used in debug template, reference the
+    [[https://code.visualstudio.com/docs/nodejs/nodejs-debugging][VS Code NodeJS debugging]] docs
