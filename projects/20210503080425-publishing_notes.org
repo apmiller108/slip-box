@@ -54,6 +54,7 @@
 
 
 * Version 0.2 TODOs
+** TODO make the tags a select box
 ** TODO Include org-roam backlinks in each note
 *** Example  
    - https://doubleloop.net/2020/08/21/how-publish-org-roam-wiki-org-publish/
