@@ -1,16 +1,16 @@
 #+title: Large SQL data migrations
 #+date: 2021-06-21 20:35 PM
-#+updated: 2021-06-29 09:11 AM
+#+updated: 2021-07-06 11:12 AM
 #+roam_tags: sql postgres
 
 * Use PL/pgSQL
-  See [[file:20200121141321-sql_procedural_language.org][SQL Procedural Language]].
+  See [[file:20200121141321-sql_procedural_language.org][SQL Procedural Language]]. This is useful for batching (see below). 
 
 ** Transaction Management  
    One important caveat here is that we can't ~COMMIT~  transactions in PL/pgSQL.
    This becomes an issue when using ~LOOP~ on batched operations where it would
    be ideal to commit on each iteration of a loop. For this, we need to use
-   [[https://www.postgresqltutorial.com/postgresql-stored-procedures/][PostgreSQL Stored Procedures]] See [[http://www.postgresql.cn/docs/11/plpgsql-transactions.html][plpgsql transaction management docs]].
+   [[https://www.postgresqltutorial.com/postgresql-stored-procedures/][PostgreSQL Stored Procedures]] See [[https://www.postgresql.org/docs/current/plpgsql-transactions.html][plpgsql transaction management docs]].
 
    See also
    https://newbedev.com/postgresql-cannot-begin-end-transactions-in-pl-pgsql
@@ -22,38 +22,68 @@
     Variables declared in the script's scope won't be available to be evaluated
     on the dblink context.
 
+    The overall structure here is two functions:
+
+    1. An outer function that handles looping.
+    2. An inner function called on each loop iteration that performs the data
+       operation (ie, inserts and/or updates).
+    3. Call the outer function to kick it off.
+
     For example:
    
     #+begin_src sql
-      DO
+      CREATE OR replace function f_migrate_things_batch(batch_start, batch_end)
+      RETURNS void AS
+      $$
+          PERFORM dblink_connect('my_dblink','dbname=my_database port=5432 user=username');
+
+          sql_string := $query$
+            -- Some long SQL string that references batch_start/batch_end
+          $query$;
+
+          -- Interpolate dynamic variables since dblink won't have access to them.
+          sql_string := format(sql_string, batch_start, batch_end);
+
+          PERFORM dblink('my_dblink', sql_string);
+          PERFORM dblink('my_dblink','COMMIT;');
+          PERFORM dblink_disconnect('my_dblink');
+      $$
+      LANGUAGE plpgsql;
+
+      CREATE OR replace function f_migrate_things_in_batches()
+      RETURNS void AS
       $$
 
           DECLARE
-              sql_string  varchar(9000);
-              my_var varchar(16) := 'foo';
+              row_count   integer := 0;
+              batch_size  integer := 5000;
+              batch_start integer := 1;
+              batch_end   integer := batch_size;
 
           BEGIN
+
               CREATE EXTENSION IF NOT EXISTS dblink;
+
+              row_count := (SELECT count(*) FROM things);
+              RAISE NOTICE '% things to update', row_count;
 
               WHILE row_count > 0
                   LOOP
-                      PERFORM dblink_connect('my_dblink','dbname=my_database port=5432 user=username');
+                      PERFORM f_migrate_things_batch(batch_start, batch_end);
 
-                      sql_string := $query$
-                      -- Some long SQL string
-                      $query$;
+                      batch_start := batch_start + batch_size
+                      batch_end := batch_end + batch_size;
+                      row_count := row_count - batch_size;
 
-                      -- Interpolate dynamic variables since dblink won't have access to them.
-                      sql_string := format(sql_string, my_var);
-
-                      PERFORM dblink('dblink_hubble', sql_string);
-                      PERFORM dblink('dblink_hubble','COMMIT;');
-                      PERFORM dblink_disconnect('dblink_hubble');
+                      RAISE NOTICE '% things remaining', row_count;
 
                   END LOOP;
 
-            END
+          END;
       $$
+      LANGUAGE plpgsql;
+
+      select f_migrate_things_in_batches();
     #+end_src
   
 * Drop and recreate indexes
@@ -90,6 +120,7 @@
                 GET DIAGNOSTICS affected = ROW_COUNT;
                 RAISE NOTICE '% things migrated', affected;
 
+                batch_start := batch_start + batch_size;
                 batch_end := batch_end + batch_size;
                 row_count := row_count - batch_size;
 
