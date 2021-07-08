@@ -1,0 +1,24 @@
+#+title: Literate programming with org-mode
+#+date: 2021-07-04 11:02 AM
+#+updated: 2021-07-08 17:29 PM
+#+roam_tags: org-mode emacs
+
+* Example
+:PROPERTIES:
+:HEADER-ARGS: :tangle lit-test.el
+:END:
+
+See https://orgmode.org/manual/Extracting-Source-Code.html
+
+Calling ~org-babel-tangle~ creates a file called ~lit-test.el~ with the
+following code blocks written to it separated by a couple newlines.
+
+** Block 1
+   #+begin_src emacs-lisp
+     (print "foo2")
+   #+end_src
+
+** Block 2
+   #+begin_src emacs-lisp
+     (print "bar2")
+   #+end_src
