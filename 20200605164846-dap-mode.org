@@ -1,6 +1,6 @@
 #+title: dap-mode
 #+date: 2020-06-05 16:48 PM
-#+updated: 2021-07-02 14:17 PM
+#+updated: 2021-07-09 16:08 PM
 #+roam_tags: emacs spacemacs
 
 * Overview
@@ -23,70 +23,8 @@
 
 
 * My dap-mode configuration for Spacemacs
-  The following source code blocks are evaluated in my [[https://github.com/apmiller108/dotfiles/blob/master/emacs/spacemacs][dotspacemacs file]]. The
-  functions can be called using ~M-x~, but I've also declared some major mode
-  specific keys for them.
-
-** Variables
-   Some projects I work on need special configurations. I declare a couple
-   variables here that can optionally be set in a [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html][.dir-locals.el]] file.
-
-   #+begin_src emacs-lisp +n :results silent
-     (defvar my/dap-debug-url nil)
-     (defvar my/dap-debug-project-root nil)
-   #+end_src
-
-** Determine project root
-   This is a thing because some projects I work on have SPA client(s) in the
-   same repo as the server backend API, in their own folders. In such cases, I
-   use a [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html][.dir-locals.el]] file in the root of each client app to set the
-   ~my/dap-debug-project-root~ variable. That way I have accurate paths to the
-   source map files. So, this is a helper function used in the code below.
-
-   #+begin_src emacs-lisp +n :results silent
-      (defun my/dap-debug-determine-project-root ()
-        (or my/dap-debug-project-root (projectile-project-root)))
-
-   #+end_src
-
-** Chrome browser debug configuration
-   Setting up the links to source map files is a pain in the arse, but so far
-   this worked for me.
-   
-   #+begin_src emacs-lisp +n :results silent
-     (defun my/dap-debug-chrome ()
-       (interactive)
-       (require 'dap-chrome)
-       (dap-debug (list :type "chrome"
-                        :cwd nil
-                        :mode "url"
-                        :request "launch"
-                        :webRoot (my/dap-debug-determine-project-root)
-                        :sourceMapPathOverrides (list :webpack:///src/* (concat (my/dap-debug-determine-project-root) "src/*")
-                                                      :webpack:///./src/* (concat (my/dap-debug-determine-project-root) "src/*")
-                                                      :webpack:///src/* (concat (my/dap-debug-determine-project-root) "src/*")
-                                                      :webpack:///* "*"
-                                                      :webpack:///./node_modules/* (concat (my/dap-debug-determine-project-root) "node_modules/*"))
-                        :url (or my/dap-debug-url "http://localhost:8080")
-                        :name "Chrome Javascript Debug Config")))
-   #+end_src
-** Mocha test runner debug configuration (VueJS)
-   This runs the tests in the current buffer only.
-
-    #+begin_src emacs-lisp +n :results silent
-      (defun my/dap-debug-mocha-vue ()
-        (interactive)
-        (require 'dap-node)
-        (dap-debug (list :type "node"
-                         :request "launch"
-                         :console "internalConsole"
-                         :env (list :NODE_ENV "test")
-                         :cwd (or my/dap-debug-project-root (projectile-project-root))
-                         :program (concat (my/dap-debug-determine-project-root) "node_modules/@vue/cli-service/bin/vue-cli-service.js")
-                         :args (list "test:unit" "--inspect-brk" "--watch" "--timeout" "999999" "--include" "tests/setup.js" (buffer-file-name))
-                         :port 9229
-                         :name "Node Mocha Vue")))
-    #+end_src
+  See [[https://github.com/apmiller108/dotfiles/blob/master/emacs/spacemacs.org#dap-mode-helper-functions][my dotspacemacs dap functions]]
+  
 * Chrome Debugging
   =dap-chrome-setup= to install [[https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome][debugger-for-chrome.]] 
   
