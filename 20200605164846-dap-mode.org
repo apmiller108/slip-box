@@ -1,6 +1,6 @@
 #+title: dap-mode
 #+date: 2020-06-05 16:48 PM
-#+updated: 2021-07-09 16:08 PM
+#+updated: 2021-07-16 09:15 AM
 #+roam_tags: emacs spacemacs
 
 * Overview
@@ -21,15 +21,29 @@
    - [[https://github.com/Microsoft/vscode-recipes][GitHub - microsoft/vscode-recipes]]
      - [[https://github.com/Microsoft/vscode-recipes/blob/master/vuejs-cli/README.md][VueJS config recipe for VS Code]]
 
-
-* My dap-mode configuration for Spacemacs
-  See [[https://github.com/apmiller108/dotfiles/blob/master/emacs/spacemacs.org#dap-mode-helper-functions][my dotspacemacs dap functions]]
+* Configuration
+** My dap-mode configuration for Spacemacs
+   Use debugger templates. I put these in functions in my dotspacemacs.
+   See [[https://github.com/apmiller108/dotfiles/blob/master/emacs/spacemacs.org#dap-mode-helper-functions][my dotspacemacs dap functions]]. The configuration for each template is
+   determined by the debugger being used. See the documentation for the debugger
+   for that options are available.
   
-* Chrome Debugging
-  =dap-chrome-setup= to install [[https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome][debugger-for-chrome.]] 
+** Chrome Debugging
+   =dap-chrome-setup= to install [[https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome][debugger-for-chrome.]] 
   
-* Node Debugging
-  ~dap-node-setup~ to install https://github.com/microsoft/vscode-node-debug2
+** Node Debugging
+   ~dap-node-setup~ to install https://github.com/microsoft/vscode-node-debug2
 
-  - For configuration options used in debug template, reference the
-    [[https://code.visualstudio.com/docs/nodejs/nodejs-debugging][VS Code NodeJS debugging]] docs
+   - For configuration options used in debug template, reference the
+     [[https://code.visualstudio.com/docs/nodejs/nodejs-debugging][VS Code NodeJS debugging]] docs
+
+* Print debugging
+  1. Add a breakpoint ~dap-breakpoint-add~
+  2. For that breakpoint, turn it into a message logger with
+     ~dap-breakpoint-log-message~. It will no longer break on that line but log
+     instead. Useful for wanting to see what's going on in loops where it would
+     be annoying to break on each iteration.
+
+     Use curly braces to interpolate things: ~log var: {var}~
+     
+*  
