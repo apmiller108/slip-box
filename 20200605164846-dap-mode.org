@@ -1,6 +1,6 @@
 #+title: dap-mode
 #+date: 2020-06-05 16:48 PM
-#+updated: 2021-07-16 09:15 AM
+#+updated: 2021-07-16 13:54 PM
 #+roam_tags: emacs spacemacs
 
 * Overview
@@ -17,17 +17,28 @@
 
 ** Configuration Recipes
    These are handy references to have when configuring dap-mode templates in
-   Emacs.
+   Emacs. Or you can even use them directly in a ~launch.json~ file. See below
+   for more on this.
    - [[https://github.com/Microsoft/vscode-recipes][GitHub - microsoft/vscode-recipes]]
      - [[https://github.com/Microsoft/vscode-recipes/blob/master/vuejs-cli/README.md][VueJS config recipe for VS Code]]
 
 * Configuration
 ** My dap-mode configuration for Spacemacs
-   Use debugger templates. I put these in functions in my dotspacemacs.
-   See [[https://github.com/apmiller108/dotfiles/blob/master/emacs/spacemacs.org#dap-mode-helper-functions][my dotspacemacs dap functions]]. The configuration for each template is
-   determined by the debugger being used. See the documentation for the debugger
-   for that options are available.
-  
+   I have elisp functions that define and run debugger templates. I put these in
+   functions in my dotspacemacs. See [[https://github.com/apmiller108/dotfiles/blob/master/emacs/spacemacs.org#dap-mode-helper-functions][my dotspacemacs dap functions]]. The
+   configuration for each template is determined by the debugger being used. See
+   the documentation for the debugger for the options are available. Then I map
+   these functions to custom keys for the modes for which they are relevant.
+
+** VSCode launch.json
+   Instead of configuring dap-mode debug templates in emacs-lisp, you can use
+   ~launch.json~ file placed in the project root. I think it should go in a
+   ~.vscode~ directory as well, but not sure. With a ~launch.json~ file in
+   place, just call ~dap-debug~ and select the template to run.
+
+   - See [[https://code.visualstudio.com/docs/editor/debugging][VSCode's debugger docs]] for more on the ~launch.json~ file.
+   - See [[https://emacs-lsp.github.io/dap-mode/page/features/#launchjson-support][dap-mode launch.json docs]].
+   
 ** Chrome Debugging
    =dap-chrome-setup= to install [[https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome][debugger-for-chrome.]] 
   
@@ -37,13 +48,23 @@
    - For configuration options used in debug template, reference the
      [[https://code.visualstudio.com/docs/nodejs/nodejs-debugging][VS Code NodeJS debugging]] docs
 
-* Print debugging
-  1. Add a breakpoint ~dap-breakpoint-add~
-  2. For that breakpoint, turn it into a message logger with
-     ~dap-breakpoint-log-message~. It will no longer break on that line but log
-     instead. Useful for wanting to see what's going on in loops where it would
-     be annoying to break on each iteration.
+* Usage
+  Use ~dap-breakpoint add~ and run ~dap-debug~
+  
+** Print debugging
+   1. Add a breakpoint ~dap-breakpoint-add~
+   2. For that breakpoint, turn it into a message logger with
+      ~dap-breakpoint-log-message~. It will no longer break on that line but log
+      instead. Useful for wanting to see what's going on in loops where it would
+      be annoying to break on each iteration.
 
-     Use curly braces to interpolate things: ~log var: {var}~
+      Use curly braces to interpolate things: ~log var: {var}~
      
-*  
+** Condition debugging
+   - ~dap-breakpoint-condition~: Modify a breakpoint with a conditional expression.
+   - ~dap-breakpoint-hit-condition~: Specify a number of hits for a breakpoint for it to break.
+
+** Adding/Watching expressions
+   ~dap-ui-expressions-add~: Add some expressions for which you want to watch
+   the value of. It will show in the ~expressions~ window. Remove them with
+   ~dap-ui-expressions-remove~. 
