@@ -1,0 +1,10 @@
+#+title: lsp-mode
+#+date: 2021-07-21 08:20 AM
+#+updated: 2021-07-21 08:30 AM
+#+roam_tags: lsp emacs
+
+* Typescript
+** Setup
+   - I choose to use [[https://github.com/theia-ide][theia-ide]] setup. See also https://theia-ide.org/.
+     - Requires the [[https://github.com/theia-ide/typescript-language-server][typescript-language-server]] to be installed.
+   - Follow the lsp-mode [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][setup instructions]].
