@@ -1,7 +1,7 @@
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2021-08-13 11:39 AM
-#+roam_tags: docker
+#+updated: 2021-08-13 14:22 PM
+#+roam_tags: docker rails
 
 * Dockerfile
   #+begin_example dockerfile
