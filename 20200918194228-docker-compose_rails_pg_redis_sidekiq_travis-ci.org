@@ -1,16 +1,15 @@
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2021-08-13 14:22 PM
+#+updated: 2021-08-13 17:09 PM
 #+roam_tags: docker rails
 
 * Dockerfile
   #+begin_example dockerfile
     FROM ruby:2.7.1
 
-    RUN apt-get update && apt-get install -y \\
-      build-essential \\
-      locales \\
-      nodejs
+    RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
+    RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+    RUN apt-get update && apt-get install -y build-essential locales nodejs yarn
 
     RUN locale-gen en_US.UTF-8
     ENV LANG en_US.UTF-8
@@ -38,10 +37,7 @@
   - sidekiq
 
   Environment variables are provided via a .env file in the project root.
-  NOTE: It can be helpful to expose the redis and database ports to the
-  host machine so you can connect to them with tools from the host
-  machine.
-
+  
   #+begin_example dockerfile
     version: "3.6"
 
@@ -88,7 +84,48 @@
       redis:
       postgres:
   #+end_example
+  
+  NOTE: It can be helpful to expose the redis and database ports to the
+  host machine so you can connect to them with tools from the host
+  machine. The example below only exposes port ~3000~ of the web service to the
+  host.
 
+* Setup the project
+  At this point we don't have a Gemfile, Gemfile.lock or rails installed, etc.
+  But we can still do all the project setup within docker by pulling down the
+  image, mounting the project directory as a volume and running a few commands.
+  This will download the image, created a container and open a shell prompt in
+  it: 
+
+  ~docker run --rm -it -v "$PWD":/app -w /app ruby:2.7.1 sh~
+
+  Then,
+
+  - Install node and yarn (ie, for webpacker in the next step)
+    - ~curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg~
+    - ~echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list~
+    - ~apt-get update && apt-get nodejs~
+  - Setup rails project files. This will also run ~bundle~ that will generate
+    the ~Gemfile~, ~Gemfile.lock~, and all the other configuration files.
+    - ~rails new my_app~
+    - ~mv my_app/* ./~
+      Note: this will not move the dotfiles like ~.git~, ~.ruby-version~, etc. So
+      move those too in a separate ~mv~ command.
+    - ~bin/rails webpacker:install~
+  - Add some ENV vars for postgres and redis to the ~.env~ referenced in the
+    ~docker-compose.yml~
+    - ~touch .env~
+    - Add the following:
+      #+begin_src yaml
+        REDIS_URL=redis://redis:6379/1
+        POSTGRES_HOST=database
+        POSTGRES_USER=postgres
+        POSTGRES_PASSWORD=postgres
+        POSTGRES_DB=my_app_development
+      #+end_src
+  - Add ~sidekiq~ to the ~Gemfile~
+
+* Run it  
   To start it up run:
 
   =docker-compose up=

@@ -1,6 +1,6 @@
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2021-05-29 21:31 PM
+#+updated: 2021-08-13 14:53 PM
 #+roam_tags: docker ruby
 
 Instead of messing about with version managers and local environment setup
@@ -147,7 +147,7 @@ language.
    Open a shell prompt and setup the project:
    
    #+begin_example shell
-     docker run --rm -v "$PWD":/app -w /app node:16.2-alpine3.11 sh
+     docker run --rm -it -v "$PWD":/app -w /app node:16.2-alpine3.11 sh
    #+end_example
    - ~npm install -g @vue/cli~
    - ~vue create my-project~
