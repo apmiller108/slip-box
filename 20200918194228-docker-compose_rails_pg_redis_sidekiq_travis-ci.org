@@ -1,0 +1,159 @@
+#+title: docker-compose Rails PG Redis Sidekiq Travis-CI
+#+date: 2020-09-18 19:42 PM
+#+updated: 2021-08-13 11:39 AM
+#+roam_tags: docker
+
+* Dockerfile
+  #+begin_example dockerfile
+    FROM ruby:2.7.1
+
+    RUN apt-get update && apt-get install -y \\
+      build-essential \\
+      locales \\
+      nodejs
+
+    RUN locale-gen en_US.UTF-8
+    ENV LANG en_US.UTF-8
+    ENV LANGUAGE en_US:en
+    ENV LC_ALL en_US.UTF-8
+
+    RUN mkdir -p /app
+    WORKDIR /app
+
+    COPY Gemfile Gemfile.lock ./
+    RUN gem install bundler && bundle install --jobs 20 --retry 5
+
+    COPY . ./
+
+    EXPOSE 3000
+    CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+  #+end_example
+
+* docker-compose
+  This manages the following containers:
+
+  - web
+  - database
+  - redis
+  - sidekiq
+
+  Environment variables are provided via a .env file in the project root.
+  NOTE: It can be helpful to expose the redis and database ports to the
+  host machine so you can connect to them with tools from the host
+  machine.
+
+  #+begin_example dockerfile
+    version: "3.6"
+
+    services:
+      web:
+        tty: true
+        stdin_open: true
+        build: .
+        command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+        volumes:
+          - ".:/app"
+        ports:
+          - "3000:3000"
+        links:
+          - "database"
+          - "redis"
+      database:
+        image: "postgres:10.14"
+        volumes:
+          - 'postgres:/var/lib/postgresql/data'
+        ports:
+          - "5432"
+        env_file:
+          - ".env"
+      redis:
+        image: "redis:6.0.8"
+        volumes:
+          - "redis:/data"
+        ports:
+          - "6379"
+      sidekiq:
+        depends_on:
+          - "database"
+          - "redis"
+        build: .
+        volumes:
+          - ".:/app"
+          - "/app/tmp" # don't mount tmp dir
+        command: "bundle exec sidekiq"
+        env_file:
+          - ".env"
+
+    volumes:
+      redis:
+      postgres:
+  #+end_example
+
+  To start it up run:
+
+  =docker-compose up=
+
+  Shut it down with:
+
+  =docker-compose down=
+
+  See [[https://github.com/apmiller108/astronomania-api]] README for
+  example of more commands like debugged with pry and running tests.
+
+* Travis-CI
+  Note the =COMPOSE_VERSION= is NOT the docker-compose file version, but
+  the docker-compose release version:
+  [[https://github.com/docker/compose/releases][Releases · docker/compose · GitHub]]
+
+  Most of this is boiler plate from Travis' docs. The env stuff I had to
+  figure out becuase I am using a .env file to pass config vars into
+  containers with docker-compose. First I had to add the env vars to
+  Travis' project settings. Then echo them into a .env file for
+  docker-compose to read from.
+
+  #+begin_example yaml
+    language: bash
+
+    sudo: required
+
+    services:
+      - docker
+
+    env:
+      COMPOSE_VERSION: 1.26.2
+
+    before_install:
+     - sudo rm /usr/local/bin/docker-compose
+     - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+     - chmod +x docker-compose
+     - sudo mv docker-compose /usr/local/bin
+     - docker --version
+     - docker-compose --version
+
+    script:
+      - touch .env
+      - echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
+      - echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
+      - echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> .env
+      - echo "POSTGRES_HOST=${POSTGRES_HOST}" >> .env
+      - echo "NASA_API_KEY=${NASA_API_KEY}" >> .env
+      - docker-compose up --detach --build
+      - docker ps -a
+      - docker-compose exec web bin/rails db:schema:load RAILS_ENV=test
+      - docker-compose exec web bundle exec rspec
+
+    after_script:
+      - docker-compose down
+      - rm .env
+
+    notifications:
+      email: false
+  #+end_example
+
+* Resources
+
+  - [[https://yizeng.me/2019/11/09/setup-a-ruby-on-rails-6-api-project-with-docker-compose/][Setup a Ruby on Rails 6 API project with Docker Compose \| Yi Zeng's Blog]]
+  - [[https://yizeng.me/2019/11/17/add-sidekiq-to-a-docker-compose-managed-rails-project/][Add Sidekiq to a Docker Compose managed Rails project \| Yi Zeng's Blog]]
+  - [[https://learning.oreilly.com/library/view/docker-for-rails/9781680506730/f_0014.xhtml#part-development][Part I. Development - Docker for Rails Developers [Book]]]
+  - [[https://docs.docker.com/compose/compose-file/][Compose file version 3 reference | Docker Documentation]]
+  - https://evilmartians.com/chronicles/ruby-on-whales-docker-for-ruby-rails-development
