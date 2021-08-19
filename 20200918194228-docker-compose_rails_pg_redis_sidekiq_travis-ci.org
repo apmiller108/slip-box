@@ -1,11 +1,24 @@
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2021-08-13 17:09 PM
+#+updated: 2021-08-16 07:47 AM
 #+roam_tags: docker rails
 
+* Instructions
+  This is a generator for Rails project setup with docker, Postgres, Redis,
+  Sidekiq; with container orchestration using docker-compose.
+
+  1. Set the ~:HEADER-ARGS:~ property with the ~:tangle~ path for each generated
+     file.
+  2. Set the ruby image version in the Dockerfile and the script
+  3. Set the database and redis images in the docker-compose
+  4. Create a folder locally where you want the application files to live
 * Dockerfile
-  #+begin_example dockerfile
-    FROM ruby:2.7.1
+  :PROPERTIES:
+  :HEADER-ARGS: :tangle ~/code/rails_docker/Dockerfile :mkdirp yes
+  :END:
+
+  #+begin_src dockerfile
+    FROM ruby:3.0
 
     RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
     RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
@@ -26,9 +39,13 @@
 
     EXPOSE 3000
     CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
-  #+end_example
+  #+end_src
 
 * docker-compose
+  :PROPERTIES:
+  :HEADER-ARGS: :tangle ~/code/rails_docker/docker-compose.yml
+  :END:
+  
   This manages the following containers:
 
   - web
@@ -38,7 +55,7 @@
 
   Environment variables are provided via a .env file in the project root.
   
-  #+begin_example dockerfile
+  #+begin_src dockerfile
     version: "3.6"
 
     services:
@@ -55,7 +72,7 @@
           - "database"
           - "redis"
       database:
-        image: "postgres:10.14"
+        image: "postgres:12"
         volumes:
           - 'postgres:/var/lib/postgresql/data'
         ports:
@@ -63,7 +80,7 @@
         env_file:
           - ".env"
       redis:
-        image: "redis:6.0.8"
+        image: "redis:6"
         volumes:
           - "redis:/data"
         ports:
@@ -83,7 +100,7 @@
     volumes:
       redis:
       postgres:
-  #+end_example
+  #+end_src
   
   NOTE: It can be helpful to expose the redis and database ports to the
   host machine so you can connect to them with tools from the host
@@ -97,14 +114,16 @@
   This will download the image, created a container and open a shell prompt in
   it: 
 
-  ~docker run --rm -it -v "$PWD":/app -w /app ruby:2.7.1 sh~
+  ~docker run --rm -it -v "$PWD":/app -w /app ruby:3.0 sh~
 
   Then,
 
+  - Install rails
+    - ~gem install rails~
   - Install node and yarn (ie, for webpacker in the next step)
     - ~curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg~
     - ~echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list~
-    - ~apt-get update && apt-get nodejs~
+    - ~apt-get update && apt-get nodejs yarn~
   - Setup rails project files. This will also run ~bundle~ that will generate
     the ~Gemfile~, ~Gemfile.lock~, and all the other configuration files.
     - ~rails new my_app~
@@ -148,7 +167,10 @@
   Travis' project settings. Then echo them into a .env file for
   docker-compose to read from.
 
-  #+begin_example yaml
+  This is the ~travis.yml~. The env vars are stored in the travis ci project
+  settings.
+  
+  #+begin_src yaml
     language: bash
 
     sudo: required
@@ -185,7 +207,7 @@
 
     notifications:
       email: false
-  #+end_example
+  #+end_src
 
 * Resources
 

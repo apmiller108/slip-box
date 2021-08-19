@@ -1,7 +1,9 @@
 #+title: Constants, interfaces and types
 #+date: 2021-05-24 16:38 PM
-#+updated: 2021-05-24 17:12 PM
+#+updated: 2021-08-19 10:33 AM
 #+roam_tags: typescript
+
+See also [[file:20210819100328-index_signature.org][Index signature]]
 
 * ~const~ Assertions
 
