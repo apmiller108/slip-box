@@ -21,6 +21,7 @@
 <span id="filter-pandoc" uk-filter-control="filter: .pandoc; group: tag"><a href="#">pandoc</a></span>
 <span id="filter-plantuml" uk-filter-control="filter: .plantuml; group: tag"><a href="#">plantuml</a></span>
 <span id="filter-postgres" uk-filter-control="filter: .postgres; group: tag"><a href="#">postgres</a></span>
+<span id="filter-rails" uk-filter-control="filter: .rails; group: tag"><a href="#">rails</a></span>
 <span id="filter-robe" uk-filter-control="filter: .robe; group: tag"><a href="#">robe</a></span>
 <span id="filter-rspec" uk-filter-control="filter: .rspec; group: tag"><a href="#">rspec</a></span>
 <span id="filter-ruby" uk-filter-control="filter: .ruby; group: tag"><a href="#">ruby</a></span>
@@ -48,6 +49,8 @@
 <li data-date="2021-04-06" class="web-development security"><span class="sitemap-entry-date">2021-04-06</span><a href="20210406092859-http_cookies">HTTP Cookies</a><span class="sitemap-entry-tags">(web-development, security)</span></li>
 <li data-date="2021-04-06" class="spacemacs emacs"><span class="sitemap-entry-date">2021-04-06</span><a href="20210406180044-helm">Helm</a><span class="sitemap-entry-tags">(spacemacs, emacs)</span></li>
 <li data-date="2021-05-29" class="ipfs"><span class="sitemap-entry-date">2021-05-29</span><a href="20210529144839-ipfs">IPFS</a><span class="sitemap-entry-tags">(ipfs)</span></li>
+<li data-date="2021-08-19" class="typescript"><span class="sitemap-entry-date">2021-08-19</span><a href="20210819100328-index_signature">Index signature</a><span class="sitemap-entry-tags">(typescript)</span></li>
+<li data-date="2021-08-20" class="org-roam emacs"><span class="sitemap-entry-date">2021-08-20</span><a href="20210820150353-interpolate_variables_into_org_source_blocks_on_babel_tangle">Interpolate variables into org source blocks on babel tangle</a><span class="sitemap-entry-tags">(org-roam, emacs)</span></li>
 <li data-date="2021-06-21" class="sql postgres"><span class="sitemap-entry-date">2021-06-21</span><a href="20210621203556-large_sql_data_migrations">Large SQL data migrations</a><span class="sitemap-entry-tags">(sql, postgres)</span></li>
 <li data-date="2021-07-04" class="org-mode emacs"><span class="sitemap-entry-date">2021-07-04</span><a href="20210704110247-literate_programming_with_org_mode">Literate programming with org-mode</a><span class="sitemap-entry-tags">(org-mode, emacs)</span></li>
 <li data-date="2021-03-01" class="testing javascript mocha"><span class="sitemap-entry-date">2021-03-01</span><a href="20210301080337-mocha_before_callbacks">Mocha before callbacks</a><span class="sitemap-entry-tags">(testing, javascript, mocha)</span></li>
@@ -74,7 +77,7 @@
 <li data-date="2021-03-25" class="security"><span class="sitemap-entry-date">2021-03-25</span><a href="20210325084112-web_security_resources">Web security resources</a><span class="sitemap-entry-tags">(security)</span></li>
 <li data-date="2021-03-03" class="capybara ruby"><span class="sitemap-entry-date">2021-03-03</span><a href="20210303144927-capybara_window_management">capybara window management</a><span class="sitemap-entry-tags">(capybara, ruby)</span></li>
 <li data-date="2020-06-05" class="emacs spacemacs"><span class="sitemap-entry-date">2020-06-05</span><a href="20200605164846-dap-mode">dap-mode</a><span class="sitemap-entry-tags">(emacs, spacemacs)</span></li>
-<li data-date="2020-09-18" class="docker"><span class="sitemap-entry-date">2020-09-18</span><a href="20200918194228-docker-compose_rails_pg_redis_sidekiq_travis-ci">docker-compose Rails PG Redis Sidekiq Travis-CI</a><span class="sitemap-entry-tags">(docker)</span></li>
+<li data-date="2020-09-18" class="docker rails"><span class="sitemap-entry-date">2020-09-18</span><a href="20200918194228-docker-compose_rails_pg_redis_sidekiq_travis-ci">docker-compose Rails PG Redis Sidekiq Travis-CI</a><span class="sitemap-entry-tags">(docker, rails)</span></li>
 <li data-date="2021-07-21" class="lsp emacs"><span class="sitemap-entry-date">2021-07-21</span><a href="20210721082036-lsp_mode">lsp-mode</a><span class="sitemap-entry-tags">(lsp, emacs)</span></li>
 <li data-date="2021-03-03" class="sql mssql"><span class="sitemap-entry-date">2021-03-03</span><a href="20210303143037-mssql_data_migration_with_rollback">mssql data migration with rollback</a><span class="sitemap-entry-tags">(sql, mssql)</span></li>
 <li data-date="2021-05-04" class="npm javascript"><span class="sitemap-entry-date">2021-05-04</span><a href="20210504091420-npm_install_and_permissions">npm install and permissions</a><span class="sitemap-entry-tags">(npm, javascript)</span></li>

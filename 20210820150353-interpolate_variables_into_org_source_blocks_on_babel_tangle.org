@@ -1,0 +1,55 @@
+#+title: Interpolate variables into org source blocks on babel tangle
+#+date: 2021-08-20 15:03 PM
+#+updated: 2021-08-20 15:49 PM
+#+roam_tags: org-roam emacs
+
+See also [[file:20210704110247-literate_programming_with_org_mode.org][Literate programming with org-mode]]
+
+I made a org document to generated boiler plate docker files for quickly
+spinning up a Ruby on Rails app without having to install any local dependencies
+(other than docker). To make it easier to re-use for different projects, docker
+images, etc., I found a way to have a single place to define the images so I
+didn't have to edit each source block in multiple places. See [[file:20200918194228-docker-compose_rails_pg_redis_sidekiq_travis-ci.org][docker-compose Rails
+PG Redis Sidekiq Travis-CI]] for the details.
+
+Anyway, here's a simplified example of how it works.
+
+* Define the variables
+  - Create a named source block in emacs-lisp. You could use another language if you
+    want, however.
+  - I used a [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Association-Lists.html][Association List]] (ie, key-value pairs) so the block can support
+    multiple variables.
+  - Have the source block accept a ~key~ variable used to fetch the desired value.
+
+  #+begin_example
+    #+name: variables
+    #+begin_src emacs-lisp :var key=""
+      (setq variables
+            '(("var1" . "value1")
+              ("var2" . "value2")
+              ("var3" . "value3")))
+      (cdr (assoc key variables))
+    #+end_src
+  #+end_example
+  
+* Call the variables code in subsequent source blocks
+  For this, I used the header argument ~:noweb~. This let me reference the
+  ~variables~ named source block in other source blocks like calling a function,
+  passing the key corresponding to the value I wanted to interpolate. This will
+  work for export, evaluating and tangling. See [[https://orgmode.org/manual/Noweb-Reference-Syntax.html][Noweb Reference Syntax]] for more
+  on this. 
+
+  #+begin_example
+    #+begin_src ruby :noweb yes
+      <<-TXT
+      var1 = <<variables("var1")>>
+      var2 = <<variables("var2")>>
+      var3 = <<variables("var3")>>
+      TXT
+    #+end_src
+
+    #+RESULTS:
+    : var1 = value1
+    : var2 = value2
+    : var3 = value3
+  #+end_example
