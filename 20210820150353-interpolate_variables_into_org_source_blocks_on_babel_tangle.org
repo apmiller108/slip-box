@@ -1,11 +1,11 @@
 #+title: Interpolate variables into org source blocks on babel tangle
 #+date: 2021-08-20 15:03 PM
-#+updated: 2021-08-20 15:49 PM
+#+updated: 2021-08-21 08:37 AM
 #+roam_tags: org-roam emacs
 
 See also [[file:20210704110247-literate_programming_with_org_mode.org][Literate programming with org-mode]]
 
-I made a org document to generated boiler plate docker files for quickly
+I made a org document to generate boiler plate docker files for quickly
 spinning up a Ruby on Rails app without having to install any local dependencies
 (other than docker). To make it easier to re-use for different projects, docker
 images, etc., I found a way to have a single place to define the images so I

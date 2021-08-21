@@ -1,6 +1,6 @@
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2021-08-20 14:25 PM
+#+updated: 2021-08-21 08:40 AM
 #+roam_tags: docker rails
 
 * Instructions
@@ -213,18 +213,15 @@
   example of more commands like debugged with pry and running tests.
 
 * Travis-CI
-  Note the =COMPOSE_VERSION= is NOT the docker-compose file version, but
+  This is the ~travis.yml~. Most of this is boiler plate from Travis' docs. The
+  env stuff I had to figure out becuase I am using a .env file to pass config
+  vars into containers with docker-compose. First I had to add the env vars to
+  Travis' project settings. Then echo them into a .env file for docker-compose
+  to read from.
+  
+  NOTE: the =COMPOSE_VERSION= is NOT the docker-compose file version, but
   the docker-compose release version:
   [[https://github.com/docker/compose/releases][Releases · docker/compose · GitHub]]
-
-  Most of this is boiler plate from Travis' docs. The env stuff I had to
-  figure out becuase I am using a .env file to pass config vars into
-  containers with docker-compose. First I had to add the env vars to
-  Travis' project settings. Then echo them into a .env file for
-  docker-compose to read from.
-
-  This is the ~travis.yml~. The env vars are stored in the travis ci project
-  settings.
 
   NOTE: this file doesn't get generated. Use it if you want.
 
