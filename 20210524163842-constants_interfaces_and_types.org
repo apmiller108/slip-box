@@ -1,6 +1,6 @@
 #+title: Constants, interfaces and types
 #+date: 2021-05-24 16:38 PM
-#+updated: 2021-08-19 10:33 AM
+#+updated: 2021-08-27 10:07 AM
 #+roam_tags: typescript
 
 See also [[file:20210819100328-index_signature.org][Index signature]]
@@ -39,8 +39,9 @@ See also [[file:20210819100328-index_signature.org][Index signature]]
   local variable is. To get around this, I defined a union type out of the
   constants keys.
 
+*** ~typeof~  
   #+begin_src javascript
-    type ThingName = keyof typeof THINGS;
+    type ThingName = keyof typeof THINGS; // 'thing1' | 'thing2'
   #+end_src
 
   Then, using a type assertion on the ~name~, satisfied the compiler:
@@ -51,6 +52,16 @@ See also [[file:20210819100328-index_signature.org][Index signature]]
     });
   #+end_src
 
+*** ~valueof~
+    There isn't a ~valueof~, but a helper type can be created to accomplish
+    that:
+
+    #+begin_src typescript
+      type ValueOf<T> = T[keyof T]
+      type ValueOfThings = ValueOf<Things>; // 1 | 2
+    #+end_src
+
+    See also https://stackoverflow.com/a/49286056
   
 * With ~Record~ utility type
   I didn't actually do this, but it looks like it's possible to use a

@@ -1,0 +1,30 @@
+#+title: Hotwire rails
+#+date: 2021-08-21 17:11 PM
+#+updated: 2021-08-23 07:43 AM
+#+roam_tags: javascript ruby rails
+
+* What is this?
+  [[https://hotwired.dev/][Hotwire]] is a way of building web applications that, at its core, is about
+  sending server rendered HTML over "this wire" (ie, HTTP or websocket). It is
+  composed of three things:
+
+  1. [[https://turbo.hotwired.dev/][Turbo]]: This is really the main thing. With this library alone, we can do
+     HTML over the wire.
+  2. [[https://stimulus.hotwired.dev/][Stimulus]]: A JS framework that doesn't care about rendering stuff, but
+     rather with dynamic behavior typical of an SPA.
+  3. Strada: something to do with mobile -- not sure. As now this moment it has
+     not been made public
+
+
+  See https://github.com/hotwired for all the libraries.
+
+* Add to Rails application
+
+  Add the ~hotwire-rails~ gem. Follow the instructions in the [[https://github.com/hotwired/hotwire-rails][Readme]].
+
+  NOTE:
+  - This appears to basically be a wrapper for [[https://github.com/hotwired/turbo-rails][turbo-rails]] and
+    [[https://github.com/hotwired/stimulus-rails][stimulus-rails]].
+  - The ~hotwire:install~ rake task will ~yarn add~ both NPM packages
+    ~@hotwired/turbo-rails~ and ~stimulus~.
+

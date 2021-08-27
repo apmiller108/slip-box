@@ -1,0 +1,26 @@
+#+title: Mode specific variables
+#+date: 2021-08-27 13:14 PM
+#+updated: 2021-08-27 13:31 PM
+#+roam_tags: emacs
+
+I wanted to set the ~flycheck-check-syntax-automatically~ variable to a value
+only for ~typescript-mode~ without that affecting buffers in other modes for
+which the variable would retain its original, globally set value.
+
+For this, I used the ~setq-local~ macro.
+
+This does two things:
+
+1) creates a buffer local binding for the variable name (eg ~make-local-variable~).
+2) and sets a buffer local value for that variable.
+
+For a full explanation, see
+https://www.gnu.org/software/emacs/manual/html_node/elisp/Creating-Buffer_002dLocal.html
+
+So, in the end, I used a mode hook:
+
+#+begin_src emacs-lisp
+  (add-hook 'typescript-mode-hook
+            (lambda()
+              (setq-local flycheck-check-syntax-automatically '(mode-enabled save new-line))))
+#+end_src

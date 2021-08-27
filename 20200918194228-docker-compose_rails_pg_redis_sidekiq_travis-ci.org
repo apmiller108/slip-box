@@ -1,6 +1,6 @@
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2021-08-21 08:40 AM
+#+updated: 2021-08-21 12:42 PM
 #+roam_tags: docker rails
 
 * Instructions
@@ -11,6 +11,7 @@
 
   1. Set the ~:HEADER-ARGS:~ property for each file with the ~:tangle~ path.
      This is where the generated file will be written.
+     See [[https://orgmode.org/manual/Using-Header-Arguments.html#Using-Header-Arguments][Using Header Arguments]].
   2. Edit the ~config~ [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Association-Lists.html][Association List]] below. Select the images and app name
      you want to use.
   3. call ~org-babel-tangle~ to generate the files in your chosen directory.
