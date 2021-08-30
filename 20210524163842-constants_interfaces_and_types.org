@@ -1,6 +1,6 @@
 #+title: Constants, interfaces and types
 #+date: 2021-05-24 16:38 PM
-#+updated: 2021-08-27 10:07 AM
+#+updated: 2021-08-27 14:48 PM
 #+roam_tags: typescript
 
 See also [[file:20210819100328-index_signature.org][Index signature]]
