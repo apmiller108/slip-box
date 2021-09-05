@@ -1,6 +1,6 @@
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2021-08-23 07:43 AM
+#+updated: 2021-09-04 21:55 PM
 #+roam_tags: javascript ruby rails
 
 * What is this?
@@ -28,3 +28,7 @@
   - The ~hotwire:install~ rake task will ~yarn add~ both NPM packages
     ~@hotwired/turbo-rails~ and ~stimulus~.
 
+* Resources
+  - https://github.com/hotwired 
+  - https://www.honeybadger.io/blog/hotwire-rails/
+ 

@@ -1,6 +1,6 @@
 #+title: dap-mode
 #+date: 2020-06-05 16:48 PM
-#+updated: 2021-07-16 13:54 PM
+#+updated: 2021-09-03 13:22 PM
 #+roam_tags: emacs spacemacs
 
 * Overview
@@ -65,6 +65,6 @@
    - ~dap-breakpoint-hit-condition~: Specify a number of hits for a breakpoint for it to break.
 
 ** Adding/Watching expressions
-   ~dap-ui-expressions-add~: Add some expressions for which you want to watch
-   the value of. It will show in the ~expressions~ window. Remove them with
-   ~dap-ui-expressions-remove~. 
+   - ~dap-ui-expressions-add~ (~SPC d e t~): Add some expressions for which you want to watch
+   the value of. It will show in the ~expressions~ window.
+   - Remove them with ~dap-ui-expressions-remove~. 
