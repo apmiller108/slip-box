@@ -1,6 +1,6 @@
 #+title: Constants, interfaces and types
 #+date: 2021-05-24 16:38 PM
-#+updated: 2021-08-27 14:48 PM
+#+updated: 2021-09-08 15:01 PM
 #+roam_tags: typescript
 
 See also [[file:20210819100328-index_signature.org][Index signature]]
@@ -39,7 +39,7 @@ See also [[file:20210819100328-index_signature.org][Index signature]]
   local variable is. To get around this, I defined a union type out of the
   constants keys.
 
-*** ~typeof~  
+** ~typeof~
   #+begin_src javascript
     type ThingName = keyof typeof THINGS; // 'thing1' | 'thing2'
   #+end_src
@@ -52,7 +52,15 @@ See also [[file:20210819100328-index_signature.org][Index signature]]
     });
   #+end_src
 
-*** ~valueof~
+  With an Array const:
+
+  #+begin_src javascript
+    const things = ['thing1', 'thing2'] as const;
+    type thing = typeof things[number];
+  #+end_src
+  See also https://stackoverflow.com/a/55505556
+
+** ~valueof~
     There isn't a ~valueof~, but a helper type can be created to accomplish
     that:
 
