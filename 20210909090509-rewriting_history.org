@@ -1,0 +1,34 @@
+#+title: Rewriting history
+#+date: 2021-09-09 09:05 AM
+#+updated: 2021-09-09 09:22 AM
+#+roam_tags: git
+
+See also:
+- http://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
+- https://stackoverflow.com/a/6217314
+
+* Splitting commits
+
+** The last commit
+
+   Just reset and commit the individual pieces.
+
+   #+begin_src shell
+     git reset HEAD~
+   #+end_src
+
+   So, what is the [[https://stackoverflow.com/a/57938521][difference between the caret and tilda?]]
+
+** Commits older than the last one
+
+   1. Use interactive rebase against the commit you want to split.
+      #+begin_src shell
+        git rebase -i COMMITSHA1~
+      #+end_src
+   2. Choose to ~edit~ the commit on the interactive screen.
+   3. Reset...
+      #+begin_src shell
+        git reset HEAD~
+      #+end_src
+   4. Commit the individual pieces.
+   5. Continue the rebase (eg, ~git rebase --continue~)
