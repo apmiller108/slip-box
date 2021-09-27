@@ -6,4 +6,4 @@
 (defun my/publish()
   (get-buffer (find-file "./publish.org"))
   (org-babel-execute-buffer)
-  (org-publish "site"))
+  (org-publish "site" t))
