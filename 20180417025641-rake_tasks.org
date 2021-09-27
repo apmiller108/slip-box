@@ -1,0 +1,115 @@
+#+title: Rake Tasks
+#+date: 2018-04-17 02:56 AM
+#+updated: 2021-09-27 16:11 PM
+#+roam_tags: rails rake ruby
+
+Just some notes on using rake (Ruby Make) tasks.
+
+See also https://ruby.github.io/rake/
+
+* Testing Rake Tasks
+  This is one approach to testing a rake task. Another might be to encapsulate
+  the task in a module and test that. That wouldn't quite be a complete, but it
+  might be enough is some cases.
+
+  #+begin_src ruby
+    require "rake"
+    
+    RSpec.describe 'projects:todos' do  
+      before do    
+        load File.expand_path('../../../../lib/tasks/projects/todos.rake', __FILE__)    
+        Rake::Task.define_task :environment  
+      end
+    
+      subject do    
+        Rake::Task['projects:todos']
+      end
+    
+      it 'puts projects to stdout' do    
+        expect { subject.execute }.to output(        
+                                        "Project One"
+                                        "- [X] Todo Item 1"
+                                        "- [ ] Todo Item 2"
+                                        "- [ ] Todo Item 3"
+                                        ""
+                                        "Project Two"
+                                        "- [ ] Todo Item 1"
+                                      ).to_stdout  
+      end
+    end
+  #+end_src
+
+* Rails
+** Generate a rake task in rails
+   #+begin_src ruby
+     $ rails g task_namespace task_one task_two
+   #+end_src
+
+   will produce ~lib/tasks/task_namespace.rake~:
+
+   #+begin_src ruby
+     namespace :task_namespace do  
+       desc "TODO"  
+       task task_one: :environment do  
+       end
+     
+       desc "TODO"  
+       task task_two: :environment do  
+       end
+     end
+   #+end_src
+
+** List all available rake tasks
+
+   #+begin_src shell
+     $ rake -T
+   #+end_src
+
+* Some tips 
+  - Write a good description
+  - Namespace task related tasks
+  - Use folder structure to group related tasks (ie, one task per file)
+  - Extract task logic to modules
+  - Provide useful output to stdout like start, progress and results
+  - Write logs
+
+** Shell Commands in Rake
+*** Ignore errors from shelled out commands
+    Force a 0 exit code
+
+    #+begin_src ruby
+      sh "the command || true"
+    #+end_src
+
+    or pass an empty block
+
+    #+begin_src ruby
+      sh "your shell command" do |ok,res|
+      end
+    #+end_src
+
+** Passing Args to Rake Task
+
+   #+begin_src ruby
+     namespace :foo do
+       desc 'Seed flag rules with several conditions each'
+       task :bar, %i[arg1 arg2] => :environment do |_t, args|
+         arg1 = args[:arg1]
+         arg2 = args[:arg2]
+         # . . .
+       end
+     end
+   #+end_src
+
+   #+begin_src shell
+     rake foo:bar[arg1,arg2]
+   #+end_src
+
+   When using zsh, the brackets need to be escaped. Prefix the above command
+   with ~noglob~.
+** Invoking Rake Tasks in the Console
+   #+begin_src ruby
+     require 'rake'
+     Rails.application.load_tasks
+     Rake::Task['my_task'].invoke
+   #+end_src
