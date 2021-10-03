@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       A3E175E3-CA8A-4C6B-BAC0-5D9228591F35
+:END:
 #+title: Custom faces for mode
 #+date: 2021-04-16 14:01 PM
 #+updated: 2021-05-04 11:13 AM
-#+roam_tags: emacs
+#+filetags: :emacs:
 
 I don't like how the ~dakrone~ theme colors the ~org-level-3~ face. It's the same
 color as a link. One way to solve it is to create a custom function that

@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       1E969F0A-52A6-4D2C-A227-5BF6AE253044
+:END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
 #+updated: 2021-09-04 21:55 PM
-#+roam_tags: javascript ruby rails
+#+filetags: :javascript:ruby:rails:
 
 * What is this?
   [[https://hotwired.dev/][Hotwire]] is a way of building web applications that, at its core, is about

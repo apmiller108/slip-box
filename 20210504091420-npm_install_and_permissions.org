@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       8BFEDC94-FD2E-48C8-988D-177FB89004C1
+:END:
 #+title: npm install and permissions
 #+date: 2021-05-04 09:14 AM
 #+updated: 2021-05-04 11:14 AM
-#+roam_tags: npm javascript
+#+filetags: :npm:javascript:
 
 
 * The problem

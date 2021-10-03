@@ -1,11 +1,14 @@
+:PROPERTIES:
+:ID:       75CF62BB-B268-47AD-8528-98AE386B0554
+:END:
 #+title: Org-mode mapping API
 #+date: 2021-05-11 15:46 PM
 #+updated: 2021-05-11 16:30 PM
-#+roam_tags: org-mode emacs
+#+filetags: :org_mode:emacs:
 
 * org-map-entries
 ** Counting entries (headlines)
-   This is probably the most basic use case for this. I needed in [[file:publish.org][publish.org]] to
+   This is probably the most basic use case for this. I needed in [[id:33D6368F-C063-40E0-8369-9FA8954C8A46][publish.org]] to
    count the number of headlines. I add a table of contents export option only
    when there are more than 3 headlines in an org note.
 

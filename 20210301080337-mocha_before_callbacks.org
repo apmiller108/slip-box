@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       268F9BF2-99F4-48C8-8132-6DFACB1F6EF3
+:END:
 #+title: Mocha before callbacks
 #+date: 2021-03-01 08:03 AM
-#+roam_tags: testing javascript mocha
+#+filetags: :testing:javascript:mocha:
 
 * TL'DR
   - All ~before~ block run first in top down order

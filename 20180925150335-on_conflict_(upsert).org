@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       72A8A586-D9D0-4EFD-8DA9-BB3423543865
+:END:
 #+title: ON CONFLICT (UPSERT)
 #+date: 2018-09-25 15:03 PM
 #+updated: 2021-06-25 15:50 PM
-#+roam_tags: sql postgres
+#+filetags: :sql:postgres:
 
 * ON CONFLICT (UPSERT)
   You can use =ON CONFLICT (column_name)= to perform a different action

@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       040AE749-B677-4481-A65B-19FB842CE227
+:END:
 #+title: lsp-mode
 #+date: 2021-07-21 08:20 AM
 #+updated: 2021-08-30 08:27 AM
-#+roam_tags: lsp emacs
+#+filetags: :lsp:emacs:
 
 * Typescript
 ** Setup

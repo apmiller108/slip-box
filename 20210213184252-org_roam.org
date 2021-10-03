@@ -1,17 +1,20 @@
+:PROPERTIES:
+:ID:       7514BB0A-9713-4C61-9FFD-6C93BC0F0374
+:ROAM_REFS: https://foo.com
+:ROAM_ALIASES: "Org-roam stuff"
+:END:
 #+title: Org-roam
 #+date: 2021-02-13 18:43 PM
-#+roam_alias: "Org-roam stuff"
-#+roam_tags: org-roam org-mode emacs
-#+roam_key: "https://foo.com"
+#+filetags: :org_roam:org_mode:emacs:
 
 
 [[https://www.orgroam.com/manual.html][Org-roam online manual]]
-See also [[file:20210326124530-org_mode_basics.org][Org-mode basics]]   
+See also [[id:E67BF8C6-A54C-4E71-A9B3-F2FE1D14632A][Org-mode basics]]   
 
 * Settings
 
   You can define these anywhere, but it makes sense to define them at the top
-  along with the Org-mode [[file:20210214104302-org_mode_export_settings.org][Export Settings]]. See example in this file.
+  along with the Org-mode [[id:EA505166-BE28-45D4-8390-343AC9B48D05][Export Settings]]. See example in this file.
 
   - ~roam_alias~ is a title alias. Useful when finding files.
   - ~roam_tags~ is for categorization. Also useful when finding files.

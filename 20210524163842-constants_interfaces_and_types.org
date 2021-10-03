@@ -1,9 +1,12 @@
+:PROPERTIES:
+:ID:       2CCE3E8C-7B7B-4050-BABF-59F788C94383
+:END:
 #+title: Constants, interfaces and types
 #+date: 2021-05-24 16:38 PM
 #+updated: 2021-09-08 15:01 PM
-#+roam_tags: typescript
+#+filetags: :typescript:
 
-See also [[file:20210819100328-index_signature.org][Index signature]]
+See also [[id:729074AE-D18C-4EC9-9F71-F4C325CD0C49][Index signature]]
 
 * ~const~ Assertions
 

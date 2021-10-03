@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       F1597962-F7B6-4D42-9A01-A7BE1715C9BF
+:END:
 #+title: Projectile
 #+date: 2021-04-02 13:57 PM
-#+roam_tags: emacs
+#+filetags: :emacs:
 
 * Resources
   - [[https://docs.projectile.mx/projectile/index.html][Online documentation]]

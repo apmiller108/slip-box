@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       56064AF0-C3F3-4743-9EF9-55974DF5523F
+:END:
 #+title: Literate programming with org-mode
 #+date: 2021-07-04 11:02 AM
 #+updated: 2021-08-20 15:54 PM
-#+roam_tags: org-mode emacs
+#+filetags: :org_mode:emacs:
 
 * Example
 :PROPERTIES:

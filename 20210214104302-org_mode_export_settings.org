@@ -1,9 +1,11 @@
+:PROPERTIES:
+:ID:       EA505166-BE28-45D4-8390-343AC9B48D05
+:END:
 #+title: Org-mode Export Settings
 #+date: 2021-02-14 10:43 AM
-#+roam_tags: org-mode emacs
-#+FILETAGS: foo
+#+filetags: :org_mode:emacs:foo:
 
-[[file:20210326124530-org_mode_basics.org][Org-mode]] export settings. See also [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]].
+[[id:E67BF8C6-A54C-4E71-A9B3-F2FE1D14632A][Org-mode]] export settings. See also [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]].
 
 * Basics
 

@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       CFC5691E-3B33-4A45-A1A9-4188031DCBE5
+:END:
 #+title: capybara window management
 #+date: 2021-03-03 14:49 PM
-#+roam_tags: capybara ruby
+#+filetags: :capybara:ruby:
 
 See this [[https://stackoverflow.com/a/25093517/5974855][SO Answer]]
 

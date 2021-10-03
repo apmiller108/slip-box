@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       BA573DB0-C2B1-4308-9F0A-D849858402DB
+:END:
 #+title: dap-mode
 #+date: 2020-06-05 16:48 PM
 #+updated: 2021-09-03 13:22 PM
-#+roam_tags: emacs spacemacs
+#+filetags: :emacs:spacemacs:
 
 * Overview
   This package provides a [[https://microsoft.github.io/debug-adapter-protocol/][Debug Adapter Protocol]] interfaces between Emacs and

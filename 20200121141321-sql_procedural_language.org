@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       B1708529-05EA-41A7-8926-11E93C397DEA
+:END:
 #+title: SQL Procedural Language
 #+date: 2020-01-21 14:13 PM
 #+updated: 2021-06-25 10:15 AM
-#+roam_tags: sql postgres 
+#+filetags: :sql:postgres:
 
 * SQL Procedural Language
   It's a procedural programming language supported by PG.
@@ -51,6 +54,6 @@
    [[https://www.postgresqltutorial.com/postgresql-stored-procedures/][PostgreSQL Stored Procedures]]
 
    - Available in Postgres v11+.
-   - When doing [[file:20210621203556-large_sql_data_migrations.org][Large SQL data migrations]] with batches, it can be good to commit
+   - When doing [[id:F544CDDD-34B9-4475-B265-1139F18D9090][Large SQL data migrations]] with batches, it can be good to commit
      at each iteration of a loop. We cannot ~COMMIT~ transactions in PL/pgSQL
      unless using a stored procedure or function.

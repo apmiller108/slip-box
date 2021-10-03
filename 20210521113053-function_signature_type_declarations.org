@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       F428E751-6B12-4C6D-8A45-4D8CAC6694CA
+:END:
 #+title: Function signature type declarations
 #+date: 2021-05-21 11:30 AM
 #+updated: 2021-05-21 11:50 AM
-#+roam_tags: typescript
+#+filetags: :typescript:
 
 * Type or Interface
   I needed to declare a function signature type for a callback function. I found

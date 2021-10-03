@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       4EB81167-F7EB-4C72-B62B-9FB666D2446E
+:END:
 #+title: Emacs profiles
 #+date: 2021-03-26 09:29 AM
-#+roam_tags: emacs
+#+filetags: :emacs:
 
 Have side-by-side emacs configurations. For example I have spacemacs, doom and
 vanilla emacs. Use [[https://github.com/plexus/chemacs2][Chemacs2]]. Just follow the instructions in the README.md.

@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       3137B4FF-7629-4F81-908C-0009FBEF84A2
+:END:
 #+title: Web security resources
 #+date: 2021-03-25 08:41 AM
-#+roam_tags: security
+#+filetags: :security:
 
 * Web security resources
   [[https://cheatsheetseries.owasp.org/index.html][OWASP Cheatsheet]]

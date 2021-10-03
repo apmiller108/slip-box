@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       BB17CF51-DA23-46BB-A641-7B9D599715E0
+:END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
 #+updated: 2021-05-07 13:20 PM
-#+roam_tags: emacs
+#+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
 probably forget.
@@ -23,7 +26,7 @@ probably forget.
   [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][Advising-Functions docs]]
 
   #+begin_notes
-  See also [[file:20210408090222-overriding_package_functions_in_emacs.org][Overriding package functions in emacs]].
+  See also [[id:F6A66B44-5739-4069-BA08-87C735CCF704][Overriding package functions in emacs]].
   #+end_notes
 
 ** After callback example
@@ -33,5 +36,5 @@ probably forget.
    #+end_src
 
 * Surrounding
-  Just use [[file:20210401083839-evil_surround.org][Evil-surround]].
+  Just use [[id:D1A12F6B-6303-4DFF-AFD8-8742A16D1A7E][Evil-surround]].
   - ~s(~ to surround region.

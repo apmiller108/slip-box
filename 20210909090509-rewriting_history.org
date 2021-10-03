@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       ECB3224F-A472-4F5B-9D86-EA3A099F2B86
+:END:
 #+title: Rewriting history
 #+date: 2021-09-09 09:05 AM
 #+updated: 2021-09-09 09:22 AM
-#+roam_tags: git
+#+filetags: :git:
 
 See also:
 - http://git-scm.com/book/en/v2/Git-Tools-Rewriting-History

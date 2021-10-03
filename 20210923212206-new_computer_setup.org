@@ -1,7 +1,11 @@
+:PROPERTIES:
+:ID:       944F1F58-4EC8-444C-B7CA-787ABC19025B
+:END:
+
 #+title: New computer setup
 #+date: 2021-09-23 21:22 PM
-#+updated: 2021-09-30 17:55 PM
-#+roam_tags: shell
+#+updated: 2021-10-02 20:53 PM
+#+filetags: :shell:
 
 A got a new laptop, a System 76 Gazelle with [[https://pop.system76.com][pop_os]]. This was the first I time
 used [[https://github.com/apmiller108/dotfiles][my dotfiles]] to setup a Linux box. Previously, I always used MacOS. I want

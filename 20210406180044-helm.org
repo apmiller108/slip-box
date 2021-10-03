@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       F73B74CD-860A-4371-974C-10957700EA12
+:END:
 #+title: Helm
 #+date: 2021-04-06 18:00 PM
-#+roam_tags: spacemacs emacs
+#+filetags: :spacemacs:emacs:
 
 This is about the Helm Emacs package. There's going to be a lot of spacemacs
 stuff here too since helm is so central to it (and I use spacemacs).
@@ -19,7 +22,7 @@ stuff here too since helm is so central to it (and I use spacemacs).
  | ~SPC s S~ | ~helm-multi-swoop~ (swoops all buffers) |
 
 * Helm-ag
- - See [[file:20210407075214-project_wide_find_and_replace_in_spacemacs.org][Project-wide find and replace in Spacemacs]] for more.
+ - See [[id:3B5A0DBA-6699-45C1-B61D-8297C499FDE0][Project-wide find and replace in Spacemacs]] for more.
 
  To copy search results to buffer
  - ~SPC s p~ to do a project search

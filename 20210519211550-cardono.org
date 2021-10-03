@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       9A370001-7790-4689-B32A-B13C5BBF5523
+:END:
 #+title: Cardono
 #+date: 2021-05-19 21:15 PM
 #+updated: 2021-05-26 08:44 AM
-#+roam_tags: crypto
+#+filetags: :crypto:
 
 * Ada
   - The currency

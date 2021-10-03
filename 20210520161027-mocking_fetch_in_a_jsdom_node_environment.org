@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       E1B879BC-EF8C-40E9-B8C4-55923A1A9D76
+:END:
 #+title: Mocking fetch in a jsdom node environment
 #+date: 2021-05-20 16:10 PM
 #+updated: 2021-05-20 18:41 PM
-#+roam_tags: javascript testing typescript
+#+filetags: :javascript:testing:typescript:
 
 * The problem
   Node.JS environments don't have [[https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch][fetch]]. Ok, so what, I'll just use [[https://github.com/node-fetch/node-fetch][node-fetch]],

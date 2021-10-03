@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       A0808833-31DA-449C-8300-229D0468E0AD
+:END:
 #+title: IPFS
 #+date: 2021-05-29 14:48 PM
 #+updated: 2021-05-29 15:42 PM
-#+roam_tags: ipfs
+#+filetags: :ipfs:
 
 [[https://ipfs.io/][InterPlanetary File System]]
 

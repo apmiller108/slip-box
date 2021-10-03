@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       763036B7-CC84-4EEC-9A2A-BC66BEF95F57
+:END:
 #+title: Access private property in Typescript
 #+date: 2021-05-20 09:14 AM
 #+updated: 2021-05-20 16:01 PM
-#+roam_tags: typescript
+#+filetags: :typescript:
 
 * Why
   There are rare occasions when writing unit tests where I need to verify the

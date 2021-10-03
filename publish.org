@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       33D6368F-C063-40E0-8369-9FA8954C8A46
+:END:
 #+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-06-25 13:55 PM
-#+roam_tags: org-mode org-roam emacs
+#+updated: 2021-10-02 21:56 PM
+#+filetags: :org_mode:org_roam:emacs:
 
 * Overview
   This is a self-documenting org-mode publishing script. It is run by executing
@@ -100,7 +103,14 @@
    #+begin_src emacs-lisp +n :results silent
     (use-package ts :ensure t)
    #+end_src
-    
+
+** s
+   [[https://github.com/magnars/s.el][s.el]] for sanity when working with strings.
+
+   #+begin_src emacs-lisp +n :results silent
+    (use-package s :ensure t)
+   #+end_src
+
 ** ox-publish
 
    The publishing system for org-mode
@@ -124,14 +134,16 @@
    explained with ~describe-variable~
 
    #+begin_src elisp +n :results silent
-   (setq org-publish-use-timestamps-flag t
-         org-publish-timestamp-directory "./.org-cache/"
-         org-export-with-section-numbers nil
-         org-export-use-babel nil
-         org-export-with-smart-quotes t
-         org-export-with-sub-superscripts nil
-         org-export-with-tags 'not-in-toc
-         org-export-date-timestamp-format "Y-%m-%d %H:%M %p")
+     (setq org-publish-use-timestamps-flag t
+           org-publish-timestamp-directory "./.org-cache/"
+           org-export-with-section-numbers nil
+           org-export-use-babel nil
+           org-export-with-smart-quotes t
+           org-export-with-sub-superscripts nil
+           org-export-with-tags 'not-in-toc
+           org-export-date-timestamp-format "Y-%m-%d %H:%M %p"
+           org-id-locations-file "./.org-id-locations"
+           org-id-track-globally t)
    #+end_src
 
 ** HTML exporter variables
@@ -219,16 +231,13 @@
    - This is the whole page layout. It makes use of the header and footer functions
      above and injects the org-mode document exported HTML (the ~contents~ arg).
    - I think all of this is pretty self explanatory, but one thing I should call
-     out is the use of ~:roam_tags~ to generate the tag links. ~:roam_tags~ (from
-     [[https://www.orgroam.com/][org-roam]] package) are not automatically available from the ~info~ plist.
-     This needs to first be declared as a custom export option in the derived
-     backend. See below. I took me a while to figure that out.
-     [[https://emacs.stackexchange.com/questions/64516/using-org-roam-tags-when-org-publishing][I even asked on emacs.stackexchange]], but eventually figured it out and
-     answered my own question.
+     out is the use of ~:filetags~ to generate the tag links. I'm not entirely
+     sure I had to do this, but I declared as a custom export option in the
+     derived backend. See below.
    - Same with the ~:updated~ property.
      - This is a timestamp this is automatically generated when an org-mode file
        is saved. See
-       [[file:20210507153704-automatically_generate_an_updated_at_timestamp_when_saving_an_org_file.org][Automatically generate an updated at timestamp when saving an org file]]
+       [[id:B7EACABD-46E0-419E-8380-9DBD36A35F8A][Automatically generate an updated at timestamp when saving an org file]]
        for how that works.
 
    #+begin_src elisp +n :results silent
@@ -289,12 +298,12 @@
                                      ,(when (plist-get info :updated)
                                          `(p (@ (class "note-updated uk-article-meta"))
                                              ,(format "Updated on %s" (ts-format "%B %e, %Y" (ts-parse (plist-get info :updated)))))))
-                                 ,(let ((tags (org-export-data (plist-get info :roam_tags) info)))
+                                 ,(let ((tags (org-export-data (plist-get info :filetags) info)))
                                     (when (and tags (> (length tags) 0))
                                       `(p (@ (class "blog-post-tags"))
                                           "Tags: "
                                           ,(mapconcat (lambda (tag) (format "<a href=\"/?tag=%s\">%s</a>" tag tag))
-                                                      (plist-get info :roam_tags)
+                                                      (plist-get info :filetags)
                                                       ", "))))
                                  ,contents)
                            ,(when (not (string-equal my/sitemap-title (org-export-data (plist-get info :title) info)))
@@ -311,30 +320,44 @@
 
 ** Element customization
 *** Links and Images
-    - The link paths need to match the actual file paths of the exported files. The
-      exported files are downcased and without filename extensions. So, this
-      function ensures the link paths match that format. So
-      ~[[file:my_post.org][My Post]]~  becomes ~<a href="my_post">My Post</a>~
-      (no ~.html~ on the path).
+    - The link paths need to match the actual file paths of the exported files.
+      So for file links, the exported link paths are downcased and without
+      filename extensions. So, this function ensures the link paths match that
+      format. So ~[[file:my_post.org][My Post]]~ becomes ~<a href="my_post">My
+      Post</a>~ (no ~.html~ on the path).
+    - Org-roam uses the ID property for linking notes. To get around this, first I add the notes to
+      the list of places where files with IDs live ~org-id-update-id-locations~.
+      This is where org will look for files when finding by ID. Then if org
+      finds a file by an ID value (~org-id-find~), replace the ~path~ property
+      with the filename.
     - I have some inline images in my org files. These are file links without a
       label that point to files with image extensions. Mostly these are plantuml
       renderings. They get converted to HTML ~img~ tags.
     - For everything else, just render a good old fashion anchor tag.
 
     #+begin_src elisp +n :results silent
+      (defun my/format-path-for-anchor-tag (path)
+        (concat "/"
+                (downcase
+                 (file-name-sans-extension
+                  path))))
       (defun my/org-html-link (link contents info)
         "Removes file extension and changes the path into lowercase org file:// links.
         Handles creating inline images with `<img>' tags for png, jpg, and svg files
         when the link doesn't have a label, otherwise just creates a link."
         ;; TODO: refactor this mess
+        (org-id-update-id-locations (seq-filter 'file-regular-p (directory-files "./")) t)
+        (let ((path (car (org-id-find (s-replace "id:" "" (org-element-property :path link))))))
+          (if path
+              (org-element-put-property link :path
+                                        (my/format-path-for-anchor-tag
+                                         (car (last (s-split "/" path)))))))
         (when (and (string= 'file (org-element-property :type link))
                   (string= "org" (file-name-extension (org-element-property :path link))))
           (org-element-put-property link :path
-                                    (concat "/"
-                                            (downcase
-                                            (file-name-sans-extension
-                                              (org-element-property :path link))))))
-
+                                    (my/format-path-for-anchor-tag
+                                              (org-element-property :path link))))
+      
         (if (and (string= 'file (org-element-property :type link))
                 (file-name-extension (org-element-property :path link))
                 (string-match "png\\|jpg\\|svg"
@@ -417,35 +440,35 @@
 
 ** The Sitemap (the home page)
 *** Sitemap Entry
-    Formats sitemap entry as ~{date} {title} ({roam_tags})~. Returns a list
-    containing the sitemap entry string and the ~roam_tags~. A unique list of the
-    ~roam_tags~ is created on the sitemap page from this list, that's why they're
+    Formats sitemap entry as ~{date} {title} ({filetags})~. Returns a list
+    containing the sitemap entry string and the ~filetags~. A unique list of the
+    ~filetags~ is created on the sitemap page from this list, that's why they're
     returned from this function.
 
     #+begin_src elisp +n :results silent
       (defun my/sitemap-format-entry (entry style project)
-        (let* ((roam-tags (org-publish-find-property entry :roam_tags project 'site-html))
+        (let* ((filetags (org-publish-find-property entry :filetags project 'site-html))
                (created-at (format-time-string "%Y-%m-%d"
                                                (date-to-time
                                                 (format "%s" (car (org-publish-find-property entry :date project))))))
                (entry
                 (sxml-to-xml
                  `(li (@ (data-date ,created-at)
-                         (class ,(mapconcat (lambda (tag) tag) roam-tags " ")))
+                         (class ,(mapconcat (lambda (tag) tag) filetags " ")))
                       (span (@ (class "sitemap-entry-date")) ,created-at)
                       (a (@ (href ,(file-name-sans-extension entry)))
                          ,(org-publish-find-title entry project))
 
-                      ,(if roam-tags
+                      ,(if filetags
                            `(span (@ (class "sitemap-entry-tags"))
                                   ,(concat "("
-                                           (mapconcat (lambda (tag) tag) roam-tags ", ")
+                                           (mapconcat (lambda (tag) tag) filetags ", ")
                                            ")")))))))
-              (list entry roam-tags)))
+              (list entry filetags)))
     #+end_src
 
 *** Sitemap page
-    From the function above, the ~roam-tags~ are placed into a flattened list,
+    From the function above, the ~filetags~ are placed into a flattened list,
     duplicate values removed and sorted alphabetical ascending. These are turned
     into tags on the page used for filtering the entries by topic. All of the JS
     used for filtering is provided by the [[https://getuikit.com/][UIkit]] CSS framework.
@@ -501,11 +524,13 @@
      - These are ~(KEYWORD OPTION DEFAULT BEHAVIOR)~. The full description can
        be read by describing the ~org-export-options-alist~ variable.
      - For more on this see the following:
-       - See [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]].
+       - See [[id:EA505166-BE28-45D4-8390-343AC9B48D05][Org-mode Export Settings]].
        - https://orgmode.org/worg/dev/org-export-reference.html
        - http://doc.endlessparentheses.com/Var/org-export-options-alist.html
        - [[https://emacs.stackexchange.com/q/64516/32224][An emacs.stackexchange question]] I asked about how to use ~#+roam_tags~
          when publishing.
+         *UPDATE:* with org-roam V2, ~roam_tags~ where replaced with just
+         org-mode's ~filetags~
   
   #+begin_src emacs-lisp +n :results silent
     (org-export-define-derived-backend
@@ -519,7 +544,7 @@
       '((:page-type "PAGE-TYPE" nil nil t)
         (:html-use-infojs nil nil nil)
         (:updated "UPDATED" nil nil t)
-        (:roam_tags "ROAM_TAGS" nil nil split)))
+        (:filetags "FILETAGS" nil nil split)))
   #+end_src
 * Publishing
 ** Output paths

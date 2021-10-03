@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       19CD4732-5A20-43B9-BAC4-FEB736D190ED
+:END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
 #+updated: 2021-08-21 12:42 PM
-#+roam_tags: docker rails
+#+filetags: :docker:rails:
 
 * Instructions
   This is a generator for Rails project setup with docker, Postgres, Redis,

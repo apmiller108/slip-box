@@ -1,6 +1,7 @@
 org-roam.db
 **/cmm
 .org-cache/
+.org-id-locations
 .packages/
 public/
 personal/

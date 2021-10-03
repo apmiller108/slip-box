@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       099F52A2-C3B1-4EAB-8DB9-C2D574F2C9B3
+:END:
 #+title: Git layer in Spacemacs
 #+date: 2021-04-09 08:27 AM
-#+roam_tags: spacemacs magit git
+#+filetags: :spacemacs:magit:git:
 
 [[https://magit.vc/][Magit]] is the central component to this layer. Learning how to use it is key.
 

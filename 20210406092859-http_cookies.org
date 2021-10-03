@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       E540D011-8E1E-43CC-B2D9-0714EC0C37E2
+:END:
 #+title: HTTP Cookies
 #+date: 2021-04-06 09:28 AM
-#+roam_tags: web-development security
+#+filetags: :web_development:security:
 
 [[https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies][Mozilla HTTP cookies docs]]
 

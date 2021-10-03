@@ -1,9 +1,12 @@
+:PROPERTIES:
+:ID:       3B5A0DBA-6699-45C1-B61D-8297C499FDE0
+:END:
 #+title: Project-wide find and replace in Spacemacs
 #+date: 2021-04-07 07:52 AM
-#+roam_tags: spacemacs emacs
+#+filetags: :spacemacs:emacs:
 
 * Projectile
-  - See [[file:20210402135722-projectile.org][Projectile]] notes for more on this package.
+  - See [[id:F1597962-F7B6-4D42-9A01-A7BE1715C9BF][Projectile]] notes for more on this package.
   - See [[https://stackoverflow.com/a/50843675/5974855][my StackOverflow question on this]].
    
   ~projectile-replace~

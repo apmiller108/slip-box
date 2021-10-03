@@ -1,9 +1,12 @@
+:PROPERTIES:
+:ID:       729074AE-D18C-4EC9-9F71-F4C325CD0C49
+:END:
 #+title: Index signature
 #+date: 2021-08-19 10:03 AM
-#+updated: 2021-08-27 14:48 PM
-#+roam_tags: typescript
+#+updated: 2021-10-02 20:46 PM
+#+filetags: :typescript:
 
-See also [[file:20210524163842-constants_interfaces_and_types.org][Constants, interfaces and types]]
+See also [[id:2CCE3E8C-7B7B-4050-BABF-59F788C94383][Constants, interfaces and types]]
 
 * Basic usage
   The name of the next (eg, ~id~, ~key~) is arbitrary.
@@ -24,3 +27,4 @@ See also [[file:20210524163842-constants_interfaces_and_types.org][Constants, in
       [key in FooKey]: string
     }
   #+end_src  
+

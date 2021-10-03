@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       E0533BA5-3EDB-4397-AF6A-8365078897F7
+:END:
 #+title: Using robe with docker
 #+date: 2021-03-08 09:43 AM
 #+updated: 2021-05-04 10:57 AM
-#+roam_tags: robe emacs
+#+filetags: :robe:emacs:
 
 - Put [[https://github.com/aki2o/emacs-docker-robe][emacs-docker-robe package]] somewhere in your [[https://www.emacswiki.org/emacs/LoadPath][Load Path]] (I put it in
   ~/emacs.d/lisp and added the directory to my load paths)

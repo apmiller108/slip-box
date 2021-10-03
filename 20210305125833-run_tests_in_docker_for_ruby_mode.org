@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       2F8A1770-A725-484C-9665-8CB4A1CDDA81
+:END:
 #+title: Run tests in docker for ruby-mode
 #+date: 2021-03-05 12:58 PM
-#+roam_tags: ruby-mode spacemacs docker
+#+filetags: :ruby_mode:spacemacs:docker:
 
 See [[https://github.com/pezra/rspec-mode][rspec-mode]] docs for the variables used below
 

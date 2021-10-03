@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       BCA3E412-537C-44A0-B31A-8E0993AD3B0E
+:END:
 #+title: Mocking interfaces
 #+date: 2021-05-24 15:26 PM
 #+updated: 2021-05-24 16:06 PM
-#+roam_tags: typescript testing
+#+filetags: :typescript:testing:
 
 One of the problems with complex interfaces is that they can make mocking test
 data cumbersome in unit tests. TypeScript has some ways around this.

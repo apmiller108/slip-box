@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       0028A552-7D1F-4BA5-AE24-17DF94A33D83
+:END:
 #+title: Plantuml
 #+date: 2021-03-31 08:46 AM
 #+updated: 2021-05-04 11:07 AM
-#+roam_tags: plantuml
+#+filetags: :plantuml:
 
 * General Stuff
   - Scale rendering: ~scale~
@@ -12,4 +15,4 @@
   [[https://plantuml.com/class-diagram][Class diagram docs]]
 
 * With Emacs' org-mode
-  [[file:20210212204557-plantuml_with_org_mode.org][Plantuml with org-mode]]
+  [[id:588243DF-3AE4-48FF-8937-AFF0BC5372CC][Plantuml with org-mode]]

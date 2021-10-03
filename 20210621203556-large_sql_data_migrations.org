@@ -1,10 +1,13 @@
+:PROPERTIES:
+:ID:       F544CDDD-34B9-4475-B265-1139F18D9090
+:END:
 #+title: Large SQL data migrations
 #+date: 2021-06-21 20:35 PM
 #+updated: 2021-07-06 11:12 AM
-#+roam_tags: sql postgres
+#+filetags: :sql:postgres:
 
 * Use PL/pgSQL
-  See [[file:20200121141321-sql_procedural_language.org][SQL Procedural Language]]. This is useful for batching (see below). 
+  See [[id:B1708529-05EA-41A7-8926-11E93C397DEA][SQL Procedural Language]]. This is useful for batching (see below). 
 
 ** Transaction Management  
    One important caveat here is that we can't ~COMMIT~  transactions in PL/pgSQL.
@@ -129,7 +132,7 @@
     END $$
   #+end_src
 * Dealing with constraints
-  A nice feature is [[file:20180925150335-on_conflict_(upsert).org][ON CONFLICT (UPSERT)]] for taking certain actions when
+  A nice feature is [[id:72A8A586-D9D0-4EFD-8DA9-BB3423543865][ON CONFLICT (UPSERT)]] for taking certain actions when
   encountering issue with constraints so it doesn't blow up the entire
   migration.
 

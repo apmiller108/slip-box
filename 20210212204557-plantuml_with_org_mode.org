@@ -1,9 +1,12 @@
+:PROPERTIES:
+:ID:       588243DF-3AE4-48FF-8937-AFF0BC5372CC
+:END:
 #+title: Plantuml with org-mode
 #+date: 2021-02-12 20:45 PM
-#+roam_tags: org-mode plantuml emacs
+#+filetags: :org_mode:plantuml:emacs:
 
 * Resources
-  [[file:20210331084615-plantuml.org][Plantuml]] 
+  [[id:0028A552-7D1F-4BA5-AE24-17DF94A33D83][Plantuml]] 
   [[http://www.alvinsim.com/diagrams-with-plantuml-and-emacs/][Blog Post: Diagrams with Plantuml and Emacs]]
 
 

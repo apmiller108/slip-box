@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       B74136A9-EBA7-4761-ADB9-ADA3EA265770
+:END:
 #+title: Upterm
 #+date: 2021-03-22 11:47 AM
 #+updated: 2021-05-04 10:59 AM
-#+roam_tags: shell
+#+filetags: :shell:
 
 - [[https://github.com/owenthereal/upterm][Github Repo]]
 - [[https://owenou.com/upterm/][Blog post by the maintainer]]

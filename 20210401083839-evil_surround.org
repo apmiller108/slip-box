@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       D1A12F6B-6303-4DFF-AFD8-8742A16D1A7E
+:END:
 #+title: Evil-surround
 #+date: 2021-04-01 08:38 AM
-#+roam_tags: emacs spacemacs
+#+filetags: :emacs:spacemacs:
 
 * Quick Reference
   [[https://github.com/emacs-evil/evil-surround][evil-surround repo]]

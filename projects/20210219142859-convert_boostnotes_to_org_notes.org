@@ -1,5 +1,8 @@
+:PROPERTIES:
+:ID:       A8E5791C-EAAF-4517-8AFC-B61236BFE8C5
+:END:
 #+title: Convert boostnotes to org notes
-#+roam_tags: project org-mode
+#+filetags: :project:org_mode:
 
 * DONE Load ~boostnote.json~
   CLOSED: [2021-02-26 Fri 13:44]

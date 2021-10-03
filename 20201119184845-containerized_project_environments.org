@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       30402D2F-51E2-4612-BDA1-8CAA741F349F
+:END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
 #+updated: 2021-08-13 14:53 PM
-#+roam_tags: docker ruby
+#+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
 when writing code, these days I prefer to just use docker and skip

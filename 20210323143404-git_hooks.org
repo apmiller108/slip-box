@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       549D7736-F424-453E-BE28-4C37D1601567
+:END:
 #+title: Git hooks
 #+date: 2021-03-23 14:34 PM
 #+updated: 2021-05-04 10:59 AM
-#+roam_tags: git
+#+filetags: :git:
 
 * The basics
   [[https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks][Git hooks documentation]]

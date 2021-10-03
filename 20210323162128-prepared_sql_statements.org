@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       51ACCA54-688A-4C73-BAFE-826B6F578BD3
+:END:
 #+title: Prepared SQL statements
 #+date: 2021-03-23 16:21 PM
 #+updated: 2021-05-04 11:01 AM
-#+roam_tags: postgres sql 
+#+filetags: :postgres:sql:
 
 aka Parameterized Query
 

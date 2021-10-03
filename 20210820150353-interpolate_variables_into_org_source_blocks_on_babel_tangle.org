@@ -1,15 +1,18 @@
+:PROPERTIES:
+:ID:       4D23DC63-D289-4005-BAC6-69B507B3DF7E
+:END:
 #+title: Interpolate variables into org source blocks on babel tangle
 #+date: 2021-08-20 15:03 PM
 #+updated: 2021-08-21 08:37 AM
-#+roam_tags: org-roam emacs
+#+filetags: :org_roam:emacs:
 
-See also [[file:20210704110247-literate_programming_with_org_mode.org][Literate programming with org-mode]]
+See also [[id:56064AF0-C3F3-4743-9EF9-55974DF5523F][Literate programming with org-mode]]
 
 I made a org document to generate boiler plate docker files for quickly
 spinning up a Ruby on Rails app without having to install any local dependencies
 (other than docker). To make it easier to re-use for different projects, docker
 images, etc., I found a way to have a single place to define the images so I
-didn't have to edit each source block in multiple places. See [[file:20200918194228-docker-compose_rails_pg_redis_sidekiq_travis-ci.org][docker-compose Rails
+didn't have to edit each source block in multiple places. See [[id:19CD4732-5A20-43B9-BAC4-FEB736D190ED][docker-compose Rails
 PG Redis Sidekiq Travis-CI]] for the details.
 
 Anyway, here's a simplified example of how it works.

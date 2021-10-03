@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       30980AA5-F3E1-4839-9103-065DFB3A9130
+:END:
 #+title: mssql data migration with rollback
 #+date: 2021-03-03 14:30 PM
-#+roam_tags: sql mssql
+#+filetags: :sql:mssql:
 
 * Example data migration with rollback (MSSQL)
 

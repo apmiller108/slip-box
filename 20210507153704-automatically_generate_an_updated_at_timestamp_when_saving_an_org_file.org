@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       B7EACABD-46E0-419E-8380-9DBD36A35F8A
+:END:
 #+title: Automatically generate an updated at timestamp when saving an org file
 #+date: 2021-05-07 15:37 PM
 #+updated: 2021-05-10 20:22 PM
-#+roam_tags: org-mode emacs
+#+filetags: :org_mode:emacs:
 
 For this to work, the export option ~#+updated:\s~ (yes, including the space)
 must already be present in the file.

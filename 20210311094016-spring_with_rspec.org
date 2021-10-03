@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       FF3B8794-C029-4DBE-844E-7F1B730781D2
+:END:
 #+title: Spring with RSpec
 #+date: 2021-03-11 09:40 AM
-#+roam_tags: spring rspec ruby
+#+filetags: :spring:rspec:ruby:
 
 * With docker images built for a different environment
   Consider this a case where you can't immediately use gems in the ~group :development~

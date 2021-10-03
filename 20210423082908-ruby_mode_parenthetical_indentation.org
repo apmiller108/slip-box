@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       FEAD39AC-3500-4BFF-9F5F-201C927ABAF1
+:END:
 #+title: Ruby-mode parenthetical indentation
 #+date: 2021-04-23 08:29 AM
-#+roam_tags: ruby-mode emacs
+#+filetags: :ruby_mode:emacs:
 
 * How to fix this messed up parenthetical indentation
 

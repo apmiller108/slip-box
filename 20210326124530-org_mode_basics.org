@@ -1,12 +1,15 @@
+:PROPERTIES:
+:ID:       E67BF8C6-A54C-4E71-A9B3-F2FE1D14632A
+:END:
 #+title: Org-mode basics
 #+date: 2021-03-26 12:45 PM
 #+updated: 2021-05-14 09:17 AM
-#+roam_tags: org-mode
+#+filetags: :org_mode:
 
 This is a dump of notes on basic org-mode stuff. I recently switched from
 Boostnote to org-mode.
 
-See also [[file:20210213184252-org_roam.org][Org-roam stuff]]   
+See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]   
 
 * Headings
   Rotate heading type (eg, TODO, DONE, etc) with:
@@ -66,11 +69,11 @@ See also [[file:20210213184252-org_roam.org][Org-roam stuff]]
     - Save without closing it: ~C-x C-s~
 
 * Capture templates
-  See [[file:20210213184252-org_roam.org][Org-roam Capture Templates]]  
+  See [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam Capture Templates]]  
 
 * Export Settings
   See the following for more on this topic.
-  - [[file:20210214104302-org_mode_export_settings.org][Org-mode Export Settings]]
+  - [[id:EA505166-BE28-45D4-8390-343AC9B48D05][Org-mode Export Settings]]
   - [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]] 
   
   

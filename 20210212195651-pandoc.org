@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       38A4C913-83DC-4526-805F-611C2A26F5E2
+:END:
 #+title: pandoc
-#+roam_tags: pandoc org-mode
 #+date: 2021-02-12 19:56 PM
 #+updated: 2021-05-02 16:53 PM
+#+filetags: :pandoc:org_mode:
 
 * Resources
   

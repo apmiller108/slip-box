@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       FD6EB4AD-E03C-4CE4-8B38-9B570F76372E
+:END:
 #+title: Publishing notes
 
 * Version 0.1 TODOs

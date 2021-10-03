@@ -1,7 +1,10 @@
+:PROPERTIES:
+:ID:       6CCD57E5-23C9-4765-9016-3DECCADEF1D7
+:END:
 #+title: Rake Tasks
 #+date: 2018-04-17 02:56 AM
 #+updated: 2021-09-27 16:11 PM
-#+roam_tags: rails rake ruby
+#+filetags: :rails:rake:ruby:
 
 Just some notes on using rake (Ruby Make) tasks.
 
