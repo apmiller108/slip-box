@@ -3,7 +3,7 @@
 :END:
 #+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-10-06 20:40 PM
+#+updated: 2021-10-17 16:08 PM
 #+filetags: :org_mode:org_roam:emacs:
 
 * Overview
@@ -142,6 +142,7 @@
            org-export-with-sub-superscripts nil
            org-export-with-tags 'not-in-toc
            org-export-date-timestamp-format "Y-%m-%d %H:%M %p"
+           org-id-locations-file-relative t
            org-id-locations-file "./.org-id-locations"
            org-id-track-globally t)
    #+end_src
@@ -325,11 +326,16 @@
       filename extensions. So, this function ensures the link paths match that
       format. So ~[[file:my_post.org][My Post]]~ becomes ~<a href="my_post">My
       Post</a>~ (no ~.html~ on the path).
-    - Org-roam uses the ID property for linking notes. To get around this, first I add the notes to
-      the list of places where files with IDs live ~org-id-update-id-locations~.
-      This is where org will look for files when finding by ID. Then if org
-      finds a file by an ID value (~org-id-find~), replace the ~path~ property
-      with the filename.
+    - Org-roam uses the ID property for linking notes (ie, no file path). To get
+      around this I do the following:
+      1. In my [[https://github.com/apmiller108/slip-box/blob/main/publish.el][my publish.el]] file, I generate the ~.org-id-locations~ file. This
+         file is committed since it is also used on CI where I couldn't even
+         generate this file as part of the build process.
+      2. Again in [[https://github.com/apmiller108/slip-box/blob/main/publish.el][publish.el]] , set the ~my/org-id-locations~ variable to a
+         hashtable generated from the ~.org-id-locations~ file.
+      3 For ~fuzzy~ type links, find the path from the hashtable. Oh, somehow
+      the ~fuzzy~ type links are the ID links.
+      4. Seriously, what a pain in the arse.
     - I have some inline images in my org files. These are file links without a
       label that point to files with image extensions. Mostly these are plantuml
       renderings. They get converted to HTML ~img~ tags.
@@ -346,14 +352,13 @@
         Handles creating inline images with `<img>' tags for png, jpg, and svg files
         when the link doesn't have a label, otherwise just creates a link."
         ;; TODO: refactor this mess
-        (print (org-id-find (s-replace "id:" "" (org-element-property :path link))))
-        (print (seq-filter 'file-regular-p (directory-files "./" t)))
-        (org-id-update-id-locations (seq-filter 'file-regular-p (directory-files "./")) t)
-        (let ((path (car (org-id-find (s-replace "id:" "" (org-element-property :path link))))))
-          (if path
-              (org-element-put-property link :path
-                                        (my/format-path-for-anchor-tag
-                                         (car (last (s-split "/" path)))))))
+        (if (string= 'fuzzy (org-element-property :type link))
+            (let ((path (gethash (s-replace "id:" "" (org-element-property :path link)) my/org-id-locations)))
+              (print path)
+              (if path
+                  (org-element-put-property link :path
+                                            (my/format-path-for-anchor-tag
+                                             (car (last (s-split "/" path))))))))
         (when (and (string= 'file (org-element-property :type link))
                   (string= "org" (file-name-extension (org-element-property :path link))))
           (org-element-put-property link :path

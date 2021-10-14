@@ -31,6 +31,10 @@ jobs:
           echo `emacs --version`
           emacs -Q --batch -l ./publish.el --funcall my/publish
           cp -r site_assets/* public/
+      # For debugging the build using upterm to ssh into the container comment in this step
+      # See https://github.com/marketplace/actions/debugging-with-ssh
+      # - name: debug
+      #   uses: lhotari/action-upterm@v1
       - name: deploy_site
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
