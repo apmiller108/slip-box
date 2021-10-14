@@ -3,7 +3,7 @@
 :END:
 #+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-10-02 21:56 PM
+#+updated: 2021-10-06 20:40 PM
 #+filetags: :org_mode:org_roam:emacs:
 
 * Overview
@@ -346,6 +346,8 @@
         Handles creating inline images with `<img>' tags for png, jpg, and svg files
         when the link doesn't have a label, otherwise just creates a link."
         ;; TODO: refactor this mess
+        (print (org-id-find (s-replace "id:" "" (org-element-property :path link))))
+        (print (seq-filter 'file-regular-p (directory-files "./" t)))
         (org-id-update-id-locations (seq-filter 'file-regular-p (directory-files "./")) t)
         (let ((path (car (org-id-find (s-replace "id:" "" (org-element-property :path link))))))
           (if path
