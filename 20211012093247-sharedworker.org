@@ -1,0 +1,34 @@
+:PROPERTIES:
+:ID:       D8401E83-5AB9-4736-AA4D-224A902DDEE5
+:END:
+#+title: SharedWorker
+#+date: 2021-10-12 09:32 AM
+#+updated: 2021-10-19 10:12 AM
+#+filetags: :javascript:
+
+* Key points
+  - Can be accessed from difference browsing contexts (windows/tabs iframes,
+    workers) within the same origin (protocol, host and port)
+  - Inherits properties and methods (eg, ~addEventListener()~) from [[https://developer.mozilla.org/en-US/docs/Web/API/EventTarget][EventTarget]] 
+  - Messages can be sent and received over the ~port~ property (ie, ~onmessage~,
+    ~postMessage~)
+* Debugging
+** Chrome
+   Visit ~chrome://inspect/#workers~
+* self
+  The ~self~ keyword in a SharedWorker context refers to the
+  [[https://developer.mozilla.org/en-US/docs/Web/API/SharedWorkerGlobalScope][SharedWorkerGlobalScope]]. There is no ~window~ object here (ie, use
+  ~self.setInterval()~)
+
+  See also https://stackoverflow.com/a/11237259/5974855
+* Webpack stuff
+** For Webpack v4 use [[https://v4.webpack.js.org/loaders/worker-loader/#worker][worker-loader]].
+   I could not get this to work consistently using a webpackChain rule. I had to
+   use an [[https://webpack.js.org/concepts/loaders/#inline][inline loader]].
+
+   See also https://github.com/dynamind/minimal-vue-worker#webpack-loader-configuration
+* Resources
+  - https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker
+  - https://github.com/mdn/simple-shared-worker
+    This demonstrates using a shared worker to perform simply multiplication
+    operations for two browsing contexts.
