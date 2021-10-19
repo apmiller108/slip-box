@@ -3,7 +3,7 @@
 :END:
 #+title: SharedWorker
 #+date: 2021-10-12 09:32 AM
-#+updated: 2021-10-19 10:12 AM
+#+updated: 2021-10-19 10:17 AM
 #+filetags: :javascript:
 
 * Key points
@@ -22,11 +22,15 @@
 
   See also https://stackoverflow.com/a/11237259/5974855
 * Webpack stuff
-** For Webpack v4 use [[https://v4.webpack.js.org/loaders/worker-loader/#worker][worker-loader]].
-   I could not get this to work consistently using a webpackChain rule. I had to
-   use an [[https://webpack.js.org/concepts/loaders/#inline][inline loader]].
-
-   See also https://github.com/dynamind/minimal-vue-worker#webpack-loader-configuration
+** For Webpack v4
+   Use [[https://v4.webpack.js.org/loaders/worker-loader/#worker][worker-loader]]
+   - I could not get this to work consistently using a webpackChain rule. I had to
+     use an [[https://webpack.js.org/concepts/loaders/#inline][inline loader]].
+   - See also https://github.com/dynamind/minimal-vue-worker#webpack-loader-configuration
+** For Webpack v5
+   You don't need worker-loader. Webpack v5 has built-in support for workers.
+   See also https://webpack.js.org/guides/web-workers/
+   
 * Resources
   - https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker
   - https://github.com/mdn/simple-shared-worker
