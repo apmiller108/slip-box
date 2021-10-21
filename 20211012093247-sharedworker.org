@@ -3,7 +3,7 @@
 :END:
 #+title: SharedWorker
 #+date: 2021-10-12 09:32 AM
-#+updated: 2021-10-19 14:35 PM
+#+updated: 2021-10-20 16:08 PM
 #+filetags: :javascript:
 
 * Key points
@@ -16,6 +16,8 @@
 ** Chrome
    Visit ~chrome://inspect/#workers~. A SharedWorker context will have its own
    dev tools.
+** Firefox
+   Visit ~about:debugging#/runtime/this-firefox~
 * self
   The ~self~ keyword in a SharedWorker context refers to the
   [[https://developer.mozilla.org/en-US/docs/Web/API/SharedWorkerGlobalScope][SharedWorkerGlobalScope]]. There is no ~window~ object here (ie, use
