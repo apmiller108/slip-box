@@ -1,0 +1,50 @@
+:PROPERTIES:
+:ID:       80A19143-BA7E-480C-B5AF-0A2EECA9FD88
+:END:
+#+title: Kafka docker
+#+date: 2021-10-22 15:33 PM
+#+updated: 2021-10-22 16:08 PM
+#+filetags: :kafka:docker
+
+* Docker-compose
+  See also https://www.baeldung.com/ops/kafka-docker-setup where I got this from.
+
+** Single node
+   Good for just messing around in development env.
+  #+begin_src dockerfile
+    version: '2'
+    services:
+      zookeeper:
+        image: confluentinc/cp-zookeeper:latest
+        environment:
+          ZOOKEEPER_CLIENT_PORT: 2181
+          ZOOKEEPER_TICK_TIME: 2000
+        ports:
+          - 22181:2181
+      
+      kafka:
+        image: confluentinc/cp-kafka:latest
+        depends_on:
+          - zookeeper
+        ports:
+          - 29092:29092
+        environment:
+          KAFKA_BROKER_ID: 1
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+          KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+          KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #+end_src
+
+  Note the exposed port and the ~KAFKA_ADVERTISED_LISTENERS~ port.
+
+  Start it up with ~docker-compose up~ (use ~-d~ to run in background).
+
+  Open a bash prompt to the zookeeper container to use the kafka clis: ~docker
+  exec -it kafka-docker_zookeeper_1 bash~
+
+** Cluster
+   Just extend the docker-compose to have multiple zookeepers and kafka brokers.
+   See https://www.baeldung.com/ops/kafka-docker-setup for an example.
+

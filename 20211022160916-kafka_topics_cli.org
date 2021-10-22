@@ -1,0 +1,37 @@
+:PROPERTIES:
+:ID:       355A2592-CBDA-4B02-BC9B-9F75F3867C62
+:END:
+#+title: Kafka topics cli
+#+date: 2021-10-22 16:09 PM
+#+updated: 2021-10-22 16:29 PM
+#+filetags: :kafka:
+
+See also
+https://docs.confluent.io/platform/current/kafka/post-deployment.html#admin-operations
+
+* Adding a topic
+
+  #+begin_src shell
+    kafka-topics --bootstrap-server localhost:9092 --topic first_topic --create --partitions 3 --replication-factor 1
+  #+end_src
+
+  - ~--replication-factor~: how many nodes should partitions be replicated to.
+    Must be <= number of brokers in the cluster.
+
+* Listing topics
+   #+begin_src shell
+     kafka-topics --bootstrap-server localhost:9092 --list
+   #+end_src
+
+* Describe a topic
+  Provides partition, leader, Isr, and replicas info
+
+  #+begin_src shell
+    kafka-topics --bootstrap-server localhost:9092 --topic first_topic --describe
+  #+end_src
+  
+* Delete a topic
+
+  #+begin_src shell
+  kafka-topics --bootstrap-server localhost:9092 --topic second_topic --delete
+  #+end_src
