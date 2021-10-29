@@ -5,15 +5,31 @@
 #+date: 2021-03-03 14:49 PM
 #+filetags: :capybara:ruby:
 
-See this [[https://stackoverflow.com/a/25093517/5974855][SO Answer]]
+* Capybara::Window
+  See also:
+  - https://www.rubydoc.info/gems/capybara/Capybara/Window
+  - and this [[https://stackoverflow.com/a/25093517/5974855][SO Answer]]
 
-- ~window_opened_by~ method with block passed that contains the action that
-  will open a new browser window.
-- ~within_window~ the switch to a window context to run expections
+** Example    
+   - ~window_opened_by~ method with block passed that contains the action that
+     will open a new browser window.
+   - ~within_window~ the switch to a window context to run expections
 
-#+begin_src ruby -n
-new_window = window_opened_by { click_link 'will open a new window' }
-within_window new_window do
-  expect(page).to have_current_path '/new/window/url'
-end
-#+end_src
+   #+begin_src ruby -n
+     new_window = window_opened_by { click_link 'will open a new window' }
+     within_window new_window do
+       expect(page).to have_current_path '/new/window/url'
+     end
+   #+end_src
+
+* Dealing with alerts with Selenium
+  See also:
+  - https://github.com/SeleniumHQ/selenium/wiki/Ruby-Bindings#javascript-dialogs
+  - https://stackoverflow.com/a/26888469/5974855
+  - https://devhints.io/capybara
+
+  #+begin_src ruby
+    alert = page.driver.browser.switch_to.alert
+    expect(alert.text).to eq 'foo'
+  #+end_src
+    
