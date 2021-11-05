@@ -3,7 +3,7 @@
 :END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2021-08-13 14:53 PM
+#+updated: 2021-11-05 11:28 AM
 #+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
@@ -14,120 +14,141 @@ minor customization for what is needed for my chosen language and project
 needs (ie, adding system dependencies like pandoc or something), so it's not
 that big of a deal.
 
-The example here uses Ruby Gem project, but can easily be adapted for any
-language.
-  
-* Just a Dockerfile
-  We could just use a ~Dockerfile~ alone (ie, not use Docker Compose at all).
-  That would go something like this:
+* The quick and dirty
+  Just need a bare environment for messing around? Copy this to a Dockerfile,
+  pick an image, build and run. (see build and run command comments below)
 
-** Setup
-   Create an empty project directory and add a ~Dockerfile~.
-
-** The ~Dockerfile~
-   Add this to the ~Dockerfile~.
-
-  #+begin_example dockerfile
+  #+begin_src dockerfile
     FROM ruby:3.0.0
-
-    # throw errors if Gemfile has been modified since Gemfile.lock
-    RUN bundle config --global frozen 1
-
+    
     WORKDIR /app
-
-    COPY Gemfile Gemfile.lock *.gemspec ./
-    RUN bundle install
-
+    
     COPY . .
-
+    
     CMD ["/bin/bash"]
-  #+end_example
-
-** Scaffold the project 
-   I need to generate all the boilerplate files, install the dependencies and
-   generate the ~Gemfile.lock~. This can be done by building a container on the
-   fly from the same image specified in the ~Dockerfile~ (eg, ~ruby:3.0.0~),
-   mapping a volume from local project directory to the working directory (eg,
-   ~/app~) and passing the commands to ~docker run~
     
-  #+begin_example shell
-    docker run --rm -v "$PWD":/app -w /app ruby:3.0.0 bundle gem my_proj && mv my_proj/* ./ && rm -rf my_proj
-  #+end_example
-
-*** Fill out the ~.gemspec~
-    Before the dependencies can be installed, a valid ~.gemspec~ is required.
-    The bare minimum I need is:
-    - authors
-    - email
-    - summary
-    - description
-    - version (change this to a string and remove the ~require_relative~)
-      - I mean it's kinda silly to declare the version in a ruby file, isn't it?
-
-    The remaining meta data can be deleted or commented out.
+    # build command with a tag
+    # docker build -t lasagna .
     
-*** Install dependencies and generate the ~Gemfile.lock~
-    With the ~.gemspec~ filled out, I can install the dependencies. This is the
-    same as before, but just do a ~bundle install~.
+    # run command with a volume
+    # docker run -it --rm -v "$PWD":/app lasagna
+  #+end_src
+
+* A Ruby Gem
+  The example here uses Ruby Gem project, but can easily be adapted for any
+  language.
+
+** Just a Dockerfile
+   We could just use a ~Dockerfile~ alone (ie, not use Docker Compose at all).
+   That would go something like this:
+
+*** Setup
+    Create an empty project directory and add a ~Dockerfile~.
+
+*** The ~Dockerfile~
+    Add this to the ~Dockerfile~.
+
+   #+begin_example dockerfile
+     FROM ruby:3.0.0
+
+     # throw errors if Gemfile has been modified since Gemfile.lock
+     RUN bundle config --global frozen 1
+
+     WORKDIR /app
+
+     COPY Gemfile Gemfile.lock *.gemspec ./
+     RUN bundle install
+
+     COPY . .
+
+     CMD ["/bin/bash"]
+   #+end_example
+
+*** Scaffold the project 
+    I need to generate all the boilerplate files, install the dependencies and
+    generate the ~Gemfile.lock~. This can be done by building a container on the
+    fly from the same image specified in the ~Dockerfile~ (eg, ~ruby:3.0.0~),
+    mapping a volume from local project directory to the working directory (eg,
+    ~/app~) and passing the commands to ~docker run~
     
    #+begin_example shell
-     docker run --rm -v "$PWD":/app -w /app ruby:3.0.0 bundle install
+     docker run --rm -v "$PWD":/app -w /app ruby:3.0.0 bundle gem my_proj && mv my_proj/* ./ && rm -rf my_proj
    #+end_example
+
+**** Fill out the ~.gemspec~
+     Before the dependencies can be installed, a valid ~.gemspec~ is required.
+     The bare minimum I need is:
+     - authors
+     - email
+     - summary
+     - description
+     - version (change this to a string and remove the ~require_relative~)
+       - I mean it's kinda silly to declare the version in a ruby file, isn't it?
+
+     The remaining meta data can be deleted or commented out.
+    
+**** Install dependencies and generate the ~Gemfile.lock~
+     With the ~.gemspec~ filled out, I can install the dependencies. This is the
+     same as before, but just do a ~bundle install~.
+    
+    #+begin_example shell
+      docker run --rm -v "$PWD":/app -w /app ruby:3.0.0 bundle install
+    #+end_example
    
-** Build the container and Write code
+*** Build the container and Write code
 
-  - Build the container from the image and tag it. =docker build -t my-proj .=
-  - Run the container: =docker run -it --rm -v "$PWD":/app my-proj=
-     - The entry point drops me into a bash prompt inside the container.
-  - Write code.
+   - Build the container from the image and tag it. =docker build -t my-proj .=
+   - Run the container: =docker run -it --rm -v "$PWD":/app my-proj=
+      - The entry point drops me into a bash prompt inside the container.
+   - Write code.
 
-* Add Docker Compose (optional)
+** Add Docker Compose (optional)
 
-  [[https://docs.docker.com/compose/][Docker Compose]] is totally optional, but there's some advantages:
-  - The compose file could be a global file that specifies different
-    environments. 
-  - Easier to create volumes and using =PWD= means the volume is always
-    bound to the the working dir from which you run docker compose.
+   [[https://docs.docker.com/compose/][Docker Compose]] is totally optional, but there's some advantages:
+   - The compose file could be a global file that specifies different
+     environments. 
+   - Easier to create volumes and using =PWD= means the volume is always
+     bound to the the working dir from which you run docker compose.
 
-** Add ~docker-compose.yml~
-   This builds off the ~Dockerfile~ and the setup above.
+*** Add ~docker-compose.yml~
+    This builds off the ~Dockerfile~ and the setup above.
 
-   #+begin_example yaml
-     version: "3.6"
+    #+begin_example yaml
+      version: "3.6"
 
-     services:
-       ruby:
-         # this is the same as the CMD in Dockerfile (this overrides it, actually)
-         command: /bin/bash 
-         build: .
-         volumes:
-           - ${PWD}:/app:cached # filesyncing volume so don't have to rebuild.
-         ports:
-           - "12345:12345" # Expose a port (ie, serivce-ports) to the host if needed
-         environment:
-           # Add environment variables
-           LANG: C.UTF-8
-         working_dir: /app
-   #+end_example
+      services:
+        ruby:
+          # this is the same as the CMD in Dockerfile (this overrides it, actually)
+          command: /bin/bash 
+          build: .
+          volumes:
+            - ${PWD}:/app:cached # filesyncing volume so don't have to rebuild.
+          ports:
+            - "12345:12345" # Expose a port (ie, serivce-ports) to the host if needed
+          environment:
+            # Add environment variables
+            LANG: C.UTF-8
+          working_dir: /app
+    #+end_example
 
-   To run it:
-   #+begin_example shell
-     docker-compose run --rm --service-ports ruby
-   #+end_example
-   - The ~--service-ports~ is to expose the ports on a ~run~ command (as opposed
-     to ~docker-compose up~ which would be used when doing something like
-     running a server and the ports would be exposed normally)
+    To run it:
+    #+begin_example shell
+      docker-compose run --rm --service-ports ruby
+    #+end_example
+    - The ~--service-ports~ is to expose the ports on a ~run~ command (as opposed
+      to ~docker-compose up~ which would be used when doing something like
+      running a server and the ports would be exposed normally)
 
-** Global docker-compose.yml   
-   ...or if using a global ~docker-compose.yml~
+*** Global docker-compose.yml   
+    ...or if using a global ~docker-compose.yml~
 
-   #+begin_example
-     docker-compose -f ~/path/to/global/docker-compose.yml run --rm ruby
-   #+end_example
+    #+begin_example
+      docker-compose -f ~/path/to/global/docker-compose.yml run --rm ruby
+    #+end_example
 
-   - The global ~docker-compose.yml~ may have a different configuration that the
-     example.
-   - See https://evilmartians.com/chronicles/reusable-development-containers-with-docker-compose-and-dip
+    - The global ~docker-compose.yml~ may have a different configuration that the
+      example.
+    - See https://evilmartians.com/chronicles/reusable-development-containers-with-docker-compose-and-dip
 
 * Other Examples
 ** VueJS project
