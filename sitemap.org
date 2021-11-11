@@ -11,6 +11,7 @@
 <span id="filter-git" uk-filter-control="filter: .git; group: tag"><a href="#">git</a></span>
 <span id="filter-ipfs" uk-filter-control="filter: .ipfs; group: tag"><a href="#">ipfs</a></span>
 <span id="filter-javascript" uk-filter-control="filter: .javascript; group: tag"><a href="#">javascript</a></span>
+<span id="filter-kafka" uk-filter-control="filter: .kafka; group: tag"><a href="#">kafka</a></span>
 <span id="filter-lsp" uk-filter-control="filter: .lsp; group: tag"><a href="#">lsp</a></span>
 <span id="filter-magit" uk-filter-control="filter: .magit; group: tag"><a href="#">magit</a></span>
 <span id="filter-mocha" uk-filter-control="filter: .mocha; group: tag"><a href="#">mocha</a></span>
@@ -36,6 +37,7 @@
 <span id="filter-testing" uk-filter-control="filter: .testing; group: tag"><a href="#">testing</a></span>
 <span id="filter-typescript" uk-filter-control="filter: .typescript; group: tag"><a href="#">typescript</a></span>
 <span id="filter-web_development" uk-filter-control="filter: .web_development; group: tag"><a href="#">web_development</a></span></div><ul class="uk-subnav uk-subnav-pill"><li uk-filter-control="sort: data-date; group: date"><a href="#">Ascending</a></li><li uk-filter-control="sort: data-date; order: desc; group: date" class="uk-active"><a href="#">Descending</a></li></ul><ul class="sitemap-entries uk-list uk-list-emphasis js-filter"><li data-date="2021-07-04" class="crypto"><span class="sitemap-entry-date">2021-07-04</span><a href="20210704104332-24_word_mnemonic_to_secret_key">24 word mnemonic to secret key</a><span class="sitemap-entry-tags">(crypto)</span></li>
+<li data-date="2021-10-22" class="kafka"><span class="sitemap-entry-date">2021-10-22</span><a href="20211022160916-a-survey-of-kafka">A Survey of Kafka</a><span class="sitemap-entry-tags">(kafka)</span></li>
 <li data-date="2021-05-20" class="typescript"><span class="sitemap-entry-date">2021-05-20</span><a href="20210520091407-access_private_property_in_typescript">Access private property in Typescript</a><span class="sitemap-entry-tags">(typescript)</span></li>
 <li data-date="2021-05-07" class="org_mode emacs"><span class="sitemap-entry-date">2021-05-07</span><a href="20210507153704-automatically_generate_an_updated_at_timestamp_when_saving_an_org_file">Automatically generate an updated at timestamp when saving an org file</a><span class="sitemap-entry-tags">(org_mode, emacs)</span></li>
 <li data-date="2021-05-19" class="crypto"><span class="sitemap-entry-date">2021-05-19</span><a href="20210519211550-cardono">Cardono</a><span class="sitemap-entry-tags">(crypto)</span></li>
@@ -54,6 +56,7 @@
 <li data-date="2021-05-29" class="ipfs"><span class="sitemap-entry-date">2021-05-29</span><a href="20210529144839-ipfs">IPFS</a><span class="sitemap-entry-tags">(ipfs)</span></li>
 <li data-date="2021-08-19" class="typescript"><span class="sitemap-entry-date">2021-08-19</span><a href="20210819100328-index_signature">Index signature</a><span class="sitemap-entry-tags">(typescript)</span></li>
 <li data-date="2021-08-20" class="org_roam emacs"><span class="sitemap-entry-date">2021-08-20</span><a href="20210820150353-interpolate_variables_into_org_source_blocks_on_babel_tangle">Interpolate variables into org source blocks on babel tangle</a><span class="sitemap-entry-tags">(org_roam, emacs)</span></li>
+<li data-date="2021-10-22" class="kafka docker"><span class="sitemap-entry-date">2021-10-22</span><a href="20211022153303-kafka_docker">Kafka docker</a><span class="sitemap-entry-tags">(kafka, docker)</span></li>
 <li data-date="2021-06-21" class="sql postgres"><span class="sitemap-entry-date">2021-06-21</span><a href="20210621203556-large_sql_data_migrations">Large SQL data migrations</a><span class="sitemap-entry-tags">(sql, postgres)</span></li>
 <li data-date="2021-07-04" class="org_mode emacs"><span class="sitemap-entry-date">2021-07-04</span><a href="20210704110247-literate_programming_with_org_mode">Literate programming with org-mode</a><span class="sitemap-entry-tags">(org_mode, emacs)</span></li>
 <li data-date="2021-03-01" class="testing javascript mocha"><span class="sitemap-entry-date">2021-03-01</span><a href="20210301080337-mocha_before_callbacks">Mocha before callbacks</a><span class="sitemap-entry-tags">(testing, javascript, mocha)</span></li>
