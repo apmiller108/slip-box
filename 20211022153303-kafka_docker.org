@@ -3,11 +3,15 @@
 :END:
 #+title: Kafka docker
 #+date: 2021-10-22 15:33 PM
-#+updated: 2021-10-22 16:08 PM
+#+updated: 2021-11-11 10:24 AM
 #+filetags: :kafka:docker
 
 * Docker-compose
-  See also https://www.baeldung.com/ops/kafka-docker-setup where I got this from.
+  See also https://www.baeldung.com/ops/kafka-docker-setup where I got this
+  from.
+
+  NOTE: this example doesn't use a volume, so data isn't persisted between runs.
+  That's OK for messing around. See [[https://docs.confluent.io/platform/current/installation/docker/operations/external-volumes.html][the docs]] for how to use volumes if needed.
 
 ** Single node
    Good for just messing around in development env.

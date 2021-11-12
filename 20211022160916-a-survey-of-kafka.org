@@ -3,7 +3,7 @@
 :END:
 #+title: A Survey of Kafka
 #+date: 2021-10-22 16:09 PM
-#+updated: 2021-11-11 09:11 AM
+#+updated: 2021-11-12 13:18 PM
 #+filetags: :kafka:
 
 * What is it?
@@ -14,7 +14,30 @@
 ** General use case
    Share data (ie, events, messages, etc) between applications. Producers
    publish messages and consumers read those messages. See [[https://kafka.apache.org/documentation/#intro_usage][introduction]] for more
-   details.
+   details and more specific use cases.
+
+  #+begin_src plantuml :file images/kafka_overview.png
+    object "Source Applications" as Source
+    object Producers
+    object "Kafka Cluster" as Cluster {
+      Broker1
+      Broker2
+      Broker3
+      ...
+      BrokerN
+    }
+    object Zookeeper
+    object Consumers
+    object "Target Applications" as Target
+    Source -r-|> Producers
+    Producers -r-|> Cluster
+    Cluster -r-|> Consumers
+    Cluster -d-|> Zookeeper
+    Consumers -r-|> Target
+  #+end_src
+
+  #+RESULTS:
+  [[file:images/kafka_overview.png]]
  
    A good way to learn how Kafka works is to spin it up locally and use the CLI
    to create topics, publish and consume messages. See CLI usages below.
@@ -30,8 +53,11 @@
        kafka-topics --bootstrap-server localhost:9092 --topic first_topic --create --partitions 3 --replication-factor 1
      #+end_src
 
-     ~--replication-factor~: how many nodes should partitions be replicated to.
-     Must be <= number of brokers in the cluster. 
+     - ~--replication-factor~: how many broker nodes should partitions be replicated to.
+     Must be <= number of brokers in the cluster.
+     - ~partitions~ are distributed across brokers. One consumer reads from a
+       partition. So, the more partitions, the more consumers; hence horizontal
+       scaling.
 
 *** Listing topics
      #+begin_src shell
@@ -124,3 +150,6 @@
    - [[https://github.com/phobos/phobos][phobos]]
    - [[https://github.com/karafka/karafka][karafka]]
    
+* Resources
+  - https://medium.com/event-driven-utopia/understanding-kafka-topic-partitions-ae40f80552e8
+  - https://medium.com/latentview-data-services/how-to-use-apache-kafka-to-guarantee-message-ordering-ac2d00da6c22

@@ -6,12 +6,13 @@
 #+filetags: :security:
 
 * Web security resources
-  [[https://cheatsheetseries.owasp.org/index.html][OWASP Cheatsheet]]
-  [[https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite][SameSite mozilla docs]]
+  - [[https://cheatsheetseries.owasp.org/index.html][OWASP Cheatsheet]]
+  - [[https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite][SameSite mozilla docs]]
+  - [[https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP][Content Security Policy (CSP)]]
   
 
 ** Tools
-   [[https://github.com/presidentbeef/brakeman][Brakeman]] (Ruby)
-   [[https://en.wikipedia.org/wiki/OWASP_ZAP][OWASP ZAP]]
-   [[https://dependabot.com/][Dependabot]]
-   [[https://en.wikipedia.org/wiki/Argon2][Argon2]]
+   - [[https://github.com/presidentbeef/brakeman][Brakeman]] (Ruby)
+   - [[https://en.wikipedia.org/wiki/OWASP_ZAP][OWASP ZAP]]
+   - [[https://dependabot.com/][Dependabot]]
+   - [[https://en.wikipedia.org/wiki/Argon2][Argon2]]
