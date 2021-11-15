@@ -1,0 +1,37 @@
+:PROPERTIES:
+:ID:       57F3BD52-A75D-433A-A07F-CB1E06875C84
+:END:
+#+title: Sidekiq stuff
+#+date: 2021-11-15 13:14 PM
+#+updated: 2021-11-15 13:49 PM
+#+filetags: :rails:ruby:
+
+* Starting it up
+  ~sidekiq -q default -q foo~
+
+  ~sidekiq --help~ shows you all the startup options.
+
+* Poke around in the console
+** Scheduled jobs
+   See also https://www.rubydoc.info/github/mperham/sidekiq/Sidekiq/ScheduledSet
+#+begin_src shell
+irb(main):001:0> r = Sidekiq::ScheduledSet.new
+=> #<Sidekiq::ScheduledSet:0x00000000090f6a50 @name="schedule", @_size=1>
+#+end_src
+
+*** Add a scheduled job to the queue
+    See also https://www.rubydoc.info/github/mperham/sidekiq/Sidekiq/SortedEntry
+    #+begin_src ruby
+      r = Sidekiq::ScheduledSet.new
+      r.first.add_to_queue
+    #+end_src
+
+* Enqueuing in bulk
+  See also
+  https://www.rubydoc.info/github/mperham/sidekiq/Sidekiq%2FClient:push_bulk
+
+  #+begin_src ruby
+  Sidekiq::Client.push_bulk('class' => SomeWorkerClass, 'args' => args)
+  #+end_src
+
+  ~args~ is a 2D array.
