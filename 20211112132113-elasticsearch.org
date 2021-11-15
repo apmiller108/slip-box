@@ -1,0 +1,36 @@
+:PROPERTIES:
+:ID:       D8184800-B864-433E-A1D8-9488CD025A59
+:END:
+#+title: Elasticsearch
+#+date: 2021-11-12 13:21 PM
+#+updated: 2021-11-12 14:59 PM
+#+filetags: :elasticsearch:
+
+
+* Getting started
+  Just use [[id:E1673C52-E541-4563-9644-4A42C4C7C55F][Elasticsearch Docker]], ya dingus.
+* The Index
+  There can be one document type per index. The index has a schema for the
+  properties of the document that is stored in the index. So, lets say the
+  document type is a blog post and the schema defines properties like author
+  name, text and category.
+
+  The document can be any structured data with any schema you can come up with.
+** Mapping
+*** Field types
+    String, byte, short, integer, long, float, double, boolean, date
+*** Analyzers
+    - simple, standard, language specific, whitespace, etc...
+    - Remove HTML encoding
+** Create Index
+   See [[https://www.elastic.co/guide/en/elasticsearch/reference/current/indices.html][Index API docs]].
+* Scaling
+  An index is split into shards, each of which is an instance of [[https://lucene.apache.org/][Lucene]]. Shards can
+  be on different nodes in a cluster.
+* Redundancy    
+  - An index has two primary and two replica shards, which are automatically
+    distributed across nodes in the cluster.
+  - Write requests are routed to a primary then replicated. Read requests a
+  routed to any shard. 
+* REST APIs
+  See https://www.elastic.co/guide/en/elasticsearch/reference/current/rest-apis.html

@@ -1,0 +1,48 @@
+:PROPERTIES:
+:ID:       E1673C52-E541-4563-9644-4A42C4C7C55F
+:END:
+#+title: Elasticsearch Docker
+#+date: 2021-11-11 10:44 AM
+#+updated: 2021-11-12 13:22 PM
+#+filetags: :elasticsearch:docker:
+
+* Docker-compose
+** Basic single node
+   A simplified version of the [[https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#docker-compose-file][multi-node example]]. Good for learning, but easy
+   to extend to multiple nodes if needed. See [[https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html][the docs]] for all that is
+   recommended for using docker-compose in production.
+
+   #+begin_src dockerfile
+version: '2.2'
+services:
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - cluster.initial_master_nodes=es01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+
+volumes:
+  data01:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
+  #+end_src
+
+    Visit http://localhost:9200/_cat/nodes?v=true&pretty to verify that it is
+    running.
