@@ -3,7 +3,7 @@
 :END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2021-11-05 11:28 AM
+#+updated: 2021-11-14 16:51 PM
 #+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
@@ -70,7 +70,14 @@ that big of a deal.
     fly from the same image specified in the ~Dockerfile~ (eg, ~ruby:3.0.0~),
     mapping a volume from local project directory to the working directory (eg,
     ~/app~) and passing the commands to ~docker run~
-    
+
+    - This runs ~gem my_project~ to build the project files.
+    - It moves the project files up to the working directory (You might need to
+      use ~sudo~ on the ~mv~ and ~rm~ commands)
+    - On Linux all the files generated with the ~gem~ command inside the
+      container will be owned by ~root~ on the host machine. Change this by
+      running ~sudo chown "$USER":"$USER" ./ -R~ in the project directory to
+      take ownership.
    #+begin_example shell
      docker run --rm -v "$PWD":/app -w /app ruby:3.0.0 bundle gem my_proj && mv my_proj/* ./ && rm -rf my_proj
    #+end_example

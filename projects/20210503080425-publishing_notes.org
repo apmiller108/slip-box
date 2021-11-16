@@ -74,7 +74,8 @@
      #+end_src
    - Call ~(org-roam-db-build-cache)~ which I think will create the database.
    - Then follow the example above and hope for the best.
-
+** TODO hide plantuml source blocks
+** TODO add searchability backed by elasticsearch   
 
 * Things picked up along that way that might be worth documenting
   - https://stackoverflow.com/a/2701743/5974855
