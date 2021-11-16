@@ -1,0 +1,10 @@
+:PROPERTIES:
+:ID:       D221DE90-7927-4415-A20A-519389E7E808
+:END:
+#+title: LV2 plugins
+#+date: 2021-11-16 16:03 PM
+#+updated: 2021-11-16 16:04 PM
+#+filetags: :audio:
+
+* Repositories
+  - https://kx.studio/Repositories:Plugins
