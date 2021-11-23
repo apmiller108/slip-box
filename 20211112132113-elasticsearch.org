@@ -3,7 +3,7 @@
 :END:
 #+title: Elasticsearch
 #+date: 2021-11-12 13:21 PM
-#+updated: 2021-11-12 14:59 PM
+#+updated: 2021-11-19 16:28 PM
 #+filetags: :elasticsearch:
 
 
@@ -19,11 +19,36 @@
 ** Mapping
 *** Field types
     String, byte, short, integer, long, float, double, boolean, date
+**** Keyword type
+     Does not use an analyzer and searches need to be exact match including
+     case.
+**** Text type
+     Can be configured with an analyzer
 *** Analyzers
     - simple, standard, language specific, whitespace, etc...
+      For example ~english~ analyzer will consider stemming, stop words,
+      synonyms, etc.
     - Remove HTML encoding
 ** Create Index
    See [[https://www.elastic.co/guide/en/elasticsearch/reference/current/indices.html][Index API docs]].
+* Documents
+  Documents are JSON objects that are stored within an Elasticsearch index. They
+  have properties (or schema) that makes sense for that document type. 
+  See [[https://www.elastic.co/guide/en/elasticsearch/reference/current/docs.html][Document API]] for how to create them
+
+** Bulk insert documents example
+   ~PUT~ request to ~/_bulk?pretty~
+
+   Example JSON payload. It's weird, not your traditional JSON structure.
+   #+begin_src json
+     { "create" : { "_index" : "movies", "_id" : "135569" } }
+     { "id": "135569", "title" : "Constantine", "year":2016 , "genre":["Action", "Adventure", "Sci-Fi"] }
+     { "create" : { "_index" : "movies", "_id" : "122886" } }
+     { "id": "122886", "title" : "Aliens", "year":2015 , "genre":["Horror", "Sci-Fi", "IMAX"] }
+     { "create" : { "_index" : "movies", "_id" : "109487" } }
+     { "id": "109487", "title" : "Interstellar", "year":2014 , "genre":["Sci-Fi", "IMAX"] }
+   #+end_src
+   
 * Scaling
   An index is split into shards, each of which is an instance of [[https://lucene.apache.org/][Lucene]]. Shards can
   be on different nodes in a cluster.
