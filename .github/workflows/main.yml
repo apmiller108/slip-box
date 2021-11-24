@@ -42,7 +42,7 @@ jobs:
           npm_config_user: "root"
         run: |
           echo Installing dependencies...
-          sudo npm install netlify-cli -g --unsafe-perm=true
+          sudo npm install netlify-cli@6.14.25 -g --unsafe-perm=true
           echo Deploying...
           netlify deploy --dir=public --prod
 
