@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       d5d67aa4-e66e-48de-90d1-051ef3a8df77
+:END:
+#+title: Pop_os
+#+date: 2021-11-26 18:20 PM
+#+updated: 2021-11-26 18:26 PM
+
+* Trackpad Gestures
+  - Swipe four fingers right on the trackpad opens the Applications view
+  - Swipe four fingers left opens the Workspaces view
+  - Swipe four fingers up or down switches to another workspace
+  - Swipe (in any direction) with three fingers switches between open windows
+
+* Shortcuts
+  See also [[https://support.system76.com/articles/pop-keyboard-shortcuts/][pop keyboard shortcuts]] post.
+ 
+* Resources
+  - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
+  - https://support.system76.com/articles/pop-keyboard-shortcuts/
