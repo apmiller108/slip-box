@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2021-11-26 18:26 PM
+#+updated: 2021-12-05 20:02 PM
 
 * Trackpad Gestures
   - Swipe four fingers right on the trackpad opens the Applications view
@@ -12,8 +12,27 @@
   - Swipe (in any direction) with three fingers switches between open windows
 
 * Shortcuts
-  See also [[https://support.system76.com/articles/pop-keyboard-shortcuts/][pop keyboard shortcuts]] post.
- 
+  See also [[https://support.system76.com/articles/pop-keyboard-shortcuts/][pop keyboard shortcuts]] post for a complete list. Here are just a few
+  that I like to use, but always forget.
+  
+  | Shortcut           | Action                                                           |
+  |--------------------+------------------------------------------------------------------|
+  | SUPER + HJKL       | Switch window focus                                              |
+  | SUPER + ENTER      | Window adjustment mode. Use direction keys (HJKL) to move window |
+  | SUPER + g          | Toggle window float                                              |
+  | SUPER + CTRL + JK  | Navigate between work spaces                                     |
+  | SUPER + SHIFT + JK | Move active window between workspaces.                           |
+  | SUPER + ESC        | Lock                                                             |
+  
+** Launcher Shortcuts
+   SUPER opens the launcher. ~?~ shows all the possible commands.
+   | Shortcut      | action                               |
+   |---------------+--------------------------------------|
+   | / or ~/       | browse filesystem                    |
+   | file filename | Search for a file                    |
+   | t:            | run command in terminal              |
+   | g search_term | search Google (ddg for duck duck go) |
+    
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
   - https://support.system76.com/articles/pop-keyboard-shortcuts/
