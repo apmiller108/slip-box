@@ -8,6 +8,8 @@
 * TL'DR
   - All ~before~ block run first in top down order
   - Then all ~beforeEach~ blocks run in top down order
+  - Then all the ~afterEach~ blocks run in top down order
+  - Finally all the ~after~ blocks run in top down order
 
 * Example    
 This is from [[https://gist.github.com/harto/c97d2fc9d0bfaf20706eb2acbf48c908][before.js gist]]:
