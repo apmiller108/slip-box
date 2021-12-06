@@ -1,0 +1,50 @@
+:PROPERTIES:
+:ID:       46b8f663-2c55-4540-b07f-797779c53547
+:END:
+#+title: Astrophotography
+#+date: 2021-12-03 22:39 PM
+#+updated: 2021-12-04 11:25 AM
+#+filetags: :astronomy:
+
+* Software
+** AutoStakkert
+   https://www.autostakkert.com/
+
+   For Stacking. Windows only but apparently runs fine using [[https://www.winehq.org][Wine]].
+
+** DeepSkyStacker
+   http://deepskystacker.free.fr/english/index.html
+
+** FireCapture
+   http://www.firecapture.de/
+
+   For capturing. There is a Linux version that supports a limited set of
+   cameras.
+
+** KStars
+   https://edu.kde.org/kstars/
+
+   Linux, Windows and MacOS versions.
+
+   Full featured astronomy software. Free and open source. Includes Ekos
+   astrophotography suite. Apparently it can control many different devices as
+   long as they have an [[https://indilib.org/][INDI]] driver. 
+
+   If a device doesn't have an INDI driver, it is possible to make one.
+   See [[https://www.indilib.org/developers/deveioper-manual.html][INDI developer guide]].
+
+** PIPP
+   https://sites.google.com/site/astropipp/home
+   
+   Used for pre-processing images/videos before stacking them. It's a Windows
+   application but there are instructions for [[https://sites.google.com/site/astropipp/downloads/installing-pipp-on-linux-with-wine][installing on Linux with Wine]].
+   
+** RegiStax6
+   http://www.astronomie.be/registax/
+
+   Stacking and image processing. It seems like the recommendation is to use
+   [[https://www.autostakkert.com/][AutoStakkert]] for stacking and RegiStax for image processing (eg, wavelet
+   processing).
+   
+* Resources
+  http://planetaryimagingtutorials.com/
