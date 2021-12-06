@@ -1,0 +1,54 @@
+:PROPERTIES:
+:ID:       284b93d5-e030-4c8a-932b-03858767dfb6
+:END:
+#+title: Wine
+#+date: 2021-12-05 20:52 PM
+#+updated: 2021-12-05 21:21 PM
+#+filetags: :linux:
+
+Run Windows programs on linux
+
+* Installing on Ubuntu
+  #+begin_src 
+  sudo apt-get install wine winetricks
+  #+end_src
+
+  See also [[https://wiki.winehq.org/Winetricks][Winetricks]]
+  
+* Configuring Wine
+  There's a GUI applications for this. Just run ~winecfg~.
+
+** Graphics
+   With 4k monitors, the applications will be tiny. Go to the ~Graphics~
+   tab and increase the Screen resolution dpi value.
+
+* Installation directories
+  You can have multiple installation directories. For example, you have run a
+  32bit application on a 64bit system by doing something like this:
+
+  #+begin_src shell
+  export WINEPREFIX=~/.wine-someapp/
+  export WINEARCH="win32"
+  wineboot
+  #+end_src
+
+  ~WINEPREFIX~ is the directory. See also [[https://wiki.winehq.org/Wine_User%27s_Guide#WINEPREFIX][WINEPREFIX docs]].
+  ~WINEARCH~ sets the system architecture
+
+  This will create a ~.wine-someapp/~ directory. With the env vars set, all
+  subsequent wine commands will use that directory and architecture. So, now you
+  can do ~wine someapp_installer.exe~. Then ~wine ".wine-someapp/drive_c/Program
+  Files/someapp/someapp.exe"~
+
+  The env vars will only be set for that terminal sessions. For subsequent
+  terminal sessions, they need to be reset or used inline when running the
+  command to start the app.
+
+  #+begin_src shell
+  WINEPREFIX=~/.wine-someapp WINEARCH="win32" wine ~/.wine-someapp/drive_c/Program\ Files/someapp/someapp.exe
+  #+end_src
+  
+* Resources
+  [[https://wiki.winehq.org/Main_Page][Wine Wiki]]
+  [[https://wiki.winehq.org/FAQ][Wine FAQ]]
+  [[https://www.winehq.org/documentation][Wine documentation]]

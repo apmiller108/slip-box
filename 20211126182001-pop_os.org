@@ -3,7 +3,8 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2021-12-05 20:02 PM
+#+updated: 2021-12-05 20:53 PM
+#+filetags: :linux:
 
 * Trackpad Gestures
   - Swipe four fingers right on the trackpad opens the Applications view

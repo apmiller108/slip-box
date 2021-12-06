@@ -3,14 +3,14 @@
 :END:
 #+title: Astrophotography
 #+date: 2021-12-03 22:39 PM
-#+updated: 2021-12-04 11:25 AM
+#+updated: 2021-12-05 21:22 PM
 #+filetags: :astronomy:
 
 * Software
 ** AutoStakkert
    https://www.autostakkert.com/
 
-   For Stacking. Windows only but apparently runs fine using [[https://www.winehq.org][Wine]].
+   For Stacking. Windows only but apparently runs fine using [[id:284b93d5-e030-4c8a-932b-03858767dfb6][Wine]].
 
 ** DeepSkyStacker
    http://deepskystacker.free.fr/english/index.html
