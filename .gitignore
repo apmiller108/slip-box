@@ -4,6 +4,7 @@ org-roam.db
 .packages/
 public/
 personal/
+node_modules/
 
 # Local Netlify folder
 .netlify

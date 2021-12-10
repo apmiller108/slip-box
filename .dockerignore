@@ -1,0 +1,8 @@
+node_modules
+Dockerfile
+org-roam.db
+**/cmm
+.org-cache
+.packages
+personal
+.netlify
