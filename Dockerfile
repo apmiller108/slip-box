@@ -22,3 +22,5 @@ CMD ["/bin/bash"]
 #   docker build -t lasagna .
 # Run container with volume
 #   docker run -it --rm -v "$PWD/public":/app/public lasagna
+# Run the build script
+#  ./build_script.sh
