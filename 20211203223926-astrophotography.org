@@ -3,7 +3,7 @@
 :END:
 #+title: Astrophotography
 #+date: 2021-12-03 22:39 PM
-#+updated: 2021-12-05 21:22 PM
+#+updated: 2021-12-11 13:33 PM
 #+filetags: :astronomy:
 
 * Software
@@ -48,3 +48,12 @@
    
 * Resources
   http://planetaryimagingtutorials.com/
+
+* Hardware
+** Eyepieces
+   See also [[https://agenaastro.com/articles/guides/choosing-eyepieces-for-your-telescope.html][this advice for chosing an eyepiece]]
+*** Calculate magnification
+    Magnification = Objective Focal Length / Eyepiece Focal Length
+** StarSense Explorer DX 130AZ
+   [[https://www.celestron.com/products/starsense-explorer-dx-130az#specifications][Specifications]]
+   - Reflector
