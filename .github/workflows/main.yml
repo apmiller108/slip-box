@@ -25,12 +25,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: build_site
         run: |
-          sudo add-apt-repository ppa:kelleyk/emacs
-          sudo apt-get update
-          sudo apt-get install emacs27
-          echo `emacs --version`
-          emacs -Q --batch -l ./publish.el --funcall my/publish
-          cp -r site_assets/* public/
+          docker build -t build-site .
+          docker run --rm -v "$PWD/public":/app/public build-site
       # For debugging the build using upterm to ssh into the container comment in this step
       # See https://github.com/marketplace/actions/debugging-with-ssh
       # - name: debug
@@ -44,6 +40,6 @@ jobs:
           echo Installing dependencies...
           sudo npm install netlify-cli -g --unsafe-perm=true
           echo Deploying...
-          netlify deploy --dir=public --prod
+          sudo netlify deploy --dir=public --prod
 
 

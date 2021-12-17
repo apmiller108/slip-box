@@ -3,7 +3,7 @@
 :END:
 #+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2021-12-03 16:10 PM
+#+updated: 2021-12-17 13:58 PM
 #+filetags: :org_mode:org_roam:emacs:
 
 * Overview
@@ -27,10 +27,6 @@
   - [[https://youtu.be/618uCFTNNpE][System Crafters YouTube Episode: Static Websites with Emacs, Org Mode and Sourcehut]]
 
 ** Usage
-   ~emacs -Q --batch -l ./publish.el --funcall my/publish~
-
-   This creates the HTML files in the ~public~ dir.
-
 ** Development
 *** Assets
     Assets like CSS and JS files are stored in a git backed directory
@@ -44,6 +40,22 @@
     [[https://github.com/skeeto/emacs-web-server][emacs-web-server package]] to serve it locally. Use ~httpd-serve-directory~
     and point it at the publishing directory. It will serve the site on
     http://localhost:8080/. 
+
+** Building
+   Run ~build_script.sh~. Among other things, this calls out to functions
+   defined in ~publish.el~, which itself uses this file.
+
+   This build requires having [[https://www.ruby-lang.org/en/][Ruby]] and [[https://lunrjs.com/][lunr]] installed. I use these to pre-build
+   the search index.
+
+   Files will build into the ~public/~  dir
+
+   In order to not have to mess with build dependencies, use docker:
+*** With docker
+    - Build a tagged container: ~docker build -t build-site .~
+    - Run the build script against the container: ~docker run -it --rm -v "$PWD/public":/app/public build-site~
+    
+** Deploying   
 * Dependencies
 
 ** Package repositories
@@ -81,7 +93,21 @@
    [[https://github.com/tali713/esxml][esxml]] provides elisp functions to generate HTML markup. Basically this means
    less reliance on ugly ~concat~ and ~format~ function calls.
 
+   *Breaking Change*
+   Using esxml below is currently broken due to a change in esxml that escapes
+   HTML when inserting strings. See [[https://github.com/tali713/esxml/issues/34][this issue]]. Using a function to render the
+   header, renders a string that gets HTML escaped when inserted into the main
+   template below. Hence, the HTML is broken in this case and others that follow
+   this pattern.
+
+   To temporarily get around that, I've "locked" the esxml package by copying a
+   working version of it to ~.packages~ as part of the build process. Then it
+   gets manually loaded here if it exists. Kinda gross, but it works for now.
+
   #+begin_src emacs-lisp +n :results silent
+    (let ((path (car (file-expand-wildcards "./.packages/esxml*/esxml.el"))))
+      (if (file-exists-p path)
+          (load-file path)))
     (use-package esxml :ensure t)
   #+end_src
 
@@ -359,7 +385,6 @@
         ;; TODO: refactor this mess
         (if (string= 'fuzzy (org-element-property :type link))
             (let ((path (gethash (s-replace "id:" "" (org-element-property :path link)) my/org-id-locations)))
-              (print path)
               (if path
                   (org-element-put-property link :path
                                             (my/format-path-for-anchor-tag

@@ -1,11 +1,8 @@
+node_modules
+Dockerfile
 org-roam.db
 **/cmm
-node_modules/
 .org-cache
 .packages
-public
 personal
-local
-
-# Local Netlify folder
 .netlify
