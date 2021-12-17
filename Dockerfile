@@ -15,12 +15,10 @@ RUN apt-get install -y curl && \
 RUN apt-get install -y ruby-full && \
     gem install bundler
 RUN bundle install
-CMD ["/bin/bash"]
+CMD ["/app/build_script.sh"]
 
 # Usage:
 # Build tagged container
 #   docker build -t lasagna .
 # Run container with volume
 #   docker run -it --rm -v "$PWD/public":/app/public lasagna
-# Run the build script
-#  ./build_script.sh
