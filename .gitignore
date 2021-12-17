@@ -1,10 +1,11 @@
 org-roam.db
 **/cmm
-.org-cache/
-.packages/
-public/
-personal/
 node_modules/
+.org-cache
+.packages
+public
+personal
+local
 
 # Local Netlify folder
 .netlify
