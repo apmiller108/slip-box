@@ -1,0 +1,51 @@
+:PROPERTIES:
+:ID:       D742D53C-8696-4A0A-8E02-E62F5C048AF3
+:END:
+#+title: Wait for WebSocket open
+#+date: 2021-12-21 14:21 PM
+#+updated:
+#+filetags: :javascript:
+
+When constructing a [[https://developer.mozilla.org/en-US/docs/Web/API/WebSocket][WebSocket]], a network call is immediately made to establish
+an open connection with the resource at the URL provided to the constructor.
+That can take some time, and it might be useful in some cases to be able to
+~await~ this before attempting to send messages or other things the application
+might do that depends on the open WS connection.
+
+In addition to being able to set the ~onopen~ property on a WebSocket, we can
+also use ~addEventListener~ since WebSocket inherits from [[https://developer.mozilla.org/en-US/docs/Web/API/EventTarget][EventTarget]].
+Leveraging the [[https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/open_event][open event]] and the [[https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState][readyState property]], we can do something like
+this:
+
+
+#+begin_src javascript
+  class WebSocketWrapper {
+    socket;
+  
+    constructor(url) {
+      this.url = url
+    }
+  
+    open() {
+      this.socket = new WebSocket(this.url);
+  
+      return new Promise((resolve) => {
+        if (this.socket && this.socket.readyState !== this.socket.OPEN) {
+          this.socket.addEventListener('open', () => { resolve() });
+        } else {
+          resolve();
+        }
+      });
+    }
+  }
+  
+  const myWS = new WebSocketWrapper("wss://example.com/foo");
+  await myWS.open();
+#+end_src
+
+
+The ~open~ method returns a [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise][Promise]] that can be [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await][await]]ed. If the WebSocket is not
+already open, an event listener is added for the [[https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/open_event][open event]] which resolves the
+Promise. Otherwise, if the WebSocket is already open, just resolve.
+
+See also [[https://dev.to/ndrbrt/wait-for-the-websocket-connection-to-be-open-before-sending-a-message-1h12][this post]].
