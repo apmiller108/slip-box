@@ -17,4 +17,4 @@ emacs -Q --batch -l ./publish.el --funcall my/publish
 cp -rf site_assets/* public/
 
 # Build the search index file in public dir
-ruby serialize_search_index.rb | node build-index.js > public/search-index.js
+ruby serialize_search_index.rb | node build-index.js > public/js/search-index.js
