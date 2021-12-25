@@ -96,6 +96,7 @@
 <li data-date="2021-03-11" class="spring rspec ruby"><span class="sitemap-entry-date">2021-03-11</span><a href="20210311094016-spring_with_rspec">Spring with RSpec</a><span class="sitemap-entry-tags">(spring, rspec, ruby)</span></li>
 <li data-date="2021-03-22" class="shell"><span class="sitemap-entry-date">2021-03-22</span><a href="20210322114758-upterm">Upterm</a><span class="sitemap-entry-tags">(shell)</span></li>
 <li data-date="2021-03-08" class="robe emacs"><span class="sitemap-entry-date">2021-03-08</span><a href="20210308094318-using_robe_with_docker">Using robe with docker</a><span class="sitemap-entry-tags">(robe, emacs)</span></li>
+<li data-date="2021-12-21" class="javascript"><span class="sitemap-entry-date">2021-12-21</span><a href="20211221142151-wait_for_websocket_open">Wait for WebSocket open</a><span class="sitemap-entry-tags">(javascript)</span></li>
 <li data-date="2021-03-25" class="security"><span class="sitemap-entry-date">2021-03-25</span><a href="20210325084112-web_security_resources">Web security resources</a><span class="sitemap-entry-tags">(security)</span></li>
 <li data-date="2021-12-05" class="linux"><span class="sitemap-entry-date">2021-12-05</span><a href="20211205205232-wine">Wine</a><span class="sitemap-entry-tags">(linux)</span></li>
 <li data-date="2021-03-03" class="capybara ruby"><span class="sitemap-entry-date">2021-03-03</span><a href="20210303144927-capybara_window_management">capybara window management</a><span class="sitemap-entry-tags">(capybara, ruby)</span></li>
