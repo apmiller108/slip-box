@@ -3,9 +3,14 @@
 :END:
 #+title: LV2 plugins
 #+date: 2021-11-16 16:03 PM
-#+updated: 2021-11-16 16:26 PM
+#+updated: 2021-12-18 23:53 PM
 #+filetags: :audio:
 
 * Repositories
   - https://kx.studio/Repositories:Plugins
   - https://lv2plug.in/pages/projects.html
+    
+** lsp-plugins
+   https://github.com/sadko4u/lsp-plugins
+
+   Just clone it and follow the build instructions.
