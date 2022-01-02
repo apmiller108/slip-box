@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2021-12-05 20:53 PM
+#+updated: 2021-12-29 19:13 PM
 #+filetags: :linux:
 
 * Trackpad Gestures
@@ -24,6 +24,7 @@
   | SUPER + CTRL + JK  | Navigate between work spaces                                     |
   | SUPER + SHIFT + JK | Move active window between workspaces.                           |
   | SUPER + ESC        | Lock                                                             |
+  | SUPER + T          | Open a terminal                                                  |
   
 ** Launcher Shortcuts
    SUPER opens the launcher. ~?~ shows all the possible commands.

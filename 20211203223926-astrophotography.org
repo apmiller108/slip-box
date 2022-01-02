@@ -3,14 +3,18 @@
 :END:
 #+title: Astrophotography
 #+date: 2021-12-03 22:39 PM
-#+updated: 2021-12-12 21:21 PM
+#+updated: 2021-12-29 19:47 PM
 #+filetags: :astronomy:
+
+I use Linux, so if not mentioned specifically below, any instructions will be
+for Linux (Ubuntu/Pop_os distro).
 
 * Software
 ** AutoStakkert
    https://www.autostakkert.com/
-
-   For Stacking. Windows only but apparently runs fine using [[id:284b93d5-e030-4c8a-932b-03858767dfb6][Wine]].
+   For Stacking. Windows only but runs fine using [[id:284b93d5-e030-4c8a-932b-03858767dfb6][Wine]].
+*** Guides
+    https://www.youtube.com/watch?v=Ci_aMmO4DBA
 
 ** DeepSkyStacker
    http://deepskystacker.free.fr/english/index.html
@@ -26,6 +30,9 @@
 
    Linux, Windows and MacOS versions.
 
+   To install this for Ubuntu/Pop_os follow [[https://www.indilib.org/get-indi/download-ubuntu.html][these instructions]]. Yes, you'll need
+   ~kstars-bleeding~.
+
    Full featured astronomy software. Free and open source. Includes Ekos
    astrophotography suite. Apparently it can control many different devices as
    long as they have an [[https://indilib.org/][INDI]] driver. 
@@ -33,6 +40,25 @@
    If a device doesn't have an INDI driver, it is possible to make one.
    See [[https://www.indilib.org/developers/deveioper-manual.html][INDI developer guide]].
 
+   See also [[https://docs.kde.org/trunk5/en/kstars/kstars/][Kstarts handbook]]
+
+*** Ekos
+    Part of Kstars and can control stuff like mounts, cameras, etc. It will need
+    INDI to be installed with 3rd party drivers. See also
+    https://www.indilib.org/get-indi/download-ubuntu.html (Follow steps 1 and
+    2).
+
+    See [[https://docs.kde.org/trunk5/en/kstars/kstars/tool-ekos.html#ekos-setup][Ekos setup instructions]]
+
+    To run Ekos just start kstars from the terminal ~kstars~ and click the
+    ~ekos~ button
+
+** INDI
+   https://indilib.org/
+*** UVC Web Cameras Driver
+    This is used for Celestron NexImage cameras
+    https://www.indilib.org/ccds/web-cameras.html
+   
 ** PIPP
    https://sites.google.com/site/astropipp/home
    
@@ -59,3 +85,5 @@
 ** StarSense Explorer DX 130AZ
    [[https://www.celestron.com/products/starsense-explorer-dx-130az#specifications][Specifications]]
    - Reflector
+** Cameras
+   https://www.celestron.com/products/neximage-10-solar-system-color-imager#specifications
