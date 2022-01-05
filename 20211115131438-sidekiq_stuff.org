@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2021-11-15 13:49 PM
+#+updated: 2022-01-05 08:41 AM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -11,7 +11,10 @@
 
   ~sidekiq --help~ shows you all the startup options.
 
-* Poke around in the console
+* Poking around in the console
+  See [[https://www.mikeperham.com/2021/04/20/a-tour-of-the-sidekiq-api/][Mike Perham's A Tour of the Sidekiq API post]]. This has most of what I
+  need.
+  
 ** Scheduled jobs
    See also https://www.rubydoc.info/github/mperham/sidekiq/Sidekiq/ScheduledSet
 #+begin_src shell
