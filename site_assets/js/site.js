@@ -29,11 +29,41 @@ ready(function() {
   // Search
 
   var searchIndex;
+  var searchForm = document.querySelector('#search-form');
+  var searchResults;
+  var searchResultsModal = document.querySelector('#search-results');
 
+  // Fetch and load the pre-built search index
   fetch('/js/search-index.json')
     .then(response => response.json())
     .then((data) => {
       searchIndex = lunr.Index.load(data)
-      console.log(searchIndex.search('stacking'));
     });
+
+  var UIkitSearchModal = UIkit.modal(searchResultsModal);
+
+  searchResultsModal.addEventListener('beforeshow', function(e) {
+    var bodyElem = e.target.querySelector('#search-results-body');
+
+    // Clear previous search results
+    bodyElem.innerHTML = '';
+
+    // Add search results
+    searchResults.forEach(function(result) {
+      var path = result.ref.replaceAll(/public|index\.html/g, "");
+      var link = document.createElement("a");
+      link.href = path;
+      link.textContent = path
+      bodyElem.appendChild(link);
+    });
+  });
+
+  searchForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var searchTerm = e.target.querySelector('input').value;
+    if (searchTerm) {
+      searchResults = searchIndex.search(searchTerm)
+      UIkitSearchModal.show();
+    };
+  });
 });

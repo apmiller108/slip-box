@@ -18,6 +18,29 @@ h2 code, h3 code, h4 code {
   font-size: inherit;
 }
 
+.site-title-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-form {
+  align-self: flex-end;
+}
+
+.search-form input.uk-search-input {
+  border: 2px solid;
+  border-color: rgba(255,255,255,.7) !important;
+}
+
+.search-results > .uk-modal-dialog {
+  width: auto;
+}
+
+.search-results-body {
+  display: flex;
+  flex-direction: column;
+}
+
 nav {
   margin-left: -15px;
 }
