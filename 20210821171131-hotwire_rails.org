@@ -3,7 +3,7 @@
 :END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2021-09-04 21:55 PM
+#+updated: 2022-02-03 15:41 PM
 #+filetags: :javascript:ruby:rails:
 
 * What is this?
@@ -31,7 +31,14 @@
   - The ~hotwire:install~ rake task will ~yarn add~ both NPM packages
     ~@hotwired/turbo-rails~ and ~stimulus~.
 
+* Tutorials
+  - https://gorails.com/episodes/inline-editing-turbo-frames: Shows how to
+    leverage turbo frames and rails partials to add inline field editing to a
+    show page. Most of this is done in the erb view templates. See [[https://github.com/thoughtbot/hotwire-example-template/tree/hotwire-example-inline-edit][source code]]
+    for an example.
 * Resources
   - https://github.com/hotwired 
   - https://www.honeybadger.io/blog/hotwire-rails/
+  - https://github.com/thoughtbot/hotwire-example-template/tree/hotwire-example-inline-edit
+  - https://gorails.com/series/hotwire-rails
  
