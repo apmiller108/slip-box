@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       B31DB651-BC64-41FB-9E28-6AEEF933F186
+:END:
+#+title: Programming posts of interest
+#+date: 2022-02-03 10:56 AM
+#+updated: 2022-02-03 11:06 AM
+#+filetags: :ruby:javascript:sql:typescript:emacs
+
+This is list a list of programming articles that I find interesting and may want
+to reference again in the future. For now I'm going to organize them by language
+and/or framework.
+
+* Ruby
+  - [[https://longliveruby.com/articles/build-your-own-concurrency-control-in-sidekiq][Build concurrency control in Sidekiq]]
+    This tutorial article shows how one can leverage Redis to lock resources.
+    It's context is locking Sidekiq jobs, but it would be easily repurposed to
+    lock anything. Also, worth noting, the paid version of Sidekiq (Sidekiq ENT)
+    already has a [[https://github-wiki-see.page/m/mperham/sidekiq/wiki/Ent-Unique-Jobs][unique_for option]]. The general pattern/algorithm this article
+    demonstrates is also discussed in the [[https://redis.io/topics/distlock][Distributed locks with Redis docs]].
