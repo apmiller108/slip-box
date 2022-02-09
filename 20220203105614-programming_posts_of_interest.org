@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2022-02-03 11:06 AM
+#+updated: 2022-02-09 09:54 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -11,9 +11,15 @@ to reference again in the future. For now I'm going to organize them by language
 and/or framework.
 
 * Ruby
-  - [[https://longliveruby.com/articles/build-your-own-concurrency-control-in-sidekiq][Build concurrency control in Sidekiq]]
+  - [[https://longliveruby.com/articles/build-your-own-concurrency-control-in-sidekiq][Build concurrency control in Sidekiq]]:
     This tutorial article shows how one can leverage Redis to lock resources.
     It's context is locking Sidekiq jobs, but it would be easily repurposed to
     lock anything. Also, worth noting, the paid version of Sidekiq (Sidekiq ENT)
     already has a [[https://github-wiki-see.page/m/mperham/sidekiq/wiki/Ent-Unique-Jobs][unique_for option]]. The general pattern/algorithm this article
     demonstrates is also discussed in the [[https://redis.io/topics/distlock][Distributed locks with Redis docs]].
+
+  - [[https://www.speedshop.co/2017/10/12/appserver.html][Configuring Puma, Unicorn and Passenger for Maximum Efficiency]]:
+    Shares advice for figuring out how many workers and threads to use for your
+    server configuration based on available CPU and memory resources. For
+    example worker_count = 1.5 x (n hyperthreads). There's also an explanation
+    of forking and copy-on-write.
