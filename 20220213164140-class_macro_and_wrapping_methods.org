@@ -1,0 +1,86 @@
+:PROPERTIES:
+:ID:       f46ce244-59d3-46fd-972d-3d954a3d6f01
+:END:
+#+title: Class macro and wrapping methods
+#+date: 2022-02-13 16:41 PM
+#+updated: 2022-02-13 16:53 PM
+#+filetags: :ruby:
+
+Here's a pattern for 1) creating a class macro that can dynamically define
+behavior and 2) wrapping methods (ie, for logging, benchmarking, validating)
+
+* Example
+  This is a super ridiculous example, but it gets the basic point across.
+
+  Here we want to include validating that the three sides, can in fact, be used
+  to make a triangle (eg, the sum of any two sides must be gte the remaining
+  side) as part of the predicate methods.
+
+  Instead of calling ~validate?~ inside each of the predicate methods, the same
+  methods are "wrapped" by dynamically prepending a module that defines the same
+  methods but adds the call to ~valid?~ while then calling ~super~ to invoke the
+  original methods.
+
+  It's a stupid example, but it shows how:
+
+  1. ~extend~ can be used to create a class method that provides a declarative
+     API to the base class for dynamically defining behavior.
+  2. ~prepend~ can be used to override the base class' methods while yet being
+     able to use ~super~ to invoke the original behavior.
+#+begin_src ruby
+require 'forwardable'
+
+class Triangle
+  module Validator
+    def self.included(base)
+      base.extend ClassMethods
+      validator_methods = const_set("#{base.name}ValidatorMethods", Module.new)
+      base.prepend validator_methods
+    end
+
+    module ClassMethods
+      def validate(methods)
+        validator_methods = const_get("#{name}ValidatorMethods")
+        methods.each do |method|
+          validator_methods.define_method(method) do
+            valid? && super()
+          end
+        end
+      end
+    end
+
+    def valid?
+      satisfies_triangle_inequality? && sides.sum.nonzero?
+    end
+
+    def satisfies_triangle_inequality?
+      a, b, c = sides
+      a + b >= c && a + c >= b && b + c >= a
+    end
+  end
+
+  extend Forwardable
+  def_delegator :sides, :uniq
+
+  include Validator
+  validate %i[equilateral? isosceles? scalene?]
+
+  attr_reader :sides
+
+  def initialize(sides)
+    @sides = sides
+  end
+
+  def equilateral?
+    uniq.length == 1
+  end
+
+  def isosceles?
+    uniq.length == 2 || equilateral?
+  end
+
+  def scalene?
+    uniq.length == 3
+  end
+end
+#+end_src
