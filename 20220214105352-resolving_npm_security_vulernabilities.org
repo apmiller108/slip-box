@@ -1,0 +1,71 @@
+:PROPERTIES:
+:ID:       27961F8D-AD5B-4D0C-A0BA-664D8CE76F79
+:END:
+#+title: Resolving NPM security vulernabilities
+#+date: 2022-02-14 10:53 AM
+#+updated: 2022-02-15 14:56 PM
+#+filetags: :security:javascript:
+
+* Tools
+** NPM audit
+   https://docs.npmjs.com/cli/v8/commands/npm-audit
+** NPM outdated
+   https://docs.npmjs.com/cli/v8/commands/npm-outdated
+   This will list which packages are outdated and the versions wanted to keep
+   them updated. Note the version wanted respects the ~~~/~^~ See
+   [[https://docs.npmjs.com/cli/v8/configuring-npm/package-json#dependencies][dependency docs]] for more on this notation.
+
+   ~npm outdated some-package~
+   
+** NPM ls
+   https://docs.npmjs.com/cli/v7/commands/npm-ls
+
+   Use ~npm ls some-pacakge~ see where a package sits in the dependency tree
+   (ie, at what depth)
+** NPM update
+   https://docs.npmjs.com/cli/v6/commands/npm-update
+
+** NPM view
+   https://docs.npmjs.com/cli/v7/commands/npm-view
+
+*** dist-tags   
+   ~npm view some-package dist-tags~
+
+   You can use ~dist-tags~ to install certain versions:
+
+   ~npm install some-package@some-dist-tag~
+
+   see also https://stackoverflow.com/a/40643555
+* The process step-by-step
+  Make sure the test suite output doesn't belch a bunch of noise like
+  warnings, unhandled exceptions and console logs, etc. Clean these up first
+  so its obvious there is an issue has occurred due to a package update.
+  
+  NOTE: run the JS unit tests after each package update
+  1. Run ~npm audit~
+  2. You may want to let npm update the dependencies that don't require manual
+     intervention with ~npm audit fix~
+  3. Manually update the top level packages one-by-one. The vulnerability is
+     with one of their dependencies and could be resolved with a newer version.
+
+     - Use ~npm outdated some-package~.
+     - Find the "Wanted" version
+     - Change the version in the ~package.json~ to the "Wanted" version.
+     - Run ~npm install~ to update that package.
+  4. That may not work to resolve a dependency of a dependency at whatever
+     depth it is. Try to update that dependency manually with:
+     
+     ~npm update some-dependency-of-a-dependency --depth 5~ (npm v6)
+
+     This probably won't work. If it did, it would have been updated as part of
+     ~npm audit fix~. So, instead dig into the ~package-lock.json~ and see if
+     there is any dependency that might prevent the update. If it looks OK,
+     delete all instances of the package where it is listed under
+     ~dependencies~ and run ~npm install~. See [[https://stackoverflow.com/a/60725984][this SO post]] for a nice
+     explanation.
+   5. If the vulnerability still exists after step 4...
+   6. Once you've gone as far as you can go, build the app and run all the tests.
+   7. Then smoke test in a staging environment
+     
+* Resources
+  https://docs.npmjs.com/cli/v8/configuring-npm/package-json#dependencies
