@@ -1,0 +1,47 @@
+:PROPERTIES:
+:ID:       fcba0c10-cdb7-4d98-96ad-acf6afafe275
+:END:
+#+title: Make something enumerable
+#+date: 2022-02-20 13:51 PM
+#+updated: 2022-02-20 13:58 PM
+#+filetags: :ruby:
+
+It can sometimes be useful for an object to be Enumerable, so we can call
+methods like ~map~, ~max~, etc. There's basically two steps:
+
+1. ~include Enumerable~
+2. Define an ~each~ method. Enumerable methods rely on ~each~.
+
+This example comes from an [[https://exercism.org/tracks/ruby/exercises/transpose][exercise I did on Exercism]].
+#+begin_src ruby
+class CharSet
+  include Enumerable
+
+  def initialize(text)
+    @text = text
+    @members = text.split("\n").map(&:chars)
+  end
+
+  def each(&block)
+    if block_given?
+      @members.each(&block)
+    else
+      to_enum(:each)
+    end
+  end
+
+  def max_length
+    map(&:length).max || 0
+  end
+
+  def transpose
+    max_length.times.each_with_object([]) do |n, a|
+      a << Row.new(map { |member| member[n] })
+    end
+  end
+end
+#+end_src
+
+See also
+- https://blog.appsignal.com/2018/05/29/ruby-magic-enumerable-and-enumerator.html
+- https://stackoverflow.com/a/7220742
