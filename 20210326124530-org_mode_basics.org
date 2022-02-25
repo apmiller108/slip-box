@@ -3,7 +3,7 @@
 :END:
 #+title: Org-mode basics
 #+date: 2021-03-26 12:45 PM
-#+updated: 2021-05-14 09:17 AM
+#+updated: 2022-02-25 11:58 AM
 #+filetags: :org_mode:
 
 This is a dump of notes on basic org-mode stuff. I recently switched from
@@ -76,4 +76,9 @@ See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]
   - [[id:EA505166-BE28-45D4-8390-343AC9B48D05][Org-mode Export Settings]]
   - [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]] 
   
-  
+* Lists
+  https://orgmode.org/manual/Plain-Lists.html
+** Ordered Lists
+   ~C-c ^~ (~org-sort~): while cursor is somewhere on the list to sort lists by
+   number, alpha, etc. (do not need to select a range)
+   
