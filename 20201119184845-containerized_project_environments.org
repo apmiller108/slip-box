@@ -3,7 +3,7 @@
 :END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2021-11-14 16:51 PM
+#+updated: 2022-03-01 14:31 PM
 #+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
@@ -204,3 +204,10 @@ that big of a deal.
    #+end_src
 
    Run it with ~docker-compose up~
+
+** Simple Apache Web Server
+   If you want to serve the current directory on ~localhost:8080~
+   
+   #+begin_src shell
+   docker run --rm -p 8080:80 --name="myapache" -v "$PWD":/usr/local/apache2/htdocs/ httpd
+   #+end_src

@@ -3,7 +3,7 @@
 :END:
 #+title: Resolving NPM security vulernabilities
 #+date: 2022-02-14 10:53 AM
-#+updated: 2022-02-15 14:56 PM
+#+updated: 2022-02-18 08:03 AM
 #+filetags: :security:javascript:
 
 * Tools
@@ -12,8 +12,9 @@
 ** NPM outdated
    https://docs.npmjs.com/cli/v8/commands/npm-outdated
    This will list which packages are outdated and the versions wanted to keep
-   them updated. Note the version wanted respects the ~~~/~^~ See
-   [[https://docs.npmjs.com/cli/v8/configuring-npm/package-json#dependencies][dependency docs]] for more on this notation.
+   them updated. Note the version wanted respects the dependency version
+   notation specified in the package.json. See [[https://docs.npmjs.com/cli/v8/configuring-npm/package-json#dependencies][dependency docs]] for more on this
+   notation. 
 
    ~npm outdated some-package~
    

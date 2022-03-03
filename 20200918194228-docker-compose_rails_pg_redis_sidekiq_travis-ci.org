@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2021-11-10 10:26 AM
+#+updated: 2022-03-03 11:28 AM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -19,11 +19,16 @@
      you want to use.
   3. call ~org-babel-tangle~ to generate the files in your chosen directory.
   4. Run the setup script as an entry point to a temp container based on the
-     selected image. The command is generated in a comment in ~setup.sh~
-  5. Start the app with ~docker-compose up~
+     selected image. The command is generated in a comment in ~setup.sh~. I
+     might want to edit the script to specify the version of Rails to install,
+     remove webpacker, etc.
+  5. Add a ~.dockerignore~. See [[https://gist.github.com/yizeng/eeeb48d6823801061791cc5581f7e1fc][this gist]] for ideas of what to ignore.
+  6. Start the app with ~docker-compose up~
 
   NOTE: this will run the ~config~ elisp block below several times. Set the
   ~org-confirm-babel-evaluate~ variable to ~nil~ to skip prompting.
+
+  NOTE: the images names (ie, tags) will be ~<app_name>_web~ / ~<app_name>_sidekiq_~
 
   #+name: config
   #+begin_src emacs-lisp :var key=""
@@ -31,13 +36,13 @@
           '(("ruby-image" . "ruby:3.0")
             ("pg-image" . "postgres:12")
             ("redis-image" . "redis:6")
-            ("app-name" . "hotwire")))
+            ("app-name" . "kubetest")))
     (cdr (assoc key config))
   #+end_src
 
 * Dockerfile
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/hotwire/Dockerfile :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/kubetest/Dockerfile :mkdirp yes
   :END:
 
   #+begin_src dockerfile :noweb tangle
@@ -66,7 +71,7 @@
 
 * docker-compose
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/hotwire/docker-compose.yml :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/kubetest/docker-compose.yml :mkdirp yes
   :END:
 
   This orchestrates the following containers:
@@ -138,7 +143,7 @@
 
 * Setup the project
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/hotwire/setup.sh :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/kubetest/setup.sh :mkdirp yes
   :END:
   At this point we don't have a Gemfile, Gemfile.lock or any of the Rails'
   framework files, etc. But we can still do all the project setup within docker
