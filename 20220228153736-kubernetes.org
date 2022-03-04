@@ -3,7 +3,7 @@
 :END:
 #+title: Kubernetes
 #+date: 2022-02-28 15:37 PM
-#+updated: 2022-03-04 15:06 PM
+#+updated: 2022-03-04 15:26 PM
 
 See also https://kubernetes.io/
 
@@ -14,14 +14,18 @@ See also https://kubernetes.io/
 ** Replica Set
    Contains Pod replicas for redundancy.
 ** Deployment
-   This is the application. They contains the replica sets. Replica sets contain
+   This is the application. They contain the replica sets. Replica sets contain
    the pods. Deployments contain the scalability and availability configurations.
 ** Services
-   Like a load balancer. It distributes traffic to different pods in a deployment.
+   - Used to expose container ports to other containers and host machine.
+   - Can make containers reachable by other containers by name. DNS resolution
+     happens automatically.
+   - One type is like a load balancer -- it distributes traffic to different
+     pods in a deployment.
 ** Ingress
    For http/https only. It provides URL access to services.
 ** YAML files
-   These are used to declare k8 cluster config as opposed to using the web
+   These are used to declare k8 cluster configuration as opposed to using the web
    interface or cli.
 * Dashboard
   A web interface for managing the k8 cluster. You get this with minikube.
@@ -31,11 +35,6 @@ See also https://kubernetes.io/
   #+end_src
 
   Otherwise, use ~kubectl~ cli tool to manage the cluster.
-
-** Create deployment
-   This basically starts containers in the background, so you can just fill out
-   a form specifying what image to use or feed it YAML/JSON with the
-   configuration.
 
 * Kubectl cli tool
   This is also for managing the k8 cluster.
@@ -47,16 +46,22 @@ See also https://kubernetes.io/
     into properties like ~kubectl explain pods.specs~. This is useful when
     figuring out what you need when defining YAML files.
   - ~kubectl describe <resourceType> <resourceName>~
-  - ~kubectl get <resourceType> <resourceName> -o yaml~
+  - ~kubectl get <resourceType> <resourceName> -o yaml~ This is super useful
+    with ~--dry-run~ option and ~> my_resource.yml~ to quickly create yamls.
 
     
   See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 ** Create deployment
 
+   One way is to:
    #+begin_src shell
    kubectl create deployment apache image=httpd
    #+end_src
 
+   More often you'll create from a yaml file (more on this below)
+   #+begin_src shell
+   kubectl apply -f deployment.ym
+   #+end_src
 ** Updates and Rollbacks
    Lets say you ~apply -f deployment.yaml~ with a newer version of a container
    image. This will by default be deployed as a rolling update. Then you can see
@@ -254,3 +259,4 @@ k8s_resource('web', port_forwards='3000')
   - [[https://kubernetes.io/docs/reference/kubectl/kubectl/][kubectl]] is a cmd line tool for k8 cluster management
   - [[https://minikube.sigs.k8s.io/docs/start/][minikube]] used to run a single node k8 cluster locally
   - [[https://docs.tilt.dev/index.html][tilt]] something for kubernetes development environment
+  - https://kubernetes-rails.com/
