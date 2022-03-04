@@ -1,0 +1,256 @@
+:PROPERTIES:
+:ID:       31929B00-829E-41F3-BEBF-2F5B77B53E35
+:END:
+#+title: Kubernetes
+#+date: 2022-02-28 15:37 PM
+#+updated: 2022-03-04 15:06 PM
+
+See also https://kubernetes.io/
+
+* Fundamental k8 objects
+** Pods
+   - k8s is all about managing pods.
+   - A Pod can encapsulate multiple running containers and volumes
+** Replica Set
+   Contains Pod replicas for redundancy.
+** Deployment
+   This is the application. They contains the replica sets. Replica sets contain
+   the pods. Deployments contain the scalability and availability configurations.
+** Services
+   Like a load balancer. It distributes traffic to different pods in a deployment.
+** Ingress
+   For http/https only. It provides URL access to services.
+** YAML files
+   These are used to declare k8 cluster config as opposed to using the web
+   interface or cli.
+* Dashboard
+  A web interface for managing the k8 cluster. You get this with minikube.
+
+  #+begin_src shell
+  minikube dashboard
+  #+end_src
+
+  Otherwise, use ~kubectl~ cli tool to manage the cluster.
+
+** Create deployment
+   This basically starts containers in the background, so you can just fill out
+   a form specifying what image to use or feed it YAML/JSON with the
+   configuration.
+
+* Kubectl cli tool
+  This is also for managing the k8 cluster.
+
+** Some common commands for getting info  
+  - ~kubectl api-resources~ to see all the different types of resources that can
+    be managed.
+  - ~kubectl explain <object>~ to see the resource properties. You can drill
+    into properties like ~kubectl explain pods.specs~. This is useful when
+    figuring out what you need when defining YAML files.
+  - ~kubectl describe <resourceType> <resourceName>~
+  - ~kubectl get <resourceType> <resourceName> -o yaml~
+
+    
+  See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+** Create deployment
+
+   #+begin_src shell
+   kubectl create deployment apache image=httpd
+   #+end_src
+
+** Updates and Rollbacks
+   Lets say you ~apply -f deployment.yaml~ with a newer version of a container
+   image. This will by default be deployed as a rolling update. Then you can see
+   the numbered revision history with:
+   
+   #+begin_src shell
+   kubectl rollout history deployment <deploymentName>
+   #+end_src
+
+   It can be rolled back with:
+
+   #+begin_src shell
+   kubectl rollout undo deployment <deploymentName> --to-revision=n
+   #+end_src
+* YAMLs
+  See https://github.com/sandervanvugt/kubernetes for examples
+
+** Getting started  
+   One easy way to build these yamls is to use the dashboard or cli to build
+   deployments, then "export" the configuration to a yaml file.
+
+   #+begin_src shell
+     kubectl get deployments foo-nginx -o yaml > foo-nginx.yml
+   #+end_src
+
+   There's a bunch of things that are extraneous and can be deleted from this
+   export:
+   - ~creationTimestamp~
+   - ~resourceVersion~
+   - ~selfLink~
+   - ~uid~
+   - ~status~ and all the stuff nested in it
+
+   You can make further changes, delete the previous deployment and re-created
+   it from the yaml file (see below)
+
+*** --dry-run
+    Or use the ~--dry-run~ if nothing has been build yet. Dry runs can be
+    exported just the same.
+
+    #+begin_src shell
+    kubectl create deployment mynginx --image=ngnix:1.8 --dry-run=server -o yaml > mynginx_deployment.yml
+    #+end_src
+** Creating stuff from YAML
+
+   #+begin_src shell
+   kubectl apply -f foo-nginx.yml
+   #+end_src
+
+** Update stuff
+   Same as creating, use ~apply -f~
+** Labels
+   API objects use labels to connect to other objects
+** Namespaces
+   - Isolated environments, whereas a Context is a cluster (ie, you have have
+     access to multiple clusters each with multiple namespaces).
+   - You can have the same named resource in different namespaces
+   - See https://github.com/ahmetb/kubectx for a handy cool ~kubens~ for
+     switching between namespaces.
+* Secrets
+  Secret values are Base64 encoded in the yamls/config but plain text in the
+  containers.
+** imagePullSecrets
+   Most likely I'll be working with private container registries. To specify a
+   private registry and auth details:
+   1. create a ~docker-registry~ secret. See [[https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-by-providing-credentials-on-the-command-line][the docs]]. Example:
+      #+begin_src shell
+        kubectl create secret docker-registry dockerhub-regcred \
+                --docker-server=https://index.docker.io/v1/ \
+                --docker-username=USERNAME \
+                --docker-password='PASSWORD' \
+                --docker-email=EMAIL
+      #+end_src
+   2. add the secret to a deployment or a pod
+      #+begin_src yaml
+        apiVersion: apps/v1
+        kind: Deployment
+        spec:
+          template:
+            spec:
+              containers:
+              - image: username/someimage:latest
+              imagePullSecrets:
+                - name: dockerhub-regcred
+      #+end_src
+
+** Environment variables
+   There are many ways to supply env vars to containers. Here is one:
+
+   1. Create a secret from a file, like a .env file with key value pairs:
+      #+begin_src shell
+      kubectl create secret generic env-secrets --from-env-file=.env
+      #+end_src
+   2. Then just reference the secret using the ~envFrom~ property
+       #+begin_src yaml
+         containers:
+           - name: nginx
+             image: nginx:latest
+             envFrom:
+               - secretRef:
+                   name: env-secrets
+       #+end_src
+* Networking
+  Pods and Services are the things that has the IP addresses. All the containers
+  within the Pod will share the Pod's IP address.
+
+  - How to running containers within a pod communicate with each other?
+
+** Service object
+   There's a bunch of different service types. 
+   - Connects to Pods with labels
+   - ~targetPort~ is the exposed port of the containers (the ~containerPort~ property)
+** LoadBalancer example
+   Exposing an app.
+
+   Create one using ~--dry-run~. In this example export host 3000 to container
+   port 3000
+   #+begin_src shell
+   kubectl expose deployment kubetest-web --port=3000 --target-port=3000 --dry-run=client -o yaml > service.yml
+   #+end_src
+
+   When using ~minikube~. You'll need to start a tunnel and leave it open:
+
+   #+begin_src shell
+   minikube tunnel
+   #+end_src
+
+   Then, find the ~EXTERNAL-IP~ and ports with ~kubectl get svc~. See
+   also [[https://minikube.sigs.k8s.io/docs/handbook/accessing/#example][this example]].
+
+** Database example
+   How to connect an app deployment to a database deployment?
+   
+   Assuming there is a deployment with an app that needs to make a connection to
+   a Postgres database. Also, assumes the [[https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#dns][Kubernetes DNS cluster addon]] is
+   running in the cluster.
+   
+   1. Create the postgres database deployment. See Secrets above for how to use
+      the ~fromEnv~ property. It will be needed to set the postgres user and
+      password.
+      #+begin_src yaml
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          labels:
+            app: postgres
+          name: postgres
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              app: postgres
+          template:
+            metadata:
+              labels:
+                app: postgres
+            spec:
+              containers:
+              - image: postgres:12
+                name: postgres
+                ports:
+                  - containerPort: 5432
+                envFrom:
+                  - secretRef:
+                      name: env-secrets
+      #+end_src
+   2. Create the service with the desired port
+      #+begin_src shell
+        kubectl expose deployment postgres --port=5432 --target-port=5432 --dry-run=client -o yaml > service-database.yml
+      #+end_src
+   3. Test it out with ~nslookup~. If the K8s DNS cluster is running, you should
+      now be able to use the service name to reach the database.
+      #+begin_src shell
+        kubectl run curl --image=radial/busyboxplus:curl -i --tty
+        nslookup postgres
+      #+end_src
+   4. So, now ~postgres~ will resolve to the postgres database. Just provide
+      that as a ~DATABASE_HOST~ env var to your app.
+* Tilt
+  [[https://docs.tilt.dev/index.html][Tilt]] is cool for doing local development against a local or remote K8s
+  cluster. It handles exposing rebuilding the image with code changes and
+  deploying to the cluster automatically. It will also expose resources (ie, a
+  web app reachable from your host machines browser).
+
+  A simple ~Tiltfile~ can get up an running with ~tilt up~
+
+ #+begin_src
+k8s_yaml(['deployment-web.yml', 'deployment-sidekiq.yml'])
+
+docker_build('apmiller/imagename, '.')
+
+k8s_resource('web', port_forwards='3000')
+ #+end_src
+* Resources
+  - [[https://kubernetes.io/docs/reference/kubectl/kubectl/][kubectl]] is a cmd line tool for k8 cluster management
+  - [[https://minikube.sigs.k8s.io/docs/start/][minikube]] used to run a single node k8 cluster locally
+  - [[https://docs.tilt.dev/index.html][tilt]] something for kubernetes development environment
