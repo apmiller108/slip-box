@@ -1,0 +1,48 @@
+:PROPERTIES:
+:ID:       F05E093F-216F-4669-A808-A56551062060
+:END:
+#+title: Fractions in Ruby
+#+date: 2022-03-11 10:01 AM
+#+updated: 2022-03-11 11:09 AM
+#+filetags: :ruby:
+
+Dividing integers just returns the quotient. Dividing floats is inexact. What
+other options do we have?
+
+* Rational
+  These are exact for representing fraction. They are stored as two integers, a
+  numerator and denominator. They need to be converted to Float in order to be
+  readable. They're a bit slower than floats. Use them only when there is a need
+  to do calculations with exactness. There's several notations.
+  
+  All of these are equivalent:
+
+  #+begin_src ruby
+    1.1r
+    1.1.to_r
+    Rational('1.1')
+    Rational(11, 10)
+  #+end_src
+
+  #+RESULTS:
+  | 11/10 |
+  
+
+* BigDecimal
+  This is not in the core library but in the standard library, so it needs to be
+  required.
+
+  There are exact for representing fractions as well (some exceptions).
+  Inspection uses scientific notation. Unless instantiating using strings or
+  integers, the precision argument needs to be provided. This is useful for
+  dealing with fixed precision numbers (like money). Apparently, this is the
+  slowest of all the numeric types, so use it when it's necessary.
+
+  #+begin_src ruby
+    require 'bigdecimal'
+    
+    BigDecimal(1.1, 2)
+  #+end_src
+
+  #+RESULTS:
+  : 1.1
