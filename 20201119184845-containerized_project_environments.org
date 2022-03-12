@@ -3,7 +3,7 @@
 :END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2022-03-12 09:43 AM
+#+updated: 2022-03-12 09:48 AM
 #+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
@@ -15,11 +15,12 @@ needs (ie, adding system dependencies like pandoc or something), so it's not
 that big of a deal.
 
 * The super quick and dirty
-  Just run this terminal command followed by the image to build a container
-  from. Maps the current host directory to ~/app~ inside the container.
+  Just run this terminal command followed by the image to build a container from
+  and the entrypoint. Maps the current host directory to ~/app~ inside the
+  container. Example:
 
   #+begin_src shell 
-  docker run -it --rm -v "$PWD":/app ruby:latest
+  docker run -it --rm -v "$PWD":/app -w "/app" ruby:latest bash
   #+end_src
   
 * The quick and dirty
