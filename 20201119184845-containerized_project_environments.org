@@ -3,17 +3,25 @@
 :END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2022-03-01 14:31 PM
+#+updated: 2022-03-12 09:43 AM
 #+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
 when writing code, these days I prefer to just use docker and skip
 that hassle. The trade off is the little bit of overhead setting up a
-~~Dockerfile~ and ~docker-compose.yml~. This is mostly boiler plate with some
+~Dockerfile~ and ~docker-compose.yml~. But this is mostly boiler plate with some
 minor customization for what is needed for my chosen language and project
 needs (ie, adding system dependencies like pandoc or something), so it's not
 that big of a deal.
 
+* The super quick and dirty
+  Just run this terminal command followed by the image to build a container
+  from. Maps the current host directory to ~/app~ inside the container.
+
+  #+begin_src shell 
+  docker run -it --rm -v "$PWD":/app ruby:latest
+  #+end_src
+  
 * The quick and dirty
   Just need a bare environment for messing around? Copy this to a Dockerfile,
   pick an image, build and run. (see build and run command comments below)
@@ -36,7 +44,8 @@ that big of a deal.
 
 * A Ruby Gem
   The example here uses Ruby Gem project, but can easily be adapted for any
-  language.
+  language. The additional thing is to install dependencies as part of the
+  container build.
 
 ** Just a Dockerfile
    We could just use a ~Dockerfile~ alone (ie, not use Docker Compose at all).
