@@ -3,7 +3,7 @@
 :END:
 #+title: Org-mode Export Settings
 #+date: 2021-02-14 10:43 AM
-#+filetags: :org_mode:emacs:foo:
+#+filetags: :org_mode:emacs:
 
 [[id:E67BF8C6-A54C-4E71-A9B3-F2FE1D14632A][Org-mode]] export settings. See also [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]].
 

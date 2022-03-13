@@ -1,0 +1,17 @@
+:PROPERTIES:
+:ID:       055a2467-fff1-4472-aeb8-8346d4cb55fa
+:END:
+#+title: Quotes
+#+date: 2022-03-13 10:47 AM
+#+updated: 2022-03-13 11:00 AM
+#+filetags: :philosophy:
+
+#+begin_verse
+Remember, it is not enough to be hit or insulted to be harmed, you must believe
+that you are being harmed. If someone succeeds in provoking you, realize that
+your mind is complicit in the provocation. Which is why it is essential that we
+not respond impulsively to impressions; take a moment before reacting, and you
+will find it easier to maintain control.
+
+--- Epictetus, The Art of Living: The Classical Manual on Virtue, Happiness and Effectiveness 
+#+end_verse
