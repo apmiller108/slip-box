@@ -3,7 +3,7 @@
 :END:
 #+title: Kubernetes
 #+date: 2022-02-28 15:37 PM
-#+updated: 2022-03-04 15:26 PM
+#+updated: 2022-03-16 15:28 PM
 
 See also https://kubernetes.io/
 
@@ -240,6 +240,23 @@ See also https://kubernetes.io/
       #+end_src
    4. So, now ~postgres~ will resolve to the postgres database. Just provide
       that as a ~DATABASE_HOST~ env var to your app.
+* Volumes
+** Persistent Volume Claim
+   When using ~minikube~, it is the host. So, the directory to which the volume
+   is mounted should exist there. So do ~minikube ssh~ and ~sudo mkdir /mydata~.
+
+   1. Create the persistent volume. This could use the host's storage, NFS,
+      cloud storage, etc.
+   2. Create the persistent volume claim (eg, it claims some amount of the PV
+      volume's storage).
+   3. Add the volume to the container spec that references the PVC created in
+      step 2.
+
+   See examples in https://github.com/apmiller108/kubernetes_rails
+** ConfigMap
+   ConfigMaps can be mounted as a volume and used to provide configuration files.
+   
+   See https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps  
 * Tilt
   [[https://docs.tilt.dev/index.html][Tilt]] is cool for doing local development against a local or remote K8s
   cluster. It handles exposing rebuilding the image with code changes and
@@ -260,3 +277,4 @@ k8s_resource('web', port_forwards='3000')
   - [[https://minikube.sigs.k8s.io/docs/start/][minikube]] used to run a single node k8 cluster locally
   - [[https://docs.tilt.dev/index.html][tilt]] something for kubernetes development environment
   - https://kubernetes-rails.com/
+  - https://github.com/apmiller108/kubernetes_rails
