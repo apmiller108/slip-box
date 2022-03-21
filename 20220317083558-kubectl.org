@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       BC7E2058-A3F6-4149-9CA3-902B6BDE5D1F
+:END:
+#+title: Kubectl
+#+date: 2022-03-17 08:35 AM
+#+updated: 2022-03-17 08:59 AM
+
+See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+| Description             | Command                                              |
+|-------------------------+------------------------------------------------------|
+| Get namespaces          | kubectl get ns                                       |
+| Add a namespace         | kubectl config set-context --current --namespace=foo |
+| Show current namespaces | kubectl config view (grep namespace)                 |
+| Show current context    | kubectl config current-context                       |
+| Get all pods            | kubectl get pods                                     |
+| Exec                    | kubectl exec -it mypod -- bash                       |
+| Get deployment info     | kubectl get deployments foo -o yaml                  |
+

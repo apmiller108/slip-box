@@ -3,7 +3,7 @@
 :END:
 #+title: Kubernetes
 #+date: 2022-02-28 15:37 PM
-#+updated: 2022-03-16 15:28 PM
+#+updated: 2022-03-17 09:02 AM
 
 See also https://kubernetes.io/
 
@@ -37,6 +37,8 @@ See also https://kubernetes.io/
   Otherwise, use ~kubectl~ cli tool to manage the cluster.
 
 * Kubectl cli tool
+  See also my notes/command reference on [[id:BC7E2058-A3F6-4149-9CA3-902B6BDE5D1F][Kubectl]]
+  
   This is also for managing the k8 cluster.
 
 ** Some common commands for getting info  
@@ -272,6 +274,15 @@ docker_build('apmiller/imagename, '.')
 
 k8s_resource('web', port_forwards='3000')
  #+end_src
+* Helm Charts
+  https://helm.sh/docs/intro/install/
+  - A package manager for bundled Kubernetes manifests
+  - A tar archive in a repo
+  - requires the use of a Helm client
+** The files
+   - ~chart.yml~: metadata about the chart
+   - ~values.yml~: key/value pairs
+   - templates: yaml manifests that define the application
 * Resources
   - [[https://kubernetes.io/docs/reference/kubectl/kubectl/][kubectl]] is a cmd line tool for k8 cluster management
   - [[https://minikube.sigs.k8s.io/docs/start/][minikube]] used to run a single node k8 cluster locally
