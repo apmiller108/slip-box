@@ -3,7 +3,8 @@
 :END:
 #+title: Kubectl
 #+date: 2022-03-17 08:35 AM
-#+updated: 2022-03-17 08:59 AM
+#+updated: 2022-03-28 12:46 PM
+#+filetags: :kubernetes:
 
 See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 

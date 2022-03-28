@@ -3,7 +3,8 @@
 :END:
 #+title: Kubernetes
 #+date: 2022-02-28 15:37 PM
-#+updated: 2022-03-17 09:02 AM
+#+updated: 2022-03-28 12:46 PM
+#+filetags: :kubernetes:
 
 See also https://kubernetes.io/
 
