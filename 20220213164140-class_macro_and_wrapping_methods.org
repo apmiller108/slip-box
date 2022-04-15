@@ -3,7 +3,7 @@
 :END:
 #+title: Class macro and wrapping methods
 #+date: 2022-02-13 16:41 PM
-#+updated: 2022-02-13 16:53 PM
+#+updated: 2022-04-15 09:23 AM
 #+filetags: :ruby:
 
 Here's a pattern for 1) creating a class macro that can dynamically define
@@ -16,12 +16,12 @@ behavior and 2) wrapping methods (ie, for logging, benchmarking, validating)
   to make a triangle (eg, the sum of any two sides must be gte the remaining
   side) as part of the predicate methods.
 
-  Instead of calling ~validate?~ inside each of the predicate methods, the same
+  Instead of calling ~valid?~ inside each of the predicate methods, the same
   methods are "wrapped" by dynamically prepending a module that defines the same
   methods but adds the call to ~valid?~ while then calling ~super~ to invoke the
   original methods.
 
-  It's a stupid example, but it shows how:
+  It's a really stupid example, but it shows how:
 
   1. ~extend~ can be used to create a class method that provides a declarative
      API to the base class for dynamically defining behavior.
@@ -39,7 +39,7 @@ class Triangle
     end
 
     module ClassMethods
-      def validate(methods)
+      def validate_is_triangle_for(methods)
         validator_methods = const_get("#{name}ValidatorMethods")
         methods.each do |method|
           validator_methods.define_method(method) do
@@ -58,12 +58,14 @@ class Triangle
       a + b >= c && a + c >= b && b + c >= a
     end
   end
+end
 
+class Triangle
   extend Forwardable
   def_delegator :sides, :uniq
 
-  include Validator
-  validate %i[equilateral? isosceles? scalene?]
+  include Triangle::Validator
+  validate_is_triangle_for %i[equilateral? isosceles? scalene?]
 
   attr_reader :sides
 
