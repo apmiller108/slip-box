@@ -31,8 +31,9 @@
      to do when switching to a project -- to list the project files.
    - ~config~ is ruby /after/ the package is loaded.
 
-** To make a random folder a project
-   Just add ~.projectile~ file to the root.
+* To make a random folder a project
+  A git backed folder will automatically be identified as a project, but you can 
+  just add ~.projectile~ file to any dir root to make it a project.
 * Some interesting commands
   Most of the stuff you can do with this are discoverable with the keymap
   binding above (Or ~SPC p~ in spacemacs), but some noteworthy things are:
