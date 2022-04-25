@@ -3,7 +3,7 @@
 :END:
 #+title: Org-mode basics
 #+date: 2021-03-26 12:45 PM
-#+updated: 2022-02-25 11:58 AM
+#+updated: 2022-04-25 08:18 AM
 #+filetags: :org_mode:
 
 This is a dump of notes on basic org-mode stuff. I recently switched from
@@ -43,12 +43,13 @@ See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]
   :END:
 
 * Displaying images
-  - Set image size
+  - ~org-toggle-inline-images~
+  - Set image size. Place an HTML attribute above the link:
 
     ~#+attr_html: :width 500~
 
-    Make sure to have variable: ~org-image-actual-width nil~.
-    This will use the attribute size and fallback to actual.
+    Make sure to have variable: ~org-image-actual-width nil~. This will use the
+    attribute size and fallback to actual.
 
 * Displaying boundaries
   Common use case is an 80 character column indicator.
