@@ -3,7 +3,7 @@
 :END:
 #+title: Astrophotography
 #+date: 2021-12-03 22:39 PM
-#+updated: 2021-12-29 19:47 PM
+#+updated: 2022-04-22 21:27 PM
 #+filetags: :astronomy:
 
 I use Linux, so if not mentioned specifically below, any instructions will be
@@ -58,6 +58,16 @@ for Linux (Ubuntu/Pop_os distro).
 *** UVC Web Cameras Driver
     This is used for Celestron NexImage cameras
     https://www.indilib.org/ccds/web-cameras.html
+
+** Oacapture
+   https://www.openastroproject.org/oacapture/
+   Getting this to work on Pop OS 20.10 was interesting, but it did work. I was
+   able to capture images and video with my Nextimage 10.
+   
+   Followed this
+   https://indilib.org/forum/general/6290-indi1-8-2-conflict-with-oacapture1-6-0.html#48034
+
+   See also https://indilib.org/forum/ccds-dslrs/8422-segfault-with-neximage-10-ccd-on-linux-mint-20.html#64774
    
 ** PIPP
    https://sites.google.com/site/astropipp/home

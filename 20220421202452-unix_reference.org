@@ -1,0 +1,49 @@
+:PROPERTIES:
+:ID:       4ac31a1d-cdb1-4722-8215-3ed01414084b
+:END:
+#+title: Unix reference
+#+date: 2022-04-21 20:24 PM
+#+updated: 2022-04-21 20:48 PM
+#+filetags: :unix:linux:
+
+This is a quick reference for some common Unix commands, tools and
+configuration.
+
+* Permissions
+  See also [[https://github.com/lansana/unix-permissions-cheat-sheet][this cheatsheet]] for more.
+** View file permissions and ownership
+   #+begin_src shell
+   ls -l
+   #+end_src
+   
+  | type | user | group | other |
+  |------+------+-------+-------|
+  | -    | rwx  | rw-   | r--   |
+
+  Type could be ~d~ (ie, directory)
+   
+** Change permissions
+    #+begin_src shell
+      chmod u+rw file
+    #+end_src
+
+    Adds (+), for user (u), read and write (rw) permissions. See ~chmod --help~.
+
+** Change ownership
+   #+begin_src shell
+   chown username file
+   chown username:groupname file
+   chgrp groupname file
+   #+end_src
+
+* Groups
+** List groups
+  | cmd                    | description                   |
+  |------------------------+-------------------------------|
+  | groups                 | list your groups              |
+  | groups username        | list a user's groups          |
+  | getent group groupname | list users in a group         |
+  | cat /etc/group         | list all groups on the system |
+   
+** Manage group membership
+   Use ~gpasswd~
