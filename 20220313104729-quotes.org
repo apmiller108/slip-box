@@ -3,7 +3,7 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2022-04-11 17:13 PM
+#+updated: 2022-05-12 21:51 PM
 #+filetags: :philosophy:
 
 #+begin_verse
@@ -21,3 +21,15 @@ Man can do what he wills but he cannot will what he wills.
 
 --- Arthur Schopenhauer, Essays and Aphorisms
 #+end_verse
+
+#+begin_quote
+Plans are worthless, but planning is everything.
+
+--- Dwight D. Eisenhower
+#+end_quote
+
+#+begin_quote
+There is nothing either good or bad, but thinking makes it so.
+
+--- William Shakespear, Hamlet
+#+end_quote
