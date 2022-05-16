@@ -1,0 +1,56 @@
+:PROPERTIES:
+:ID:       3453ED9D-38E6-4EDA-9652-189BCABA429F
+:END:
+#+title: Shell tips
+#+date: 2022-05-13 13:59 PM
+#+updated: 2022-05-13 14:26 PM
+#+filetags: :shell:
+
+Just some various tips for writing shell scripts or doing cmd line stuff.
+
+* Get the first n lines from STDOUT
+  We can use the ~head~ program for this. ~head~ will return the first n lines
+  of a file, but can be used with ~STDOUT~ as well.
+
+  Example: get the docker image ID for the last created image.
+
+  #+begin_src shell
+    docker images --format "{{.ID}}" | head -n 1
+  #+end_src
+
+  See also ~man head~
+
+* Forward arguments
+  Forward all arguments passed to a script to some other program called by the
+  script.
+
+  ~$@~ Represents all arguments, so in a script that does something with npm,
+  for example, we can forward all the arguments passed to the script to npm:
+
+   #+begin_src shell
+     npm $@
+   #+end_src
+
+* List open files
+  Use ~lsof~
+  
+  It will include open sockets since anything IO is considered a file on a UNIX
+  OS.
+
+** Examples
+*** List Internet files    
+    #+begin_src shell
+      lsof -i 
+    #+end_src
+
+    ...on a specific port
+    
+    #+begin_src 
+      lsof -i :3000 
+    #+end_src
+
+    ...or list all processes that are listening on some port
+
+    #+begin_src shell
+    lsof -i -P -n | grep LISTEN
+    #+end_src
