@@ -3,7 +3,7 @@
 :END:
 #+title: Shell tips
 #+date: 2022-05-13 13:59 PM
-#+updated: 2022-05-13 14:26 PM
+#+updated: 2022-05-17 15:22 PM
 #+filetags: :shell:
 
 Just some various tips for writing shell scripts or doing cmd line stuff.
@@ -31,6 +31,17 @@ Just some various tips for writing shell scripts or doing cmd line stuff.
      npm $@
    #+end_src
 
+* Default arguments
+  If a parameter is unset or null, use a default value.
+
+  See also https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Shell-Parameter-Expansion
+
+  #+begin_src
+    npm run test ${FILE_PATH:-'tests/unit/**/*.spec.*(ts|js)'}
+  #+end_src
+
+  We can also set the parameter by using ~=~ instead of ~-~ above.
+  
 * List open files
   Use ~lsof~
   
