@@ -3,17 +3,16 @@
 :END:
 #+title: Wine
 #+date: 2021-12-05 20:52 PM
-#+updated: 2021-12-29 12:40 PM
+#+updated: 2022-05-30 12:05 PM
 #+filetags: :linux:
 
 Run Windows programs on linux
 
 * Installing on Ubuntu
-  #+begin_src 
-  sudo apt-get install wine winetricks
-  #+end_src
+  For the latest version. Follow these instructions for your distro
+  https://wiki.winehq.org/Ubuntu
 
-  See also [[https://wiki.winehq.org/Winetricks][Winetricks]]
+  You'll also want [[https://wiki.winehq.org/Winetricks][Winetricks]]
   
 * Configuring Wine
   There's a GUI applications for this. Just run ~winecfg~.
@@ -53,7 +52,29 @@ Run Windows programs on linux
    Installing will create desktop shortcuts. Right click on it and choose "Allow
    Launching" to make it clickable.
    
-  
+* VST plugins
+  - install [[https://github.com/robbert-vdh/yabridge][yabridge]]
+  - Add yabridge to your path
+  - Create the conventional VST plugin paths on Wine's "C" drive
+    #+begin_src  shell
+    mkdir -p "$HOME/.wine/drive_c/Program Files/Steinberg/VstPlugins"
+    mkdir -p "$HOME/.wine/drive_c/Program Files/Common Files/VST2"
+    mkdir -p "$HOME/.wine/drive_c/Program Files/Common Files/VST3"
+    #+end_src
+
+  - Add those same paths to yabridge
+    #+begin_src shell
+    yabridgectl add "$HOME/.wine/drive_c/Program Files/Steinberg/VstPlugins"
+    yabridgectl add "$HOME/.wine/drive_c/Program Files/Common Files/VST2"
+    yabridgectl add "$HOME/.wine/drive_c/Program Files/Common Files/VST3"
+    #+end_src
+
+  - When you download a VST plugin ~exe~ file, right click and run the installer
+    with Wine. Make sure it gets installed in one of the paths above.
+  - If it's just a DLL file, you should just be able to move it to one of the
+    paths above.
+  - Sync yabridge ~yabridge sync~
+  - Check yabridge status ~yabridge status~
 * Resources
   [[https://wiki.winehq.org/Main_Page][Wine Wiki]]
   [[https://wiki.winehq.org/FAQ][Wine FAQ]]
