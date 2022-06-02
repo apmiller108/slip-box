@@ -3,79 +3,119 @@
 :END:
 #+title: Mixxx, reaper, jack and midi
 #+date: 2022-05-30 16:34 PM
-#+updated: 2022-06-01 22:19 PM
+#+updated: 2022-06-02 15:27 PM
 #+filetags: :linux:audio:
 
-How to do crazy shit with Mixxx, jack routing, DAWs with VST plugins with midi
-control on Linux (Ubuntu/Pop_OS).
+How to do crazy shit with Mixxx, Jack server routing, DAWs with VST plugins and
+MIDI control on Linux (Ubuntu/Pop_OS).
 
-- Send each deck's audio to a channel in Reaper
-- Add Windows VST as FX to those channels.
-- Control the VST FX from a midi controller.
-- Send MIDI time code (MTC) from Mixxx to Reaper to keep FX synced.
-- Send the 4 Reaper channels out to an audio interface and into a 4 channel
-  mixxer.
-- Send the master mix to an audio interface input to be recorded in Mixxx or
-  Reaper.
+This is what I wanted to do:
 
-* Mixxx
-  https://mixxx.org/
+- Send each of Mixxx's 4 deck's audio streams to a track in Reaper
+- Add Windows VST plugins as FX on those Reaper tracks
+- Control the VST plugin FX parameters from a midi controller (Xone K2 in my case).
+- Send MIDI time code (MTC) from Mixxx to Reaper to for the FX (like delay) that
+  can use tempo and beat syncing.
+- Send the 4 Reaper deck tracks out of audio interface(s) and into a 4 channel
+  hardware mixer (Xone 43 in my case)
+- Send the master mix out of the hardware mixer to an audio interface input to
+  be recorded in Mixxx or Reaper.
+
+Here's how I did it.
+
+* My Setup
+  But first, an explanation of my hardware setup:
+* The software
+  I use Linux. This is the software I use. Some of the software mentioned here
+  isn't directly used for this particular project, but I mention here since it's
+  good to know about it in general for Linux audio production.
+** Mixxx
+   https://mixxx.org/
   
-  Free, open source DJ software. Stands up to paid versions and works on Linux.
+   Free, open source DJ software. Stands up to paid versions and works on Linux.
+   It really is great.
 
-  Start Mixxx with the ~--developer~ option to have ~Midi Through Port-0~ show
-  up as an option under Controllers. There you can use the ~MIDI for light~
-  mapping to send MTC from Mixxx to wherever you want (like Reaper)
+*** Developer mode   
+   You can start Mixxx with the ~--developer~ flag. In addition to extra logging
+   and a developer menu in the GUI, it also adds the ~Midi Through Port-0~ as an
+   option under Controllers. This is key for sending out MIDI time code from
+   Mixxx without having to depending on a sound card.
 
-  https://github.com/mixxxdj/mixxx/wiki/Midi-Clock-Output
+*** MIDI for light   
+   The ~MIDI for light~
+   can to send MIDI timecode from Mixxx to wherever you want (like a DAW, FX
+   box, drum machine, lighting rig, etc.)
+
+   - See https://github.com/mixxxdj/mixxx/wiki/Midi-Clock-Output for more
+     details.
+   - See also Mixxx's [[https://mixxx.discourse.group/t/midi-output-for-lightcontrol/13224/38][forum for MIDI output]]
   
-* Reaper
-  https://www.reaper.fm/
+** Reaper
+   https://www.reaper.fm/
   
-  Full-on DAW that works on Linux.
-** Midi Control
-   [[https://www.youtube.com/watch?v=jE5lrzNsk-A\\][YouTube video: Using a MIDI Controller to Control Reaper's Functions]]
-   - Custom mapping on Plugin params can be saved as an FX chain.
-** Using VSTs in Linux
-   Need to use a combination of Wine and Yabridge. See [[id:284b93d5-e030-4c8a-932b-03858767dfb6][Wine]].
-* Jack
-** QjackCtl
-   https://github.com/rncbc/qjackctl
-   This is a GUI for managing the Jack server.
-** Midi
-   Need to install [[https://github.com/jackaudio/a2jmidid][a2jmidid]]. This somehow bridges the jack server MIDI port to
-   ALSA MIDI.
-   #+begin_src
-   sudo apt-get install a2jmidid
-   #+end_src
+   Full-on DAW that works on Linux. It's not free, but only $60 as of writing
+   this. For a DAW, that ain't bad. But there are other options like [[https://ardour.org/][Ardour]],
+   which isn't free (pay what you want) unless you build it yourself from source.
+   
+*** Midi Control
+    [[https://www.youtube.com/watch?v=jE5lrzNsk-A\\][YouTube video: Using a MIDI Controller to Control Reaper's Functions]]
+    This thing to note is that we can make custom mapping on Plugin params. Make
+    sure to save it as an FX chain so you don't have to re-map it after
+    restarting the application.
+*** Using Windows VSTs in Linux
+    Yes, this can be done, although I was only able to get VST3 (not VST 2) to
+    work. I was probably doing something wrong, but I didn't care, only
+    interested in VST3 anyhow. Doing this requires [[id:284b93d5-e030-4c8a-932b-03858767dfb6][Wine]] (see VST plugins
+    section) and [[https://github.com/robbert-vdh/yabridge][yabridge]].  
+** Jack Audio Connection Kit
+   https://jackaudio.org/
 
-   In QjackCtl, add ~a2jmidid -e &~ as a execute after startup script. This
-   kicks off a2jmidid and will automatically map your midi controller to jack
-   where it can be routed to a midi input.
+   A Sound server. Lets you route audio and MIDI all over the place.
+*** QjackCtl
+    https://github.com/rncbc/qjackctl
+    This is a GUI for managing the Jack server.
+*** MIDI routing
+    Need to install [[https://github.com/jackaudio/a2jmidid][a2jmidid]]. This somehow bridges the jack server MIDI port to
+    ALSA MIDI.
+    #+begin_src
+    sudo apt-get install a2jmidid
+    #+end_src
 
-   #+attr_html: :width 500
-   [[file:images/qjackctl-midi.png]] 
+    In QjackCtl...
+    - add ~a2jmidid -e &~ as a execute after startup script. This
+      kicks off a2jmidid and will automatically map your midi controller to jack
+      where it can be routed to a midi input.
+    - I also added ~killall a2jmidid~ as a shutdown script to clean up after.
 
-   The midi controller will now show up in Reaper in the midi device settings
-   where it can be enabled for input and control.
+      
+    Here's an example from Qjackctl, where I am routing MIDI from my Xone K2 to
+    Reaper. The midi controller will now show up in Reaper in the midi device
+    settings where it can be enabled for input and control.
 
-* snd_virmidi
-  Linux kernel module that can create virtual midi interfaces that appear as
-  sound cards to the system.
-  https://github.com/anton-k/linux-audio-howto/blob/master/doc/os-setup/virtual-midi.md
 
-* snd-seq-dummy
-  Linux kernel module that can create midi through ports.
+    #+attr_html: :width 500
+    [[file:images/qjackctl-midi.png]] 
 
-** To start it
-   n = how many ports you want
+** snd_virmidi
+   Linux kernel module that can create virtual midi interfaces that appear as
+   sound cards to the system.
+   https://github.com/anton-k/linux-audio-howto/blob/master/doc/os-setup/virtual-midi.md
+
+** snd-seq-dummy
+   Linux kernel module that can create midi through ports. I didn't need this,
+   but it's useful to know about.
+
+*** To start it
+    n = how many ports you want
+    #+begin_src shell
+    sudo modprobe snd-seq-dummy ports=n
+    #+end_src
+
+**** To make it available after reboots
+     Edit ~/etc/modprobe.d/midi.conf~ and add line ~options snd-seq-dummy ports=n~
+*** To unload it  
    #+begin_src shell
-   sudo modprobe snd-seq-dummy ports=n
+   sudo modprobe -r snd-seq-dummy
    #+end_src
 
-*** To make it available after reboots
-    Edit ~/etc/modprobe.d/midi.conf~ and add line ~options snd-seq-dummy ports=n~
-** To unload it  
-  #+begin_src shell
-  sudo modprobe -r snd-seq-dummy
-  #+end_src
+* Putting it all together   
