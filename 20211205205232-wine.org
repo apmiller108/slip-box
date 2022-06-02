@@ -3,7 +3,7 @@
 :END:
 #+title: Wine
 #+date: 2021-12-05 20:52 PM
-#+updated: 2022-05-30 12:05 PM
+#+updated: 2022-05-30 20:23 PM
 #+filetags: :linux:
 
 Run Windows programs on linux
@@ -53,6 +53,8 @@ Run Windows programs on linux
    Launching" to make it clickable.
    
 * VST plugins
+  See also https://github.com/brendaningram/linux-audio-setup-scripts
+  
   - install [[https://github.com/robbert-vdh/yabridge][yabridge]]
   - Add yabridge to your path
   - Create the conventional VST plugin paths on Wine's "C" drive
@@ -73,8 +75,9 @@ Run Windows programs on linux
     with Wine. Make sure it gets installed in one of the paths above.
   - If it's just a DLL file, you should just be able to move it to one of the
     paths above.
-  - Sync yabridge ~yabridge sync~
-  - Check yabridge status ~yabridge status~
+  - Sync yabridge ~yabridgectl sync~
+  - Check yabridge status ~yabridgectl status~ to verify.
+  - The plugin should now be usable in certain DAWs (eg, Reaper).
 * Resources
   [[https://wiki.winehq.org/Main_Page][Wine Wiki]]
   [[https://wiki.winehq.org/FAQ][Wine FAQ]]
