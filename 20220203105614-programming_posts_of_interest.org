@@ -3,12 +3,12 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2022-03-07 20:53 PM
+#+updated: 2022-06-02 14:45 PM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
 to reference again in the future. For now I'm going to organize them by language
-and/or framework.
+and/or framework. 
 
 * Ruby
   - [[https://longliveruby.com/articles/build-your-own-concurrency-control-in-sidekiq][Build concurrency control in Sidekiq]]:
@@ -23,9 +23,15 @@ and/or framework.
     server configuration based on available CPU and memory resources. For
     example worker_count = 1.5 x (n hyperthreads). There's also an explanation
     of forking and copy-on-write.
+    - [[https://shopify.engineering/ruby-execution-models][To Thread or Not to Thread: An In-Depth Look at Ruby’s Execution Models]]
+      Is another look along the same lines, but favors forking processes over
+      spawning threads. It shows how CoW memory works and how to inspect metrics
+      related to it.
 
   - [[https://blog.appsignal.com/2018/05/29/ruby-magic-enumerable-and-enumerator.html][Ruby's magical Enumerable module]]:
     Shows how to make objects enumerable by creating a ~LinkedList~ class. See
     also [[id:fcba0c10-cdb7-4d98-96ad-acf6afafe275][Make something enumerable]] for another example.
   - [[https://blog.arkency.com/dont-waste-your-time-on-assets-compilation-on-heroku/][Don't waste your time on assets compilation on Heroku]]: A silly, click-baity
     title, but an interesting take on piping Rails assets to a CDN.
+  - [[https://www.shalerb.org/][Shale]]: This isn't a post, but a library for object mapping and
+    serialization. It looks promising.
