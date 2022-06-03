@@ -3,7 +3,7 @@
 :END:
 #+title: Mixxx, reaper, jack and midi
 #+date: 2022-05-30 16:34 PM
-#+updated: 2022-06-02 21:01 PM
+#+updated: 2022-06-02 21:33 PM
 #+filetags: :linux:audio:
 
 How to do crazy shit with Mixxx, Jack server routing, DAWs with VST plugins and
@@ -111,6 +111,12 @@ Here's how I did it.
     3. If you need outputs: ~alsa_out -d hw:NAME_OF_CARD~
     3. Just use ~alsa_in -d~ to enable inputs
     
+*** Enable Realtime (Optional)
+    Enabling this can help performance / latency. Most Linux distros have
+    permissions around this. See https://jackaudio.org/faq/linux_rt_config.html
+    for how to enable it (it's really not hard).
+
+    Then you can check the box "Realtime" in the Jack settings to use it.
 ** snd_virmidi
    Linux kernel module that can create virtual midi interfaces that appear as
    sound cards to the system.
