@@ -3,7 +3,7 @@
 :END:
 #+title: Mixxx, reaper, jack and midi
 #+date: 2022-05-30 16:34 PM
-#+updated: 2022-06-02 15:27 PM
+#+updated: 2022-06-02 21:01 PM
 #+filetags: :linux:audio:
 
 How to do crazy shit with Mixxx, Jack server routing, DAWs with VST plugins and
@@ -40,6 +40,10 @@ Here's how I did it.
    and a developer menu in the GUI, it also adds the ~Midi Through Port-0~ as an
    option under Controllers. This is key for sending out MIDI time code from
    Mixxx without having to depending on a sound card.
+
+   #+begin_src
+     pasuspender -- mixxx --developer
+   #+end_src
 
 *** MIDI for light   
    The ~MIDI for light~
@@ -92,14 +96,29 @@ Here's how I did it.
     Reaper. The midi controller will now show up in Reaper in the midi device
     settings where it can be enabled for input and control.
 
-
     #+attr_html: :width 500
     [[file:images/qjackctl-midi.png]] 
 
+*** Multiple audio interfaces
+    JACK is designed to support a single audio interface. There is a work-around
+    for those of us with several audio interfaces. [[http://manpages.ubuntu.com/manpages/bionic/man1/alsa_in.1.html][alsa_in / alsa_out]] programs
+    can make a several interfaces appear as one to the Jack server.
+ 
+    See also https://jackaudio.org/faq/multiple_devices.html
+
+    1. Get a list of sound cards by ~cat /proc/asound/cards~
+    2. Find the name of the sound card
+    3. If you need outputs: ~alsa_out -d hw:NAME_OF_CARD~
+    3. Just use ~alsa_in -d~ to enable inputs
+    
 ** snd_virmidi
    Linux kernel module that can create virtual midi interfaces that appear as
    sound cards to the system.
-   https://github.com/anton-k/linux-audio-howto/blob/master/doc/os-setup/virtual-midi.md
+   - https://github.com/anton-k/linux-audio-howto/blob/master/doc/os-setup/virtual-midi.md
+   - https://linuxmusicians.com/viewtopic.php?t=20829
+   - https://tldp.org/HOWTO/MIDI-HOWTO-10.html
+   - https://music.stackexchange.com/questions/51463/how-to-use-snd-virmidi-on-linux
+     
 
 ** snd-seq-dummy
    Linux kernel module that can create midi through ports. I didn't need this,
@@ -118,4 +137,8 @@ Here's how I did it.
    sudo modprobe -r snd-seq-dummy
    #+end_src
 
-* Putting it all together   
+* Putting it all together
+** Reaper
+   - Create 4 Tracks, one for each deck.
+   - Setup output hardware routing for each track.
+   - Setup input routing from Mixxx's decks into each corresponding Reaper track
