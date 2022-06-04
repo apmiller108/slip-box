@@ -3,7 +3,7 @@
 :END:
 #+title: Shell tips
 #+date: 2022-05-13 13:59 PM
-#+updated: 2022-05-17 15:22 PM
+#+updated: 2022-06-03 18:38 PM
 #+filetags: :shell:
 
 Just some various tips for writing shell scripts or doing cmd line stuff.
@@ -65,3 +65,13 @@ Just some various tips for writing shell scripts or doing cmd line stuff.
     #+begin_src shell
     lsof -i -P -n | grep LISTEN
     #+end_src
+* Test if process is running
+  Here I wanted to test if reaper was already running before trying to start it.
+  I don't want two instances of the program. Note the ~&~ sends it to a subshell
+  (child process)
+
+  #+begin_src shell
+    if ! [[ "`pidof -x reaper -o %PPID`" ]];
+      then reaper &
+    fi
+  #+end_src

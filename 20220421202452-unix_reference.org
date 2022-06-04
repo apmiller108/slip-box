@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2022-04-21 20:48 PM
+#+updated: 2022-06-03 19:12 PM
 #+filetags: :unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -47,3 +47,13 @@ configuration.
    
 ** Manage group membership
    Use ~gpasswd~
+
+* Magic SysRq key
+  Send low level commands regardless of system state (freeze)
+  
+  - Hold down ~ALT~ + ~SysRq~
+    - If on a laptop or keyboard with no ~SysRq~ key use ~Fn~ + ~Prtsc~ and
+      release (be keep holding ~ALT~)
+  - See also https://en.wikipedia.org/wiki/Magic_SysRq_key
+  - ~REISUB~ for a safe restart
+  
