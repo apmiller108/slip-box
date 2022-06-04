@@ -3,7 +3,7 @@
 :END:
 #+title: Mixxx, reaper, jack and midi
 #+date: 2022-05-30 16:34 PM
-#+updated: 2022-06-02 21:33 PM
+#+updated: 2022-06-03 20:14 PM
 #+filetags: :linux:audio:
 
 How to do crazy shit with Mixxx, Jack server routing, DAWs with VST plugins and
@@ -11,15 +11,15 @@ MIDI control on Linux (Ubuntu/Pop_OS).
 
 This is what I wanted to do:
 
-- Send each of Mixxx's 4 deck's audio streams to a track in Reaper
-- Add Windows VST plugins as FX on those Reaper tracks
+- Send each of Mixxx's 4 deck's audio streams to a track in Reaper.
+- Add Windows VST plugins as FX on those Reaper tracks.
 - Control the VST plugin FX parameters from a midi controller (Xone K2 in my case).
 - Send MIDI time code (MTC) from Mixxx to Reaper to for the FX (like delay) that
   can use tempo and beat syncing.
 - Send the 4 Reaper deck tracks out of audio interface(s) and into a 4 channel
   hardware mixer (Xone 43 in my case)
 - Send the master mix out of the hardware mixer to an audio interface input to
-  be recorded in Mixxx or Reaper.
+  be recorded in Mixxx.
 
 Here's how I did it.
 
@@ -117,18 +117,25 @@ Here's how I did it.
     for how to enable it (it's really not hard).
 
     Then you can check the box "Realtime" in the Jack settings to use it.
+
+*** Jack scripting (Optional)
+    This is just here for reference. It can be useful to do some things via
+    scripts, like make connections between ports in order to automate repetitive
+    tasks. See [[https://askubuntu.com/questions/1153655/making-connections-in-jack-on-the-command-line][making connection in jack on the command line]].
+    
 ** snd_virmidi
-   Linux kernel module that can create virtual midi interfaces that appear as
-   sound cards to the system.
+   This is Linux kernel module that can create virtual midi interfaces that
+   appear as sound cards to the system. This isn't needed for this project, but
+   it's good to know about.
    - https://github.com/anton-k/linux-audio-howto/blob/master/doc/os-setup/virtual-midi.md
    - https://linuxmusicians.com/viewtopic.php?t=20829
    - https://tldp.org/HOWTO/MIDI-HOWTO-10.html
    - https://music.stackexchange.com/questions/51463/how-to-use-snd-virmidi-on-linux
-     
 
 ** snd-seq-dummy
-   Linux kernel module that can create midi through ports. I didn't need this,
-   but it's useful to know about.
+   This is a Linux kernel module that can create midi through ports. This is
+   only needed if you don't already have an ALSA midi through port or you need
+   an extra one for some reason.
 
 *** To start it
     n = how many ports you want
