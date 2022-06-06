@@ -1,0 +1,45 @@
+:PROPERTIES:
+:ID:       5741B4DD-B291-4F6D-A33A-EB4CD83792FF
+:END:
+#+title: MIDI messages
+#+date: 2022-06-06 16:10 PM
+#+updated: 2022-06-06 16:40 PM
+
+See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
+
+* Channels
+  - Each MIDI connections can communicate of 16 channels (0-15)
+  - MIDI devices can switch channels they send messages over.
+  - Devices listening for message can selectively listen on specific channels,
+    or all channels at once.
+* Anatomy of a MIDI message
+  - MIDI messages are composed of several bytes. Just how many depends on the
+    type of messages
+  - The first byte is called the ~Status Byte~ and it has two parts, the message
+    type and the channel information. 
+    - Channel info is the four least significant bits
+    - Message info is the first four bits
+    - The top most bit is always set. This identifies the first byte as the one
+      containing the message type and channel info.
+  - The subsequent bytes contain the message data.
+    - The top bit is unset.
+
+** Note On example
+*** Status Byte (first byte)
+   | Message Type | Channel |
+   |--------------+---------|
+   | 1 0 0 1      | 0 1 0 0 |
+
+   - Top bit is set
+   - Message type: 9 = Note On
+   - Channel: 4 = Channel 5
+
+*** Data Bytes
+   | Byte             | Value | Data     |
+   |------------------+-------+----------|
+   | 0 0 1 1  1 1 0 0  |    60 | Note     |
+   | 0 1 1 1 1 1 1 1  |   127 | Velocity |
+
+   - Top bits are unset indicating these are the message values
+   - 127 is therefore the maximum value
+    
