@@ -1,27 +1,28 @@
 :PROPERTIES:
 :ID:       abbff1aa-b163-4f08-ba2c-c7ed8ca8ef12
 :END:
-#+title: Mixxx, reaper, jack and midi
+#+title: Mixxx, Ardour, JACK and MIDI
 #+date: 2022-05-30 16:34 PM
-#+updated: 2022-06-03 20:14 PM
+#+updated: 2022-06-05 20:19 PM
 #+filetags: :linux:audio:
 
-How to do crazy shit with Mixxx, Jack server routing, DAWs with VST plugins and
+Do crazy shit with Mixxx, JACK server routing, DAWs with VST plugins and
 MIDI control on Linux (Ubuntu/Pop_OS).
 
-This is what I wanted to do:
+This is what I want to do:
 
-- Send each of Mixxx's 4 deck's audio streams to a track in Reaper.
-- Add Windows VST plugins as FX on those Reaper tracks.
-- Control the VST plugin FX parameters from a midi controller (Xone K2 in my case).
-- Send MIDI time code (MTC) from Mixxx to Reaper to for the FX (like delay) that
+- [X] Send each of Mixxx's 4 deck's audio streams to a track in Ardour.
+- [X] Add Windows VST plugins as FX on those Ardour tracks.
+- [X] Control the VST plugin FX parameters from a MIDI controller (Xone K2 in my
+  case). 
+- [ ] Send MIDI clock from Mixxx to Ardour to for the FX (like delay) that
   can use tempo and beat syncing.
-- Send the 4 Reaper deck tracks out of audio interface(s) and into a 4 channel
-  hardware mixer (Xone 43 in my case)
-- Send the master mix out of the hardware mixer to an audio interface input to
-  be recorded in Mixxx.
+- [X] Send the 4 Ardour deck tracks out of two audio interfaces (each with 4
+  outputs) and into a 4 channel hardware mixer (Xone 43 in my case).
+- [ ] Send the master mix out of the hardware mixer to an audio interface input to
+  be recorded in Mixxx or Ardour
 
-Here's how I did it.
+Here's how I am doing it:
 
 * My Setup
   But first, an explanation of my hardware setup:
@@ -54,12 +55,12 @@ Here's how I did it.
      details.
    - See also Mixxx's [[https://mixxx.discourse.group/t/midi-output-for-lightcontrol/13224/38][forum for MIDI output]]
   
-** Reaper
-   https://www.reaper.fm/
+** Ardour
+   https://ardour.org/
   
-   Full-on DAW that works on Linux. It's not free, but only $60 as of writing
-   this. For a DAW, that ain't bad. But there are other options like [[https://ardour.org/][Ardour]],
-   which isn't free (pay what you want) unless you build it yourself from source.
+   Full-on DAW that works on Linux. It's not free (unless you build from
+   source), but it's a kind of pay what you want model as of writing this. It's
+   great software and it can be a slave to an external MIDI clock source.
    
 *** Midi Control
     [[https://www.youtube.com/watch?v=jE5lrzNsk-A\\][YouTube video: Using a MIDI Controller to Control Reaper's Functions]]
@@ -100,21 +101,31 @@ Here's how I did it.
     [[file:images/qjackctl-midi.png]] 
 
 *** Multiple audio interfaces
-    JACK is designed to support a single audio interface. There is a work-around
-    for those of us with several audio interfaces. [[http://manpages.ubuntu.com/manpages/bionic/man1/alsa_in.1.html][alsa_in / alsa_out]] programs
-    can make a several interfaces appear as one to the Jack server.
- 
-    See also https://jackaudio.org/faq/multiple_devices.html
+    JACK is designed to support a single audio interface. There are several
+    work-arounds for those of us with several audio interfaces. See also
+    https://jackaudio.org/faq/multiple_devices.html
+
+**** alsa_in / alsa_out
+    The [[http://manpages.ubuntu.com/manpages/bionic/man1/alsa_in.1.html][alsa_in / alsa_out]] programs can expose additional audio interfaces to
+    JACK and sync their clocks. It basically works like this:
 
     1. Get a list of sound cards by ~cat /proc/asound/cards~
     2. Find the name of the sound card
     3. If you need outputs: ~alsa_out -d hw:NAME_OF_CARD~
-    3. Just use ~alsa_in -d~ to enable inputs
+    4. Just use ~alsa_in -d~ to enable inputs
+
+**** zita-ajbridge
+     https://kokkinizita.linuxaudio.org/linuxaudio/zita-ajbridge-doc/quickguide.html
+
+     The two CLI tools this provides do the same thing as alsa_in / alsa_out but
+     claims to have better sound quality. I did have better luck with using
+     this to add a second audio interface to JACK.
     
 *** Enable Realtime (Optional)
     Enabling this can help performance / latency. Most Linux distros have
-    permissions around this. See https://jackaudio.org/faq/linux_rt_config.html
-    for how to enable it (it's really not hard).
+    permissions around Realtime scheduling. See
+    https://jackaudio.org/faq/linux_rt_config.html for how to enable it (it's
+    really not hard).
 
     Then you can check the box "Realtime" in the Jack settings to use it.
 
@@ -151,7 +162,6 @@ Here's how I did it.
    #+end_src
 
 * Putting it all together
-** Reaper
-   - Create 4 Tracks, one for each deck.
-   - Setup output hardware routing for each track.
-   - Setup input routing from Mixxx's decks into each corresponding Reaper track
+** JACK
+** Ardour
+** Mixxx   
