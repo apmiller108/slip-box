@@ -3,8 +3,8 @@
 :END:
 #+title: Mixxx, Ardour, JACK and MIDI
 #+date: 2022-05-30 16:34 PM
-#+updated: 2022-06-05 20:19 PM
-#+filetags: :linux:audio:
+#+updated: 2022-06-07 07:59 AM
+#+filetags: :midi:linux:audio:
 
 Do crazy shit with Mixxx, JACK server routing, DAWs with VST plugins and
 MIDI control on Linux (Ubuntu/Pop_OS).
