@@ -3,9 +3,28 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2022-06-06 16:10 PM
+#+updated: 2022-06-06 20:30 PM
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
+
+* Formula
+** Pulse per ms rate
+  1 minute = 60 seconds = 60,000 ms
+  60,000 ms / ppq * bpm
+
+  Example:
+
+  #+begin_src ruby
+    ppq = 24.0
+    bpm = 120.0
+    
+    ppms = 60_000 / (ppq * bpm)
+    "One pulse every #{ppms} ms"
+  #+end_src
+
+  #+RESULTS:
+  : One pulse every 20.833333333333332 ms
+
 
 * Resources
   https://en.wikipedia.org/wiki/MIDI_beat_clock
