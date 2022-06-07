@@ -3,29 +3,47 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2022-06-06 20:30 PM
+#+updated: 2022-06-07 07:57 AM
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
 
-* Formula
-** Pulse per ms rate
-  1 minute = 60 seconds = 60,000 ms
-  60,000 ms / ppq * bpm
+* Clock Message
+  - 24 messages = 1 quarter note.
+  - When 24 clock messages are received, the receiving MIDI device knows that 1
+    quarter note has passed. 
+  - To generate a MIDI clock signal, calculate the pulse rate based on the BPM
+    and send a simple message at that rate. 
+** Formula
+*** Pulse per ms rate
+   1 minute = 60 seconds = 60,000 ms
+  
+   #+begin_src
+   60,000 ms / ppq * bpm
+   #+end_src
 
-  Example:
+   Example using 120 BPM:
 
-  #+begin_src ruby
-    ppq = 24.0
-    bpm = 120.0
+   #+begin_src ruby
+     ppq = 24.0
+     bpm = 120.0
     
-    ppms = 60_000 / (ppq * bpm)
-    "One pulse every #{ppms} ms"
-  #+end_src
+     ppms = 60_000 / (ppq * bpm)
+     "One pulse every #{ppms} ms"
+   #+end_src
 
-  #+RESULTS:
-  : One pulse every 20.833333333333332 ms
+   #+RESULTS:
+   : One pulse every 20.833333333333332 ms
 
+** Message Contents
+*** Status
+    ~0xF8~
+*** Data
+    No data is required for this message, just the status byte
 
+* Sequencing
+** MIDI Start
+** MIDI Stop
+** MIDI Continue   
 * Resources
   https://en.wikipedia.org/wiki/MIDI_beat_clock
   http://midi.teragonaudio.com/tech/midispec/clock.htm
