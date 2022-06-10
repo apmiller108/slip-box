@@ -1,0 +1,13 @@
+:PROPERTIES:
+:ID:       959acd5a-c6f7-4247-baf6-d8f5c7fd765a
+:END:
+#+title: pulseaudio
+#+date: 2022-06-10 14:12 PM
+#+updated: 2022-06-10 14:14 PM
+#+filetags: :linux:audio:
+
+* Configuration
+  ~/etc/pulse/default.pa~
+
+** Prevent switching when interface is connected
+   Comment out ~load-module module-switch-on-port-available~

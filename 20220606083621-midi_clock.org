@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2022-06-07 07:58 AM
+#+updated: 2022-06-07 17:29 PM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -46,7 +46,7 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
 ** MIDI Stop
 ** MIDI Continue   
 * Resources
-  https://en.wikipedia.org/wiki/MIDI_beat_clock
-  http://midi.teragonaudio.com/tech/midispec/clock.htm
-  http://www.giordanobenicchi.it/midi-tech/midispec.htm
-  https://www.midi.org/forum/9102-send-midi-clock
+  - https://en.wikipedia.org/wiki/MIDI_beat_clock
+  - http://midi.teragonaudio.com/tech/midispec/clock.htm
+  - http://www.giordanobenicchi.it/midi-tech/midispec.htm
+  - https://www.midi.org/forum/9102-send-midi-clock
