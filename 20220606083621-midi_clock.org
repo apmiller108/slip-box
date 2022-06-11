@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2022-06-07 17:29 PM
+#+updated: 2022-06-10 21:19 PM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -38,13 +38,28 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
 ** Message Contents
 *** Status
     ~0xF8~
+
+    There is no channel number.
 *** Data
     No data is required for this message, just the status byte
 
 * Sequencing
 ** MIDI Start
 ** MIDI Stop
-** MIDI Continue   
+** MIDI Continue
+* Sending MIDI Clock from Mixxx
+** Existing Limitation  
+  Mixxx only supports a 20ms resolution timer. This will work for BPMs under 100
+  so it's not practical. See [[https://github.com/mixxxdj/mixxx/blob/7672cf1a5efcc17b0ead2f28c7585414fea41b7b/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.cpp#L455-L458][ControllerScriptInterfaceLegacy::beginTimer]]. It
+  uses [[https://doc.qt.io/qt-5/qobject.html#startTimer][QObject startTimer]] which only supports using MS. This need microsecond
+  precision.
+
+*** Possible solution
+    See https://stackoverflow.com/a/21856299.
+
+    This would require adding a high resolution timer. Maybe an API like
+    ~engine.beginHighResTimer~.
+  
 * Resources
   - https://en.wikipedia.org/wiki/MIDI_beat_clock
   - http://midi.teragonaudio.com/tech/midispec/clock.htm

@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI messages
 #+date: 2022-06-06 16:10 PM
-#+updated: 2022-06-07 07:58 AM
+#+updated: 2022-06-10 16:31 PM
 #+filetags: :audio:midi:
 
 See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
@@ -44,3 +44,12 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
    - Top bits are unset indicating these are the message values
    - 127 is therefore the maximum value
     
+* Tools
+** SendMIDI
+   https://github.com/gbevin/SendMIDI
+   Send MIDI from the command line.
+** midisnoop
+   https://github.com/surfacepatterns/midisnoop
+   Receive and print MIDI messages. Use this in conjunction with sendMIDI to try
+   things out. Uses Alsa or JACK midi drivers.
+   See also [[id:abbff1aa-b163-4f08-ba2c-c7ed8ca8ef12][Mixxx, Ardour, JACK and MIDI]]
