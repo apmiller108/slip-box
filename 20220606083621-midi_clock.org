@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2022-06-10 21:19 PM
+#+updated: 2022-06-11 19:26 PM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -59,6 +59,12 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
 
     This would require adding a high resolution timer. Maybe an API like
     ~engine.beginHighResTimer~.
+
+**** Other references
+     - https://github.com/99x/timercpp/blob/master/timercpp.h
+       - This is not thread safe.
+       - Maybe it could be adapted to use ~std::chrono::milliseconds~
+       - See also https://en.cppreference.com/w/cpp/thread/sleep_for
   
 * Resources
   - https://en.wikipedia.org/wiki/MIDI_beat_clock
