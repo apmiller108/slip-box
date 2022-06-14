@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI messages
 #+date: 2022-06-06 16:10 PM
-#+updated: 2022-06-10 16:31 PM
+#+updated: 2022-06-14 08:49 AM
 #+filetags: :audio:midi:
 
 See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
@@ -44,6 +44,13 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
    - Top bits are unset indicating these are the message values
    - 127 is therefore the maximum value
     
+** Note off
+   - One common way is to use the same message type, but with a value of 0
+** Hexadecimal Notation
+   - Send message bytes using Hex notation, prefixed with ~0x~. For example,
+     ~00111100~ (60) is sent as ~0x3c~.
+   - See also https://kb.iu.edu/d/afdl
+     
 * Tools
 ** SendMIDI
    https://github.com/gbevin/SendMIDI
