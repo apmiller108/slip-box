@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI messages
 #+date: 2022-06-06 16:10 PM
-#+updated: 2022-06-14 08:49 AM
+#+updated: 2022-06-14 09:12 AM
 #+filetags: :audio:midi:
 
 See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
@@ -60,3 +60,6 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
    Receive and print MIDI messages. Use this in conjunction with sendMIDI to try
    things out. Uses Alsa or JACK midi drivers.
    See also [[id:abbff1aa-b163-4f08-ba2c-c7ed8ca8ef12][Mixxx, Ardour, JACK and MIDI]]
+* Sending MIDI notes
+** C / C++
+   https://ccrma.stanford.edu/~craig/articles/linuxmidi/
