@@ -3,11 +3,16 @@
 :END:
 #+title: pulseaudio
 #+date: 2022-06-10 14:12 PM
-#+updated: 2022-06-10 14:14 PM
+#+updated: 2022-06-12 16:19 PM
 #+filetags: :linux:audio:
 
 * Configuration
   ~/etc/pulse/default.pa~
 
+  After editing this, ~pulseaudio -k~ to kill the daemon. It should restart. Or
+  just restart the machine.
+
 ** Prevent switching when interface is connected
    Comment out ~load-module module-switch-on-port-available~
+
+   
