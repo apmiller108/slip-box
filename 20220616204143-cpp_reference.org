@@ -1,0 +1,10 @@
+:PROPERTIES:
+:ID:       10aae082-3051-421d-8412-031e2042126d
+:END:
+#+title: Cpp reference
+#+date: 2022-06-16 20:41 PM
+#+updated: 2022-06-16 20:43 PM
+#+filetags: :cpp:
+
+* Using third party libraries
+  https://stackoverflow.com/a/10358977/5974855

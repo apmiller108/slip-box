@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI messages
 #+date: 2022-06-06 16:10 PM
-#+updated: 2022-06-14 09:12 AM
+#+updated: 2022-06-16 20:36 PM
 #+filetags: :audio:midi:
 
 See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
@@ -63,3 +63,5 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
 * Sending MIDI notes
 ** C / C++
    https://ccrma.stanford.edu/~craig/articles/linuxmidi/
+*** RtMidi   
+    https://www.music.mcgill.ca/~gary/rtmidi/
