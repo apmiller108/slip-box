@@ -3,7 +3,7 @@
 :END:
 #+title: pulseaudio
 #+date: 2022-06-10 14:12 PM
-#+updated: 2022-06-12 16:19 PM
+#+updated: 2022-06-18 23:09 PM
 #+filetags: :linux:audio:
 
 * Configuration
@@ -13,6 +13,6 @@
   just restart the machine.
 
 ** Prevent switching when interface is connected
-   Comment out ~load-module module-switch-on-port-available~
+   Comment out ~load-module module-switch-on-connect~
 
    
