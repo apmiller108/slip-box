@@ -5,6 +5,9 @@ RUN apt-get update && \
     apt-get install -y software-properties-common && \
     wget -q http://emacs.ganneff.de/apt.key -O- | apt-key add && \
     add-apt-repository "deb http://emacs.ganneff.de/ buster main" && \
+    # Skip apt repo validity checks. Sometimes the above expires.
+    touch /etc/apt/apt.conf.d/99no-check-valid-until && \
+    echo 'Acquire::Check-Valid-Until no;' > /etc/apt/apt.conf.d/99no-check-valid-until && \
     apt-get update && \
     apt-get install -y emacs-snapshot && \
     update-alternatives --config emacsclient
