@@ -1,0 +1,35 @@
+:PROPERTIES:
+:ID:       712d972d-79ea-4fe4-8d42-592ace4cefc8
+:END:
+#+title: My audio setup
+#+date: 2022-06-21 18:01 PM
+#+updated: 2022-06-21 18:30 PM
+
+* Component Diagram
+  #+begin_src plantuml :file images/my_gear_setup.png
+    package "Audio Interfaces" {
+      [Xone K2 Controller]
+      [Audio Interface UMC204]
+    }
+    [Computer (Linux Pop!_OS)] as Comp
+    Comp <--> [Xone K2 Controller] : USB
+    Comp <--> [Audio Interface UMC204] : USB
+    [Xone K2 Controller] <--> [Xone43 Mixer] : Deck 1
+    [Xone K2 Controller] <--> [Xone43 Mixer] : Deck 2
+    [Audio Interface UMC204] --> [Xone43 Mixer] : Deck 3
+    [Audio Interface UMC204] --> [Xone43 Mixer] : Deck 4
+    [Audio Interface UMC204] <-- [Xone43 Mixer] : Record
+    [Audio Interface UMC204] --> [Poly Effects Beebo] : MIDI Clock
+    [Redsound Voyager 1 Beat Extractor] --> [Audio Interface UMC204] : MIDI Clock
+    [Redsound Voyager 1 Beat Extractor] <-- [Xone43 Mixer] : Booth out
+    [Xone43 Mixer] -> [Poly Effects Beebo] : Send
+    [Xone43 Mixer] <- [Poly Effects Beebo] : Return
+    
+    note right of Comp
+      Running Mixxx v2.3
+    end note
+  #+end_src
+
+  #+RESULTS:
+  [[file:images/my_gear_setup.png]]
+

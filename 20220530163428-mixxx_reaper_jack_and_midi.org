@@ -3,7 +3,7 @@
 :END:
 #+title: Mixxx, Ardour, JACK and MIDI
 #+date: 2022-05-30 16:34 PM
-#+updated: 2022-06-07 07:59 AM
+#+updated: 2022-06-21 18:31 PM
 #+filetags: :midi:linux:audio:
 
 Do crazy shit with Mixxx, JACK server routing, DAWs with VST plugins and
@@ -15,17 +15,20 @@ This is what I want to do:
 - [X] Add Windows VST plugins as FX on those Ardour tracks.
 - [X] Control the VST plugin FX parameters from a MIDI controller (Xone K2 in my
   case). 
-- [ ] Send MIDI clock from Mixxx to Ardour to for the FX (like delay) that
+- [ ] WIP Send MIDI clock from Mixxx to Ardour to for the FX (like delay) that
   can use tempo and beat syncing.
 - [X] Send the 4 Ardour deck tracks out of two audio interfaces (each with 4
   outputs) and into a 4 channel hardware mixer (Xone 43 in my case).
-- [ ] Send the master mix out of the hardware mixer to an audio interface input to
+- [x] Send the master mix out of the hardware mixer to an audio interface input to
   be recorded in Mixxx or Ardour
 
 Here's how I am doing it:
 
 * My Setup
   But first, an explanation of my hardware setup:
+
+  See [[id:712d972d-79ea-4fe4-8d42-592ace4cefc8][My audio setup]]
+  
 * The software
   I use Linux. This is the software I use. Some of the software mentioned here
   isn't directly used for this particular project, but I mention here since it's
@@ -62,11 +65,8 @@ Here's how I am doing it:
    source), but it's a kind of pay what you want model as of writing this. It's
    great software and it can be a slave to an external MIDI clock source.
    
-*** Midi Control
-    [[https://www.youtube.com/watch?v=jE5lrzNsk-A\\][YouTube video: Using a MIDI Controller to Control Reaper's Functions]]
-    This thing to note is that we can make custom mapping on Plugin params. Make
-    sure to save it as an FX chain so you don't have to re-map it after
-    restarting the application.
+*** MIDI Control
+**** MIDI sync    
 *** Using Windows VSTs in Linux
     Yes, this can be done, although I was only able to get VST3 (not VST 2) to
     work. I was probably doing something wrong, but I didn't care, only
