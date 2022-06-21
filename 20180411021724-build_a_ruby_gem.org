@@ -1,11 +1,16 @@
+:PROPERTIES:
+:ID:       E7593CFF-18DA-4385-A78C-C879ADDA7E3B
+:END:
+
 #+title: Build a Ruby Gem
 #+date: 2018-04-11 02:17 AM
-#+updated: 2021-11-19 14:17 PM
+#+updated: 2022-06-21 09:08 AM
 #+filetags: :ruby:
 
 * What is this?
   A reference for building a Ruby gem. See also the official [[http://guides.rubygems.org/make-your-own-gem/][RubyGem.org
-  Instructions]] for the latest info on this.
+  Instructions]] for the latest info on this. There's probably a bunch of stuff
+  here that is outdated.
 
   There's a cool ~8min~ synopsis of most of this https://www.youtube.com/watch?v=g2zJC2XKblo
 * Naming Conventions

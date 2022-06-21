@@ -3,8 +3,11 @@
 :END:
 #+title: Cpp reference
 #+date: 2022-06-16 20:41 PM
-#+updated: 2022-06-16 20:43 PM
+#+updated: 2022-06-17 14:42 PM
 #+filetags: :cpp:
 
 * Using third party libraries
   https://stackoverflow.com/a/10358977/5974855
+
+* Spacemacs
+  https://www.youtube.com/watch?v=OjbkCEkboA8
