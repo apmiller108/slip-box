@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2022-06-03 19:12 PM
+#+updated: 2022-06-21 15:35 PM
 #+filetags: :unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -57,3 +57,15 @@ configuration.
   - See also https://en.wikipedia.org/wiki/Magic_SysRq_key
   - ~REISUB~ for a safe restart
   
+
+* Repositories
+** Release file expired error
+   A couple options:
+
+   1. Find another mirror. One that isn't expired. Or...
+   2. Instruct apt to always skip the validity check
+   
+      #+begin_src shell
+      touch /etc/apt/apt.conf.d/99no-check-valid-until && \
+      echo 'Acquire::Check-Valid-Until no;' > /etc/apt/apt.conf.d/99no-check-valid-until
+      #+end_src
