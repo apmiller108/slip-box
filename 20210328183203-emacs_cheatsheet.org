@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2022-06-06 09:05 AM
+#+updated: 2022-06-23 08:32 AM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -38,7 +38,10 @@ probably forget.
 * Surrounding
   Just use [[id:D1A12F6B-6303-4DFF-AFD8-8742A16D1A7E][Evil-surround]].
   - ~s(~ to surround region.
+  - ~cs'~ to replace surround (example using single quote, but can be anything)
 
+** Selecting text within surround
+   ~vi~ [Option]
 * Repeating text
   1. Select the region
   2. SHIFT I (evil insert line count)
