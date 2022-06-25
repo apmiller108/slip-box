@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2022-06-14 08:49 AM
+#+updated: 2022-06-25 18:05 PM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -65,6 +65,11 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
        - This is not thread safe.
        - Maybe it could be adapted to use ~std::chrono::milliseconds~
        - See also https://en.cppreference.com/w/cpp/thread/sleep_for
+
+     - https://blat-blatnik.github.io/computerBear/making-accurate-sleep-function/
+       - The naive approach of using ~std::this_thread::sleep_for~ is grossly
+         inaccurate. This nice post explains why and some alternative approaches.
+
   
 * Resources
   - https://en.wikipedia.org/wiki/MIDI_beat_clock
