@@ -3,7 +3,7 @@
 :END:
 #+title: Wine
 #+date: 2021-12-05 20:52 PM
-#+updated: 2022-05-30 20:23 PM
+#+updated: 2022-06-27 20:09 PM
 #+filetags: :linux:
 
 Run Windows programs on linux
@@ -21,7 +21,7 @@ Run Windows programs on linux
    With 4k monitors, the applications will be tiny. Go to the ~Graphics~
    tab and increase the Screen resolution dpi value.
 
-* Installation   
+* Program Installation   
 ** Installation options
    You can have multiple installation directories. For example, you have run a
    32bit application on a 64bit system by doing something like this:
@@ -51,7 +51,8 @@ Run Windows programs on linux
 ** Desktop shortcuts
    Installing will create desktop shortcuts. Right click on it and choose "Allow
    Launching" to make it clickable.
-   
+* Program Uninstall
+  Just run ~wine uninstaller~.
 * VST plugins
   See also https://github.com/brendaningram/linux-audio-setup-scripts
   

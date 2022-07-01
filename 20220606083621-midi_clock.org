@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2022-06-25 18:05 PM
+#+updated: 2022-06-30 21:06 PM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -70,6 +70,16 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
        - The naive approach of using ~std::this_thread::sleep_for~ is grossly
          inaccurate. This nice post explains why and some alternative approaches.
 
+** RtMidi
+    https://www.music.mcgill.ca/~gary/rtmidi/
+
+    C++ Library for sending/receiving MIDI messages.
+*** Needs jack2 development files
+    In order to develop stuff depending on RtMidi and compiling for JACK, you'll
+    need the jackd2 development files:
+    #+begin_src shell
+    sudo apt-get install libjack-jackd2-dev        
+    #+end_src
   
 * Resources
   - https://en.wikipedia.org/wiki/MIDI_beat_clock
