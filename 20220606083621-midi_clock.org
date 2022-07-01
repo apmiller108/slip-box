@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2022-06-30 21:06 PM
+#+updated: 2022-07-01 12:45 PM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -63,7 +63,7 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
 **** Other references
      - https://github.com/99x/timercpp/blob/master/timercpp.h
        - This is not thread safe.
-       - Maybe it could be adapted to use ~std::chrono::milliseconds~
+       - Maybe it could be adapted to use ~std::chrono::microseconds~
        - See also https://en.cppreference.com/w/cpp/thread/sleep_for
 
      - https://blat-blatnik.github.io/computerBear/making-accurate-sleep-function/

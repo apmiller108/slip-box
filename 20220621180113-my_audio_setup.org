@@ -3,7 +3,8 @@
 :END:
 #+title: My audio setup
 #+date: 2022-06-21 18:01 PM
-#+updated: 2022-06-21 18:30 PM
+#+updated: 2022-07-01 12:44 PM
+#+filetags: :audio:
 
 * Component Diagram
   #+begin_src plantuml :file images/my_gear_setup.png

@@ -3,11 +3,40 @@
 :END:
 #+title: Cpp reference
 #+date: 2022-06-16 20:41 PM
-#+updated: 2022-06-17 14:42 PM
+#+updated: 2022-06-29 13:37 PM
 #+filetags: :cpp:
 
+* Constants
+** const
+** constexpr
+   - Optimization technique.
+   - Use for compile time computation when function is called with constants
+   - Function is called a runtime with invoked with non-constants
+** consteval
+   - c++20
+   - Same as ~constexpr~ but required to be evaluated at compile time.
+* Types
+  https://en.cppreference.com/w/cpp/language/type
+** Auto
+   Have the compiler infer the type
+** typedef
+   Use to define a type
+* Compiling
+  Basically each ~.cpp~ file can be compiled separately to create ~.o~ files
+  which can be linked together to create one executable.
+  - ~g++ -c file1.cpp~: creates ~file1.o~
+  - ~g++ -c file2.cpp~: creates ~file2.o~
+  - ~g++ my_executable file1.o file2.o~: Links the files and creates the
+    executable.
+** Makefile
+** Cmake
 * Using third party libraries
   https://stackoverflow.com/a/10358977/5974855
-
+** Package managers
+   - https://conan.io/index.html
+* LSP
+  https://github.com/MaskRay/ccls
 * Spacemacs
   https://www.youtube.com/watch?v=OjbkCEkboA8
+* Online Repl
+  https://replit.com/languages/cpp
