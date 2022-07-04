@@ -3,7 +3,11 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
+<<<<<<< HEAD
 #+updated: 2022-07-01 12:45 PM
+=======
+#+updated: 2022-07-04 09:09 AM
+>>>>>>> 35ca505 (Updates MIDI clock notes with JACK examples)
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -80,7 +84,16 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
     #+begin_src shell
     sudo apt-get install libjack-jackd2-dev        
     #+end_src
-  
+
+** JACK audio connection kit
+   https://jackaudio.org/api/index.html
+   
+   This can be used to send/receive MIDI.
+
+*** Examples
+    - https://github.com/x42/jack_midi_clock/blob/master/jack_midi_clock.c
+    - https://github.com/DarkPoubelle/behringer-x-touch-mini-mapper/blob/080e8abe2fce00e84678c000afefed8b63fe6731/main.cpp
+   
 * Resources
   - https://en.wikipedia.org/wiki/MIDI_beat_clock
   - http://midi.teragonaudio.com/tech/midispec/clock.htm
