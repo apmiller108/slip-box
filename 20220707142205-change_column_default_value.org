@@ -1,0 +1,34 @@
+:PROPERTIES:
+:ID:       FF95783C-AF9A-4FAC-BA02-EC67A5D46CD9
+:END:
+#+title: Change column default value
+#+date: 2022-07-07 14:22 PM
+#+updated: 2022-07-07 14:27 PM
+#+filetags: :sql
+
+* MSSQL
+** Key points
+   - Default values are treated like constraints
+   - Therefore, changing a default value means dropping and recreating the
+     constraint with the new value.
+   - If the default value was declared inline (ie, without a constraint name),
+     then you need to look up the constraint name somehow.
+
+   #+begin_src sql
+     -- Look up and store the existing contraint name
+     DECLARE @constraint_name VARCHAR(100) = (
+       SELECT dc."name" FROM sys.default_constraints dc
+       WHERE dc.parent_object_id = object_id('SomeTable')
+         AND dc.parent_column_id = (SELECT column_id FROM sys.columns WHERE name = 'some_column' AND object_id = object_id('SomeTable'))
+       )
+     
+     -- Drop the existing constraint
+     EXEC('ALTER TABLE SomeTable DROP CONSTRAINT ' + @constraint_name + ';');
+     
+     -- Add new column default constraint (and name it this time)
+     ALTER TABLE SomeTable
+     ADD CONSTRAINT DF_some_column_default_true DEFAULT (1) FOR some_column
+   #+end_src
+
+
+   
