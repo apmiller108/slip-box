@@ -3,11 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-<<<<<<< HEAD
-#+updated: 2022-07-01 12:45 PM
-=======
-#+updated: 2022-07-04 09:09 AM
->>>>>>> 35ca505 (Updates MIDI clock notes with JACK examples)
+#+updated: 2022-07-08 08:56 AM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]

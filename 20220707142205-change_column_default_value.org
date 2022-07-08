@@ -3,8 +3,8 @@
 :END:
 #+title: Change column default value
 #+date: 2022-07-07 14:22 PM
-#+updated: 2022-07-07 14:27 PM
-#+filetags: :sql
+#+updated: 2022-07-08 08:55 AM
+#+filetags: :sql:mssql
 
 * MSSQL
 ** Key points
@@ -13,6 +13,7 @@
      constraint with the new value.
    - If the default value was declared inline (ie, without a constraint name),
      then you need to look up the constraint name somehow.
+   - See also [[https://docs.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-default-constraints-transact-sql?view=sql-server-ver16][sys-default-constraints docs]]
 
    #+begin_src sql
      -- Look up and store the existing contraint name
