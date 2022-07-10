@@ -3,7 +3,7 @@
 :END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2022-02-03 15:41 PM
+#+updated: 2022-07-10 16:10 PM
 #+filetags: :javascript:ruby:rails:
 
 * What is this?
@@ -41,4 +41,5 @@
   - https://www.honeybadger.io/blog/hotwire-rails/
   - https://github.com/thoughtbot/hotwire-example-template/tree/hotwire-example-inline-edit
   - https://gorails.com/series/hotwire-rails
+  - https://blog.appsignal.com/2022/07/06/get-started-with-hotwire-in-your-ruby-on-rails-app.html
  
