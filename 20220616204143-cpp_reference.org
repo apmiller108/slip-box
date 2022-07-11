@@ -3,7 +3,7 @@
 :END:
 #+title: Cpp reference
 #+date: 2022-06-16 20:41 PM
-#+updated: 2022-06-29 13:37 PM
+#+updated: 2022-07-08 15:42 PM
 #+filetags: :cpp:
 
 * Constants
@@ -17,10 +17,24 @@
    - Same as ~constexpr~ but required to be evaluated at compile time.
 * Types
   https://en.cppreference.com/w/cpp/language/type
+** Char
+   - Use ~std::string~ over char lists (C strings). Safer to avoid buffer overflows.
+   - You can turn a ~std::string~ (C++ string) into a C string with ~myCppString.c_str()~
 ** Auto
    Have the compiler infer the type
 ** typedef
-   Use to define a type
+   Used to define a type
+* Arrays
+** Static
+** Dynamic
+   - Use ~std:vector~ to declare a dynamic array and ~push_back()~ to add more
+     elements and the array will be resized as needed.
+
+     #+begin_src c++
+       std::vector<int> someList(1); // init array with size of 1
+       someList[0] = 1;
+       someList.push_back(2); // Use push_back to add more items and resize array at runtime
+     #+end_src
 * Compiling
   Basically each ~.cpp~ file can be compiled separately to create ~.o~ files
   which can be linked together to create one executable.
