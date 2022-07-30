@@ -3,10 +3,10 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2022-05-12 21:51 PM
+#+updated: 2022-07-30 08:56 AM
 #+filetags: :philosophy:
 
-#+begin_verse
+#+begin_quote
 Remember, it is not enough to be hit or insulted to be harmed, you must believe
 that you are being harmed. If someone succeeds in provoking you, realize that
 your mind is complicit in the provocation. Which is why it is essential that we
@@ -14,13 +14,13 @@ not respond impulsively to impressions; take a moment before reacting, and you
 will find it easier to maintain control.
 
 --- Epictetus, The Art of Living: The Classical Manual on Virtue, Happiness and Effectiveness 
-#+end_verse
+#+end_quote
 
-#+begin_verse
+#+begin_quote
 Man can do what he wills but he cannot will what he wills.
 
 --- Arthur Schopenhauer, Essays and Aphorisms
-#+end_verse
+#+end_quote
 
 #+begin_quote
 Plans are worthless, but planning is everything.
@@ -32,4 +32,10 @@ Plans are worthless, but planning is everything.
 There is nothing either good or bad, but thinking makes it so.
 
 --- William Shakespear, Hamlet
+#+end_quote
+
+#+begin_quote
+Never let a good crisis go to waste.
+
+--- Winston Churchill
 #+end_quote
