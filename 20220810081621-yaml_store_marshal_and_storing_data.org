@@ -1,0 +1,74 @@
+:PROPERTIES:
+:ID:       DA054446-2AE9-42B6-8B80-8B6F5BC88D9E
+:END:
+#+title: YAML::Store, Marshal and storing data
+#+date: 2022-08-10 08:16 AM
+#+updated: 2022-08-10 09:17 AM
+#+filetags: :ruby:
+
+Need to store data or objects to be used later? Maybe as a file or in a document
+database? This could help.
+
+
+
+* Storing data in YAML
+** YAML lib
+   I think ~to_yaml~ is from the Psych library. See [[https://ruby-doc.org/stdlib-3.0.1/libdoc/psych/rdoc/Psych.html#method-c-dump][Psych#dump]] for options that
+   can be passed to ~to_yaml~
+   #+begin_src ruby
+     require 'yaml'
+      Person = Struct.new :first_name, :last_name
+      people = [Person.new("Bob", "Smith"), Person.new("Mary", "Johnson")]
+     
+      yaml = people.to_yaml
+      # => "---\n- !ruby/struct:Person\n  first_name: Bob\n  last_name: Smith\n- !ruby/struct:Person\n  first_name: Mary\n  last_name: Johnson\n"
+     
+      YAML.safe_load(yaml, permitted_classes: [Person, Symbol])
+      # => => [#<struct Person first_name="Bob", last_name="Smith">, #<struct Person first_name="Mary", last_name="Johnson">]
+   #+end_src
+   
+*** In a file   
+  #+begin_src ruby
+    require 'yaml'
+    File.open('things.yml', 'w') do |file|
+      YAML.dump(["banana", "coffee", "skittles"], file)
+    end
+    friends = YAML.load(File.open('things.yml'))
+    File.delete('things.yml')
+  #+end_src
+  
+*** YAML::Store
+    This is the basic example from the docs, however, I found that in Ruby 3.1
+    errors such as ~Tried to load unspecified class: Person
+    (Psych::DisallowedClass)~ were raised. In order to work around it, used
+    ~safe_load~ and permitted classes option.
+   
+    #+begin_src ruby
+     require 'yaml/store'
+     Person = Struct.new :first_name, :last_name
+     people = [
+       Person.new("Bob", "Smith"), 
+       Person.new("Mary", "Johnson")
+       ]
+     store = YAML::Store.new "test.store" # creates a file test.store
+     store.transaction do
+       store["people"]   = people  
+       store["greeting"] = { "hello" => "world" }
+     end
+     data = YAML.safe_load(File.open('test.store'), permitted_classes: [Person, Symbol])
+     File.delete('test.store')
+    #+end_src
+   
+** Formatting YAML values
+   See this [[https://stackoverflow.com/a/21699210][this SO post]]
+
+* Storing data using Marshal
+  This stores data in a binary format. The data is turned into a byte stream.
+
+  #+begin_src ruby
+    File.open('friends.sav', 'w') do |file|
+      Marshal.dump(["fred", "bert", "mary"], file)
+    end
+    friends = Marshal.load(File.open('friends.sav'))
+    File.delete('friends.sav')
+  #+end_src
