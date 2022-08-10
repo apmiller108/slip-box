@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2022-08-09 14:00 PM
+#+updated: 2022-08-10 11:53 AM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -51,3 +51,6 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
   #+end_src
 
   ~args~ is a 2D array.
+
+* Middleware
+  https://github.com/mperham/sidekiq/wiki/Middleware
