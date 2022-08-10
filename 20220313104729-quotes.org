@@ -3,7 +3,7 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2022-07-30 08:56 AM
+#+updated: 2022-08-10 12:11 PM
 #+filetags: :philosophy:
 
 #+begin_quote
@@ -38,4 +38,11 @@ There is nothing either good or bad, but thinking makes it so.
 Never let a good crisis go to waste.
 
 --- Winston Churchill
+#+end_quote
+
+#+begin_quote
+I Am an Old Man and Have Known a Great Many Troubles, But Most of Them Never
+Happened
+
+--- Commonly attributed to Mark Twain but could have been someone else.
 #+end_quote
