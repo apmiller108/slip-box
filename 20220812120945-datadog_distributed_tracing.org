@@ -1,0 +1,32 @@
+:PROPERTIES:
+:ID:       0785A809-17D5-4114-9CD5-E1ACF311ABF0
+:END:
+#+title: Datadog distributed tracing
+#+date: 2022-08-12 12:09 PM
+#+updated: 2022-08-12 12:13 PM
+#+filetags: :ruby:
+
+This is for [[https://github.com/DataDog/dd-trace-rb/tree/v1.1.0][ddtrace v1.1]]
+
+See also [[https://github.com/DataDog/dd-trace-rb/blob/master/docs/UpgradeGuide.md#distributed-tracing][Distributed tracing docs]]
+
+- Might need to use continue tracing when spawning threads or other weird
+  scenarios like continuing tracing for background job processing.
+- Need to use a [[https://github.com/DataDog/dd-trace-rb/blob/master/lib/datadog/tracing/trace_digest.rb][TraceDigest]] object which is a wrapper for trace properties. If
+  needed this can easily be serialized as JSON and later parsed to
+  re-instantiate a ~TraceDigest~ object. Example...
+
+#+begin_src ruby
+  # Cache the trace digest as JSON string
+  current_trace = Datadog::Tracing.active_trace
+  trace_digest_json = current_trace&.to_digest&.to_json
+
+  # Later re-instantiate a TraceDigest with parsed digest properties and continue trace
+  if trace_digest_json
+    trace_digest = Datadog::Tracing::TraceDigest.new(**JSON.parse(trace_digest_json).symbolize_keys)
+
+    Datadog::Tracing.trace('foo', resource: 'bar', continue_from: trace_digest) do
+      # do stuff
+    end
+  end
+#+end_src
