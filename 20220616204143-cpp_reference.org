@@ -3,7 +3,7 @@
 :END:
 #+title: Cpp reference
 #+date: 2022-06-16 20:41 PM
-#+updated: 2022-07-08 15:42 PM
+#+updated: 2022-08-12 15:00 PM
 #+filetags: :cpp:
 
 * Constants
