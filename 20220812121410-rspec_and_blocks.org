@@ -1,0 +1,58 @@
+:PROPERTIES:
+:ID:       E559724D-A7A8-438E-8042-1018DFA34AE3
+:END:
+#+title: RSpec and blocks
+#+date: 2022-08-12 12:14 PM
+#+updated: 2022-08-12 14:50 PM
+#+filetags: :rspec:ruby:
+
+#+begin_src ruby
+  module Thing
+    def self.call
+      Foo.call do
+        Bar.call
+      end
+      yield
+    end
+  end
+#+end_src
+
+* Stubbing
+  When stubbing ~Foo.call~, in order for block that contains ~Bar.call~ to be
+  called, we need to use ~and_yield~. It can take arguments. See https://www.rubydoc.info/gems/rspec-mocks/RSpec%2FMocks%2FMessageExpectation:and_yield
+
+  #+begin_src ruby
+    RSpec.describe Thing do
+      before do
+        allow(Foo).to receive(:call).and_yield
+        allow(Bar).to receive(:call)
+      end
+    
+      describe '.call' do
+        it 'calls Foo' do
+          described_class.call
+          expect(Foo).to have_received(:call)
+        end
+    
+        it 'calls Bar' do
+          described_class.call
+          expect(Bar).to have_received(:call)
+        end
+      end
+    end
+  #+end_src
+
+* Expecting
+  We can expect the subject under test to yield control by passing a block to
+  expect with an argument. The argument itself is a block, captured (~&b~) and
+  passed to the method call. See also https://relishapp.com/rspec/rspec-expectations/v/3-11/docs/built-in-matchers/yield-matchers
+
+  #+begin_src ruby
+    it 'yields control to a block' do
+      expect do |b|
+        described_class.call(&b)
+      end.to yield_control
+    end
+  #+end_src
+
+  
