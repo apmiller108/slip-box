@@ -3,20 +3,18 @@
 :END:
 #+title: YAML::Store, Marshal and storing data
 #+date: 2022-08-10 08:16 AM
-#+updated: 2022-08-10 09:17 AM
+#+updated: 2022-08-12 14:56 PM
 #+filetags: :ruby:
 
 Need to store data or objects to be used later? Maybe as a file or in a document
 database? This could help.
-
-
 
 * Storing data in YAML
 ** YAML lib
    I think ~to_yaml~ is from the Psych library. See [[https://ruby-doc.org/stdlib-3.0.1/libdoc/psych/rdoc/Psych.html#method-c-dump][Psych#dump]] for options that
    can be passed to ~to_yaml~
    #+begin_src ruby
-     require 'yaml'
+      require 'yaml'
       Person = Struct.new :first_name, :last_name
       people = [Person.new("Bob", "Smith"), Person.new("Mary", "Johnson")]
      
@@ -72,3 +70,9 @@ database? This could help.
     friends = Marshal.load(File.open('friends.sav'))
     File.delete('friends.sav')
   #+end_src
+
+* JSON
+  It's worth noting that JSON could be used as well. And I think it's faster. In
+  this case, we can determine how an object is serialized by defining the
+  ~as_json~. The JSON parsed results could be passed to an initializer to create
+  a new object with the same data.
