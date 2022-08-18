@@ -1,0 +1,697 @@
+:PROPERTIES:
+:ID:       40FFCDB2-F065-4EDC-9DED-C3007827B470
+:END:
+#+title: ActiveRecord
+#+date: 2018-04-12 02:12 AM
+#+updated: 2022-08-18 14:57 PM
+#+filetags: :ruby:rails:
+
+This is a big ass dump of ActiveRecod stuff I've needed in the past.
+
+* ActiveRecord
+  :PROPERTIES:
+  :CUSTOM_ID: activerecord
+  :END:
+  An object that wraps a row in a database table or view, encapsulates the
+  database access, and adds domain logic on that data. ---Martin Fowler,
+  Patterns of Enterprise Architecture
+
+*** ActiveRecord Configuration
+    :PROPERTIES:
+    :CUSTOM_ID: activerecord-configuration
+    :END:
+    [[http://edgeguides.rubyonrails.org/configuring.html#configuring-active-record][configuring-active-record]]
+
+*** Override Table Name and Primary Key
+    :PROPERTIES:
+    :CUSTOM_ID: override-table-name-and-primary-key
+    :END:
+
+    - Useful for when you building data models for a database you don't
+      control.
+
+    #+begin_src ruby
+      class Client < ApplicationRecord
+        self.table_name = "CLIENT"
+        self.primary_key = "CID"
+      end
+    #+end_src
+
+*** Pluralization
+    :PROPERTIES:
+    :CUSTOM_ID: pluralization
+    :END:
+    #+begin_src ruby
+      Rails.application.config.active_record.pluralize_table_names = false
+    #+end_src
+
+*** Other Customizations
+    :PROPERTIES:
+    :CUSTOM_ID: other-customizations
+    :END:
+    Attributes of ActiveRecord::Base
+
+    #+begin_src ruby
+      primary_key_prefix
+      table_name_prefix
+      table_name_suffix
+    #+end_src
+
+*** Override and Customize Accessor
+    :PROPERTIES:
+    :CUSTOM_ID: override-and-customize-accessor
+    :END:
+
+    - =write_attribute=
+    - =read_attribute=
+
+    #+begin_src ruby
+      def message=(txt)   
+        write_attribute(:message, txt + ' in bed') 
+      end
+      #  or 
+      def message=(txt)   
+        self[:message] = txt + ' in bed'
+      end
+    #+end_src
+
+*** Query Cache
+    :PROPERTIES:
+    :CUSTOM_ID: query-cache
+    :END:
+    By default, Rails attempts to optimize performance by turning on a
+    simple query cache. It is a hash stored on the current thread, one for
+    every active database connection.
+
+**** Manual Query Cache
+     :PROPERTIES:
+     :CUSTOM_ID: manual-query-cache
+     :END:
+     #+begin_src ruby
+       User.cache do   
+         puts User.first   
+         puts User.first   
+         puts User.first 
+       end
+     #+end_src
+
+*** Attributes
+    :PROPERTIES:
+    :CUSTOM_ID: attributes
+    :END:
+**** Hash Notation
+     :PROPERTIES:
+     :CUSTOM_ID: hash-notation
+     :END:
+
+     - AR objects can often be treated like a hash.
+     - Can access attrs with bracket notation or call =slice= directly on the
+       object.
+
+     #+begin_src ruby
+       user[:name]
+       user.slice(:name)
+       user.attributes[:name]
+     #+end_src
+
+**** Typecasting
+     :PROPERTIES:
+     :CUSTOM_ID: typecasting
+     :END:
+     =*attribute*_before_type_cast_method=
+
+     #+begin_src ruby
+       before_validation :fix_rate 
+       def fix_rate   
+         self[:rate] = rate_before_type_cast.tr('$,','') 
+       end
+     #+end_src
+
+**** Readonly
+     :PROPERTIES:
+     :CUSTOM_ID: readonly
+     :END:
+
+     - Set an attribute to be read only.
+     - Doesn't apply to new records getting saved for the first time.
+     - Doesn't raise errors when attempting to save a read only attribute.
+
+     #+begin_src ruby
+       attr_readonly :social_security_number
+     #+end_src
+
+**** has_secure_token
+     :PROPERTIES:
+     :CUSTOM_ID: has_secure_token
+     :END:
+
+     - Generate a token.
+     - Can assign a column name by passing a symbol representing the column
+       name (defaults to :token)
+     - If you declare the type of your column as token in a migration, then
+       Rails will automatically add it as a string with a unique index.
+
+     #+begin_src ruby
+       class User < ApplicationRecord  
+         has_secure_token
+       end
+       >> user = User.create 
+       >> => # < User id: … >> user.token = > “njHcvhKSwX9toZKEe9YETA8C”>> user.regenerate_token
+       has_secure_token :auth_token
+     #+end_src
+
+**** Attributes API
+     :PROPERTIES:
+     :CUSTOM_ID: attributes-api
+     :END:
+
+     - Gives you is the capability to declaratively tell Active Record how to
+       do type coercion.
+     - Available Types:
+       [[https://github.com/rails/rails/tree/master/activemodel/lib/active_model/type][[[https://github.com/rails/rails/tree/master/activemodel/lib/active_model/type]]]]
+     - Options
+
+       - =:array= (boolean for postgres array field)
+       - =:range= (provide range object for postgres range type)
+       - =:default= As opposed to setting a default value on the database
+         level.
+
+     #+begin_src ruby
+       attribute :category, :string, default: 'n/a'
+       attribute :repeats, :boolean, default: false
+     #+end_src
+
+***** Custom Types
+      :PROPERTIES:
+      :CUSTOM_ID: custom-types
+      :END:
+
+      - [[https://blog.metova.com/rails-5-attributes-api][[[https://blog.metova.com/rails-5-attributes-api]]]]
+      - Register Type
+
+      #+begin_src ruby
+        ActiveRecord::Type.register :inquiry, Inquiry.new
+      #+end_src
+
+      #+begin_src ruby
+        class Inquiry < ActiveRecord::Type::String   
+          def type 
+            :inquiry   
+          end   
+        
+          def cast(value)     
+            super.inquiry #  See docs for [String.inquiry](:note:059eadc0-9cd8-4955-bb41-b579e5877cb7) 
+          end 
+        end
+        
+        class Event < ApplicationRecord   
+          attribute :repeats, Inquiry.new
+        end
+      #+end_src
+
+**** Counting Associations
+     :PROPERTIES:
+     :CUSTOM_ID: counting-associations
+     :END:
+     #+begin_src ruby
+       User.joins(:comments).group("users.name").count("comments.id")
+     #+end_src
+
+*** Update
+    :PROPERTIES:
+    :CUSTOM_ID: update
+    :END:
+**** Mass Updates
+     :PROPERTIES:
+     :CUSTOM_ID: mass-updates
+     :END:
+     =update_all=
+
+     - 2nd arg is an optional where clause. The args can be SQL strings as
+       well.
+
+     #+begin_src ruby
+       Project.update_all({manager: 'Ron Campbell'}, technology: 'Rails')
+     #+end_src
+
+     #+begin_src ruby
+       user.post_ids = [1, 2, 3]
+     #+end_src
+
+**** Mass Delete
+     :PROPERTIES:
+     :CUSTOM_ID: mass-delete
+     :END:
+     #+begin_src ruby
+       Timesheet.delete(1) 
+       Timesheet.destroy([2, 3])
+       delete_all # skips callbacks (like dependent: :destroy)
+       destroy_all
+     #+end_src
+
+**** Skipping Validation or Callbacks
+     :PROPERTIES:
+     :CUSTOM_ID: skipping-validation-or-callbacks
+     :END:
+     =update_attribute=: Update a single attribute and skip validation (still
+     runs callbacks). =update_column= / =update_columns=: skips validation
+     and callbacks =touch: false=: Skips setting the timestamps
+
+     #+begin_src ruby
+       user.save(touch: false)
+     #+end_src
+
+     =validate: false=
+
+**** Updating Timestamps (touch)
+     :PROPERTIES:
+     :CUSTOM_ID: updating-timestamps-touch
+     :END:
+     #+begin_src ruby
+       user.touch # => sets updated_at to now. user.touch(:viewed_at) #  sets viewed_at and updated_at to now.
+     #+end_src
+
+***** Timestamps via association
+      :PROPERTIES:
+      :CUSTOM_ID: timestamps-via-association
+      :END:
+      #+begin_src ruby
+        class User < ApplicationRecord   
+          belongs_to :client, touch: true 
+        end 
+        user.touch #  also calls user.client.touch
+      #+end_src
+
+*** Database Locking
+    :PROPERTIES:
+    :CUSTOM_ID: database-locking
+    :END:
+
+    - Optimistic Locking: Good for infrequent collisions. Database records
+      are not actually locked. If two different model instances are loaded
+      for the same record and saved differently, the first one wins while
+      the second one raises ~ActiveRecord::StaleObject~.
+
+      - Just add an integer column named lock_version to a given table, with
+        a default value of zero.
+      - Handle the ~ActiveRecord::StaleObject~ error
+
+    - Pessimistic Locking: Locks the records returns from a select
+      statement. Works with transactions. Records are released when the
+      transaction completes. Keep the transactions small to make sure they
+      execute quickly.
+
+    #+begin_src ruby
+      Timesheet.transaction do   
+        t = Timesheet.lock.first   
+        t.approved = true   
+        t.save! 
+      end
+    #+end_src
+
+*** QueryingOther
+    :PROPERTIES:
+    :CUSTOM_ID: queryingother
+    :END:
+
+    See also [[id:28FC6AAD-4491-4DA5-BB3A-796E9EECD235][ActiveRecord Querying has_many Associations]]
+    
+**** Where
+     :PROPERTIES:
+     :CUSTOM_ID: where
+     :END:
+
+***** JSON field (Postgres)
+
+     #+begin_src ruby
+       User.where('preferences @> ?', { newsletter: true }.to_json)
+     #+end_src
+
+**** Bind Variables
+     :PROPERTIES:
+     :CUSTOM_ID: bind-variables
+     :END:
+     #+begin_src ruby
+       Message.where("subject LIKE :foo OR body LIKE :foo", foo: '%woah%')
+     #+end_src
+
+**** With Joins
+     :PROPERTIES:
+     :CUSTOM_ID: with-joins
+     :END:
+     #+begin_src ruby
+       User.joins(:posts).where(posts: { active: true })
+     #+end_src
+
+**** Limit/Offset
+     :PROPERTIES:
+     :CUSTOM_ID: limitoffset
+     :END:
+     Aliased as take/skip
+
+     #+begin_src ruby
+       Timesheet.take(10).skip(10)
+     #+end_src
+
+**** Select
+     :PROPERTIES:
+     :CUSTOM_ID: select
+     :END:
+
+     - Add calculated or composed columns
+     - NOTE: the calculated column will show in =attributes= method or
+       calling the method directly
+
+     #+begin_src ruby
+       b = BillableWeek.select('*', "mon_hrs + tues_hrs as two_day_total").first
+       b.two_day_total # => 16
+     #+end_src
+
+**** From (and Aliasing Table Names)
+     :PROPERTIES:
+     :CUSTOM_ID: from-and-aliasing-table-names
+     :END:
+
+     - Useful for referencing subqueries or views.
+     - See also:
+       - [[http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-from][[[http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-from]]]]
+       - [[https://hashrocket.com/blog/posts/advanced-queries-with-activerecord-s-from-method][[[https://hashrocket.com/blog/posts/advanced-queries-with-activerecord-s-from-method]]]]
+
+     #+begin_src ruby
+       Topic.select('title').from(Topic.approved).to_sql 
+       # => "SELECT title FROM (SELECT * FROM topics WHERE approved = 't')"
+     #+end_src
+
+**** Ignoring columns     
+     #+begin_src ruby
+       class User < ApplicationRecord   
+         self.ignored_columns = %w(some_stupid_bs_column) 
+       end
+     #+end_src
+
+**** Group
+     :PROPERTIES:
+     :CUSTOM_ID: group
+     :END:
+
+     Usually used with select.
+
+     #+begin_src ruby
+       users = Account.select('name, SUM(cash) as money').group('name').to_a
+     #+end_src
+
+**** With having(clauses).
+     :PROPERTIES:
+     :CUSTOM_ID: with-havingclauses
+     :END:
+
+     Examples...
+
+     #+begin_src ruby
+       Dealer.joins(:quotes).group("dealers.id").having('count(quotes.id) > 1')
+     #+end_src
+
+     #+begin_src ruby
+       User.group("created_at").having(["created_at > ?", 2.days.ago])
+     #+end_src
+
+     #+begin_src ruby
+       Person.having('min(age) > 17').group(:last_name).minimum(:age)
+     #+end_src
+**** Includes / Eager Loading / Preloading
+     :PROPERTIES:
+     :CUSTOM_ID: includes--eager-loading--preloading
+     :END:
+
+      LEFT OUTER JOIN to grab additional associated data. Delegates to
+      eager_load when joining, and to preload when doing two queries (an
+      additional WHERE IN)to get the associated data.With where
+
+     #+begin_src ruby
+       User.includes(:auctions).where(auctions: {name: 'Lumina'})
+     #+end_src
+
+**** find_or_create_by / create_with
+     :PROPERTIES:
+     :CUSTOM_ID: find_or_create_by--create_with
+     :END:
+     Use retry in a begin / end block when rescuing
+     ActiveRecord::RecordNotUnique to deal with race conditions.
+
+     #+begin_src ruby
+       User.create_with(active: true).find_or_create_by(first_name: 'Buster', ...)
+     #+end_src
+
+     #+begin_src ruby
+       User.find_or_create_by(first_name: 'Poppa') do |user| 
+         user.last_name = 'Smurf' 
+       end
+     #+end_src
+
+**** Explain
+     :PROPERTIES:
+     :CUSTOM_ID: explain
+     :END:
+     #+begin_src ruby
+       Asteroid::NearEarthObject.select("a.name").from(Asteroid::NearEarthObject.where(is_potentially_hazardous_asteroid: false), :a).explain
+     #+end_src
+
+**** Existence
+     :PROPERTIES:
+     :CUSTOM_ID: existence
+     :END:
+
+     - =exists?=
+     - =any?=
+     - =empty?= (returns the count if not empty or true)
+     - =many?= (more than one)
+     - =one?=
+     - =None= The query method returns Active-Record::NullRelation, which is
+       an implementation of the Null Object pattern. It is to be used in
+       instances where you have a method that returns a relation, but there
+       is a condition in which you do not want the database to be queried.
+       All subsequent chained conditions will work without issue, eliminating
+       the need to continuously check whether the object your are working
+       with is a relation.
+
+**** Other Noteworthy Query Methods
+     :PROPERTIES:
+     :CUSTOM_ID: other-noteworthy-query-methods
+     :END:
+
+     - =readonly=
+     - =reorder=
+     - =reverse_order=
+     - =merge=
+     - =only(*onlies)=
+     - =except(*skips)=
+     - =to_json= (also =to_xml= and =to_yaml=)
+     - =unscope= (useful for unscoping default scopes). Can take :from,
+       :having, :joins, ...etc
+
+     #+begin_src ruby
+       Member.where(name: "Fool", active: true).unscope(where: :name)
+       Member.unscope(:active)...
+     #+end_src
+
+     - =unscoped= (removes all scopes including the default scope)
+
+     #+begin_src ruby
+       Timesheet.unscoped.where("created_at < ?", 1.year.ago)
+     #+end_src
+
+     - =find_by_sql(String)=
+       - Returns objects based on the SQL string arg.
+       - Use bind variables
+       - Use this for writing complex SQL queries that don't lend themselves
+         well to using AR's query API (like having to use CTEs)
+
+*** Using the Database Connection Directly
+    :PROPERTIES:
+    :CUSTOM_ID: using-the-database-connection-directly
+    :END:
+
+    - Using a connection object.
+    - There's lots of methods that can be called on the connect adapter
+      object.
+
+    #+begin_src ruby
+     ActiveRecord::Base.connectionconn.tables #  => an array of the table names
+    #+end_src
+
+    #+begin_src ruby
+     ActiveRecord::Base.connection.execute("select * from asteroid_near_earth_objects").values
+    #+end_src
+
+    - .select_rows("select * from asteroid_orbit")
+    - .select_all
+    - .select_one
+    - .select_values
+
+*** Executing a SQL script in a file
+    :PROPERTIES:
+    :CUSTOM_ID: executing-a-sql-script-in-a-file
+    :END:
+
+    - Read the file, split on ‘;' and execute each statement.
+
+    #+begin_src ruby
+      def execute_sql_file(path)   
+        File.read(path). split(';').each do |sql|    
+          begin       
+            ActiveRecord::Base.connection.execute(#{sql}") unless sql.blank?     
+          rescue ActiveRecord::StatementInvalid       
+              $stderr.puts "warning: #{$!}"     
+          end   
+        end
+      end
+    #+end_src
+
+*** Polymorphic Associations
+**** Doing SQL joins with polymorphic associations.
+     :PROPERTIES:
+     :CUSTOM_ID: doing-sql-joins-with-polymorphic-associations
+     :END:
+
+     #+begin_src ruby
+       Activity.joins("LEFT JOIN users ON activities.owner_type = 'User' AND activities.owner_id = users.id")
+       Activity.joins("LEFT JOIN managers ON activities.owner_type = 'Manager' AND activities.owner_id = managers.id")
+     #+end_src
+
+*** Associations
+    :PROPERTIES:
+    :CUSTOM_ID: associations
+    :END:
+**** has_many
+     :PROPERTIES:
+     :CUSTOM_ID: has_many
+     :END:
+
+     - returns =ActiveRecord::CollectionProxy=
+
+       - @owner
+       - @target
+       - @reflection
+
+*** ActiveRecord::CollectionProxy Methods
+    :PROPERTIES:
+    :CUSTOM_ID: activerecordcollectionproxy-methods
+    :END:
+
+    Here's a bunch of examples...
+
+    #+begin_example ruby
+      user.timesheets.select(:*, "calc_something(col1, col2) as delta").to_a
+    #+end_example
+
+    #+begin_example ruby
+      user.timesheets.closed.each(&:mark_for_destruction)
+    #+end_example
+
+    - ~before_add~, ~after_add~
+
+    #+begin_example ruby
+      has_many :unchangable_posts, class_name: "Post", before_add: ->(owner, record) { raise "Can't do it!" }
+    #+end_example
+
+    #+begin_example ruby
+      has_many :pending_comments, -> { where( approved: true) }, class_name: 'Comment'
+    #+end_example
+
+    #+begin_example ruby
+      class Client < ActiveRecord::Base
+        has_many :timesheets, -> { distinct }, through: :billable_weeks
+      end
+    #+end_example
+
+    #+begin_example ruby
+      class User < ActiveRecord::Base
+        has_many :timesheets
+        has_one :latest_sheet, -> { order(' created_at desc') }, class_name: 'Timesheet'
+      end
+    #+end_example
+
+    #+begin_example ruby
+      belongs_to :project, -> { readonly }
+      belongs_to :post, -> { includes(:author) }
+    #+end_example
+
+**** Extenting Associations
+
+     Methods...
+    #+begin_example ruby
+      has_many :people do
+        def named(full_name)
+          first_name, last_name = full_name.split(" ", 2)
+          where(first_name: first_name, last_name: last_name).first_or_create
+        end
+      end
+    #+end_example
+
+    Same thing, but using modules...
+    #+begin_example ruby
+      has_many :people, -> { extending(ByNameExtension, ByRecentExtension) }
+    #+end_example
+
+**** Association with null object pattern
+
+    #+begin_example ruby
+       belongs_to :automatic_payment_method, class_name: 'PaymentMethod'
+
+       def automatic_payment_method
+         super || NullAutomaticPaymentMethod.new
+       end
+    #+end_example
+
+*** Callback Classes
+
+    It is common enough to want to reuse callback code for
+    more than one object that Rails gives you a way to write callback
+    classes. All you have to do is: Pass a given callback queue an object
+    that responds to the name of the callback and takes the model object
+    as a parameter.
+
+    Soft delete example
+    #+begin_example ruby
+      class MarkDeleted
+        def self.before_destroy(model)
+          model.update_attribute(:deleted_at, Time.current)
+          throw(:abort)
+        end
+      end
+      
+      class Account < ActiveRecord::Base
+        before_destroy MarkDeleted
+      end
+    #+end_example
+
+*** Value Objects
+
+    Unlike with object identity, value objects are considered equal when their
+    attributes are equal. Example of an Address type value object
+
+    #+begin_example ruby
+      class Person < ActiveRecord::Base
+        def address
+          @address || = Address.new(address_city, address_state)
+        end
+        
+        def address=(address)
+          self[:address_city] = address.city
+          self[:address_state] = address.state
+          @address = address
+        end
+      end
+      
+      class Address
+        attr_reader :city, :state
+
+        def initialize(city, state)
+          @city, @state = city, state
+        end
+        
+        def ==(other_address)
+          city == other_address.city && state == other_address.state
+        end
+      end
+    #+end_example
