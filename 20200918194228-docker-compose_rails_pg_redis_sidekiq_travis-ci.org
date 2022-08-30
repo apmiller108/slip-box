@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2022-03-03 11:28 AM
+#+updated: 2022-08-30 12:56 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -45,6 +45,10 @@
   :HEADER-ARGS: :tangle ~/code/kubetest/Dockerfile :mkdirp yes
   :END:
 
+  You might get an old-ass, unmaintained version of node by installing nodejs
+  this way. See [[https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions][nodesource]] for an alternative method where you can get more
+  recent versions.
+ 
   #+begin_src dockerfile :noweb tangle
     FROM <<config("ruby-image")>>
 
