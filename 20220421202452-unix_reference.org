@@ -3,11 +3,13 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2022-06-21 15:35 PM
+#+updated: 2022-09-19 14:47 PM
 #+filetags: :unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
 configuration.
+
+See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
 
 * Permissions
   See also [[https://github.com/lansana/unix-permissions-cheat-sheet][this cheatsheet]] for more.

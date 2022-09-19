@@ -3,7 +3,7 @@
 :END:
 #+title: Kubectl
 #+date: 2022-03-17 08:35 AM
-#+updated: 2022-05-16 16:05 PM
+#+updated: 2022-09-19 12:07 PM
 #+filetags: :kubernetes:
 
 See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
@@ -12,9 +12,11 @@ See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 |-------------------------+------------------------------------------------------|
 | Get namespaces          | kubectl get ns                                       |
 | Set namespace           | kubectl config set-context --current --namespace=foo |
-| Show current namespaces | kubectl config view (grep namespace)                 |
-| Set current context     | kubectl config use-context foo                       |
+| Show config             | kubectl config view                                  |
+| Show current namespaces | kubectl config view (then grep namespace)            |
 | Show current context    | kubectl config current-context                       |
+| Set current context     | kubectl config use-context foo                       |
+| Remove context          | kubectl config unset contexts.foo                    |
 | Get all pods            | kubectl get pods                                     |
 | Exec                    | kubectl exec -it mypod -- bash                       |
 | Get deployment info     | kubectl get deployments foo -o yaml                  |
