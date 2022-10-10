@@ -1,0 +1,49 @@
+:PROPERTIES:
+:ID:       E5F844B5-1C69-4CD6-B0D8-C785C776CB5C
+:END:
+#+title: Some SQL things
+#+date: 2022-10-06 12:19 PM
+#+updated: 2022-10-10 10:11 AM
+#+filetags: :sql:postgres
+
+* Join only on first record
+  Shameless borrowed from https://www.sisense.com/blog/4-ways-to-join-only-the-first-row-in-sql/
+
+** Correlated subquery
+   This loops since the subquery runs once for each record in the outer query
+
+   #+begin_src sql
+     select * from users
+       join widgets on widgets.id = (
+         select id from widgets
+         where widgets.user_id = users.id
+         order by created_at desc
+         limit 1)
+   #+end_src
+
+** Complete subquery
+*** PostgreSQL ~DISTINCT ON~ with different ~ORDER BY~
+
+   #+begin_src sql
+     select * from users
+       join (
+         select distinct on (user_id) *
+           from widgets
+           order by user_id, created_at desc)
+         as most_recent_user_widgeton on users.id = most_recent_user_widget.user_id
+   #+end_src
+
+   
+*** If not using PostgreSQL (ie ~DISTINCT ON~)
+    We can use the ~ROW_NUMBER~ function with ordering and selecting the first row.
+
+    See also https://stackoverflow.com/a/49980276
+
+   #+begin_src sql
+     select * from users
+       join (
+         select * from (
+             select *, ROW_NUMBER() OVER(PARTITION BY user_id ORDER BY created_at desc) rn
+             from widgets) w where w.rn = 1
+           ) as most_recent_user_widgeton on users.id = most_recent_user_widget.user_id
+   #+end_src
