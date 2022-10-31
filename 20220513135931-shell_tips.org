@@ -3,7 +3,7 @@
 :END:
 #+title: Shell tips
 #+date: 2022-05-13 13:59 PM
-#+updated: 2022-06-03 18:38 PM
+#+updated: 2022-10-31 09:47 AM
 #+filetags: :shell:
 
 Just some various tips for writing shell scripts or doing cmd line stuff.
@@ -75,3 +75,11 @@ Just some various tips for writing shell scripts or doing cmd line stuff.
       then reaper &
     fi
   #+end_src
+
+* Prevent scripts from going hog wild
+  Put ~set -euo pipefail~ as the first line of the script
+  - ~-e~ : Fails the entire script if any command has a non-zero exit status
+    (ie, prevent subsequent commands from being executed)
+  - ~-o~  : Use the return code of any command that failed in a pipeline, not
+    just the last successful one.
+  - ~-u~  : Makes unbound variables throw an error.
