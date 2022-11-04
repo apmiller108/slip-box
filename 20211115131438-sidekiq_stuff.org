@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2022-08-10 11:53 AM
+#+updated: 2022-11-04 14:25 PM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -54,3 +54,65 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
 
 * Middleware
   https://github.com/mperham/sidekiq/wiki/Middleware
+
+* Unique Jobs (ENT)
+  https://github.com/mperham/sidekiq/wiki/Ent-Unique-Jobs
+
+  - Jobs are unique for the duration set OR until the job completes
+    successfully.
+  - If job retries beyond the specified duration, another job can be pushed.
+* Scheduled jobs
+  https://github.com/mperham/sidekiq/wiki/Scheduled-Jobs
+
+  Scheduled jobs (including retry queue) are polled around every 5 seconds by
+  default.  This can be configured with the ~average_scheduled_poll_interval~
+  config property.
+* Rate Limiting (ENT)
+  https://github.com/mperham/sidekiq/wiki/Ent-Rate-Limiting
+
+  There's several options, here is one example.
+
+** Window Limiting Example
+   #+begin_src ruby
+     class TestLimiterWorker
+       include Sidekiq::Worker
+     
+       def perform(id)
+         # Limit 5 per 1 second window. If limit is reached, job thread will pause
+         # (sleep) for 1 second before trying again. If still limited, job will be
+         # rescheduled linearly up to 20 times until finally going to retry queue.
+         limiter = Sidekiq::Limiter.window('test_limit_worker', 5, :second, wait_timeout: 1)
+         limiter.within_limit do
+           puts "****** RUNNING THE TestLimiterWorker: at #{Time.current} #{id} ********"
+           raise if rand(9).zero? # Simulate some job errors
+         end
+       end
+     end
+   #+end_src
+
+* Batches
+  https://github.com/mperham/sidekiq/wiki/Batches
+  
+  Gives you a collection of jobs that can be monitored as a group. And has
+  callbacks for success and complete.
+
+  #+attr_html: :width 750
+  [[file:images/batches.png]] 
+
+   #+begin_src ruby
+     class BatchWorker
+       include Sidekiq::Worker
+     
+       BATCH_DESCRIPTION = 'Test Limiter Batch'
+     
+       def perform
+         batch = Sidekiq::Batch.new
+         batch.description = BATCH_DESCRIPTION
+         batch.jobs do
+           100.times do
+             SomeWorker.perform_async
+           end
+         end
+       end
+     end
+   #+end_src

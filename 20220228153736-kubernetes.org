@@ -3,7 +3,7 @@
 :END:
 #+title: Kubernetes
 #+date: 2022-02-28 15:37 PM
-#+updated: 2022-03-28 13:28 PM
+#+updated: 2022-11-02 14:13 PM
 #+filetags: :kubernetes:
 
 See also https://kubernetes.io/
@@ -172,10 +172,10 @@ See also https://kubernetes.io/
                    name: env-secrets
        #+end_src
 * Networking
-  Pods and Services are the things that has the IP addresses. All the containers
+  Pods and Services are the things that have IP addresses. All the containers
   within the Pod will share the Pod's IP address.
 
-  - How to running containers within a pod communicate with each other?
+  - How do running containers within a pod communicate with each other?
 
 ** Service object
    There's a bunch of different service types. 
