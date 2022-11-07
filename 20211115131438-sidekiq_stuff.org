@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2022-11-04 14:25 PM
+#+updated: 2022-11-07 09:39 AM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -115,4 +115,11 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
          end
        end
      end
+   #+end_src
+
+** Batch Sets
+   Pragmatically get info about current batches (this will only show batches
+   that are not complete)
+   #+begin_src ruby
+   Sidekiq::BatchSet.new.each { |batch| p batch }
    #+end_src
