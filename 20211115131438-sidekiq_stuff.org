@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2022-11-07 09:39 AM
+#+updated: 2022-11-08 10:33 AM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -123,3 +123,8 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
    #+begin_src ruby
    Sidekiq::BatchSet.new.each { |batch| p batch }
    #+end_src
+
+* Capsules
+  Introduced in Sidekiq v7. This should let you define concurrency options per
+  queue.
+  https://github.com/mperham/sidekiq/blob/v7.0.0/docs/capsule.md#sidekiq-70-capsules
