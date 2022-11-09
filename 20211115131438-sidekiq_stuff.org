@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2022-11-08 10:33 AM
+#+updated: 2022-11-09 11:17 AM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -74,16 +74,16 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
 
 ** Window Limiting Example
    #+begin_src ruby
-     class TestLimiterWorker
+     class SomeWorker
        include Sidekiq::Worker
      
-       def perform(id)
+       def perform
          # Limit 5 per 1 second window. If limit is reached, job thread will pause
          # (sleep) for 1 second before trying again. If still limited, job will be
          # rescheduled linearly up to 20 times until finally going to retry queue.
          limiter = Sidekiq::Limiter.window('test_limit_worker', 5, :second, wait_timeout: 1)
          limiter.within_limit do
-           puts "****** RUNNING THE TestLimiterWorker: at #{Time.current} #{id} ********"
+           puts "****** RUNNING THE WORKER: at #{Time.current} ********"
            raise if rand(9).zero? # Simulate some job errors
          end
        end
