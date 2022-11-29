@@ -3,7 +3,7 @@
 :END:
 #+title: Plantuml
 #+date: 2021-03-31 08:46 AM
-#+updated: 2021-05-04 11:07 AM
+#+updated: 2022-11-21 14:09 PM
 #+filetags: :plantuml:
 
 * General Stuff
@@ -16,3 +16,10 @@
 
 * With Emacs' org-mode
   [[id:588243DF-3AE4-48FF-8937-AFF0BC5372CC][Plantuml with org-mode]]
+
+* Alternative Diagramming tools
+** Excalidraw
+  https://github.com/excalidraw/excalidraw
+  
+   - Free and open source
+   - Can run locally using their [[https://hub.docker.com/r/excalidraw/excalidraw][docker image]]

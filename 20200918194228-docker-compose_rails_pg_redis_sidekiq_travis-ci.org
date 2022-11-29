@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2022-08-30 12:56 PM
+#+updated: 2022-11-22 12:33 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -21,7 +21,8 @@
   4. Run the setup script as an entry point to a temp container based on the
      selected image. The command is generated in a comment in ~setup.sh~. I
      might want to edit the script to specify the version of Rails to install,
-     remove webpacker, etc.
+     remove webpacker, etc. Alternatively, just edit the ~setup.sh~ script after
+     generating the files.
   5. Add a ~.dockerignore~. See [[https://gist.github.com/yizeng/eeeb48d6823801061791cc5581f7e1fc][this gist]] for ideas of what to ignore.
   6. Start the app with ~docker-compose up~
 
@@ -36,13 +37,13 @@
           '(("ruby-image" . "ruby:3.0")
             ("pg-image" . "postgres:12")
             ("redis-image" . "redis:6")
-            ("app-name" . "kubetest")))
+            ("app-name" . "homestead")))
     (cdr (assoc key config))
   #+end_src
 
 * Dockerfile
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/kubetest/Dockerfile :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/homestead/Dockerfile :mkdirp yes
   :END:
 
   You might get an old-ass, unmaintained version of node by installing nodejs
@@ -75,7 +76,7 @@
 
 * docker-compose
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/kubetest/docker-compose.yml :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/homestead/docker-compose.yml :mkdirp yes
   :END:
 
   This orchestrates the following containers:
@@ -147,7 +148,7 @@
 
 * Setup the project
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/kubetest/setup.sh :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/homestead/setup.sh :mkdirp yes
   :END:
   At this point we don't have a Gemfile, Gemfile.lock or any of the Rails'
   framework files, etc. But we can still do all the project setup within docker
@@ -160,29 +161,29 @@
   #+begin_src shell :noweb tangle
     # Usage:
     #   docker run --rm -it -v "$PWD":/app -w /app <<config("ruby-image")>> sh setup.sh
-
+    
     # Install dependencies
     gem install rails
-
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
-
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-
-    apt-get update
-    apt-get install nodejs yarn -y
-
+    
+    # COMMENT THE FOLLOWING IN TO INSTALL nodejs and yarn:
+    # curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
+    # echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+    # apt-get update
+    # apt-get install nodejs yarn -y
+    
     # Setup rails app
     rails new <<config("app-name")>> --database=postgresql
-
+    
     cd <<config("app-name")>>
     mv * .*  ../
     cd ..
     rmdir <<config("app-name")>>
-
-    bin/rails webpacker:install
-
+    
+    # COMMENT THE FOLLOWING IN TO INSTALL webpacker
+    # bin/rails webpacker:install
+    
     bundle add sidekiq
-
+    
     # Configure database
     DBCONFIG=$(cat <<EOF
     default: &default
@@ -206,7 +207,7 @@
     EOF
     )
     echo "$DBCONFIG" > config/database.yml
-
+    
     # Add env vars for development
     touch .env
     echo "POSTGRES_DB=<<config("app-name")>>_development" >> .env
