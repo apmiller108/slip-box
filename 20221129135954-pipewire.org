@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       a0628dc3-e296-43ae-9830-d25fdc33659c
+:END:
+#+title: pipewire
+#+date: 2022-11-29 13:59 PM
+#+updated: 2022-11-29 14:02 PM
+
+https://docs.pipewire.org/index.html
+
+* GUI
+  [[https://gitlab.freedesktop.org/rncbc/qpwgraph][qpwgraph]] works just like qjackctl
+* Issues
+** Volume very low
+   Use ~alsamixer~ tool and set the output gain to whatever.
+
+   See also https://wiki.archlinux.org/title/PipeWire#Low_volume
