@@ -1,0 +1,37 @@
+:PROPERTIES:
+:ID:       0FB30792-CC20-4653-BEC4-F5B47A434CD6
+:END:
+#+title: Zero config HTTP servers
+#+date: 2022-11-30 13:43 PM
+#+updated: 2022-11-30 14:12 PM
+
+* Why?
+  For local testing where I need to server a directory.
+
+  See also https://developer.mozilla.org/en-US/docs/Learn/Common_questions/set_up_a_local_testing_server
+
+* http-server
+  https://www.npmjs.com/package/http-server
+
+  This has an option to enable CORS.
+
+  #+begin_src shell
+  http-server -p 3000 --cors
+  #+end_src
+
+* SimpleHTTPServer
+  This depends on having python installed. It truly is simple and doesn't have an option for CORS
+  for example
+
+  #+begin_src shell
+  python -m SimpleHTTPServer 
+  # or depending on your python version
+  python3 -m http.server
+  #+end_src
+
+* emacs-web-server
+  This uses httpd (apache) under the hood
+  https://github.com/skeeto/emacs-web-server
+
+  ~(httpd-serve-directory)~ from the current buffer to serve its directory on
+  port 8080
