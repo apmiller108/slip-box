@@ -3,7 +3,7 @@
 :END:
 #+title: Zero config HTTP servers
 #+date: 2022-11-30 13:43 PM
-#+updated: 2022-11-30 14:50 PM
+#+updated: 2022-11-30 14:54 PM
 
 * Why?
   For local testing where I need to server a directory.
@@ -16,6 +16,9 @@
    #+begin_src shell
    ngrok http 8080
    #+end_src
+
+
+   See also https://github.com/anderspitman/awesome-tunneling for alternatives
 * http-server
   https://www.npmjs.com/package/http-server
 
