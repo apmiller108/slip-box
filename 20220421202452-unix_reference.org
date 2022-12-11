@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2022-11-30 21:59 PM
+#+updated: 2022-12-11 09:51 AM
 #+filetags: :unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -73,3 +73,28 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
       touch /etc/apt/apt.conf.d/99no-check-valid-until && \
       echo 'Acquire::Check-Valid-Until no;' > /etc/apt/apt.conf.d/99no-check-valid-until
       #+end_src
+
+* File System
+  The following are just basic examples. There's a lot you can do with these
+  tools. Use ~--help~ or man pages.
+** Display file system information
+*** df
+    Example: (human-readable)
+    #+begin_src shell
+    df -h
+    #+end_src
+  
+** Disk Usage
+*** du (disk usage)
+    Example: (human-readable)
+     #+begin_src shell
+     du -hs
+     #+end_src
+
+** Copy files over SSH
+*** scp
+    Example: (recursive). This will use remote directories the map to the
+    specified user's home directory. Enter remote user's pw when prompted.
+    #+begin_src 
+    scp -r "scp://pi@192.168.68.55/user/dir/path/to/stuff" ~/Downloads
+    #+end_src
