@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2022-12-11 09:51 AM
+#+updated: 2022-12-11 16:04 PM
 #+filetags: :unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -98,3 +98,14 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
     #+begin_src 
     scp -r "scp://pi@192.168.68.55/user/dir/path/to/stuff" ~/Downloads
     #+end_src
+
+** Make disk image
+   After attaching the disk you want imaged, use ~df -h~ to
+   get the mount point. Then use use the ~dd~ utility and specify the imput and
+   output. Example:
+
+   #+begin_src shell
+   sudo dd if=/dev/mmcblk0p2 of=~/myimage.img
+   #+end_src
+
+   There will be no output while the image is made.
