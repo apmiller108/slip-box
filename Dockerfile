@@ -10,7 +10,8 @@ RUN apt-get update && \
     echo 'Acquire::Check-Valid-Until no;' > /etc/apt/apt.conf.d/99no-check-valid-until && \
     apt-get update && \
     apt-get install -y emacs-snapshot && \
-    update-alternatives --config emacsclient
+    update-alternatives --config emacsclient && \
+    echo `emacs --version`
 RUN apt-get install -y curl && \
     curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
     apt-get install -y nodejs && \
