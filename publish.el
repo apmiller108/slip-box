@@ -15,14 +15,12 @@
   (require 'org-id)
   (setq org-id-locations-file-relative t
         org-id-locations-file "./.org-id-locations"
-        org-id-track-globally t
-        revert-without-query '(".*"))
+        org-id-track-globally t)
   (org-id-update-id-locations (seq-filter 'file-regular-p (directory-files "./")) t)
   (print (my/org-id-alist-to-hash (read (find-file-noselect "./.org-id-locations")))))
 
 (defun my/publish()
-  (setq my/org-id-locations (my/org-id-alist-to-hash (read (find-file-noselect "./.org-id-locations")))
-        revert-without-query '(".*"))
+  (setq my/org-id-locations (my/org-id-alist-to-hash (read (find-file-noselect "./.org-id-locations"))))
   (get-buffer (find-file "./publish.org"))
   (org-babel-execute-buffer)
   (org-publish "site" t))
