@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2022-12-11 20:54 PM
+#+updated: 2022-12-13 15:28 PM
 #+filetags: :unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -49,6 +49,12 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
    
 ** Manage group membership
    Use ~gpasswd~
+* User Information
+  The ~id~ utility can provide information like uid, groups, etc. Use a flag to
+  pull out specific information (~-u~ => uid)
+  #+begin_src shell
+  id username
+  #+end_src
 
    Need to restart after changing group membership
 

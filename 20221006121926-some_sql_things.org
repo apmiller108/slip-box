@@ -3,7 +3,7 @@
 :END:
 #+title: Some SQL things
 #+date: 2022-10-06 12:19 PM
-#+updated: 2022-10-24 10:12 AM
+#+updated: 2022-12-13 15:08 PM
 #+filetags: :sql:postgres
 
 * Join only on first record
@@ -49,12 +49,24 @@
    #+end_src
 
 * Date / Time stuff
-** Some time ago
-   - PG: ~NOW() - '1 day'::INTERVAL~
-   - MSSQL: ~DATEADD(day, -1, GETDATE())~
+** Some length of time ago
+*** PostgreSQL
+    #+begin_src sql
+    NOW() - '1 day'::INTERVAL
+    #+end_src
+*** MSSQL    
+   #+begin_src sql
+    DATEADD(day, -1, GETDATE())
+   #+end_src
 
 ** Convert Datetime to Date
-   - MSSQL
+*** MSSQL
    #+begin_src sql
    SELECT DATEADD(dd, 0, DATEDIFF(dd, 0, GETDATE()))
+   #+end_src
+
+   OR
+   
+   #+begin_src sql
+   SELECT CONVERT(DATE, GETDATE())
    #+end_src
