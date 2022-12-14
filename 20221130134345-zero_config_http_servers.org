@@ -3,7 +3,9 @@
 :END:
 #+title: Zero config HTTP servers
 #+date: 2022-11-30 13:43 PM
-#+updated: 2022-11-30 14:54 PM
+#+updated: 2022-12-13 21:41 PM
+#+filetags: :web_development:
+
 
 * Why?
   For local testing where I need to server a directory.
