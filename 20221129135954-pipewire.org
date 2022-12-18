@@ -3,7 +3,7 @@
 :END:
 #+title: pipewire
 #+date: 2022-11-29 13:59 PM
-#+updated: 2022-12-13 21:42 PM
+#+updated: 2022-12-18 17:56 PM
 #+filetags: :linux:audio:
 
 https://docs.pipewire.org/index.html
@@ -14,4 +14,11 @@ https://docs.pipewire.org/index.html
 ** Volume very low
    Use ~alsamixer~ tool and set the output gain to whatever.
 
-   See also https://wiki.archlinux.org/title/PipeWire#Low_volume
+   - See also https://wiki.archlinux.org/title/PipeWire#Low_volume
+   - You can store the alsa config by using ~alsactl~
+
+     #+begin_src shell
+     sudo alsactl store
+     #+end_src
+
+   

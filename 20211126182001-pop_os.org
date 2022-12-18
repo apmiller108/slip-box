@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2021-12-29 19:13 PM
+#+updated: 2022-12-13 21:54 PM
 #+filetags: :linux:
 
 * Trackpad Gestures
@@ -34,7 +34,15 @@
    | file filename | Search for a file                    |
    | t:            | run command in terminal              |
    | g search_term | search Google (ddg for duck duck go) |
-    
+
+* Compiler toolchain
+  For Pop_Os and Ubuntu install ~build-essential~. Contains things like G++/GCC,
+  GNU Debugger and other packages for compiling C/C++
+  
+  #+begin_src shell
+  sudo apt-get install build-essential 
+  #+end_src
+
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
   - https://support.system76.com/articles/pop-keyboard-shortcuts/
