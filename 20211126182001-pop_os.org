@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2022-12-13 21:54 PM
+#+updated: 2022-12-18 18:35 PM
 #+filetags: :linux:
 
 * Trackpad Gestures
@@ -43,6 +43,17 @@
   sudo apt-get install build-essential 
   #+end_src
 
+* Logs
+  There are different types of logs and they're all located in ~/var/log/~.
+  Sometimes applications will write logs here too.
+
+** USB logs
+   In the kernel logs
+
+   #+begin_src shell
+   tail -f /var/log/kern.log | grep usb
+   #+end_src
+  
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
   - https://support.system76.com/articles/pop-keyboard-shortcuts/
