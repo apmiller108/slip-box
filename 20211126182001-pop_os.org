@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2022-12-18 18:35 PM
+#+updated: 2023-01-06 23:40 PM
 #+filetags: :linux:
 
 * Trackpad Gestures
@@ -53,7 +53,46 @@
    #+begin_src shell
    tail -f /var/log/kern.log | grep usb
    #+end_src
-  
+
+* Wake from suspend on USB device input
+  The following should work on other Linux distros.
+** Gathering Bus and device info  
+*** See which devices are wakeup disabled
+     #+begin_src shell
+     grep . /sys/bus/usb/devices/*/power/wakeup
+     #+end_src
+
+     #+RESULTS:
+     | /sys/bus/usb/devices/3-14/power/wakeup:disabled  |
+     | /sys/bus/usb/devices/3-2/power/wakeup:disabled   |
+     | /sys/bus/usb/devices/3-4.1/power/wakeup:enabled  |
+     | /sys/bus/usb/devices/3-4.3/power/wakeup:disabled |
+     | /sys/bus/usb/devices/3-4.4/power/wakeup:disabled |
+     | /sys/bus/usb/devices/3-4/power/wakeup:disabled   |
+     | /sys/bus/usb/devices/4-2/power/wakeup:disabled   |
+     | /sys/bus/usb/devices/usb1/power/wakeup:disabled  |
+     | /sys/bus/usb/devices/usb2/power/wakeup:disabled  |
+     | /sys/bus/usb/devices/usb3/power/wakeup:disabled  |
+     | /sys/bus/usb/devices/usb4/power/wakeup:disabled  |
+
+*** List devices and Buses
+    List all your device names, vendor ID, product ID along with the Bus number
+    they are using:
+    - vendor ID is left side of the colon
+    - product ID is right side of the colon
+     #+begin_src shell
+       lsusb
+     #+end_src
+     
+    You can list devices by product name. Might be useful in some cases.
+     #+begin_src shell
+       grep . /sys/bus/usb/devices/*/product
+     #+end_src
+
+** Create a [[https://wiki.archlinux.org/title/udev][udev rule]] to configure the device for wakeup
+   See https://github.com/apmiller108/scripts#wake-on-device-udev-rule
+   See also https://wiki.archlinux.org/title/udev#Waking_from_suspend_with_USB_device
+     
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
   - https://support.system76.com/articles/pop-keyboard-shortcuts/
