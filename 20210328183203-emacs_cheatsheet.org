@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2022-10-31 09:39 AM
+#+updated: 2023-01-09 21:21 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -55,3 +55,5 @@ probably forget.
   4. Type characters
   5. ~ESC~ (the repeated chars are added)
      
+* Font
+  ~M-x menu-set-font~ offers a GUI font picker and size setter with previews.
