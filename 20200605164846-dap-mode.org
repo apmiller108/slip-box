@@ -3,7 +3,7 @@
 :END:
 #+title: dap-mode
 #+date: 2020-06-05 16:48 PM
-#+updated: 2021-09-03 13:22 PM
+#+updated: 2023-01-05 13:51 PM
 #+filetags: :emacs:spacemacs:
 
 * Overview
@@ -32,6 +32,9 @@
    configuration for each template is determined by the debugger being used. See
    the documentation for the debugger for the options are available. Then I map
    these functions to custom keys for the modes for which they are relevant.
+*** chrome debugging
+    - Add the breakpoint
+    - call ~my/dap-debug-chrome~
 
 ** VSCode launch.json
    Instead of configuring dap-mode debug templates in emacs-lisp, you can use

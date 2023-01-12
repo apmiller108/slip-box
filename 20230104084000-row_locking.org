@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       D111FFA2-4A9D-41F4-87DC-E59F3D6E8564
+:END:
+#+title: Row locking
+#+date: 2023-01-04 08:40 AM
+#+updated: 2023-01-04 08:49 AM
+#+filetags: :postgres:
+
+* FOR UPDATE
+  This clause is used as part of a select query and can define:
+  - The lock strength. See also https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-ROWS
+  - Name the specific tables in the query whose rows should be locked. If no
+    table is specified, all tables used in the query are locked.
+  - What action to take if encountering lock contention
+
+  See also https://www.postgresql.org/docs/current/sql-select.html#SQL-FOR-UPDATE-SHARE

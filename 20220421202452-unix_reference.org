@@ -3,8 +3,8 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2023-01-06 23:42 PM
-#+filetags: :unix:linux:
+#+updated: 2023-01-12 11:23 AM
+#+filetags: unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
 configuration.
@@ -139,4 +139,15 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
 
    There will be no output while the image is made.
 * Devices
-  See also [[id:d5d67aa4-e66e-48de-90d1-051ef3a8df77][Pop_os]]
+  See also [[id:d5d67aa4-e66e-48de-90d1-051ef3a8df77][Pop_os]] (eg, ~lsusb~, etc)
+* Logging
+** Boot process
+*** dmesg
+    A command line utility to view (among other things) kernel messages
+    regarding hardware devices. Is something going wrong with the boot process,
+    some devices not working? Look at ~dmesg~.
+** System logging
+   ~/var/log/syslog~
+** Other logging
+   Look in ~/var/log/~ directory at all the other log files. Applications will
+   write logs here. For example ~/var/log/httpd~
