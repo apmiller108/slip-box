@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2023-01-12 11:23 AM
+#+updated: 2023-01-13 15:41 PM
 #+filetags: unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -151,3 +151,8 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
 ** Other logging
    Look in ~/var/log/~ directory at all the other log files. Applications will
    write logs here. For example ~/var/log/httpd~
+* SSH
+** Allow SSHing onto a system
+   1. Install ~openssh-server~. This is configured via ~systemd~ to automatically
+      start.
+   2. Use ~ufw~ to open port 22  (if firewall is active)
