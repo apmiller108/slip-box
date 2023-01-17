@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2022-11-22 12:33 PM
+#+updated: 2023-01-16 16:30 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -34,9 +34,9 @@
   #+name: config
   #+begin_src emacs-lisp :var key=""
     (setq config
-          '(("ruby-image" . "ruby:3.0")
-            ("pg-image" . "postgres:12")
-            ("redis-image" . "redis:6")
+          '(("ruby-image" . "ruby:latest")
+            ("pg-image" . "postgres:latest")
+            ("redis-image" . "redis:latest")
             ("app-name" . "homestead")))
     (cdr (assoc key config))
   #+end_src
@@ -163,16 +163,16 @@
     #   docker run --rm -it -v "$PWD":/app -w /app <<config("ruby-image")>> sh setup.sh
     
     # Install dependencies
-    gem install rails
+    gem install rails -v "~> 7"
     
     # COMMENT THE FOLLOWING IN TO INSTALL nodejs and yarn:
-    # curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
-    # echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-    # apt-get update
-    # apt-get install nodejs yarn -y
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+    apt-get update
+    apt-get install nodejs yarn -y
     
     # Setup rails app
-    rails new <<config("app-name")>> --database=postgresql
+    rails new <<config("app-name")>> --database=postgresql --javascript=esbuild --css=tailwind
     
     cd <<config("app-name")>>
     mv * .*  ../
@@ -282,7 +282,6 @@
   #+end_src
 
 * Resources
-
   - [[https://yizeng.me/2019/11/09/setup-a-ruby-on-rails-6-api-project-with-docker-compose/][Setup a Ruby on Rails 6 API project with Docker Compose \| Yi Zeng's Blog]]
   - [[https://yizeng.me/2019/11/17/add-sidekiq-to-a-docker-compose-managed-rails-project/][Add Sidekiq to a Docker Compose managed Rails project \| Yi Zeng's Blog]]
   - [[https://learning.oreilly.com/library/view/docker-for-rails/9781680506730/f_0014.xhtml#part-development][Part I. Development - Docker for Rails Developers [Book]]]
