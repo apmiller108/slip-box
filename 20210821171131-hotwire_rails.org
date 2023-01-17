@@ -3,7 +3,7 @@
 :END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2022-07-10 16:10 PM
+#+updated: 2023-01-16 16:12 PM
 #+filetags: :javascript:ruby:rails:
 
 * What is this?
@@ -22,7 +22,6 @@
   See https://github.com/hotwired for all the libraries.
 
 * Add to Rails application
-
   Add the ~hotwire-rails~ gem. Follow the instructions in the [[https://github.com/hotwired/hotwire-rails][Readme]].
 
   NOTE:
@@ -30,7 +29,13 @@
     [[https://github.com/hotwired/stimulus-rails][stimulus-rails]].
   - The ~hotwire:install~ rake task will ~yarn add~ both NPM packages
     ~@hotwired/turbo-rails~ and ~stimulus~.
+** Rails 7
+   By default Rails 7 will use import maps. Consider also using [[https://esbuild.github.io/][esbuild]]. See
+   also [[https://github.com/rails/jsbundling-rails][jsbundling-rails]] and [[https://www.youtube.com/watch?v=qOptalp8zUY][GoRails How to use ESBuild...]]
 
+   #+begin_src shell
+   rails new --javascript=esbuild --css=tailwind
+   #+end_src
 * Tutorials
   - https://gorails.com/episodes/inline-editing-turbo-frames: Shows how to
     leverage turbo frames and rails partials to add inline field editing to a
