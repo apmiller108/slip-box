@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2023-01-12 15:55 PM
+#+updated: 2023-01-17 08:26 AM
 #+filetags: :linux:
 
 * Trackpad Gestures
@@ -98,7 +98,20 @@
 ** Create a [[https://wiki.archlinux.org/title/udev][udev rule]] to configure the device for wakeup
    See https://github.com/apmiller108/scripts#wake-on-device-udev-rule
    See also https://wiki.archlinux.org/title/udev#Waking_from_suspend_with_USB_device
-     
+
+* Issues waking up from suspend
+  Sometimes I am unable to wake the computer up from suspend. There is often a
+  ~dmesg~ log indicating something like:
+
+  #+begin_src 
+  psmouse serio1: elantech: elantech_send_cmd query 0x02 failed.
+  #+end_src
+
+  - Seems to have something to do with USB peripherals, especially mouse and
+    keyboard (probably mouse?).
+** Things to try
+   - Disable USB autosuspend: https://unix.stackexchange.com/a/175035
+
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
   - https://support.system76.com/articles/pop-keyboard-shortcuts/
