@@ -3,7 +3,7 @@
 :END:
 #+title: Some SQL things
 #+date: 2022-10-06 12:19 PM
-#+updated: 2023-01-06 12:59 PM
+#+updated: 2023-01-18 10:46 AM
 #+filetags: :sql:postgres
 
 * Join only on first record
@@ -58,7 +58,11 @@
    #+begin_src sql
     DATEADD(day, -1, GETDATE())
    #+end_src
-
+** Extract date part
+*** MSQL
+    #+begin_src sql
+    SELECT DATEPART(MINUTE, CURRENT_TIMESTAMP)
+    #+end_src
 ** Convert Datetime to Date
 *** MSSQL
    #+begin_src sql
