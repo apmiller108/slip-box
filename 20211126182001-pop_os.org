@@ -3,8 +3,28 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2023-01-17 08:26 AM
+#+updated: 2023-01-17 20:47 PM
 #+filetags: :linux:
+
+* System Information
+  #+begin_src shell
+  cat /etc/os-release
+  #+end_src
+
+  #+RESULTS:
+  | Pop!_OS                              |         |      |
+  | VERSION="22.04                       | LTS"    |      |
+  | ID=pop                               |         |      |
+  | ID_LIKE="ubuntu                      | debian" |      |
+  | PRETTY_NAME="Pop!_OS                 | 22.04   | LTS" |
+  | 22.04                                |         |      |
+  | https://pop.system76.com             |         |      |
+  | https://support.system76.com         |         |      |
+  | https://github.com/pop-os/pop/issues |         |      |
+  | https://system76.com/privacy         |         |      |
+  | VERSION_CODENAME=jammy               |         |      |
+  | UBUNTU_CODENAME=jammy                |         |      |
+  | LOGO=distributor-logo-pop-os         |         |      |
 
 * Trackpad Gestures
   - Swipe four fingers right on the trackpad opens the Applications view
@@ -110,7 +130,18 @@
   - Seems to have something to do with USB peripherals, especially mouse and
     keyboard (probably mouse?).
 ** Things to try
-   - Disable USB autosuspend: https://unix.stackexchange.com/a/175035
+   - Disable USB autosuspend: https://unix.stackexchange.com/a/175035. The post
+     is very old, but it illustrates that it should be possible to disable
+     autosuspend for USB devices. They will therefore stay on when the system
+     goes into suspend.
+*** View the current configuration for usb autosuspend
+     #+begin_src shell
+     cat /sys/module/usbcore/parameters/autosuspend 
+     #+end_src
+*** change usb autosuspend config
+     #+begin_src shell
+     sudo kernelstub -a "usbcore.autosuspend=-1"
+     #+end_src
 
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
