@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2022-11-09 11:17 AM
+#+updated: 2023-01-27 11:10 AM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -128,3 +128,10 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
   Introduced in Sidekiq v7. This should let you define concurrency options per
   queue.
   https://github.com/mperham/sidekiq/blob/v7.0.0/docs/capsule.md#sidekiq-70-capsules
+
+* Add-ons
+  - [[https://github.com/gzigzigzeo/sidekiq-grouping][sidekiq-grouping]]: combines individually enqueued jobs into one job with a
+    single argument. Useful for converting a bunch of single requests to a
+    single bulk request.
+  - [[https://github.com/bibendi/schked][schked]]: for scheduling things, like jobs. Note that periodic jobs is a
+    sidekiq-ent feature.
