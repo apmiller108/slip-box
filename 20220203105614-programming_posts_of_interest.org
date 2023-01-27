@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2022-06-02 14:45 PM
+#+updated: 2023-01-27 11:39 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -35,3 +35,4 @@ and/or framework.
     title, but an interesting take on piping Rails assets to a CDN.
   - [[https://www.shalerb.org/][Shale]]: This isn't a post, but a library for object mapping and
     serialization. It looks promising.
+  - https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps
