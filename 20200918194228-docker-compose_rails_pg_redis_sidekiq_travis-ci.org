@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2023-01-16 16:30 PM
+#+updated: 2023-01-27 11:39 AM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -165,7 +165,6 @@
     # Install dependencies
     gem install rails -v "~> 7"
     
-    # COMMENT THE FOLLOWING IN TO INSTALL nodejs and yarn:
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
     echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
     apt-get update
