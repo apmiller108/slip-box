@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2023-01-27 11:39 AM
+#+updated: 2023-01-27 13:47 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -37,13 +37,13 @@
           '(("ruby-image" . "ruby:latest")
             ("pg-image" . "postgres:latest")
             ("redis-image" . "redis:latest")
-            ("app-name" . "homestead")))
+            ("app-name" . "tmp")))
     (cdr (assoc key config))
   #+end_src
 
 * Dockerfile
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/homestead/Dockerfile :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/tmp/Dockerfile :mkdirp yes
   :END:
 
   You might get an old-ass, unmaintained version of node by installing nodejs
@@ -76,7 +76,7 @@
 
 * docker-compose
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/homestead/docker-compose.yml :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/tmp/docker-compose.yml :mkdirp yes
   :END:
 
   This orchestrates the following containers:
@@ -148,7 +148,7 @@
 
 * Setup the project
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/homestead/setup.sh :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/tmp/setup.sh :mkdirp yes
   :END:
   At this point we don't have a Gemfile, Gemfile.lock or any of the Rails'
   framework files, etc. But we can still do all the project setup within docker
@@ -181,7 +181,12 @@
     # COMMENT THE FOLLOWING IN TO INSTALL webpacker
     # bin/rails webpacker:install
     
-    bundle add sidekiq
+    bundle add sidekiq --skip-install
+    bundle add rubocop --group development --require false --skip-install
+    bundle add rubocop-performance --group development --require false --skip-install
+    bundle add rubocop-rails --group development --require false --skip-install
+    bundle add rubocop-rspec --group development --require false --skip-install
+    bundle add rspec-rails --group test
     
     # Configure database
     DBCONFIG=$(cat <<EOF
