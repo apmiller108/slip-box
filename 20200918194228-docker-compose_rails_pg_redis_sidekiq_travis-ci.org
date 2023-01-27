@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2023-01-27 13:47 PM
+#+updated: 2023-01-27 15:47 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -165,10 +165,14 @@
     # Install dependencies
     gem install rails -v "~> 7"
     
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-    apt-get update
-    apt-get install nodejs yarn -y
+    # Install node from nodesource
+    # https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
+    curl -fsSL https://deb.nodesource.com/setup_19.x | bash - && apt-get install -y nodejs
+    
+    # Install yarn
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+    apt update && apt install -y yarn
     
     # Setup rails app
     rails new <<config("app-name")>> --database=postgresql --javascript=esbuild --css=tailwind
@@ -186,7 +190,8 @@
     bundle add rubocop-performance --group development --require false --skip-install
     bundle add rubocop-rails --group development --require false --skip-install
     bundle add rubocop-rspec --group development --require false --skip-install
-    bundle add rspec-rails --group test
+    bundle add rspec-rails --group "development, test" --skip-install
+    bundle add factory_bot_rails --group "development, test"
     
     # Configure database
     DBCONFIG=$(cat <<EOF
