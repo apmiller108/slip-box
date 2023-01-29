@@ -3,15 +3,22 @@
 :END:
 #+title: pipewire
 #+date: 2022-11-29 13:59 PM
-#+updated: 2022-12-18 17:56 PM
+#+updated: 2023-01-29 17:10 PM
 #+filetags: :linux:audio:
 
 https://docs.pipewire.org/index.html
 
 * GUI
   [[https://gitlab.freedesktop.org/rncbc/qpwgraph][qpwgraph]] works just like qjackctl
+* Scripting
+  See https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/Migrate-JACK
+** pw-link
+   Manage IO connections. Takes the place of ~jack_connect~, ~jack_disconnect~
+   and ~jack_lsp~
 * Issues
 ** Volume very low
+*** Set volume using a mixer tool
+**** alsamixer
    Use ~alsamixer~ tool and set the output gain to whatever.
 
    - See also https://wiki.archlinux.org/title/PipeWire#Low_volume
@@ -20,5 +27,8 @@ https://docs.pipewire.org/index.html
      #+begin_src shell
      sudo alsactl store
      #+end_src
-
-   
+**** pavucontrol
+   Pipewire works with Pulse audio, so pavucontrol should work as well. In fact,
+   I had better luck with this to set the volume level my Xone k2
+**** amixer
+     Like alsamixer, but CLI only (no TUI)
