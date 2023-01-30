@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2023-01-27 15:47 PM
+#+updated: 2023-01-27 16:08 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -53,9 +53,10 @@
   #+begin_src dockerfile :noweb tangle
     FROM <<config("ruby-image")>>
 
+    RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash - && apt-get install -y nodejs
     RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
     RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-    RUN apt-get update && apt-get install -y build-essential locales nodejs yarn
+    RUN apt-get update && apt-get install -y build-essential locales yarn
 
     RUN locale-gen en_US.UTF-8
     ENV LANG en_US.UTF-8
