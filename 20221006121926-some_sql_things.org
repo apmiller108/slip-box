@@ -3,7 +3,7 @@
 :END:
 #+title: Some SQL things
 #+date: 2022-10-06 12:19 PM
-#+updated: 2023-01-18 10:46 AM
+#+updated: 2023-01-30 11:36 AM
 #+filetags: :sql:postgres
 
 * Join only on first record
@@ -73,4 +73,16 @@
    
    #+begin_src sql
    SELECT CONVERT(DATE, GETDATE())
+   #+end_src
+* JSON
+** bytea
+   If you need to insert into a ~bytea~ column, one approach would be to hexdump
+   the file the insert the it using the ~convert~ utility.
+
+   #+begin_src shell
+   xxd -ps /path/to/json | tr -d '\n' | pbcopy
+   #+end_src
+
+   #+begin_src sql
+   update sometable set "json" = convert('PASTE_HEXDUMP_FROM_ABOVE_STEP_HERE', 'hex') where id = 1
    #+end_src

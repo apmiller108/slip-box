@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2023-01-13 15:41 PM
+#+updated: 2023-01-30 11:31 AM
 #+filetags: unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -138,6 +138,11 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
    #+end_src
 
    There will be no output while the image is made.
+** Make a Hexdump
+*** xxd
+    #+begin_src shell
+    xxd -ps /path/to/file | tr -d '\n'
+    #+end_src
 * Devices
   See also [[id:d5d67aa4-e66e-48de-90d1-051ef3a8df77][Pop_os]] (eg, ~lsusb~, etc)
 * Logging
