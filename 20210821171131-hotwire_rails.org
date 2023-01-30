@@ -3,7 +3,7 @@
 :END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2023-01-16 16:12 PM
+#+updated: 2023-01-27 16:22 PM
 #+filetags: :javascript:ruby:rails:
 
 * What is this?
@@ -32,10 +32,28 @@
 ** Rails 7
    By default Rails 7 will use import maps. Consider also using [[https://esbuild.github.io/][esbuild]]. See
    also [[https://github.com/rails/jsbundling-rails][jsbundling-rails]] and [[https://www.youtube.com/watch?v=qOptalp8zUY][GoRails How to use ESBuild...]]
-
-   #+begin_src shell
-   rails new --javascript=esbuild --css=tailwind
-   #+end_src
+*** esbuild
+    See also http://www.ahmednadar.com/posts/setup-tailwindcss-and-esbuild-on-rails-7
+    Example:
+    #+begin_src shell
+      rails new foo --javascript=esbuild --css=tailwind
+    #+end_src
+**** bin/dev
+     Rails apps are now started with ~bin/dev~ for development. This uses [[https://github.com/ddollar/foreman][foreman]]
+     to manager three processes defined in ~Procfile.dev~
+     #+begin_src shell
+       web: unset PORT && bin/rails server -p 3000 -b '0.0.0.0'
+       js: yarn build --watch
+       css: yarn build:css --watch
+     #+end_src
+**** package.json
+     Defines two build commands:
+     #+begin_src json
+       "scripts": {
+         "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+         "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+       }
+     #+end_src
 * Tutorials
   - https://gorails.com/episodes/inline-editing-turbo-frames: Shows how to
     leverage turbo frames and rails partials to add inline field editing to a
