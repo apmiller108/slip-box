@@ -3,7 +3,7 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2022-08-10 12:11 PM
+#+updated: 2023-02-06 09:00 AM
 #+filetags: :philosophy:
 
 #+begin_quote
@@ -45,4 +45,12 @@ I Am an Old Man and Have Known a Great Many Troubles, But Most of Them Never
 Happened
 
 --- Commonly attributed to Mark Twain but could have been someone else.
+#+end_quote
+
+#+begin_quote
+We labour at our daily work more ardently and thoughtlessly than is necessary to
+sustain our life because to us it is even more necessary not to have leisure to
+stop and think. Haste is universal because everyone is in flight from himself
+
+--- Nietzsche
 #+end_quote
