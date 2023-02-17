@@ -3,7 +3,7 @@
 :END:
 #+title: Org-mode basics
 #+date: 2021-03-26 12:45 PM
-#+updated: 2023-01-23 12:32 PM
+#+updated: 2023-02-09 15:31 PM
 #+filetags: :org_mode:
 
 This is a dump of notes on basic org-mode stuff. I recently switched from
@@ -12,20 +12,21 @@ Boostnote to org-mode.
 See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]   
 
 * Headings
-  Rotate heading type (eg, TODO, DONE, etc) with:
+** Rotate heading type
+   (eg, TODO, DONE, etc) with:
   - ~S-RIGHT S-LEFT~
   - ~C-c C-t~
   - ~SPC m T T~ (spacemacs)
 
-  Expand and Collapse
+** Expand and Collapse
   - ~Tab~ for a single heading
   - ~S-Tab~  for all of them
 
-  To change the collapse state ellipsis set variable:
+** To change the collapse state ellipsis
+   set variable: ~(set-q org-ellipsis " ▼")~
 
-  ~(set-q org-ellipsis " ▼")~
-
-  To remove the underline face on the ellipsis, you can use a hook:
+*** To remove the underline face on the ellipsis
+    you can use a hook:
 
   #+begin_src emacs-lisp
     (add-hook 'org-mode-hook (lambda () (set-face-underline 'org-ellipsis nil)))
@@ -68,7 +69,23 @@ See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]
     work properly.
     [[https://orgmode.org/manual/Editing-Source-Code.html][Editing-Source-Code docs]]
     - Save without closing it: ~C-x C-s~
+** Evaluate code against docker container
+   With [[https://github.com/emacs-pe/docker-tramp.el/blob/master/README.md][docker-tramp]] (already with spacemacs), you can add the ~:dir~ header
+   argument that points to a running docker container
+   1. Build the docker image. ~docker build -t my-image .~
+   2. Run the docker container. It can be helpful to give the container a name.
+      #+begin_src 
+      docker run -it --rm -v "$PWD":/app --name my-container --env-file .env my-image
+      #+end_src
+   3. Add the ~:dir~ header argument
+      
+      ~#+begin_src ruby :dir /docker:root@my-container:/app~
 
+      - root is the user
+      - my-container is the container name or ID
+
+   See also https://orgmode.org/manual/Evaluating-Code-Blocks.html 
+      
 * Capture templates
   See [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam Capture Templates]]  
 
