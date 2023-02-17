@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2023-01-27 11:39 AM
+#+updated: 2023-02-17 08:34 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -17,7 +17,6 @@ and/or framework.
     lock anything. Also, worth noting, the paid version of Sidekiq (Sidekiq ENT)
     already has a [[https://github-wiki-see.page/m/mperham/sidekiq/wiki/Ent-Unique-Jobs][unique_for option]]. The general pattern/algorithm this article
     demonstrates is also discussed in the [[https://redis.io/topics/distlock][Distributed locks with Redis docs]].
-
   - [[https://www.speedshop.co/2017/10/12/appserver.html][Configuring Puma, Unicorn and Passenger for Maximum Efficiency]]:
     Shares advice for figuring out how many workers and threads to use for your
     server configuration based on available CPU and memory resources. For
@@ -27,7 +26,6 @@ and/or framework.
       Is another look along the same lines, but favors forking processes over
       spawning threads. It shows how CoW memory works and how to inspect metrics
       related to it.
-
   - [[https://blog.appsignal.com/2018/05/29/ruby-magic-enumerable-and-enumerator.html][Ruby's magical Enumerable module]]:
     Shows how to make objects enumerable by creating a ~LinkedList~ class. See
     also [[id:fcba0c10-cdb7-4d98-96ad-acf6afafe275][Make something enumerable]] for another example.
@@ -35,4 +33,7 @@ and/or framework.
     title, but an interesting take on piping Rails assets to a CDN.
   - [[https://www.shalerb.org/][Shale]]: This isn't a post, but a library for object mapping and
     serialization. It looks promising.
-  - https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps
+  - [[https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps][Gemfile of dreams: Libraries we use to build rails apps]]: Evil Martians'
+    commonly uses Rails libs.
+  - https://semaphoreci.com/blog/ruby-webassembly: How to webassembly in Ruby as
+    of February, 2023.
