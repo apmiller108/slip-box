@@ -3,7 +3,7 @@
 :END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2022-03-12 09:48 AM
+#+updated: 2023-02-09 09:42 AM
 #+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
@@ -59,7 +59,7 @@ that big of a deal.
     Add this to the ~Dockerfile~.
 
    #+begin_example dockerfile
-     FROM ruby:3.0.0
+     FROM ruby:3.2
 
      # throw errors if Gemfile has been modified since Gemfile.lock
      RUN bundle config --global frozen 1
@@ -89,7 +89,7 @@ that big of a deal.
       running ~sudo chown "$USER":"$USER" ./ -R~ in the project directory to
       take ownership.
    #+begin_example shell
-     docker run --rm -v "$PWD":/app -w /app ruby:3.0.0 bundle gem my_proj && mv my_proj/* ./ && rm -rf my_proj
+     docker run --rm -v "$PWD":/app -w /app ruby:3.2 bundle gem my_proj && mv my_proj/* ./ && rm -rf my_proj
    #+end_example
 
 **** Fill out the ~.gemspec~
@@ -115,7 +115,7 @@ that big of a deal.
 *** Build the container and Write code
 
    - Build the container from the image and tag it. =docker build -t my-proj .=
-   - Run the container: =docker run -it --rm -v "$PWD":/app my-proj=
+   - Run the container: ~docker run -it --rm -v "$PWD":/app my-proj~
       - The entry point drops me into a bash prompt inside the container.
    - Write code.
 
