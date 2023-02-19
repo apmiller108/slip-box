@@ -3,7 +3,7 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2023-02-06 09:00 AM
+#+updated: 2023-02-19 15:43 PM
 #+filetags: :philosophy:
 
 #+begin_quote
@@ -53,4 +53,17 @@ sustain our life because to us it is even more necessary not to have leisure to
 stop and think. Haste is universal because everyone is in flight from himself
 
 --- Nietzsche
+#+end_quote
+
+#+begin_quote
+Make your work look like it happened all by itself.
+
+--- Alan Watts
+#+end_quote
+
+#+begin_quote
+In answer to the question of why it happened, I offer the modest proposal that
+our Universe is simply one of those things which happen from time to time.
+
+--- Edward P. Tryon
 #+end_quote
