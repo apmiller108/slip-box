@@ -3,7 +3,7 @@
 :END:
 #+title: Row locking
 #+date: 2023-01-04 08:40 AM
-#+updated: 2023-01-04 08:49 AM
+#+updated: 2023-02-21 15:16 PM
 #+filetags: :postgres:
 
 * FOR UPDATE
@@ -14,3 +14,11 @@
   - What action to take if encountering lock contention
 
   See also https://www.postgresql.org/docs/current/sql-select.html#SQL-FOR-UPDATE-SHARE
+
+* Advisory Locks
+  These aren't row locks, but worth mentioning. You can use these to control
+  concurrency in general, even things not explicitly tied to data in the
+  database.
+  See also:
+    - https://www.postgresql.org/docs/12/explicit-locking.html#ADVISORY-LOCKS
+    - https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS
