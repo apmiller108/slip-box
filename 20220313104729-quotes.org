@@ -3,7 +3,7 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2023-02-19 15:43 PM
+#+updated: 2023-03-08 10:42 AM
 #+filetags: :philosophy:
 
 #+begin_quote
@@ -66,4 +66,11 @@ In answer to the question of why it happened, I offer the modest proposal that
 our Universe is simply one of those things which happen from time to time.
 
 --- Edward P. Tryon
+#+end_quote
+
+
+#+begin_quote
+The devil always shits on the biggest pile.
+
+--- German Proverb
 #+end_quote
