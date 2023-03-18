@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2023-01-17 20:47 PM
+#+updated: 2023-03-18 11:30 AM
 #+filetags: :linux:
 
 * System Information
@@ -89,17 +89,17 @@
      #+end_src
 
      #+RESULTS:
-     | /sys/bus/usb/devices/3-14/power/wakeup:disabled  |
-     | /sys/bus/usb/devices/3-2/power/wakeup:disabled   |
-     | /sys/bus/usb/devices/3-4.1/power/wakeup:enabled  |
-     | /sys/bus/usb/devices/3-4.3/power/wakeup:disabled |
-     | /sys/bus/usb/devices/3-4.4/power/wakeup:disabled |
-     | /sys/bus/usb/devices/3-4/power/wakeup:disabled   |
-     | /sys/bus/usb/devices/4-2/power/wakeup:disabled   |
-     | /sys/bus/usb/devices/usb1/power/wakeup:disabled  |
-     | /sys/bus/usb/devices/usb2/power/wakeup:disabled  |
-     | /sys/bus/usb/devices/usb3/power/wakeup:disabled  |
-     | /sys/bus/usb/devices/usb4/power/wakeup:disabled  |
+     | /sys/bus/usb/devices/3-14/power/wakeup:disabled |
+     | /sys/bus/usb/devices/3-2/power/wakeup:disabled  |
+     | /sys/bus/usb/devices/3-4.1/power/wakeup:enabled |
+     | /sys/bus/usb/devices/3-4.2/power/wakeup:enabled |
+     | /sys/bus/usb/devices/3-4/power/wakeup:disabled  |
+     | /sys/bus/usb/devices/4-3/power/wakeup:disabled  |
+     | /sys/bus/usb/devices/4-4/power/wakeup:disabled  |
+     | /sys/bus/usb/devices/usb1/power/wakeup:disabled |
+     | /sys/bus/usb/devices/usb2/power/wakeup:disabled |
+     | /sys/bus/usb/devices/usb3/power/wakeup:disabled |
+     | /sys/bus/usb/devices/usb4/power/wakeup:disabled |
 
 *** List devices and Buses
     List all your device names, vendor ID, product ID along with the Bus number
@@ -143,6 +143,37 @@
      sudo kernelstub -a "usbcore.autosuspend=-1"
      #+end_src
 
+* Recovery
+  Boot into the recovery partition by pressing SPACE at splash screen.
+  From here you can do
+  1. Clean install
+  2. Refresh install (user data is retained but apps not installed in user dir
+     are removed)
+  3. Repair something: mount the main partition and do stuff to it
+** Unlock and mount the encrypted drive
+   TIP: use ~lsblk~ to list drives and partitions
+   #+begin_src shell
+   sudo cryptsetup luksOpen /dev/nvme0n1p3 cryptdata
+   sudo mount /dev/mapper/data-root /mnt
+   #+end_src
+** chroot
+   Run commands as root dir set to NEWROOT (as if the existing OS system has
+   been booted). From here can fix issues with packages, etc.
+
+   1. Mount the EFI partition
+      #+begin_src shell
+      sudo mount /dev/nvme0n1p1 /mnt/boot/efi
+      #+end_src
+   2. Mount the rest
+      #+begin_src shell
+      for i in /dev /dev/pts /proc /sys /run; do sudo mount -B $i /mnt$i; done
+      #+end_src
+   3. Change root to /mnt
+      #+begin_src shell
+      sudo chroot /mnt
+      #+end_src
+   4. When done ~exit~ and ~reboot~
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
   - https://support.system76.com/articles/pop-keyboard-shortcuts/
+  - https://support.system76.com/articles/login-loop-pop/
