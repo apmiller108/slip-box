@@ -3,7 +3,7 @@
 :END:
 #+title: Kubernetes
 #+date: 2022-02-28 15:37 PM
-#+updated: 2022-11-02 14:13 PM
+#+updated: 2023-03-17 09:09 AM
 #+filetags: :kubernetes:
 
 See also https://kubernetes.io/
@@ -41,12 +41,12 @@ See also https://kubernetes.io/
   Useful tool that provides a TUI (with vim key bindings) for doing comment commands
   to the cluster that you'd otherwise do using a GUI or CLI.
   https://k9scli.io/topics/commands/
-  
+
 * Kubectl cli tool
   See also my notes/command reference on [[id:BC7E2058-A3F6-4149-9CA3-902B6BDE5D1F][Kubectl]]
-  
+
   This is also for managing the k8 cluster.
-** Some common commands for getting info  
+** Some common commands for getting info
   - ~kubectl api-resources~ to see all the different types of resources that can
     be managed.
   - ~kubectl explain <object>~ to see the resource properties. You can drill
@@ -56,7 +56,7 @@ See also https://kubernetes.io/
   - ~kubectl get <resourceType> <resourceName> -o yaml~ This is super useful
     with ~--dry-run~ option and ~> my_resource.yml~ to quickly create yamls.
 
-    
+
   See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 ** Create deployment
 
@@ -73,7 +73,7 @@ See also https://kubernetes.io/
    Lets say you ~apply -f deployment.yaml~ with a newer version of a container
    image. This will by default be deployed as a rolling update. Then you can see
    the numbered revision history with:
-   
+
    #+begin_src shell
    kubectl rollout history deployment <deploymentName>
    #+end_src
@@ -86,7 +86,7 @@ See also https://kubernetes.io/
 * YAMLs
   See https://github.com/sandervanvugt/kubernetes for examples
 
-** Getting started  
+** Getting started
    One easy way to build these yamls is to use the dashboard or cli to build
    deployments, then "export" the configuration to a yaml file.
 
@@ -178,7 +178,7 @@ See also https://kubernetes.io/
   - How do running containers within a pod communicate with each other?
 
 ** Service object
-   There's a bunch of different service types. 
+   There's a bunch of different service types.
    - Connects to Pods with labels
    - ~targetPort~ is the exposed port of the containers (the ~containerPort~ property)
 ** LoadBalancer example
@@ -201,11 +201,11 @@ See also https://kubernetes.io/
 
 ** Database example
    How to connect an app deployment to a database deployment?
-   
+
    Assuming there is a deployment with an app that needs to make a connection to
    a Postgres database. Also, assumes the [[https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/#dns][Kubernetes DNS cluster addon]] is
    running in the cluster.
-   
+
    1. Create the postgres database deployment. See Secrets above for how to use
       the ~fromEnv~ property. It will be needed to set the postgres user and
       password.
@@ -262,8 +262,8 @@ See also https://kubernetes.io/
    See examples in https://github.com/apmiller108/kubernetes_rails
 ** ConfigMap
    ConfigMaps can be mounted as a volume and used to provide configuration files.
-   
-   See https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps  
+
+   See https://kubernetes.io/docs/concepts/configuration/configmap/#using-configmaps
 * Tilt
   [[https://docs.tilt.dev/index.html][Tilt]] is cool for doing local development against a local or remote K8s
   cluster. It handles exposing rebuilding the image with code changes and

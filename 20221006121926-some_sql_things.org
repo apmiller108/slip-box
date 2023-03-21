@@ -3,7 +3,7 @@
 :END:
 #+title: Some SQL things
 #+date: 2022-10-06 12:19 PM
-#+updated: 2023-01-30 11:36 AM
+#+updated: 2023-03-21 13:10 PM
 #+filetags: :sql:postgres
 
 * Join only on first record
@@ -33,7 +33,7 @@
          as most_recent_user_widgeton on users.id = most_recent_user_widget.user_id
    #+end_src
 
-   
+
 *** If not using PostgreSQL (ie ~DISTINCT ON~)
     We can use the ~ROW_NUMBER~ function with ordering and selecting the first row.
 
@@ -54,7 +54,7 @@
     #+begin_src sql
     NOW() - '1 day'::INTERVAL
     #+end_src
-*** MSSQL    
+*** MSSQL
    #+begin_src sql
     DATEADD(day, -1, GETDATE())
    #+end_src
@@ -70,7 +70,7 @@
    #+end_src
 
    OR
-   
+
    #+begin_src sql
    SELECT CONVERT(DATE, GETDATE())
    #+end_src
@@ -85,4 +85,28 @@
 
    #+begin_src sql
    update sometable set "json" = convert('PASTE_HEXDUMP_FROM_ABOVE_STEP_HERE', 'hex') where id = 1
+   #+end_src
+* Schema comments
+  - Comments can be added to any database object.
+  - Only one comment allowed per object.
+  - To remove a comment, just replace the comment with NULL
+
+** Add a comment to a Table
+   #+begin_src sql
+     COMMENT ON TABLE horsey_coconuts IS 'Coconuts in Mercia';
+   #+end_src
+
+   View with
+   #+begin_src shell
+     \dt+ table_name
+   #+end_src
+
+** Add comments to a column
+   #+begin_src sql
+     COMMENT ON COLUMN horsey_coconuts.swallow_speed IS 'The air speed the swallow who carried the coconut';
+   #+end_src
+
+   View with
+   #+begin_src shell
+     \d+ table_name
    #+end_src
