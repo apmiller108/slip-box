@@ -3,8 +3,8 @@
 :END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2023-01-27 16:22 PM
-#+filetags: :javascript:ruby:rails:
+#+updated: 2023-03-10 12:44 PM
+#+filetags: :tailwind:javascript:ruby:rails:
 
 * What is this?
   [[https://hotwired.dev/][Hotwire]] is a way of building web applications that, at its core, is about
