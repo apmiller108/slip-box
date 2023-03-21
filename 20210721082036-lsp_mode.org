@@ -3,15 +3,48 @@
 :END:
 #+title: lsp-mode
 #+date: 2021-07-21 08:20 AM
-#+updated: 2021-08-30 08:27 AM
+#+updated: 2023-03-13 17:06 PM
 #+filetags: :lsp:emacs:
+
+https://emacs-lsp.github.io/lsp-mode/
+https://develop.spacemacs.org/layers/+lang/ruby/README.html#language-server-protocol
 
 * Typescript
 ** Setup
    - I choose to use [[https://github.com/theia-ide][theia-ide]] setup. See also https://theia-ide.org/.
      - Requires the [[https://github.com/theia-ide/typescript-language-server][typescript-language-server]] to be installed.
    - Follow the lsp-mode [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][setup instructions]].
+* Ruby
+  There are a bunch of options for LSP servers. You can have multiple servers
+  and the one used can be specified in a dir-local file
+  See also [[https://emacs-lsp.github.io/lsp-mode/page/faq/#i-have-multiple-language-servers-registered-for-language-foo-which-one-will-be-used-when-opening-a-project][emacs-lsp FAQ]]
+** Ruby LSP
+   https://github.com/Shopify/ruby-lsp
+   This requires putting it in the Gemfile, so kind of a non-starter.
+** Solargraph
+   - https://github.com/castwide/solargraph
+   - https://solargraph.org/guides
 
+   It doesn't require [[https://yardoc.org/features.html][yard]], but it can help it out.
+*** Setup
+    Just follow the instructions linked above. For spacemacs, set the ruby-mode
+    backend to ~'lsp~
+**** Rails
+     Use the [[https://github.com/iftheshoefritz/solargraph-rails/][solargraph-rails]] plugin. When using this you'll need to include
+     ~"**/*.rb"~ and use the exclude directive in the .solargraph.yml
+*** Features
+    - autocompletion
+    - other things...
+
+    | cmd                          | description                                         |
+    |------------------------------+-----------------------------------------------------|
+    | lsp-ui-peek-jump-backward    | Moves cursor back to the previous location          |
+    | lsp-ui-peek-jump-forward     | Moves cursor back to the next location              |
+    | lsp-ui-peek-find-references  | Shows a list of where something is used in the code |
+    | lsp-ui-peek-find-definitions | Navigate to definition of thing at point            |
+    | lsp-describe-thing-at-point  | Shows documentation                                 |
+
+    - See [[https://develop.spacemacs.org/layers/+tools/lsp/README.html#core-key-bindings][spacemacs core lsp-mode bindings]]
 * Performance
   I had performance issues with LSP mode, especially with Typescript.
 
