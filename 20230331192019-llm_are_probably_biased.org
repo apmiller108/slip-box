@@ -1,0 +1,64 @@
+:PROPERTIES:
+:ID:       bc329ab3-ced0-4336-9281-7771d04bb4d0
+:END:
+#+title: LLMs are probably biased
+#+date: 2023-03-31 19:20 PM
+#+updated: 2023-04-01 08:42 AM
+#+filetags: :ai:philosophy:
+
+
+* What is this?
+  I had this conversation with the [[https://blogs.bing.com/search/march_2023/Confirmed-the-new-Bing-runs-on-OpenAI%E2%80%99s-GPT-4][Bing wrapped OpenAI GPT-4]]. I've previously
+  explored this technology in software development (coding) applications and found
+  limitations, but it does seem to serve as an efficiency amplifier if one can
+  adapt it into one's workflow with minimal friction. This time I wanted to test
+  it for insights into human civilization. OpenAI hasn't been forthcomming about
+  how the thing ([[https://en.wikipedia.org/wiki/GPT-4][GPT-4]]) was trained (which is concerning), but predecessors (eg,
+  [[https://en.wikipedia.org/wiki/GPT-3][GPT-3]]) were trained on enormous datasets of human created content. So I figured
+  we should be able to use it to glean some insight into us as a civilization with
+  the right prompting. I'm not sure that's what happened here, since the
+  conversation took a different turn, but its still kind of interesting.
+
+  "LLM" = Large Language Model
+
+* The chat
+  I've been having trouble using OpenAI's chatgpt interface lately. It seems to
+  error on every other response, so I used Bing instead. I wish there was a
+  better, cleaner way to export a conversation, but I had to rely on these
+  clunky screenshots from the Bing android app.
+  
+  #+attr_html: :width 750
+  [[file:images/1_gpt4.jpg]]
+
+  #+attr_html: :width 750
+  [[file:images/2_gpt4.jpg]]
+
+  #+attr_html: :width 750
+  [[file:images/3_gpt4.jpg]]
+
+  #+attr_html: :width 750
+  [[file:images/4_gpt4.jpg]]
+
+  #+attr_html: :width 750
+  [[file:images/5_gpt4.jpg]]
+
+  #+attr_html: :width 750
+  [[file:images/6_gpt4.png]]
+
+* Reflection
+  So it I guess it's still up to us to "do our own research". Which of course
+  invokes the glorious words once famously spoken,
+  "[[https://youtu.be/zGxwbhkDjZM][ain't nobody got time for that.]]" But seriously, it shouldn't be a surprise
+  that LLMs are likely biased in some way, however, a few points:
+
+  - Even though I understand this technology to just be
+    [[https://writings.stephenwolfram.com/2023/02/what-is-chatgpt-doing-and-why-does-it-work/][recursively prediciting the next token]], it does appear to have the ability to
+    reason through topics rather adeptly.
+  - It can admit to it's own shortcomings. There's a humility here that I
+    appreciate.
+  - While this was a fun exercise, a kind of which I'll continue to explore, I
+    still find using LLMs most useful in practical applications where one is
+    trying to find precise answers (eg, coding). Admittedly, that's probably the
+    least interesting way to use this technology, but could be the most
+    useful...for now.
+
