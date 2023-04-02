@@ -3,7 +3,7 @@
 :END:
 #+title: Raised vegetable gardening
 #+date: 2023-04-02 08:04 AM
-#+updated: 2023-04-02 08:48 AM
+#+updated: 2023-04-02 09:12 AM
 #+filetags: :countrylife:gardening:
 #+OPTIONS: ^:{}
 
@@ -55,7 +55,7 @@
     [[file:images/raised_bed_20230401_7.jpg]] 
 *** Mix in remaining topsoil   
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230501_8.jpg]] 
+    [[file:images/raised_bed_20230401_8.jpg]] 
    
 ** What we planted
    This month (April):
