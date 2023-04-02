@@ -3,7 +3,7 @@
 :END:
 #+title: Raised vegetable gardening
 #+date: 2023-04-02 08:04 AM
-#+updated: 2023-04-02 09:12 AM
+#+updated: 2023-04-02 09:22 AM
 #+filetags: :countrylife:gardening:
 #+OPTIONS: ^:{}
 
@@ -18,7 +18,7 @@
 ** The soil mix
    FYI mixing soil is hard work.
 *** Ingredients
-    - Around ft^{3} of compost composed of mostly leaves and some food waste.
+    - Around 3 ft^{3} of compost composed of mostly leaves and some food waste.
       This wasn't very well decomposed yet.
     - 4 1/2 ft^{3} of Scott's Topsoil (contains sphagnum peat moss and organic
       matter)
