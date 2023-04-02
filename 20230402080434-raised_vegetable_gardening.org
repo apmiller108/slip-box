@@ -1,0 +1,74 @@
+:PROPERTIES:
+:ID:       d9d045d0-8598-4e5f-be7e-f61312460d3d
+:END:
+#+title: Raised vegetable gardening
+#+date: 2023-04-02 08:04 AM
+#+updated: 2023-04-02 08:48 AM
+#+filetags: :countrylife:gardening:
+#+OPTIONS: ^:{}
+
+* First attempt 2023-04-01
+  We've never done vegetable gardening. now that we're living on a good
+  amount of land in the southeast US country, we figured we'd give it a try.
+  After reading blog posts (like [[https://www.planetnatural.com/raised-bed-soil/][this one)]] on the internet and videos on YouTube
+  (like [[https://youtu.be/ckgLec0eudc][this one)]], we decided on DIY soil since it would be cheaper than buying
+  "premium" raised gardening soil at over $10/bag. We did go a little off
+  script, with our soil mix, mostly to keep cost down further, but figured we
+  captured the spirit of the conventional wisdom of DIY soil mixing.
+** The soil mix
+   FYI mixing soil is hard work.
+*** Ingredients
+    - Around ft^{3} of compost composed of mostly leaves and some food waste.
+      This wasn't very well decomposed yet.
+    - 4 1/2 ft^{3} of Scott's Topsoil (contains sphagnum peat moss and organic
+      matter)
+    - 6 ft^{3} of American Countryside Topsoil (consists of composted bark,
+      forest products and sand)
+    - 3 ft^{3} of Peat moss. This helps with water and nutrient retention, but is
+      acidic so don't use too much.
+    - 3 ft^{3} of Black Kow. Contains cow manure. It supposed to increase nutrient
+      content.
+    - 24 Qt of perlite. This supports aeration and drainage. Prevents soil
+      compaction so plants to take root easily.
+    - 1 1/2 cups of Dr. Earth Pure Gold All Purpose Fertilizer. 
+
+    #+attr_html: :width 750
+    [[file:images/raised_bed_20230401_1.jpg]] 
+   
+*** Start with the compost
+    #+attr_html: :width 750
+    [[file:images/raised_bed_20230401_2.jpg]] 
+*** Mix in peat moss
+    #+attr_html: :width 750
+    [[file:images/raised_bed_20230401_3.jpg]] 
+*** Mix in the Scott's topsoil
+    #+attr_html: :width 750
+    [[file:images/raised_bed_20230401_4.jpg]] 
+*** Mix in the perlite
+    #+attr_html: :width 750
+    [[file:images/raised_bed_20230401_5.jpg]] 
+*** Mix in the manure
+    #+attr_html: :width 750
+    [[file:images/raised_bed_20230401_6.jpg]] 
+*** Mix in the fertilizer
+    #+attr_html: :width 750
+    [[file:images/raised_bed_20230401_7.jpg]] 
+*** Mix in remaining topsoil   
+    #+attr_html: :width 750
+    [[file:images/raised_bed_20230501_8.jpg]] 
+   
+** What we planted
+   This month (April):
+   1. onions
+   2. carrots
+   3. tomatoes
+      
+   We also planted in separate pots
+   1. Basil
+   2. Catnip
+   3. Snowsurfer Forte Candytuft (an early spring perennial flower)
+
+   Next month (May) we will plant:
+   1. Zucchini
+   2. Squach
+
