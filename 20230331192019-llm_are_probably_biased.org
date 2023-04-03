@@ -3,7 +3,7 @@
 :END:
 #+title: LLMs are probably biased
 #+date: 2023-03-31 19:20 PM
-#+updated: 2023-04-01 08:42 AM
+#+updated: 2023-04-03 16:05 PM
 #+filetags: :ai:philosophy:
 
 
@@ -28,23 +28,21 @@
   clunky screenshots from the Bing android app.
   
   #+attr_html: :width 750
-  [[file:images/1_gpt4.jpg]]
+  [[file:images/1_gpt4.webp]]
 
   #+attr_html: :width 750
-  [[file:images/2_gpt4.jpg]]
+  [[file:images/2_gpt4.webp]]
 
   #+attr_html: :width 750
-  [[file:images/3_gpt4.jpg]]
+  [[file:images/3_gpt4.webp]]
+  #+attr_html: :width 750
+  [[file:images/4_gpt4.webp]]
+  
+  #+attr_html: :width 750
+  [[file:images/5_gpt4.webp]]
 
   #+attr_html: :width 750
-  [[file:images/4_gpt4.jpg]]
-
-  #+attr_html: :width 750
-  [[file:images/5_gpt4.jpg]]
-
-  #+attr_html: :width 750
-  [[file:images/6_gpt4.png]]
-
+  [[file:images/6_gpt4.webp]]
 * Reflection
   So it I guess it's still up to us to "do our own research". Which of course
   invokes the glorious words once famously spoken,

@@ -3,7 +3,7 @@
 :END:
 #+title: Org-mode basics
 #+date: 2021-03-26 12:45 PM
-#+updated: 2023-04-02 08:52 AM
+#+updated: 2023-04-03 16:08 PM
 #+filetags: :org_mode:
 
 This is a dump of notes on basic org-mode stuff. I recently switched from
@@ -51,7 +51,11 @@ See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]
 
     Make sure to have variable: ~org-image-actual-width nil~. This will use the
     attribute size and fallback to actual.
-
+** webp
+   At the time of writing this, emacs doesn't have native support for displaying
+   webp images. We can tell emacs to use a converter and make sure the system
+   has imagemagick.
+   ~(setq image-use-external-converter t)~
 * Displaying boundaries
   Common use case is an 80 character column indicator.
   See
