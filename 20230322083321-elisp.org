@@ -3,7 +3,7 @@
 :END:
 #+title: Elisp
 #+date: 2023-03-22 08:33 AM
-#+updated:  2023-03-22 08:42 AM
+#+updated:  2023-03-24 16:11 PM
 #+filetags: :emacs:
 
 * Debugging
@@ -17,3 +17,25 @@
    #+begin_src elisp
    (message "debug: %s" foo)
    #+end_src
+* JSON
+** Encoding an object
+   #+begin_src elisp
+     (json-encode
+      `(("model" . "gpt-3.5-turbo")
+        ("messages" . ((("role" . "user") ("content" . "foo bar foo"))))
+        ("max_tokens" . "500")
+        ("temperature" . 0)))
+   #+end_src
+
+   #+RESULTS:
+   : {"model":"gpt-3.5-turbo","messages":[{"role":"user","content":"foo bar foo"}],"max_tokens":"500","temperature":0}
+** Parsing JSON
+   #+begin_src elisp
+     (defun parse-json (json-string)
+       (let ((json-object (json-read-from-string json-string)))
+         (cdr (assoc 'data json-object))))
+     (parse-json "{\"data\":1}")
+   #+end_src
+
+   #+RESULTS:
+   : 1

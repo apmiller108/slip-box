@@ -3,12 +3,14 @@
 :END:
 #+title: Rake Tasks
 #+date: 2018-04-17 02:56 AM
-#+updated: 2021-09-27 16:11 PM
+#+updated: 2023-04-03 07:58 AM
 #+filetags: :rails:rake:ruby:
 
 Just some notes on using rake (Ruby Make) tasks.
 
 See also https://ruby.github.io/rake/
+
+And https://graceful.dev/courses/the-freebies/modules/rake-and-project-automation/topic/episode-131-rake-rules/
 
 * Testing Rake Tasks
   This is one approach to testing a rake task. Another might be to encapsulate
@@ -17,19 +19,19 @@ See also https://ruby.github.io/rake/
 
   #+begin_src ruby
     require "rake"
-    
-    RSpec.describe 'projects:todos' do  
-      before do    
-        load File.expand_path('../../../../lib/tasks/projects/todos.rake', __FILE__)    
-        Rake::Task.define_task :environment  
+
+    RSpec.describe 'projects:todos' do
+      before do
+        load File.expand_path('../../../../lib/tasks/projects/todos.rake', __FILE__)
+        Rake::Task.define_task :environment
       end
-    
-      subject do    
+
+      subject do
         Rake::Task['projects:todos']
       end
-    
-      it 'puts projects to stdout' do    
-        expect { subject.execute }.to output(        
+
+      it 'puts projects to stdout' do
+        expect { subject.execute }.to output(
                                         "Project One"
                                         "- [X] Todo Item 1"
                                         "- [ ] Todo Item 2"
@@ -37,7 +39,7 @@ See also https://ruby.github.io/rake/
                                         ""
                                         "Project Two"
                                         "- [ ] Todo Item 1"
-                                      ).to_stdout  
+                                      ).to_stdout
       end
     end
   #+end_src
@@ -51,24 +53,27 @@ See also https://ruby.github.io/rake/
    will produce ~lib/tasks/task_namespace.rake~:
 
    #+begin_src ruby
-     namespace :task_namespace do  
-       desc "TODO"  
-       task task_one: :environment do  
+     namespace :task_namespace do
+       desc "TODO"
+       task task_one: :environment do
        end
-     
-       desc "TODO"  
-       task task_two: :environment do  
+
+       desc "TODO"
+       task task_two: :environment do
        end
      end
    #+end_src
 
+*** What is environment?
+    In this example, the task depends on the ~environment~ task. For rails, I
+    think this loads the environment as specified in ~config/environment.rb~
 ** List all available rake tasks
 
    #+begin_src shell
      $ rake -T
    #+end_src
 
-* Some tips 
+* Some tips
   - Write a good description
   - Namespace task related tasks
   - Use folder structure to group related tasks (ie, one task per file)
