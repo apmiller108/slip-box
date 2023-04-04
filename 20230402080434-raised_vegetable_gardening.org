@@ -3,18 +3,18 @@
 :END:
 #+title: Raised vegetable gardening
 #+date: 2023-04-02 08:04 AM
-#+updated: 2023-04-02 09:22 AM
+#+updated: 2023-04-03 21:10 PM
 #+filetags: :countrylife:gardening:
 #+OPTIONS: ^:{}
 
 * First attempt 2023-04-01
-  We've never done vegetable gardening. now that we're living on a good
-  amount of land in the southeast US country, we figured we'd give it a try.
-  After reading blog posts (like [[https://www.planetnatural.com/raised-bed-soil/][this one)]] on the internet and videos on YouTube
-  (like [[https://youtu.be/ckgLec0eudc][this one)]], we decided on DIY soil since it would be cheaper than buying
-  "premium" raised gardening soil at over $10/bag. We did go a little off
-  script, with our soil mix, mostly to keep cost down further, but figured we
-  captured the spirit of the conventional wisdom of DIY soil mixing.
+  We've never done vegetable gardening. Now that we're living that country life
+  in the Southeast US, we figured we'd give it a try. After reading blog posts
+  (like [[https://www.planetnatural.com/raised-bed-soil/][this one)]] and videos on YouTube (like [[https://youtu.be/ckgLec0eudc][this one)]], we decided on DIY soil
+  since it would be cheaper than buying "premium" raised gardening soil at over
+  $10/bag. We did go a little off script, with our soil mix, mostly to keep cost
+  down further, but figured we captured the spirit of the conventional wisdom of
+  DIY soil mixing.
 ** The soil mix
    FYI mixing soil is hard work.
 *** Ingredients
@@ -26,15 +26,31 @@
       forest products and sand)
     - 3 ft^{3} of Peat moss. This helps with water and nutrient retention, but is
       acidic so don't use too much.
-    - 3 ft^{3} of Black Kow. Contains cow manure. It supposed to increase nutrient
-      content.
+    - 3 ft^{3} of Black Kow. Contains cow manure. It helps to increase nutrient
+      content. 
     - 24 Qt of perlite. This supports aeration and drainage. Prevents soil
       compaction so plants to take root easily.
     - 1 1/2 cups of Dr. Earth Pure Gold All Purpose Fertilizer. 
 
     #+attr_html: :width 750
     [[file:images/raised_bed_20230401_1.jpg]] 
-   
+**** Soil ecosystem
+     The fundamental aim is to create soil where organic matter is converted
+     though natural processes into *nitrogen*, *phosphorous* and *potassium*
+     which are in turn ingested by the plants. Organic matter is converted into
+     these elements in a couple of ways:
+     1. Bacteria, through extracellular digestion. That is they digest the
+        organic matter outside the cell wall, then consume it. This process
+        converts organic matter into the above elements. These bacteria are
+        brought into the soil mixture with manure and compost.
+     2. Larger organisms, like insects and worms consume organic matter. It is
+        their waste products that feed plants. For example, worm castings (their
+        poop) is like concentrated nitrogen, phosphorous and potassium. These
+        soil organisms are brought into the soil ecosystem via compost.
+
+     Plants consume nitrogen through water absorption, which is why we want
+     aeration. Plants consume phosphorous and potassium through roots in contact
+     with the soil.
 *** Start with the compost
     #+attr_html: :width 750
     [[file:images/raised_bed_20230401_2.jpg]] 
