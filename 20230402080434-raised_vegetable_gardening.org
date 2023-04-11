@@ -3,7 +3,7 @@
 :END:
 #+title: Raised vegetable gardening
 #+date: 2023-04-02 08:04 AM
-#+updated: 2023-04-03 21:10 PM
+#+updated: 2023-04-11 16:18 PM
 #+filetags: :countrylife:gardening:
 #+OPTIONS: ^:{}
 
@@ -33,7 +33,7 @@
     - 1 1/2 cups of Dr. Earth Pure Gold All Purpose Fertilizer. 
 
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_1.jpg]] 
+    [[file:images/raised_bed_20230401_1.webp]] 
 **** Soil ecosystem
      The fundamental aim is to create soil where organic matter is converted
      though natural processes into *nitrogen*, *phosphorous* and *potassium*
@@ -51,27 +51,28 @@
      Plants consume nitrogen through water absorption, which is why we want
      aeration. Plants consume phosphorous and potassium through roots in contact
      with the soil.
+   
 *** Start with the compost
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_2.jpg]] 
+    [[file:images/raised_bed_20230401_2.webp]] 
 *** Mix in peat moss
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_3.jpg]] 
+    [[file:images/raised_bed_20230401_3.webp]] 
 *** Mix in the Scott's topsoil
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_4.jpg]] 
+    [[file:images/raised_bed_20230401_4.webp]] 
 *** Mix in the perlite
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_5.jpg]] 
+    [[file:images/raised_bed_20230401_5.webp]] 
 *** Mix in the manure
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_6.jpg]] 
+    [[file:images/raised_bed_20230401_6.webp]] 
 *** Mix in the fertilizer
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_7.jpg]] 
+    [[file:images/raised_bed_20230401_7.webp]] 
 *** Mix in remaining topsoil   
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_8.jpg]] 
+    [[file:images/raised_bed_20230401_8.webp]] 
    
 ** What we planted
    This month (April):
@@ -86,5 +87,10 @@
 
    Next month (May) we will plant:
    1. Zucchini
-   2. Squach
+   2. Squash
 
+** Monday April 10th, 2023
+   This is perhaps our first tomato
+    #+attr_html: :width 750
+   [[file:images/raised_bed_20230410_possible_first_tomato.webp]]  
+   
