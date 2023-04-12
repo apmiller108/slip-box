@@ -3,7 +3,7 @@
 :END:
 #+title: Raised vegetable gardening
 #+date: 2023-04-02 08:04 AM
-#+updated: 2023-04-11 16:18 PM
+#+updated: 2023-04-12 09:07 AM
 #+filetags: :countrylife:gardening:
 #+OPTIONS: ^:{}
 
@@ -16,6 +16,8 @@
   down further, but figured we captured the spirit of the conventional wisdom of
   DIY soil mixing.
 ** The soil mix
+   We have one 4' x 8' raised bed.
+   
    FYI mixing soil is hard work.
 *** Ingredients
     - Around 3 ft^{3} of compost composed of mostly leaves and some food waste.
