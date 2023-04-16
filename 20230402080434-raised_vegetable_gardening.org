@@ -77,22 +77,30 @@
     [[file:images/raised_bed_20230401_8.webp]] 
    
 ** What we planted
-   This month (April):
-   1. onions
-   2. carrots
-   3. tomatoes
-      
-   We also planted in separate pots
-   1. Basil
-   2. Catnip
-   3. Snowsurfer Forte Candytuft (an early spring perennial flower)
-
-   Next month (May) we will plant:
-   1. Zucchini
-   2. Squash
+*** From seed   
+   1. Gladstone onions (4/1/23)
+   2. Tenderweet carrots (4/1/23)
+   3. Beefsteak tomatoes (4/1/23)
+   4. Basil (4/1/23)
+   5. Catnip (4/1/23)
+   6. Zucchini (4/15/23)
+   7. Squash (4/15/23)
+   8. Rosemary  (4/15/23)
+*** Planted
+    These went into separate pots, just documenting here temporarilly.
+   1. Snowsurfer Forte Candytuft (an early spring perennial flower)
+   2. Arizona Sun Gaillardia
 
 ** Monday April 10th, 2023
    This is perhaps our first tomato
-    #+attr_html: :width 750
+   #+attr_html: :width 750
    [[file:images/raised_bed_20230410_possible_first_tomato.webp]]  
    
+** Saturday April 15th, 2023
+   There are many seedlings, but we can't tell what is what yet. Do we have tomotoes or a bunch of weeds?
+   #+attr_html: :width 750
+   [[file:images/raised_bed_20230415_seedlings.webp]] 
+   
+   These might be the carrots.
+   #+attr_html: :width 750
+   [[file:images/raised_bed_20230415_possible_carrots.webp]] 
