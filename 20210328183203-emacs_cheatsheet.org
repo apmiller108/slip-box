@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2023-01-09 21:21 PM
+#+updated: 2023-04-19 12:45 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -21,7 +21,7 @@ probably forget.
    #+end_src
 
  - ~fill-region~ does what is says
-   
+
 * Advising Functions
   [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][Advising-Functions docs]]
 
@@ -54,6 +54,15 @@ probably forget.
   2. ~SHIFT I~ (evil insert line count)
   4. Type characters
   5. ~ESC~ (the repeated chars are added)
-     
 * Font
   ~M-x menu-set-font~ offers a GUI font picker and size setter with previews.
+
+* Troubleshooting
+** Freezes
+*** ~C g~ will break a loop
+*** Send kill cmd to trigger debugger
+    #+begin_src
+    ps aux | grep -ie emacs | grep -v grep | awk '{print $2}' | xargs kill -SIGUSR2
+    #+end_src
+
+    See also https://emacs.stackexchange.com/a/649
