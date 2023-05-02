@@ -3,7 +3,7 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2023-03-08 10:42 AM
+#+updated: 2023-05-02 12:59 PM
 #+filetags: :philosophy:
 
 #+begin_quote
@@ -73,4 +73,12 @@ our Universe is simply one of those things which happen from time to time.
 The devil always shits on the biggest pile.
 
 --- German Proverb
+#+end_quote
+
+#+begin_quote
+Fear is the cheapest room in the house
+I would like to see you living
+In better conditions
+
+--- [[https://en.wikipedia.org/wiki/Hafez][Hafez]]
 #+end_quote
