@@ -3,7 +3,7 @@
 :END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2023-04-14 13:55 PM
+#+updated: 2023-05-05 12:24 PM
 #+filetags: javascript:ruby:rails:
 
 * What is this?
@@ -60,9 +60,12 @@
     show page. Most of this is done in the erb view templates. See [[https://github.com/thoughtbot/hotwire-example-template/tree/hotwire-example-inline-edit][source code]]
     for an example.
 * Resources
-  - https://github.com/hotwired 
+  - https://github.com/hotwired
   - https://www.honeybadger.io/blog/hotwire-rails/
   - https://github.com/thoughtbot/hotwire-example-template/tree/hotwire-example-inline-edit
   - https://gorails.com/series/hotwire-rails
   - https://blog.appsignal.com/2022/07/06/get-started-with-hotwire-in-your-ruby-on-rails-app.html
- 
+  - https://www.akshaykhot.com/using-hotwire-without-rails/ (Turbo drive and
+    turbo frames without Rails)
+  - https://www.akshaykhot.com/understanding-hotwire-turbo-streams/ (Turbo
+    streams without Rails)
