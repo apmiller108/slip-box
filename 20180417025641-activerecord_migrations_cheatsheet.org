@@ -1,0 +1,346 @@
+#+title: ActiveRecord Migrations Cheatsheet
+#+date: 2018-04-17 02:56 AM
+#+updated: 2023-05-05 13:38 PM
+#+filetags: :rails:ruby:
+
+* Casting with :using option (cast string to int)
+  :PROPERTIES:
+  :CUSTOM_ID: casting-with-using-option-cast-string-to-int
+  :END:
+
+  See also [[https://github.com/rails/rails/blob/15ef55efb591e5379486ccf53dd3e13f416564f6/activerecord/test/cases/adapters/postgresql/change_schema_test.rb#L22-L25][this code from the Rails codebase]]
+
+  Example changing the data type from string to int and cast exiting values to int.
+  #+begin_src ruby
+    change_column :people, :company_id, :integer, using: 'company_id::integer'
+  #+end_src
+
+* Pass Arguments as Column Options
+  :PROPERTIES:
+  :CUSTOM_ID: pass-arguments-as-column-options
+  :END:
+  #+begin_src shell
+    rails g migration user first_name{16} #  limit
+    rails g migration order price{5,2} #  precision, scale
+  #+end_src
+* Rollback to Version or Step Count
+  :PROPERTIES:
+  :CUSTOM_ID: rollback-to-version-or-step-count
+  :END:
+  #+begin_src shell
+    rake db:migrate:down VERSION="2017102900000"
+    rake db:rollback STEP=2
+  #+end_src
+* List Migrations
+  :PROPERTIES:
+  :CUSTOM_ID: list-migrations
+  :END:
+  =rails db:migrate:status=
+
+* Reversible
+  :PROPERTIES:
+  :CUSTOM_ID: reversible
+  :END:
+  #+begin_src ruby
+    def change  reversible do |dir|
+          dir.up do
+            # up code
+          end
+
+          dir.down do
+            # rollback code
+          end
+        end
+    end
+  #+end_src
+* create_table(name, options, &block) / change_table(name, options,&block)
+  :PROPERTIES:
+  :CUSTOM_ID: create_tablename-options-block-change_tablename-options-block
+  :END:
+
+  - =id:=: instructions for primary key
+  #+begin_src ruby
+    create_table :clients, id: :clients_id do |t|
+      create_table :clients, id: false do |t| #  for a join table
+  #+end_src
+  - =force: true=: Drops the table if it already exists.
+  - =options:=: Append column instructions to CREATE.
+  - =temporary: true=: Creates a temp table for the duration of the connection. Useful for migrating data from one table to another.
+
+* create_join_table
+  :PROPERTIES:
+  :CUSTOM_ID: create_join_table
+  :END:
+
+  - :table_name and :column_options are available.
+  - Skips setting a primary key.
+  - Does not by default add FK and indices need to add t.reference
+    manually.
+  - Naming convention: “categories_products / CategoriesProduct"
+
+  #+begin_src shell
+    rails g migration CreateJoinTableRestaurantUser restaurants users
+  #+end_src
+
+  #+begin_src ruby
+    create_join_table :ingredients, :recipes
+    create_join_table(:users, :auctions, column_options: {type: :uuid})
+  #+end_src
+
+* Column Data TypesDB agnostic data types:
+  :PROPERTIES:
+  :CUSTOM_ID: column-data-typesdb-agnostic-data-types
+  :END:
+  #+begin_example
+    create_table :users do |t|
+    t.primary_key :id
+    t.string (varchar(255), defaults to limit: 255)
+    t.text
+    t.integer (11 digits max)
+    t.float
+    t.decimal
+    t.datetime
+    t.timestamp
+    t.time
+    t.date
+    t.binary (bytea/blob)
+    t.booleanend
+  #+end_example
+
+* Postgres Types
+  :PROPERTIES:
+  :CUSTOM_ID: postgres-types
+  :END:
+  All Postgres
+  Types:[[[https://github.com/rails/rails/blob/master/activerecord/lib/active_record/connection_adapters/postgresql_adapter.rb#]]
+  L75-L116]([[https://github.com/rails/rails/blob/master/activerecord/lib/active_record/connection_adapters/postgresql_adapter.rb#]]
+  L75-L116)
+
+* JSONB Fields
+  :PROPERTIES:
+  :CUSTOM_ID: jsonb-fields
+  :END:
+
+  - If you need to index, use GIN or GiST index type.
+  - GIN and GiST indexes support queries with @>, ?, ?&, and ?|
+  - [[evernote:///view/129538667/s690/4efadc8a-a49d-4082-aeab-051cbf680d3b/4efadc8a-a49d-4082-aeab-051cbf680d3b/][JSON
+    Operators]].
+
+  #+begin_src ruby
+    add_column :users, :settings, :jsonb, null: false, default: '{}'
+    add_index :users, :settings, using: :gin
+  #+end_src
+
+* Array Fields
+  :PROPERTIES:
+  :CUSTOM_ID: array-fields
+  :END:
+
+  - length option limits the number of items
+
+  #+begin_src ruby
+    t.string :tags, array: true, default: '{rails, ruby}’, length: 10
+  #+end_src
+
+** indexing array fields
+   :PROPERTIES:
+   :CUSTOM_ID: indexing-array-fields
+   :END:
+   #+begin_src ruby
+     add_index :articles, :tags, using: 'gin'
+   #+end_src
+
+** querying array fields
+   :PROPERTIES:
+   :CUSTOM_ID: querying-array-fields
+   :END:
+   #+begin_src ruby
+     Article.where("? = ANY( tags)", “rails")
+   #+end_src
+
+* Range Types
+  :PROPERTIES:
+  :CUSTOM_ID: range-types
+  :END:
+
+  - daterange
+  - int4range
+  - int8range
+  - numrange
+  - tsrange
+  - tstzrange
+
+  Example:
+
+  #+begin_src ruby
+    t.daterange :availability
+  #+end_src
+
+* Column Options
+  :PROPERTIES:
+  :CUSTOM_ID: column-options
+  :END:
+  #+begin_example
+    :null (boolean)
+    :limit (integer)
+    :default
+    :precision (decimal, the total number of digits)
+    :scale (decimal, the number of digits to the right of the decimal)
+    :comment (Rails 5)
+    :index
+  #+end_example
+
+  Schema Tasks
+
+  #+begin_example
+    add_index
+    #  Partial index with :where option:   add_index(:clients, :status, where: 'active’)#  Partial composite unique indexadd_index :payments, [:order_id, :amount, :payment_date, :status]            name: 'unique_index_to_avoid_duplicate_payments’,            where: "status = 'Scheduled'”,            unique: true
+  #+end_example
+
+  #+begin_example
+    add_columnadd_foreign_keyadd_reference
+  #+end_example
+
+  #+begin_example
+    t.references :category
+    #  cascadingt.references :user, index: true, foreign_key: {on_delete: :cascade}
+  #+end_example
+
+* polymorphic
+  :PROPERTIES:
+  :CUSTOM_ID: polymorphic
+  :END:
+  #+begin_src ruby
+    t.references :category, polymorphic: true
+  #+end_src
+
+* Overriding Index Name
+  :PROPERTIES:
+  :CUSTOM_ID: overriding-index-name
+  :END:
+  #+begin_src ruby
+    t.references :protection_category, index: { name: 'index_financing_limits_on_protection_category_id'}
+  #+end_src
+
+* Disable transactions
+  :PROPERTIES:
+  :CUSTOM_ID: disable-transactions
+  :END:
+  #+begin_src ruby
+    def change
+      disable_ddl_transactions!
+
+      add_index :events, :user_id, algorithm: :concurrently
+  #+end_src
+
+* Running Migrations
+  :PROPERTIES:
+  :CUSTOM_ID: running-migrations
+  :END:
+  #+begin_src shell
+    db:create (dev and test)
+    db:create:all (all envs)
+    db:drop
+    db:drop:all
+    db:forward
+    db:rollback
+    db:migrate VERSION=20130313005347
+    db:migrate:down
+    db:migrate:up
+    db:migrate:redo
+    db:migrate:status
+    db:migrate:reset (resets DB using the migrations)
+    db:setup (uses the schema.rb)
+    db:schema:dump
+    db:schema:load
+    db:structure:dump
+    db:test:prepare (uses schema.rb)
+    db:version
+  #+end_src
+
+* Adding Check Contraints
+  :PROPERTIES:
+  :CUSTOM_ID: adding-check-contraints
+  :END:
+  #+begin_src ruby
+    class CreatePaymentMethodOwners < ActiveRecord::Migration[5.1]
+      def up
+        create_table :payment_method_owners, id: false do |t|
+          t.references :payment_method, foreign_key: true
+          t.references :customer, foreign_key: true
+          t.references :dealer, foreign_key: true
+          t.references :provider, foreign_key: true
+          t.references :employee, foreign_key: true
+
+          t.timestamps
+        end
+
+        execute <<~SQL
+          ALTER TABLE payment_method_owners
+          ADD CONSTRAINT must_have_one_owner
+          CHECK (
+            (
+              (customer_id IS NOT NULL)::integer +
+              (dealer_id IS NOT NULL)::integer +
+              (provider_id IS NOT NULL)::integer +
+              (employee_id IS NOT NULL)::integer
+            ) = 1
+          );
+        SQL
+      end
+
+      def down
+        execute <<-SQL
+          ALTER TABLE payment_method_owners
+          DROP CONSTRAINT must_have_one_owner
+        SQL
+
+        drop_table :payment_method_owners
+      end
+    end
+  #+end_src
+
+* Data Migrations
+  :PROPERTIES:
+  :CUSTOM_ID: data-migrations
+  :END:
+  Stick to using execute and write raw sequel. Referencing models in
+  migrations can be more difficult to maintain. Using raw sql will allow
+  continuous migration execution without depending on your codebase.
+
+  #+begin_src ruby
+    ActiveRecord::Base.connection.execute(<<~SQL)
+    UPDATE blahs
+    SET ...
+    SQL
+  #+end_src
+
+** With reversibility
+  #+begin_src ruby
+    def up
+      ActiveRecord::Base.connection.execute(<<~SQL)
+        UPDATE generated_reports
+        SET (owner_id, owner_type) = (
+          SELECT dealer_id, 'Dealer'
+          FROM dealers_generated_reports
+          WHERE generated_reports.id = dealers_generated_reports.generated_report_id
+        )
+      SQL
+
+      drop_table(:dealers_generated_reports)
+    end
+
+    def down
+      create_join_table :dealers, :generated_reports do |t|
+        t.references :dealer, foreign_key: true
+        t.references :generated_report, foreign_key: true
+      end
+
+      ActiveRecord::Base.connection.execute(<<~SQL)
+        INSERT INTO dealers_generated_reports (dealer_id, generated_report_id)
+        SELECT owner_id, id
+        FROM generated_reports
+        WHERE generated_reports.owner_id IS NOT NULL
+      SQL
+    end
+  #+end_src
