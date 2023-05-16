@@ -3,12 +3,11 @@
 :END:
 #+title: Git hooks
 #+date: 2021-03-23 14:34 PM
-#+updated: 2021-05-04 10:59 AM
+#+updated: 2023-05-16 10:09 AM
 #+filetags: :git:
 
 * The basics
   [[https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks][Git hooks documentation]]
-  
   Add executable file to ~.git/hooks/~ named by the hook you want.
 
   ~post-commit~ example

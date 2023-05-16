@@ -9,7 +9,7 @@
 
 
 [[https://www.orgroam.com/manual.html][Org-roam online manual]]
-See also [[id:E67BF8C6-A54C-4E71-A9B3-F2FE1D14632A][Org-mode basics]]   
+See also [[id:E67BF8C6-A54C-4E71-A9B3-F2FE1D14632A][Org-mode basics]]
 
 * V1
 ** Settings
@@ -38,12 +38,12 @@ See also [[id:E67BF8C6-A54C-4E71-A9B3-F2FE1D14632A][Org-mode basics]]
 
 ** Linking Notes
    - ~org-roam-insert~
-    
+
    One cool trick is to link to a heading in a note. After the filename add
    ~::*Header Name~.
 
    #+begin_src
-     [[file:note.org::*My heading][Note - My Heading]] 
+     [[file:note.org::*My heading][Note - My Heading]]
    #+end_src
 
 * V2
@@ -56,4 +56,6 @@ See also [[id:E67BF8C6-A54C-4E71-A9B3-F2FE1D14632A][Org-mode basics]]
    - In the note's buffer, run ~(org-id-get-create)~. This will create a
      properties drawer with the ~:ID:~ property and guuid.
    - Then run ~(org-id-update-id-locations)~. This can also take a file path
-     argument. See also https://org-roam.discourse.group/t/how-to-auto-generate-org-id-following-org-roam-find-file-immediate/1412
+     argument. See also
+     https://org-roam.discourse.group/t/how-to-auto-generate-org-id-following-org-roam-find-file-immediate/1412
+   - Finally run ~org-roam-db-sync~

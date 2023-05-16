@@ -1,6 +1,9 @@
+:PROPERTIES:
+:ID:       A3972BA3-6BD6-4970-8B22-0065A1F7978D
+:END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2023-05-05 13:38 PM
+#+updated: 2023-05-05 13:41 PM
 #+filetags: :rails:ruby:
 
 * Casting with :using option (cast string to int)
@@ -303,6 +306,7 @@
 * Data Migrations
   :PROPERTIES:
   :CUSTOM_ID: data-migrations
+  :ID:       E914296D-87A3-4218-A6A1-0621A0D39DBE
   :END:
   Stick to using execute and write raw sequel. Referencing models in
   migrations can be more difficult to maintain. Using raw sql will allow
