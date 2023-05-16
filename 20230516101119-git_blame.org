@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       EC2D4337-1B99-4271-8FD9-7698DACA4B05
+:END:
+#+title: git blame
+#+date: 2023-05-16 10:11 AM
+#+updated:  2023-05-16 10:16 AM
+#+filetags: :git:
+
+* ignoreRevsFile
+   See also  [[https://git-scm.com/docs/git-blame#Documentation/git-blame.txt-blameignoreRevsFile][blame.ignoreRevsFile]]
+
+   - Git blame will ignore the revisions listed in this file.
+   - Put one unabbreviated commit sha per line. You can use comments (with ~#~)
+     to explain the commit.
+   - This is useful for commits that are code style changes only.
