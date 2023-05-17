@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord
 #+date: 2018-04-12 02:12 AM
-#+updated: 2023-01-27 11:28 AM
+#+updated: 2023-05-17 08:10 AM
 #+filetags: :ruby:rails:
 
 This is a big ass dump of ActiveRecod stuff I've learned.
@@ -63,11 +63,11 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
   - =read_attribute=
 
   #+begin_src ruby
-    def message=(txt)   
-      write_attribute(:message, txt + ' in bed') 
+    def message=(txt)
+      write_attribute(:message, txt + ' in bed')
     end
-    #  or 
-    def message=(txt)   
+    #  or
+    def message=(txt)
       self[:message] = txt + ' in bed'
     end
   #+end_src
@@ -85,10 +85,10 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
    :CUSTOM_ID: manual-query-cache
    :END:
    #+begin_src ruby
-     User.cache do   
-       puts User.first   
-       puts User.first   
-       puts User.first 
+     User.cache do
+       puts User.first
+       puts User.first
+       puts User.first
      end
    #+end_src
 
@@ -118,9 +118,9 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
    =*attribute*_before_type_cast_method=
 
    #+begin_src ruby
-     before_validation :fix_rate 
-     def fix_rate   
-       self[:rate] = rate_before_type_cast.tr('$,','') 
+     before_validation :fix_rate
+     def fix_rate
+       self[:rate] = rate_before_type_cast.tr('$,','')
      end
    #+end_src
 
@@ -149,10 +149,10 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
      Rails will automatically add it as a string with a unique index.
 
    #+begin_src ruby
-     class User < ApplicationRecord  
+     class User < ApplicationRecord
        has_secure_token
      end
-     >> user = User.create 
+     >> user = User.create
      >> => # < User id: … >> user.token = > “njHcvhKSwX9toZKEe9YETA8C”>> user.regenerate_token
      has_secure_token :auth_token
    #+end_src
@@ -191,17 +191,17 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
     #+end_src
 
     #+begin_src ruby
-      class Inquiry < ActiveRecord::Type::String   
-        def type 
-          :inquiry   
-        end   
-        
-        def cast(value)     
-          super.inquiry #  See docs for [String.inquiry](:note:059eadc0-9cd8-4955-bb41-b579e5877cb7) 
-        end 
+      class Inquiry < ActiveRecord::Type::String
+        def type
+          :inquiry
+        end
+
+        def cast(value)
+          super.inquiry #  See docs for [String.inquiry](:note:059eadc0-9cd8-4955-bb41-b579e5877cb7)
+        end
       end
-        
-      class Event < ApplicationRecord   
+
+      class Event < ApplicationRecord
         attribute :repeats, Inquiry.new
       end
     #+end_src
@@ -218,11 +218,11 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
   Wrap key/value store columns (eg, jsonb) and define accessors. Add typecasting
   wit https://github.com/palkan/store_attribute
   #+begin_src ruby
-  module Asteroid  
-    class NearEarthObject < ApplicationRecord    
+  module Asteroid
+    class NearEarthObject < ApplicationRecord
       validates :name, :absolute_magnitude_h, :estimated_diameter, presence: true
-      store :estimated_diameter, accessors: %i[kilometers meters miles feet]    
-      alias_attribute :id, :neo_reference_id  
+      store :estimated_diameter, accessors: %i[kilometers meters miles feet]
+      alias_attribute :id, :neo_reference_id
     end
   end
   #+end_src
@@ -252,7 +252,7 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
    :CUSTOM_ID: mass-delete
    :END:
    #+begin_src ruby
-     Timesheet.delete(1) 
+     Timesheet.delete(1)
      Timesheet.destroy([2, 3])
      delete_all # skips callbacks (like dependent: :destroy)
      destroy_all
@@ -285,9 +285,9 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
     :CUSTOM_ID: timestamps-via-association
     :END:
     #+begin_src ruby
-      class User < ApplicationRecord   
-        belongs_to :client, touch: true 
-      end 
+      class User < ApplicationRecord
+        belongs_to :client, touch: true
+      end
       user.touch #  also calls user.client.touch
     #+end_src
 
@@ -311,10 +311,10 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
     execute quickly.
 
   #+begin_src ruby
-    Timesheet.transaction do   
-      t = Timesheet.lock.first   
-      t.approved = true   
-      t.save! 
+    Timesheet.transaction do
+      t = Timesheet.lock.first
+      t.approved = true
+      t.save!
     end
   #+end_src
 
@@ -324,7 +324,7 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
   :END:
 
   See also [[id:28FC6AAD-4491-4DA5-BB3A-796E9EECD235][ActiveRecord Querying has_many Associations]]
-    
+
 ** Where
    :PROPERTIES:
    :CUSTOM_ID: where
@@ -387,14 +387,14 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
      - [[https://hashrocket.com/blog/posts/advanced-queries-with-activerecord-s-from-method][[[https://hashrocket.com/blog/posts/advanced-queries-with-activerecord-s-from-method]]]]
 
    #+begin_src ruby
-     Topic.select('title').from(Topic.approved).to_sql 
+     Topic.select('title').from(Topic.approved).to_sql
      # => "SELECT title FROM (SELECT * FROM topics WHERE approved = 't')"
    #+end_src
 
-** Ignoring columns     
+** Ignoring columns
    #+begin_src ruby
-     class User < ApplicationRecord   
-       self.ignored_columns = %w(some_stupid_bs_column) 
+     class User < ApplicationRecord
+       self.ignored_columns = %w(some_stupid_bs_column)
      end
    #+end_src
 
@@ -452,8 +452,8 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
    #+end_src
 
    #+begin_src ruby
-     User.find_or_create_by(first_name: 'Poppa') do |user| 
-       user.last_name = 'Smurf' 
+     User.find_or_create_by(first_name: 'Poppa') do |user|
+       user.last_name = 'Smurf'
      end
    #+end_src
 
@@ -545,13 +545,13 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
   - Read the file, split on ‘;' and execute each statement.
 
   #+begin_src ruby
-    def execute_sql_file(path)   
-      File.read(path). split(';').each do |sql|    
-        begin       
-          ActiveRecord::Base.connection.execute(#{sql}") unless sql.blank?     
-        rescue ActiveRecord::StatementInvalid       
-            $stderr.puts "warning: #{$!}"     
-        end   
+    def execute_sql_file(path)
+      File.read(path). split(';').each do |sql|
+        begin
+          ActiveRecord::Base.connection.execute(#{sql}") unless sql.blank?
+        rescue ActiveRecord::StatementInvalid
+            $stderr.puts "warning: #{$!}"
+        end
       end
     end
   #+end_src
@@ -589,68 +589,68 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
 
   Here's a bunch of examples...
 
-  #+begin_example ruby
+  #+begin_src ruby
     user.timesheets.select(:*, "calc_something(col1, col2) as delta").to_a
-  #+end_example
+  #+end_src
 
-  #+begin_example ruby
+  #+begin_src ruby
     user.timesheets.closed.each(&:mark_for_destruction)
-  #+end_example
+  #+end_src
 
   - ~before_add~, ~after_add~
 
-  #+begin_example ruby
+  #+begin_src ruby
     has_many :unchangable_posts, class_name: "Post", before_add: ->(owner, record) { raise "Can't do it!" }
-  #+end_example
+  #+end_src
 
-  #+begin_example ruby
+  #+begin_src ruby
     has_many :pending_comments, -> { where( approved: true) }, class_name: 'Comment'
-  #+end_example
+  #+end_src
 
-  #+begin_example ruby
+  #+begin_src ruby
     class Client < ActiveRecord::Base
       has_many :timesheets, -> { distinct }, through: :billable_weeks
     end
-  #+end_example
+  #+end_src
 
-  #+begin_example ruby
+  #+begin_src ruby
     class User < ActiveRecord::Base
       has_many :timesheets
       has_one :latest_sheet, -> { order(' created_at desc') }, class_name: 'Timesheet'
     end
-  #+end_example
+  #+end_src
 
-  #+begin_example ruby
+  #+begin_src ruby
     belongs_to :project, -> { readonly }
     belongs_to :post, -> { includes(:author) }
-  #+end_example
+  #+end_src
 
-** Extenting Associations
+** Extending Associations
 
    Methods...
-  #+begin_example ruby
+  #+begin_src ruby
     has_many :people do
       def named(full_name)
         first_name, last_name = full_name.split(" ", 2)
         where(first_name: first_name, last_name: last_name).first_or_create
       end
     end
-  #+end_example
+  #+end_src
 
   Same thing, but using modules...
-  #+begin_example ruby
+  #+begin_src ruby
     has_many :people, -> { extending(ByNameExtension, ByRecentExtension) }
-  #+end_example
+  #+end_src
 
 ** Association with null object pattern
 
-  #+begin_example ruby
+  #+begin_src ruby
      belongs_to :automatic_payment_method, class_name: 'PaymentMethod'
 
      def automatic_payment_method
        super || NullAutomaticPaymentMethod.new
      end
-  #+end_example
+  #+end_src
 
 * Callback Classes
 
@@ -661,49 +661,49 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
   as a parameter.
 
   Soft delete example
-  #+begin_example ruby
+  #+begin_src ruby
     class MarkDeleted
       def self.before_destroy(model)
         model.update_attribute(:deleted_at, Time.current)
         throw(:abort)
       end
     end
-      
+
     class Account < ActiveRecord::Base
       before_destroy MarkDeleted
     end
-  #+end_example
+  #+end_src
 
 * Value Objects
 
   Unlike with object identity, value objects are considered equal when their
   attributes are equal. Example of an Address type value object
 
-  #+begin_example ruby
+  #+begin_src ruby
     class Person < ActiveRecord::Base
       def address
         @address || = Address.new(address_city, address_state)
       end
-        
+
       def address=(address)
         self[:address_city] = address.city
         self[:address_state] = address.state
         @address = address
       end
     end
-      
+
     class Address
       attr_reader :city, :state
 
       def initialize(city, state)
         @city, @state = city, state
       end
-        
+
       def ==(other_address)
         city == other_address.city && state == other_address.state
       end
     end
-  #+end_example
+  #+end_src
 * Gems / Extensions
 ** Scenic
    database views
