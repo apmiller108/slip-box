@@ -173,7 +173,23 @@
       sudo chroot /mnt
       #+end_src
    4. When done ~exit~ and ~reboot~
+* Installing
+** MacBook Air 2015
+   Follow the [[https://support.system76.com/articles/install-pop/][instructions]] to make a bootable flash drive and install the OS. Takes only a few minutes.
+   The broadcom WiFi adapter will not work out of the box. To get it working, install the broadcom driver:
+
+   #+begin_src shell
+   sudo apt update
+   sudo apt install bcmwl-kernel-source
+   sudo modprobe wl
+   sudo rbboot
+   #+end_src
+
+   See also https://www.linux.org/threads/solved-cannot-get-wifi-recognized-when-installing-popos-22-04-on-2015-macbook-pro.40277/post-183971
+    
+
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
   - https://support.system76.com/articles/pop-keyboard-shortcuts/
   - https://support.system76.com/articles/login-loop-pop/
+    
