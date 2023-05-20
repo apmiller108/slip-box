@@ -91,12 +91,12 @@
    1. Snowsurfer Forte Candytuft (an early spring perennial flower)
    2. Arizona Sun Gaillardia
 
-** Monday April 10th, 2023
+** 2023-04-10
    This is perhaps our first tomato
    #+attr_html: :width 750
    [[file:images/raised_bed_20230410_possible_first_tomato.webp]]  
    
-** Saturday April 15th, 2023
+** 2023-04-15
    There are many seedlings, but we can't tell what is what yet. Do we have tomotoes or a bunch of weeds?
    #+attr_html: :width 750
    [[file:images/raised_bed_20230415_seedlings.webp]] 
@@ -104,3 +104,12 @@
    These might be the carrots.
    #+attr_html: :width 750
    [[file:images/raised_bed_20230415_possible_carrots.webp]] 
+** 2023-05-20
+   The zuchinni and squash were planted later than the others, but are growing the fastest.
+  [[file:images/raised_bed_20230520_update_1.webp]]
+
+  The carrots are starting to look like carrot stalks.
+  [[file:images/raised_bed_20230520_update_2.webp]]
+
+  Tomatoes take a long time; they still have a long way to go. Same with the onions.
+  [[file:images/raised_bed_20230520_update_3.webp]] 
