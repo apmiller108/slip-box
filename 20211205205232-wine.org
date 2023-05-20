@@ -63,8 +63,15 @@ Run Windows programs on linux
   Just run ~wine uninstaller~.
 * VST plugins
   See also https://github.com/brendaningram/linux-audio-setup-scripts
-  
-  - install [[https://github.com/robbert-vdh/yabridge][yabridge]]
+** yabridge
+*** Install, setup and usage
+  - install [[https://github.com/robbert-vdh/yabridge][yabridge]] (see also https://github.com/brendaningram/linux-audio-setup-scripts)
+    #+begin_src shell
+      wget -O yabridge.tar.gz https://github.com/robbert-vdh/yabridge/releases/download/5.0.3/yabridge-5.0.3.tar.gz
+      mkdir -p ~/.local/share
+      tar -C ~/.local/share -xavf yabridge.tar.gz
+      rm yabridge.tar.gz
+    #+end_src
   - Add yabridge to your path
   - Create the conventional VST plugin paths on Wine's "C" drive
     #+begin_src  shell
@@ -87,6 +94,8 @@ Run Windows programs on linux
   - Sync yabridge ~yabridgectl sync~
   - Check yabridge status ~yabridgectl status~ to verify.
   - The plugin should now be usable in certain DAWs (eg, Reaper).
+*** Upgrading
+    Run the install again. It will overwrite the existing files. Then run ~yabridgectl sync~
 * Resources
   [[https://wiki.winehq.org/Main_Page][Wine Wiki]]
   [[https://wiki.winehq.org/FAQ][Wine FAQ]]
