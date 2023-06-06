@@ -106,10 +106,24 @@
    [[file:images/raised_bed_20230415_possible_carrots.webp]] 
 ** 2023-05-20
    The zuchinni and squash were planted later than the others, but are growing the fastest.
-  [[file:images/raised_bed_20230520_update_1.webp]]
+   #+attr_html: :width 750
+   [[file:images/raised_bed_20230520_update_1.webp]]
 
-  The carrots are starting to look like carrot stalks.
-  [[file:images/raised_bed_20230520_update_2.webp]]
+   The carrots are starting to look like carrot stalks.
+   #+attr_html: :width 750
+   [[file:images/raised_bed_20230520_update_2.webp]]
 
-  Tomatoes take a long time; they still have a long way to go. Same with the onions.
-  [[file:images/raised_bed_20230520_update_3.webp]] 
+   Tomatoes take a long time; they still have a long way to go. Same with the onions. Most of what is pictured here aren't tomatoes.
+   #+attr_html: :width 750
+   [[file:images/raised_bed_20230520_update_3.webp]] 
+** 2023-06-04
+   Tomatoes are entering the vegitative stage.
+   #+attr_html: :width 750
+   [[file:images/raised_bed_2023_06_04_update_2.webp]]
+
+   Carrot stalks are getting taller
+   [[file:images/raised_bed_2023_06_04_update_1.webp]] 
+
+   Some of the squash are flowering.
+   #+attr_html: :width 750
+   [[file:images/raised_bed_2023_06_04_update_3.webp]] 
