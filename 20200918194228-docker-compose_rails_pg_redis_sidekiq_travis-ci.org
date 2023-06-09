@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2023-01-27 16:08 PM
+#+updated: 2023-06-09 15:34 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -49,7 +49,7 @@
   You might get an old-ass, unmaintained version of node by installing nodejs
   this way. See [[https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions][nodesource]] for an alternative method where you can get more
   recent versions.
- 
+
   #+begin_src dockerfile :noweb tangle
     FROM <<config("ruby-image")>>
 
@@ -104,6 +104,7 @@
         command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
         volumes:
           - ".:/app"
+          - "/app/node_modules" # this prevents mounting the local node_modules dir
         ports:
           - "3000:3000"
         links:
@@ -162,30 +163,30 @@
   #+begin_src shell :noweb tangle
     # Usage:
     #   docker run --rm -it -v "$PWD":/app -w /app <<config("ruby-image")>> sh setup.sh
-    
+
     # Install dependencies
     gem install rails -v "~> 7"
-    
+
     # Install node from nodesource
     # https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
     curl -fsSL https://deb.nodesource.com/setup_19.x | bash - && apt-get install -y nodejs
-    
+
     # Install yarn
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
     apt update && apt install -y yarn
-    
+
     # Setup rails app
     rails new <<config("app-name")>> --database=postgresql --javascript=esbuild --css=tailwind
-    
+
     cd <<config("app-name")>>
     mv * .*  ../
     cd ..
     rmdir <<config("app-name")>>
-    
+
     # COMMENT THE FOLLOWING IN TO INSTALL webpacker
     # bin/rails webpacker:install
-    
+
     bundle add sidekiq --skip-install
     bundle add rubocop --group development --require false --skip-install
     bundle add rubocop-performance --group development --require false --skip-install
@@ -193,7 +194,7 @@
     bundle add rubocop-rspec --group development --require false --skip-install
     bundle add rspec-rails --group "development, test" --skip-install
     bundle add factory_bot_rails --group "development, test"
-    
+
     # Configure database
     DBCONFIG=$(cat <<EOF
     default: &default
@@ -217,7 +218,7 @@
     EOF
     )
     echo "$DBCONFIG" > config/database.yml
-    
+
     # Add env vars for development
     touch .env
     echo "POSTGRES_DB=<<config("app-name")>>_development" >> .env
@@ -245,7 +246,7 @@
   vars into containers with docker-compose. First I had to add the env vars to
   Travis' project settings. Then echo them into a .env file for docker-compose
   to read from.
-  
+
   NOTE: the =COMPOSE_VERSION= is NOT the docker-compose file version, but
   the docker-compose release version:
   [[https://github.com/docker/compose/releases][Releases · docker/compose · GitHub]]

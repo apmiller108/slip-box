@@ -3,7 +3,7 @@
 :END:
 #+title: Kubernetes
 #+date: 2022-02-28 15:37 PM
-#+updated: 2023-03-17 09:09 AM
+#+updated: 2023-06-08 15:36 PM
 #+filetags: :kubernetes:
 
 See also https://kubernetes.io/
@@ -247,6 +247,8 @@ See also https://kubernetes.io/
       #+end_src
    4. So, now ~postgres~ will resolve to the postgres database. Just provide
       that as a ~DATABASE_HOST~ env var to your app.
+** hostNetwork
+   ~spec.template.spec.hostNetwork~
 * Volumes
 ** Persistent Volume Claim
    When using ~minikube~, it is the host. So, the directory to which the volume

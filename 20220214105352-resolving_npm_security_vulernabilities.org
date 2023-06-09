@@ -3,8 +3,8 @@
 :END:
 #+title: Resolving NPM security vulernabilities
 #+date: 2022-02-14 10:53 AM
-#+updated: 2022-02-18 08:03 AM
-#+filetags: :security:javascript:
+#+updated: 2023-06-09 15:35 PM
+#+filetags: :npm:security:javascript:
 
 * Tools
 ** NPM audit
@@ -14,10 +14,10 @@
    This will list which packages are outdated and the versions wanted to keep
    them updated. Note the version wanted respects the dependency version
    notation specified in the package.json. See [[https://docs.npmjs.com/cli/v8/configuring-npm/package-json#dependencies][dependency docs]] for more on this
-   notation. 
+   notation.
 
    ~npm outdated some-package~
-   
+
 ** NPM ls
    https://docs.npmjs.com/cli/v7/commands/npm-ls
 
@@ -29,7 +29,7 @@
 ** NPM view
    https://docs.npmjs.com/cli/v7/commands/npm-view
 
-*** dist-tags   
+*** dist-tags
    ~npm view some-package dist-tags~
 
    You can use ~dist-tags~ to install certain versions:
@@ -41,7 +41,7 @@
   Make sure the test suite output doesn't belch a bunch of noise like
   warnings, unhandled exceptions and console logs, etc. Clean these up first
   so its obvious there is an issue has occurred due to a package update.
-  
+
   NOTE: run the JS unit tests after each package update
   1. Run ~npm audit~
   2. You may want to let npm update the dependencies that don't require manual
@@ -55,7 +55,7 @@
      - Run ~npm install~ to update that package.
   4. That may not work to resolve a dependency of a dependency at whatever
      depth it is. Try to update that dependency manually with:
-     
+
      ~npm update some-dependency-of-a-dependency --depth 5~ (npm v6)
 
      This probably won't work. If it did, it would have been updated as part of
@@ -67,6 +67,6 @@
    5. If the vulnerability still exists after step 4...
    6. Once you've gone as far as you can go, build the app and run all the tests.
    7. Then smoke test in a staging environment
-     
+
 * Resources
   https://docs.npmjs.com/cli/v8/configuring-npm/package-json#dependencies

@@ -3,7 +3,7 @@
 :END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2023-04-03 10:09 AM
+#+updated: 2023-05-30 08:36 AM
 #+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
@@ -222,6 +222,7 @@ that big of a deal.
    docker run --rm -p 8080:80 --name="myapache" -v "$PWD":/usr/local/apache2/htdocs/ httpd
    #+end_src
 * Root user
+  If you need to get root access to a container (eg, to install dependencies):
   #+begin_src 
   docker exec -u 0 -it my_container bash
   #+end_src
