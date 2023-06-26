@@ -3,7 +3,7 @@
 :END:
 #+title: Raised vegetable gardening
 #+date: 2023-04-02 08:04 AM
-#+updated: 2023-04-12 09:07 AM
+#+updated: 2023-06-26 07:46 AM
 #+filetags: :countrylife:gardening:
 #+OPTIONS: ^:{}
 
@@ -17,7 +17,7 @@
   DIY soil mixing.
 ** The soil mix
    We have one 4' x 8' raised bed.
-   
+
    FYI mixing soil is hard work.
 *** Ingredients
     - Around 3 ft^{3} of compost composed of mostly leaves and some food waste.
@@ -29,13 +29,13 @@
     - 3 ft^{3} of Peat moss. This helps with water and nutrient retention, but is
       acidic so don't use too much.
     - 3 ft^{3} of Black Kow. Contains cow manure. It helps to increase nutrient
-      content. 
+      content.
     - 24 Qt of perlite. This supports aeration and drainage. Prevents soil
       compaction so plants to take root easily.
-    - 1 1/2 cups of Dr. Earth Pure Gold All Purpose Fertilizer. 
+    - 1 1/2 cups of Dr. Earth Pure Gold All Purpose Fertilizer.
 
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_1.webp]] 
+    [[file:images/raised_bed_20230401_1.webp]]
 **** Soil ecosystem
      The fundamental aim is to create soil where organic matter is converted
      though natural processes into *nitrogen*, *phosphorous* and *potassium*
@@ -53,31 +53,31 @@
      Plants consume nitrogen through water absorption, which is why we want
      aeration. Plants consume phosphorous and potassium through roots in contact
      with the soil.
-   
+
 *** Start with the compost
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_2.webp]] 
+    [[file:images/raised_bed_20230401_2.webp]]
 *** Mix in peat moss
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_3.webp]] 
+    [[file:images/raised_bed_20230401_3.webp]]
 *** Mix in the Scott's topsoil
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_4.webp]] 
+    [[file:images/raised_bed_20230401_4.webp]]
 *** Mix in the perlite
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_5.webp]] 
+    [[file:images/raised_bed_20230401_5.webp]]
 *** Mix in the manure
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_6.webp]] 
+    [[file:images/raised_bed_20230401_6.webp]]
 *** Mix in the fertilizer
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_7.webp]] 
-*** Mix in remaining topsoil   
+    [[file:images/raised_bed_20230401_7.webp]]
+*** Mix in remaining topsoil
     #+attr_html: :width 750
-    [[file:images/raised_bed_20230401_8.webp]] 
-   
+    [[file:images/raised_bed_20230401_8.webp]]
+
 ** What we planted
-*** From seed   
+*** From seed
    1. Gladstone onions (4/1/23)
    2. Tenderweet carrots (4/1/23)
    3. Beefsteak tomatoes (4/1/23)
@@ -94,16 +94,16 @@
 ** 2023-04-10
    This is perhaps our first tomato
    #+attr_html: :width 750
-   [[file:images/raised_bed_20230410_possible_first_tomato.webp]]  
-   
+   [[file:images/raised_bed_20230410_possible_first_tomato.webp]]
+
 ** 2023-04-15
    There are many seedlings, but we can't tell what is what yet. Do we have tomotoes or a bunch of weeds?
    #+attr_html: :width 750
-   [[file:images/raised_bed_20230415_seedlings.webp]] 
-   
+   [[file:images/raised_bed_20230415_seedlings.webp]]
+
    These might be the carrots.
    #+attr_html: :width 750
-   [[file:images/raised_bed_20230415_possible_carrots.webp]] 
+   [[file:images/raised_bed_20230415_possible_carrots.webp]]
 ** 2023-05-20
    The zuchinni and squash were planted later than the others, but are growing the fastest.
    #+attr_html: :width 750
@@ -115,15 +115,26 @@
 
    Tomatoes take a long time; they still have a long way to go. Same with the onions. Most of what is pictured here aren't tomatoes.
    #+attr_html: :width 750
-   [[file:images/raised_bed_20230520_update_3.webp]] 
+   [[file:images/raised_bed_20230520_update_3.webp]]
 ** 2023-06-04
    Tomatoes are entering the vegitative stage.
    #+attr_html: :width 750
    [[file:images/raised_bed_2023_06_04_update_2.webp]]
 
    Carrot stalks are getting taller
-   [[file:images/raised_bed_2023_06_04_update_1.webp]] 
+   #+attr_html: :width 750
+   [[file:images/raised_bed_2023_06_04_update_1.webp]]
 
    Some of the squash are flowering.
    #+attr_html: :width 750
-   [[file:images/raised_bed_2023_06_04_update_3.webp]] 
+   [[file:images/raised_bed_2023_06_04_update_3.webp]]
+
+** 2023-06-25
+   First harvest of squash
+   #+attr_html: :width 750
+   [[file:images/raised_bed_20230625_update_1.webp]]
+
+   Tomatoes have been tied. Potatoes are growing in the black pot.
+   #+attr_html: :width 750
+   [[file:images/raised_bed_20230625_update_2.webp]]
+
