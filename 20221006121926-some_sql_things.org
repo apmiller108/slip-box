@@ -3,7 +3,7 @@
 :END:
 #+title: Some SQL things
 #+date: 2022-10-06 12:19 PM
-#+updated: 2023-03-21 13:10 PM
+#+updated: 2023-06-27 12:13 PM
 #+filetags: :sql:postgres
 
 * Join only on first record
@@ -109,4 +109,20 @@
    View with
    #+begin_src shell
      \d+ table_name
+   #+end_src
+* CTE (with query)
+** Use case 1: data migrations
+   Store deleted records in a temp table in case something needs to be rolled
+   back. Return ~*~ from the delete operation which populates the CTE.
+
+   #+begin_src sql
+  WITH deletes AS (
+    DELETE FROM widgets WHERE widget_type_id IN (
+      SELECT id FROM widget_types wt WHERE wt.name= 'shiny'
+    )
+    RETURNING *
+  )
+  SELECT *
+    INTO temp_delete_widgets_20230627
+    FROM deletes;
    #+end_src
