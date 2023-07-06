@@ -3,12 +3,12 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2023-03-16 08:24 AM
+#+updated: 2023-07-06 11:50 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
 to reference again in the future. For now I'm going to organize them by language
-and/or framework. 
+and/or framework.
 
 * Ruby
   - [[https://longliveruby.com/articles/build-your-own-concurrency-control-in-sidekiq][Build concurrency control in Sidekiq]]:
@@ -46,3 +46,6 @@ and/or framework.
   - https://www.akshaykhot.com/using-hotwire-without-rails/: Explains how to use
     Hotwire (Turbo primarily) without the RoR framework. What's nice about this
     is that it becomes very clear what Turbo is all about.
+* DevOps
+  - [[https://railsnotes.xyz/blog/deploying-ruby-on-rails-with-dokku-redis-sidekiq-arm-docker-hetzner][Deploying Ruby on Rails with Dokku]]: this is a kinda of ultimate guide for
+    using Dokku. Includes deploying with docker.
