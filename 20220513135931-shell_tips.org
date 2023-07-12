@@ -91,3 +91,7 @@ Just some various tips for writing shell scripts or doing cmd line stuff.
   echo $i
   done
   #+end_src
+* Pipefail
+  #+begin_src 
+  set -euo pipefail
+  #+end_src
