@@ -6,19 +6,21 @@
 
 * Midi
 ** Midi Smoothing
-   Control surfaces > Generic MIDI > Smoothing
+   ~Control surfaces > Generic MIDI > Smoothing~
 
    This is kind of like soft takeover except can be a value from 10 to 127. It
    is 10 by default meaning that fast motions on a midi controller will cause
    the controller and ardour to become out of sync. Set to 127 to be able to do
    fast motions
-** Midi clock
+** Midi clock setup
    - Pipe the clock source into Ardour's MIDI Control In port
    - Configuration in Preference > Transport
+   - Click on ~Int.~ button (enable/disable external position sync) on the left in tool bar 
 ** Midi control learn
-   CTRL Middle Click on the paramter. You should see a message that says "operate midi controller now" or something.
+   ~CTRL Middle Click~ on the paramter. You should see a message that says "operate midi controller now" or something.
 ** Midi control mapping
-   https://manual.ardour.org/using-control-surfaces/generic-midi/midi-binding-maps/
+   - See also https://manual.ardour.org/using-control-surfaces/generic-midi/midi-binding-maps/
+   - See also https://github.com/apmiller108/audio/blob/main/mixxx_4_decks_ardour_midi_bindings.map
 
 *** Plugin mapping
   #+begin_src xml
