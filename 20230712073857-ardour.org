@@ -1,0 +1,30 @@
+:PROPERTIES:
+:ID:       d49b6abc-06ac-4492-abaf-de907cdef2f7
+:END:
+#+title: Ardour
+#+filetags: :linux:midi:audio:
+
+* Midi
+** Midi Smoothing
+   Control surfaces > Generic MIDI > Smoothing
+
+   This is kind of like soft takeover except can be a value from 10 to 127. It
+   is 10 by default meaning that fast motions on a midi controller will cause
+   the controller and ardour to become out of sync. Set to 127 to be able to do
+   fast motions
+** Midi clock
+   - Pipe the clock source into Ardour's MIDI Control In port
+   - Configuration in Preference > Transport
+** Midi control learn
+   CTRL Middle Click on the paramter. You should see a message that says "operate midi controller now" or something.
+** Midi control mapping
+   https://manual.ardour.org/using-control-surfaces/generic-midi/midi-binding-maps/
+
+*** Plugin mapping
+  #+begin_src xml
+  <Binding channel="1" ctl="5"   uri="/route/plugin/parameter D1B1 1 20"/>
+  #+end_src
+   The URI consists of the path, track or bus name, plugin number and finally
+   plugin paramter number. You can find the plugin parameter number by R
+   clicking on the plugin and selecting inline paramters. Then count the params
+   from top to bottom
