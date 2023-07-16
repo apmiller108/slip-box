@@ -2,6 +2,8 @@
 :ID:       d49b6abc-06ac-4492-abaf-de907cdef2f7
 :END:
 #+title: Ardour
+#+date: 2023-07-16 11:30 AM
+#+updated: 2023-07-16 08:05 AM
 #+filetags: :linux:midi:audio:
 
 * Midi
