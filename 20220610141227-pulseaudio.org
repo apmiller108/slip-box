@@ -23,6 +23,8 @@
    pactl list sinks
    #+end_src
 ** Delay
+   This can help resolve timing issues between multiple sound cards. You need to play around with the ~latency_msec~ value to find the sweet spot.
+   
    https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-loopback
 
    #+begin_src 

@@ -32,3 +32,16 @@ https://docs.pipewire.org/index.html
    I had better luck with this to set the volume level my Xone k2
 **** amixer
      Like alsamixer, but CLI only (no TUI)
+* Multiple sound cards
+  By default pipewire handles multiple sound cards timing by resampling. In
+  pavucontrol you can set the Pro Audio profile on the card which, amonng other
+  things will assume all devices share the same clock.
+
+  https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/FAQ#what-is-the-pro-audio-profile
+
+** Timing
+   Instead of letting pipewire handle timing by resampling, which I found to be
+   less than perfect, we can use a module-loopback to introduce a delay on one
+   or more devices.
+
+   See also [[id:959acd5a-c6f7-4247-baf6-d8f5c7fd765a][pulseaudio]] for how to set that up
