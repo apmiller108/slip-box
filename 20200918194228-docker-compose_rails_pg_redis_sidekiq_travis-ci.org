@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2023-06-09 15:34 PM
+#+updated: 2023-08-04 15:43 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -14,74 +14,98 @@
 
   1. Set the ~:HEADER-ARGS:~ property for each file with the ~:tangle~ path.
      This is where the generated file will be written.
-     See [[https://orgmode.org/manual/Using-Header-Arguments.html#Using-Header-Arguments][Using Header Arguments]].
-  2. Edit the ~config~ [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Association-Lists.html][Association List]] below. Select the images and app name
-     you want to use.
-  3. call ~org-babel-tangle~ to generate the files in your chosen directory.
+     See also [[https://orgmode.org/manual/Using-Header-Arguments.html#Using-Header-Arguments][Using Header Arguments]].
+  2. Edit the ~config~ [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Association-Lists.html][Association List]] below. Select the desired versions and
+     app name.
+  3. call ~org-babel-tangle~ to generate the files in your chosen tangle
+     directory.
   4. Run the setup script as an entry point to a temp container based on the
-     selected image. The command is generated in a comment in ~setup.sh~. I
-     might want to edit the script to specify the version of Rails to install,
-     remove webpacker, etc. Alternatively, just edit the ~setup.sh~ script after
-     generating the files.
-  5. Add a ~.dockerignore~. See [[https://gist.github.com/yizeng/eeeb48d6823801061791cc5581f7e1fc][this gist]] for ideas of what to ignore.
-  6. Start the app with ~docker-compose up~
+     selected image. The command is generated in a ~Usage~ comment in
+     ~setup.sh~.
+  5. Add a ~.env~ file
+  6. Add a ~.dockerignore~. See [[https://gist.github.com/yizeng/eeeb48d6823801061791cc5581f7e1fc][this gist]] for ideas of what to ignore.
+     TODO: just generate this, dummy.
+  7. Update ~Procfile.dev~ to bind the server to ~0.0.0.0~
+     ~web: unset PORT && bin/rails server -p 3000 -b '0.0.0.0'~
+  7. Build container image ~docker-compose build~
+  8. Start the app with ~docker-compose up~
 
-  NOTE: this will run the ~config~ elisp block below several times. Set the
-  ~org-confirm-babel-evaluate~ variable to ~nil~ to skip prompting.
-
-  NOTE: the images names (ie, tags) will be ~<app_name>_web~ / ~<app_name>_sidekiq_~
-
+** Skip all the confirm prompts
+ This will run the ~config~ elisp block below several times. Set the
+ ~org-confirm-babel-evaluate~ variable to ~nil~ to skip prompting.
+** Config
   #+name: config
   #+begin_src emacs-lisp :var key=""
     (setq config
-          '(("ruby-image" . "ruby:latest")
-            ("pg-image" . "postgres:latest")
-            ("redis-image" . "redis:latest")
+          '(("ruby-version" . "3.2.2")
+            ("node-version" . "20")
+            ("pg-version" . "latest")
+            ("redis-version" . "latest")
             ("app-name" . "tmp")))
     (cdr (assoc key config))
   #+end_src
 
 * Dockerfile
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/tmp/Dockerfile :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/test/Dockerfile :mkdirp yes
   :END:
 
-  You might get an old-ass, unmaintained version of node by installing nodejs
-  this way. See [[https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions][nodesource]] for an alternative method where you can get more
-  recent versions.
+  This is a multistage docker build. The advantage is having yarn and bundle
+  dependencies being a step that is cached independently.
 
   #+begin_src dockerfile :noweb tangle
-    FROM <<config("ruby-image")>>
+    ARG RUBY_VERSION=<<config("ruby-version")>>
+    ARG NODE_VERSION=<<config("node-version")>>
 
-    RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash - && apt-get install -y nodejs
-    RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg -o /root/yarn-pubkey.gpg && apt-key add /root/yarn-pubkey.gpg
-    RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
-    RUN apt-get update && apt-get install -y build-essential locales yarn
+    FROM node:$NODE_VERSION-slim as node
+
+    WORKDIR /app
+
+    COPY package.json yarn.lock ./
+    RUN yarn install
+
+    FROM ruby:$RUBY_VERSION as base
+
+    RUN apt-get update -qq \
+        && apt-get install --no-install-recommends -y build-essential locales libvips libpq-dev \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+    WORKDIR /app
+
+    FROM base as gems
+
+    COPY Gemfile Gemfile.lock ./
+    RUN gem install bundler && bundle install --jobs 20 --retry 5
+
+    FROM base as build
 
     RUN locale-gen en_US.UTF-8
     ENV LANG en_US.UTF-8
     ENV LANGUAGE en_US:en
     ENV LC_ALL en_US.UTF-8
 
-    RUN mkdir -p /app
-    WORKDIR /app
-
-    COPY Gemfile Gemfile.lock ./
-    RUN gem install bundler && bundle install --jobs 20 --retry 5
-
     COPY . ./
+    COPY --from=node /usr/lib /usr/lib
+    COPY --from=node /usr/local/share /usr/local/share
+    COPY --from=node /usr/local/lib /usr/local/lib
+    COPY --from=node /usr/local/include /usr/local/include
+    COPY --from=node /usr/local/bin /usr/local/bin
+    COPY --from=node /opt /opt
+    COPY --from=node /app/node_modules /app/node_modules
+    COPY --from=gems /usr/local/bundle /usr/local/bundle
 
     EXPOSE 3000
-    CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+
+    CMD ["bin/start"]
   #+end_src
 
 * docker-compose
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/tmp/docker-compose.yml :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/test/docker-compose.yml :mkdirp yes
   :END:
 
   This orchestrates the following containers:
-
   - web
   - database
   - redis
@@ -101,10 +125,10 @@
         tty: true
         stdin_open: true
         build: .
-        command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+        command: bash -c "rm -f tmp/pids/server.pid && /app/bin/dev"
         volumes:
           - ".:/app"
-          - "/app/node_modules" # this prevents mounting the local node_modules dir
+          - "/app/node_modules" # don't mount node_modules dir
         ports:
           - "3000:3000"
         links:
@@ -113,7 +137,7 @@
         env_file:
           - ".env"
       database:
-        image: <<config("pg-image")>>
+        image: postgres:<<config("pg-version")>>
         volumes:
           - 'postgres:/var/lib/postgresql/data'
         ports:
@@ -121,7 +145,7 @@
         env_file:
           - ".env"
       redis:
-        image: <<config("redis-image")>>
+        image: redis:<<config("redis-version")>>
         volumes:
           - "redis:/data"
         ports:
@@ -143,33 +167,32 @@
       postgres:
   #+end_src
 
-  NOTE: It can be helpful to expose the redis and database ports to the
-  host machine so you can connect to them with tools from the host
-  machine. The example below only exposes port ~3000~ of the web service to the
-  host.
-
 * Setup the project
   :PROPERTIES:
-  :HEADER-ARGS: :tangle ~/code/tmp/setup.sh :mkdirp yes
+  :HEADER-ARGS: :tangle ~/code/test/setup.sh :mkdirp yes
   :END:
-  At this point we don't have a Gemfile, Gemfile.lock or any of the Rails'
-  framework files, etc. But we can still do all the project setup within docker
-  by pulling down the image, mounting the project directory as a volume and
+  After generating the files we still don't have a Gemfile, Gemfile.lock or any
+  of the Rails' framework files, etc. But we can still do all the project setup
+  within a docker container and mounting the project directory as a volume and
   running a few commands.
 
-  ~docker run --rm -it -v "$PWD":/app -w /app ruby:3.0 sh setup.sh~
+  **See Usage comment in the script for how to run it**
 
 ** setup.sh
+   This is a one time setup script. It can be deleted after it is run.
+  - This is for rails v ~>7
+  - See also [[https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions][nodesource]].
+
   #+begin_src shell :noweb tangle
     # Usage:
-    #   docker run --rm -it -v "$PWD":/app -w /app <<config("ruby-image")>> sh setup.sh
+    #   docker run --rm -it -v "$PWD":/app -w /app ruby:<<config("ruby-version")>> sh setup.sh
 
     # Install dependencies
     gem install rails -v "~> 7"
 
     # Install node from nodesource
-    # https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
-    curl -fsSL https://deb.nodesource.com/setup_19.x | bash - && apt-get install -y nodejs
+    https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
+    curl -fsSL https://deb.nodesource.com/setup_<<config("node-version")>>.x | bash - && apt-get install -y nodejs
 
     # Install yarn
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -177,7 +200,7 @@
     apt update && apt install -y yarn
 
     # Setup rails app
-    rails new <<config("app-name")>> --database=postgresql --javascript=esbuild --css=tailwind
+    rails new <<config("app-name")>> --database=postgresql --javascript=esbuild --css=bootstrap
 
     cd <<config("app-name")>>
     mv * .*  ../
@@ -229,11 +252,12 @@
   #+end_src
 
 * Run it
-  To start it up run:
+  After completing the project setup, run:
 
-  =docker-compose up=
+  =docker-compose build= to build the image
+  =docker-compose up= to run the containers
 
-  Shut it down with:
+  Tear it down with:
 
   =docker-compose down=
 
