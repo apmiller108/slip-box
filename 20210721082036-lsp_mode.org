@@ -3,12 +3,20 @@
 :END:
 #+title: lsp-mode
 #+date: 2021-07-21 08:20 AM
-#+updated: 2023-03-22 11:08 AM
+#+updated: 2023-08-04 12:22 PM
 #+filetags: :lsp:emacs:
 
 https://emacs-lsp.github.io/lsp-mode/
 https://develop.spacemacs.org/layers/+lang/ruby/README.html#language-server-protocol
 
+* Selecting language servers
+  If there are multiple installed, the highest priority will win. To select the
+  server you want independent of priority you can do this:
+
+  #+begin_src emacs-lisp
+  (add-to-list 'lsp-disabled-clients 'ruby-ls)
+  (add-to-list 'lsp-enabled-clients 'ruby-lsp-ls)
+  #+end_src
 * Typescript
 ** Setup
    - I choose to use [[https://github.com/theia-ide][theia-ide]] setup. See also https://theia-ide.org/.
@@ -20,7 +28,9 @@ https://develop.spacemacs.org/layers/+lang/ruby/README.html#language-server-prot
   See also [[https://emacs-lsp.github.io/lsp-mode/page/faq/#i-have-multiple-language-servers-registered-for-language-foo-which-one-will-be-used-when-opening-a-project][emacs-lsp FAQ]]
 ** Ruby LSP
    https://github.com/Shopify/ruby-lsp
-   This requires putting it in the Gemfile, so kind of a non-starter.
+
+   2023-08-04: I tried it but it didn't appear to have jump to definition or any
+   features for that matter.
 ** Solargraph
    - https://github.com/castwide/solargraph
    - https://solargraph.org/guides

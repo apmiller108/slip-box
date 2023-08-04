@@ -3,7 +3,7 @@
 :END:
 #+title: Shell tips
 #+date: 2022-05-13 13:59 PM
-#+updated: 2023-01-31 09:30 AM
+#+updated: 2023-08-04 15:49 PM
 #+filetags: :shell:
 
 Just some various tips for writing shell scripts or doing cmd line stuff.
@@ -41,23 +41,23 @@ Just some various tips for writing shell scripts or doing cmd line stuff.
   #+end_src
 
   We can also set the parameter by using ~=~ instead of ~-~ above.
-  
+
 * List open files
   Use ~lsof~
-  
+
   It will include open sockets since anything IO is considered a file on a UNIX
   OS.
 
 ** Examples
-*** List Internet files    
+*** List Internet files
     #+begin_src shell
-      lsof -i 
+      lsof -i
     #+end_src
 
     ...on a specific port
-    
-    #+begin_src 
-      lsof -i :3000 
+
+    #+begin_src
+      lsof -i :3000
     #+end_src
 
     ...or list all processes that are listening on some port
@@ -87,11 +87,30 @@ Just some various tips for writing shell scripts or doing cmd line stuff.
   I found this useful to test flaky RSpec tests
   #+begin_src shell
   for i in {1..5}
-  do
-  echo $i
+    do
+    echo $i
   done
   #+end_src
-* Pipefail
-  #+begin_src 
-  set -euo pipefail
+* Lookup alias
+  use the ~type~ utility
+  #+begin_src shell
+    type grep
+    #=> grep is an alias for grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox}
   #+end_src
+* Time how long a command takes
+  Use the ~time~ utility:
+  #+begin_src shell
+    time sleep 1
+    real	0m1.033s
+    user	0m0.001s
+    sys	0m0.000sp
+  #+end_src
+
+  - ~real~ is actual clock time
+  - ~user~ is CPU time on user processes
+  - ~sys~ is CPU time on kernel processes
+
+  see also https://stackoverflow.com/a/556411
+
+  If the real time is much higher compared to CPU times then there is some I/O
+  waiting happening.

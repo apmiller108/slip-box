@@ -3,7 +3,7 @@
 :END:
 #+title: dap-mode
 #+date: 2020-06-05 16:48 PM
-#+updated: 2023-01-05 13:51 PM
+#+updated: 2023-07-27 07:57 AM
 #+filetags: :emacs:spacemacs:
 
 * Overview
@@ -44,19 +44,23 @@
 
    - See [[https://code.visualstudio.com/docs/editor/debugging][VSCode's debugger docs]] for more on the ~launch.json~ file.
    - See [[https://emacs-lsp.github.io/dap-mode/page/features/#launchjson-support][dap-mode launch.json docs]].
-   
+
 ** Chrome Debugging
-   =dap-chrome-setup= to install [[https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome][debugger-for-chrome.]] 
-  
+   =dap-chrome-setup= to install [[https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome][debugger-for-chrome.]]
+
 ** Node Debugging
    ~dap-node-setup~ to install https://github.com/microsoft/vscode-node-debug2
 
    - For configuration options used in debug template, reference the
      [[https://code.visualstudio.com/docs/nodejs/nodejs-debugging][VS Code NodeJS debugging]] docs
 
+*** Issues
+    The VSCode extension needs to be installed manually now.
+    https://github.com/emacs-lsp/dap-mode/issues/554#issuecomment-1171256089
+
 * Usage
   Use ~dap-breakpoint add~ and run ~dap-debug~
-  
+
 ** Print debugging
    1. Add a breakpoint ~dap-breakpoint-add~
    2. For that breakpoint, turn it into a message logger with
@@ -65,7 +69,7 @@
       be annoying to break on each iteration.
 
       Use curly braces to interpolate things: ~log var: {var}~
-     
+
 ** Condition debugging
    - ~dap-breakpoint-condition~: Modify a breakpoint with a conditional expression.
    - ~dap-breakpoint-hit-condition~: Specify a number of hits for a breakpoint for it to break.
@@ -73,4 +77,4 @@
 ** Adding/Watching expressions
    - ~dap-ui-expressions-add~ (~SPC d e t~): Add some expressions for which you want to watch
    the value of. It will show in the ~expressions~ window.
-   - Remove them with ~dap-ui-expressions-remove~. 
+   - Remove them with ~dap-ui-expressions-remove~.
