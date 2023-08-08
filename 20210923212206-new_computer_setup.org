@@ -4,7 +4,7 @@
 
 #+title: New computer setup
 #+date: 2021-09-23 21:22 PM
-#+updated: 2021-10-02 20:53 PM
+#+updated: 2023-08-08 16:18 PM
 #+filetags: :shell:
 
 A got a new laptop, a System 76 Gazelle with [[https://pop.system76.com][pop_os]]. This was the first I time
@@ -14,20 +14,20 @@ this shit out and maybe automate some of it too.
 
 * Setup Git
   I need [[https://github.com/apmiller108/dotfiles][my dotfiles]] so first thing is to get git configured.
-
 ** Generate SSH key pair
-   - Generate the private/pub key pair
-   - Start ~ssh-agent~
-   - Add the private key (ie, not the one with ~.pub~) to ~ssh-agent~
     #+begin_src shell
       ssh-keygen -t ed25519 -C "Some Comment"
       eval "$(ssh-agent -s)"
       ssh-add ~/.ssh/myprivatekey
     #+end_src
-
+   Explaining of the above commands:
+   1. Generate the private/pub key pair
+   2. Start ~ssh-agent~
+   3. Add the private key (ie, not the one with ~.pub~) to ~ssh-agent~
 ** Add SSH Pub key to GitHub account
-  Follow [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account][their instructions]]
-
+  Follow [[https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account][their instructions]]. But the gist of it is go to your account settings,
+  add a new ssh-key and paste the contents of the ~.pub~ file.
+** Clone dotfiles
 ** Create symlinks for git dotfiles
    With the SSH key stuff out of the way, I cloned the dotfiles repo.
    After cloning the dotfiles repo create symlinks for:
@@ -38,7 +38,6 @@ this shit out and maybe automate some of it too.
      ln -s ~/dotfiles/git/gitconfig ~/.gitconfig
      ln -s ~/dotfiles/git/gitignore_global ~/.gitignore_global
    #+end_src
-
 * Install ZSH
   #+begin_src shell
   sudo apt-get-update
@@ -49,33 +48,70 @@ this shit out and maybe automate some of it too.
 * Install ohmyzsh
   See https://github.com/ohmyzsh/ohmyzsh
 * Create symlink for dotzsh file
+     #+begin_src shell
+     ln -s ~/dotfiles/git/zshrc ~/.zshrc
+     #+end_src
 * Install fzf
+  https://github.com/junegunn/fzf
 * Install npm and yarn
-* Create symlink for dotvimrc file  
+** Nodesource (Linux)
+   https://github.com/nodesource/distributions#installation-instructions
+** yarn
+   #+begin_src sh
+   npm install yarn -g
+   #+end_src
+* Install vim
+** Create symlink for dotvimrc file
+      #+begin_src shell
+      ln -s ~/dotfiles/git/vimrc ~/.vimrc
+      #+end_src
+* Install rbenv
+   https://github.com/rbenv/rbenv#basic-git-checkout
+** Install ruby-build
+   https://github.com/rbenv/ruby-build#clone-as-rbenv-plugin-using-git
+** Install a version of ruby
+   #+begin_src sh
+     rbenv install -l # list most recent stable versions and pick one
+     rbenv install 3.2.2 # install it
+     rbenv global 3.2.2 # set it to global
+   #+end_src
 * Install Emacs
   Version 28 with native-comp
-  Clone the Emacs repo: https://git.savannah.gnu.org/git/emacs.git
-  NOTE: At the time of writing this the native-comp branch had already been
-  merged into Master.
+** Download source code for the version you want
+   http://mirror.us-midwest-1.nexcess.net/gnu/emacs/
+   unpack it and continue...
+*** Or master branch
+   Clone the Emacs repo: https://git.savannah.gnu.org/git/emacs.git
 ** Dependencies I needed
-   Well, I think I need these...
-   - gcc-10
-   - libgccjit0
-   - libgccjit-10-dev
-   - autoconf
-   - librsvg2-dev
-   - libpng-dev
-   - libjpeg-dev
-   - imagemagick
-   - sqlite3
-   - pandoc
-   - libcairo2-dev 
+   Run the following to determine if you have the dependencies needed:
+   #+begin_src sh
+   ./autogen.sh
+   #+end_src
+
+   There will probable be a lot of stuff missing. For example once...
+
+   I needed these:
+   #+begin_src shell
+   sudo apt install gcc-10 libgccjit0 libgccjit-10-dev autoconf librsvg2-dev libpng-dev \
+     libjpeg-dev imagemagick sqlite3 pandoc libcairo2-dev
+   #+end_src
+
+   But another time there was even more...
+
+   See [[https://gitlab.com/mslot/src_installs/-/blob/master/emacs_install_ubuntu.sh][this]] which was helpful. After install those, I was able to move on.
+
 ** Config and install
    This is how I configured and installed it.
-   #+begin_src 
-   ./configure --with-modules --with-cairo --with-imagemagick --with-rsvg --with-mailutils --with-native-compilation
+   #+begin_src
+   CC="gcc-10" ./configure --with-modules --with-cairo --with-imagemagick --with-rsvg --with-mailutils --with-native-compilation
    make -j 2
    make install
    #+end_src
 
    See also https://www.masteringemacs.org/article/speed-up-emacs-libjansson-native-elisp-compilation
+** Add chemacs2 and profiles
+   https://github.com/plexus/chemacs2
+
+   See also [[id:4EB81167-F7EB-4C72-B62B-9FB666D2446E][Emacs profiles]]
+* Install spacemacs
+* Install doom
