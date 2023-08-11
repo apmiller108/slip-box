@@ -17,7 +17,7 @@
 ** Midi clock setup
    - Pipe the clock source into Ardour's MIDI Control In port
    - Configuration in Preference > Transport
-   - Click on ~Int.~ button (enable/disable external position sync) on the left in tool bar 
+   - Click on ~Int.~ button (enable/disable external position sync) on the left in tool bar. This will allow the midi clock to lead Ardour. In order to begin play, a midi play signal will need to be sent. On the RedSound Voyager, this is the FUN/PAUSE button
 ** Midi control learn
    ~CTRL Middle Click~ on the paramter. You should see a message that says "operate midi controller now" or something.
 ** Midi control mapping

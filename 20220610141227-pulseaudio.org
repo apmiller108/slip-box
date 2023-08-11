@@ -22,17 +22,19 @@
    pactl list cards
    pactl list sinks
    #+end_src
-** Delay
+** Delay (module-loopback)
    This can help resolve timing issues between multiple sound cards. You need to play around with the ~latency_msec~ value to find the sweet spot.
    
-   https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-loopback
+   See also:
+   - https://www.freedesktop.org/wiki/Software/PulseAudio/Documentation/User/Modules/#module-loopback
+   - https://unix.stackexchange.com/q/492716/579810
 
    #+begin_src 
    pactl load-module module-null-sink sink_name=delayed
    pactl load-module module-loopback latency_msec=100 source=delayed.monitor sink=alsa_output.usb-BEHRINGER_UMC204HD_192k-00.pro-output-0
    #+end_src
 
-   I don't think you really need the null-sink. Just route directly to the loopback module inputs
+   I don't think you really need the null-sink. Just route directly to the loopback module inputs.
    [[file:images/module-loopback.png]] 
 ** Unloading modules
    #+begin_src 
