@@ -3,7 +3,7 @@
 :END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2023-05-30 08:36 AM
+#+updated: 2023-08-14 08:15 AM
 #+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
@@ -19,26 +19,26 @@ that big of a deal.
   and the entrypoint. Maps the current host directory to ~/app~ inside the
   container. Example:
 
-  #+begin_src shell 
+  #+begin_src shell
   docker run -it --rm -v "$PWD":/app -w "/app" ruby:latest bash
   #+end_src
-  
+
 * The quick and dirty
   Just need a bare environment for messing around? Copy this to a Dockerfile,
   pick an image, build and run. (see build and run command comments below)
 
   #+begin_src dockerfile
     FROM ruby:3.0.0
-    
+
     WORKDIR /app
-    
+
     COPY . .
-    
+
     CMD ["/bin/bash"]
-    
+
     # build command with a tag
     # docker build -t lasagna .
-    
+
     # run command with a volume
     # docker run -it --rm -v "$PWD":/app lasagna
   #+end_src
@@ -74,13 +74,16 @@ that big of a deal.
      CMD ["/bin/bash"]
    #+end_example
 
-*** Scaffold the project 
+*** Scaffold the project
     I need to generate all the boilerplate files, install the dependencies and
     generate the ~Gemfile.lock~. This can be done by building a container on the
     fly from the same image specified in the ~Dockerfile~ (eg, ~ruby:3.0.0~),
     mapping a volume from local project directory to the working directory (eg,
     ~/app~) and passing the commands to ~docker run~
 
+   #+begin_example shell
+     docker run --rm -v "$PWD":/app -w /app ruby:3.2 bundle gem my_proj && mv my_proj/* ./ && rm -rf my_proj
+   #+end_example
     - This runs ~gem my_project~ to build the project files.
     - It moves the project files up to the working directory (You might need to
       use ~sudo~ on the ~mv~ and ~rm~ commands)
@@ -88,9 +91,6 @@ that big of a deal.
       container will be owned by ~root~ on the host machine. Change this by
       running ~sudo chown "$USER":"$USER" ./ -R~ in the project directory to
       take ownership.
-   #+begin_example shell
-     docker run --rm -v "$PWD":/app -w /app ruby:3.2 bundle gem my_proj && mv my_proj/* ./ && rm -rf my_proj
-   #+end_example
 
 **** Fill out the ~.gemspec~
      Before the dependencies can be installed, a valid ~.gemspec~ is required.
@@ -103,15 +103,15 @@ that big of a deal.
        - I mean it's kinda silly to declare the version in a ruby file, isn't it?
 
      The remaining meta data can be deleted or commented out.
-    
+
 **** Install dependencies and generate the ~Gemfile.lock~
      With the ~.gemspec~ filled out, I can install the dependencies. This is the
      same as before, but just do a ~bundle install~.
-    
+
     #+begin_example shell
       docker run --rm -v "$PWD":/app -w /app ruby:3.0.0 bundle install
     #+end_example
-   
+
 *** Build the container and Write code
 
    - Build the container from the image and tag it. =docker build -t my-proj .=
@@ -123,7 +123,7 @@ that big of a deal.
 
    [[https://docs.docker.com/compose/][Docker Compose]] is totally optional, but there's some advantages:
    - The compose file could be a global file that specifies different
-     environments. 
+     environments.
    - Easier to create volumes and using =PWD= means the volume is always
      bound to the the working dir from which you run docker compose.
 
@@ -136,7 +136,7 @@ that big of a deal.
       services:
         ruby:
           # this is the same as the CMD in Dockerfile (this overrides it, actually)
-          command: /bin/bash 
+          command: /bin/bash
           build: .
           volumes:
             - ${PWD}:/app:cached # filesyncing volume so don't have to rebuild.
@@ -156,7 +156,7 @@ that big of a deal.
       to ~docker-compose up~ which would be used when doing something like
       running a server and the ports would be exposed normally)
 
-*** Global docker-compose.yml   
+*** Global docker-compose.yml
     ...or if using a global ~docker-compose.yml~
 
     #+begin_example
@@ -186,7 +186,7 @@ that big of a deal.
    #+end_src
 
    Open a shell prompt and setup the project:
-   
+
    #+begin_example shell
      docker run --rm -it -v "$PWD":/app -w /app node:16.2-alpine3.11 sh
    #+end_example
@@ -217,12 +217,12 @@ that big of a deal.
 
 ** Simple Apache Web Server
    If you want to serve the current directory on ~localhost:8080~
-   
+
    #+begin_src shell
    docker run --rm -p 8080:80 --name="myapache" -v "$PWD":/usr/local/apache2/htdocs/ httpd
    #+end_src
 * Root user
   If you need to get root access to a container (eg, to install dependencies):
-  #+begin_src 
+  #+begin_src
   docker exec -u 0 -it my_container bash
   #+end_src

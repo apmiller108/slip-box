@@ -4,50 +4,50 @@
 
 #+title: Build a Ruby Gem
 #+date: 2018-04-11 02:17 AM
-#+updated: 2022-06-21 09:08 AM
+#+updated: 2023-08-14 08:15 AM
 #+filetags: :ruby:
 
 * What is this?
-  A reference for building a Ruby gem. See also the official [[http://guides.rubygems.org/make-your-own-gem/][RubyGem.org
-  Instructions]] for the latest info on this. There's probably a bunch of stuff
-  here that is outdated.
+A reference for building a Ruby gem. See also the official [[http://guides.rubygems.org/make-your-own-gem/][RubyGem.org
+Instructions]] for the latest info on this. There's probably a bunch of stuff
+here that is outdated.
 
-  There's a cool ~8min~ synopsis of most of this https://www.youtube.com/watch?v=g2zJC2XKblo
+There's a cool ~8min~ synopsis of most of this https://www.youtube.com/watch?v=g2zJC2XKblo
 * Naming Conventions
-  - Lowercase
-  - Underscores to separate words
-  - Dash to indicate an extension of an existing gem
+- Lowercase
+- Underscores to separate words
+- Dash to indicate an extension of an existing gem
 
 * Scaffold the Gem
 
-  #+begin_src
+#+begin_src
 bundle gem {{ GEM_NAME }}
-  #+end_src
+#+end_src
 
-  - Answer prompts about which testing suite to use, CI, license, code of
-    conduct, changelog, etc.
-  - In the root dir
+- Answer prompts about which testing suite to use, CI, license, code of
+  conduct, changelog, etc.
+- In the root dir
 
 ** The .gemspec file
-   See the [[http://guides.rubygems.org/specification-reference/][the specifiction reference on rubygems.org]].
+See the [[http://guides.rubygems.org/specification-reference/][the specifiction reference on rubygems.org]].
 
 * Configuration
 ** Global Configuration
-   - Create a configuration =attr_accessor= on the main module
-   - =def self.configure(configuration_class)= class method takes a block and
-     instantiates a ~Configuration~ object. See [[https://github.com/apmiller108/locotimezone/blob/master/lib/locotimezone.rb#L24-L37][this example]].
+- Create a configuration =attr_accessor= on the main module
+- =def self.configure(configuration_class)= class method takes a block and
+  instantiates a ~Configuration~ object. See [[https://github.com/apmiller108/locotimezone/blob/master/lib/locotimezone.rb#L24-L37][this example]].
 
 ** Local Configuration
-   This things is instantiated with a config object.
+This things is instantiated with a config object.
 
 ** Middleware configuration
-   See [[https://github.com/mperham/sidekiq/wiki/Middleware?utm_source=build-a-ruby-gem&utm_medium=ebook&utm_campaign=configuration][sidekiq example]].
+See [[https://github.com/mperham/sidekiq/wiki/Middleware?utm_source=build-a-ruby-gem&utm_medium=ebook&utm_campaign=configuration][sidekiq example]].
 
 * Versioning
 
-  - Version numbers by default are in =lib/my-gem/version.rb= file. Why is there a
-    file for this and not just hardcoded in the gemspec. No idea.
-  - See [[http://semver.org/][semantic versioning]].
+- Version numbers by default are in =lib/my-gem/version.rb= file. Why is there a
+  file for this and not just hardcoded in the gemspec. No idea.
+- See [[http://semver.org/][semantic versioning]].
 
 * Extending Rails with Railties
 
@@ -57,98 +57,99 @@ bundle gem {{ GEM_NAME }}
     is placed within the ensuing block.
   - Use an initializer to load a module into a Rails component.
 
-  #+begin_src ruby
-    require 'rails'
-    require 'my_gem/some_class'
-    module my_gem
-      class Railtie < Rails::Railtie
-        initializer "my_railtie.configure_rails_initialization" do 
-          ActionView::Base.send(:include, MyGem::Stuff)
+    #+begin_src ruby
+      require 'rails'
+      require 'my_gem/some_class'
+      module my_gem
+        class Railtie < Rails::Railtie
+          initializer "my_railtie.configure_rails_initialization" do
+            ActionView::Base.send(:include, MyGem::Stuff)
+          end
         end
       end
-    end
-  #+end_src
+    #+end_src
 
 ** ActiveSupport on_load
-   See also [[https://github.com/mislav/will_paginate/blob/master/lib/will_paginate/railtie.rb?utm_source=build-a-ruby-gem&utm_medium=ebook&utm_campaign=rails-hooks][will_paginate example]].
-   #+begin_src ruby
-     require 'rails'
-     require 'my_gem/some_class'
-     class Railtie < Rails::Railtie
-       initializer "my_railtie.configure_rails_initialization" do
-         ActiveSupport.on_load(:action_view) do
-           include MyGem::SomeClass
-         end
-       end
-     end
-     
-     # lib/my_gem
-     require "my_gem/railtie" if defined?(Rails)
-   #+end_src
+See also [[https://github.com/mislav/will_paginate/blob/master/lib/will_paginate/railtie.rb?utm_source=build-a-ruby-gem&utm_medium=ebook&utm_campaign=rails-hooks][will_paginate example]].
+#+begin_src ruby
+  require 'rails'
+  require 'my_gem/some_class'
+  class Railtie < Rails::Railtie
+    initializer "my_railtie.configure_rails_initialization" do
+      ActiveSupport.on_load(:action_view) do
+        include MyGem::SomeClass
+      end
+    end
+  end
 
-   An alternative, and possibly safer approach is to just manually include the
-   gem's module in the Rails' class where you want to use it.
+  # lib/my_gem
+  require "my_gem/railtie" if defined?(Rails)
+#+end_src
+
+An alternative, and possibly safer approach is to just manually include the
+gem's module in the Rails' class where you want to use it.
+
 
 * Running the Gem Locally
   - ~bin/console~
   - =bundle console=
   - =irb -r my_gem -I ./lib= or add rake task for the lazy
-  #+begin_src ruby
-    task :console do
-      exec "irb -r mega_lotto -I ./lib"
-    end
-  #+end_src
+    #+begin_src ruby
+      task :console do
+        exec "irb -r mega_lotto -I ./lib"
+      end
+    #+end_src
 
-  - ~-e~ flag runs a line of code when the environment starts. Useful if you
-    need to run a config block.
-  - Add it to a Gemfile by pointing to local checkout path
-  #+begin_src 
-  gem "my_gem", path: "~/development/ruby/gems/locotimezone"
-  #+end_src
+    - ~-e~ flag runs a line of code when the environment starts. Useful if you
+      need to run a config block.
+    - Add it to a Gemfile by pointing to local checkout path
+    #+begin_src
+    gem "my_gem", path: "~/development/ruby/gems/locotimezone"
+    #+end_src
 
 * Testing
   - The Rakefile should already be setup to gather test files and run them using
     the test framework selected with ~bundle gem~.
 
-  #+begin_src ruby
-    require 'bundler/gem_tasks'
-    require 'rspec/core/rake_task'
-    RSpec::Core::RakeTask.new(:spec) do |task|
-      task.rspec_opts = ['—color']
-    end
-    task default: :spec
-  #+end_src
+    #+begin_src ruby
+      require 'bundler/gem_tasks'
+      require 'rspec/core/rake_task'
+      RSpec::Core::RakeTask.new(:spec) do |task|
+        task.rspec_opts = ['—color']
+      end
+      task default: :spec
+    #+end_src
 
 * Gem Dependencies
-  Do not add gems to the Gemfile, just define the dependencies in the ~.gemspec~
+Do not add gems to the Gemfile, just define the dependencies in the ~.gemspec~
 
-  - Optimistic Version Constraint
-    Specify any version above a certain version gem ~'some_dependency, '>= 1.0'~
-  - Exact Version ~gem 'rails', '4.0.2'~
-  - Pessimistic Version Constraint
-    - Keep the version between minor releases. Example below will
-      install most recent version between 4.0.0 and 4.1.0. gem
-      ~'sass-rails', '~> 4.0.0'~
-    - The decimal places change the version range. This example will
-      accept patches and minor releases: (4.1, 4.2, 4.0.1,...) gem
-      ~'sass-rails', '~> 4.0'~
+- Optimistic Version Constraint
+  Specify any version above a certain version gem ~'some_dependency, '>= 1.0'~
+- Exact Version ~gem 'rails', '4.0.2'~
+- Pessimistic Version Constraint
+  - Keep the version between minor releases. Example below will
+    install most recent version between 4.0.0 and 4.1.0. gem
+    ~'sass-rails', '~> 4.0.0'~
+  - The decimal places change the version range. This example will
+    accept patches and minor releases: (4.1, 4.2, 4.0.1,...) gem
+    ~'sass-rails', '~> 4.0'~
 
 * Loading Support Libraries
-  - An optional support library can be loaded in the Gemfile when adding
-    the gem: ~gem ‘locotimezone' require: ‘locotimezone/web'~.
-  - Or use an initializer in Rails to add the require statement.
-  - Since a support library is optional, don't require it in the main file of
-    my_gem.rb
-    
+- An optional support library can be loaded in the Gemfile when adding
+  the gem: ~gem ‘locotimezone' require: ‘locotimezone/web'~.
+- Or use an initializer in Rails to add the require statement.
+- Since a support library is optional, don't require it in the main file of
+  my_gem.rb
+
 
 * Adding an Executable to bin/
 
-  - In addition to providing libraries of Ruby code, gems can also expose
-    one or many executable files to your shell's PATH.* You just need to
-    place the file in your gem's bin directory, and then add it to the
-    list of executables in the gemspec.* touch bin/my_executable* the name
-    of the file is how it will be called in the terminal* chmod a+x
-    bin/my_executable* include the executable and dir in the gemspec
+- In addition to providing libraries of Ruby code, gems can also expose
+  one or many executable files to your shell's PATH.* You just need to
+  place the file in your gem's bin directory, and then add it to the
+  list of executables in the gemspec.* touch bin/my_executable* the name
+  of the file is how it will be called in the terminal* chmod a+x
+  bin/my_executable* include the executable and dir in the gemspec
 
   #+begin_src ruby
     # !/usr/bin/env ruby
@@ -161,33 +162,33 @@ bundle gem {{ GEM_NAME }}
     See [[https://github.com/resque/resque/blob/master/bin/resque?utm_source=build-a-ruby-gem&utm_medium=ebook&utm_campaign=command-line][resque cmd line example]]
 
 * Building
-  #+begin_src 
+#+begin_src
    gem build my_gem.gemspec
-  #+end_src
+#+end_src
 
 * Install
-  #+begin_src 
+#+begin_src
   gem install my_gem
-  #+end_src
+#+end_src
 
-  - It will look locally first for a gem of that name, before going to rubygems.org
-  - Rake install in the gem project root will build and install it.
+- It will look locally first for a gem of that name, before going to rubygems.org
+- Rake install in the gem project root will build and install it.
 
-* Push  
+* Push
 ** Setup to Push to rubygems.org
-   #+begin_src 
+#+begin_src
   curl -u {{ USERNAME }} https://rubygems.org/api/v1/api_key.yaml > ~/.gem/credentials; chmod 0600 ~/.gem/credentials
-   #+end_src
+#+end_src
 
 ** Push to Rubygems.org
-   #+begin_src 
+#+begin_src
 gem push my_gem.gem
-   #+end_src
+#+end_src
 
-   Build and push in one command with =rake release=
+Build and push in one command with =rake release=
 
 * Misc
-** Copy an installed Gem's source code to CWD  
-   #+begin_src shell
-     $ gem unpack some-gem
-   #+end_src
+** Copy an installed Gem's source code to CWD
+#+begin_src shell
+  $ gem unpack some-gem
+#+end_src
