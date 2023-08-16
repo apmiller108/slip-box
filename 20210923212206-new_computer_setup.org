@@ -115,3 +115,9 @@ this shit out and maybe automate some of it too.
    See also [[id:4EB81167-F7EB-4C72-B62B-9FB666D2446E][Emacs profiles]]
 * Install spacemacs
 * Install doom
+* Install optional tools
+** rclone
+   https://github.com/apmiller108/rclone
+** syncthing
+   https://apt.syncthing.net/
+   https://docs.syncthing.net/users/autostart#using-systemd
