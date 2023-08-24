@@ -1,0 +1,77 @@
+:PROPERTIES:
+:ID:       E7CAC743-E22D-48FC-9922-19081FA8A495
+:END:
+#+title: Form objects
+#+filetags: :rails:ruby:
+#+date: 2023-08-24 09:07 AM
+#+updated:  2023-08-24 12:28 PM
+
+There's a lot on the internet about form objects in Rails. I think it was first
+popularized by Thoughtbot. I've found this pattern useful as a container for
+complex or non-standard forms. For example, forms that create or update multiple
+records (eg, an alternative to [[http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html#method-i-accepts_nested_attributes_for][accepts_nested_attributes_for]]) or forms that need
+to do API calls to other services, etc. Anyway, this is just a quick cheatsheet.
+
+* ActiveModel Modules
+** ~ActiveModel::Model~
+   At a minimum, you'll probably want this module. It includes [[http://api.rubyonrails.org/classes/ActiveModel/API.html][ActiveModel::API]]
+   which provides among other things:
+   1. An initializer that takes a hash and assigned the key-value pairs to the
+      objects defined attr_accessors
+   2. The API needed for interfacing with Action Pack and Action View
+   3. Support for declaring validations
+
+   See also http://api.rubyonrails.org/classes/ActiveModel/Model.html
+
+   #+begin_src ruby
+     class WidgetForm
+       include ActiveModel::Model
+
+       attr_accessor :quantity, :expires_at
+
+       validates :quantity, presence: true
+     end
+   #+end_src
+
+   #+begin_src ruby
+     form = WidgetForm.new(quantity: '3', expires_at: '2023-12-31')
+     form.quantity # => "3"
+     form.expires_at # => "2023-12-31""
+   #+end_src
+
+   #+begin_src ruby
+     form = WidgetForm.new(expires_at: '2023-12-31')
+     form.validate! # => ActiveModel::ValidationError: Validation failed: Quantity can't be blank
+   #+end_src
+
+** ~ActiveModel::Attributes~
+   This is optional, but quite useful as an alternative to the traditional
+   ~attr_accessor~. It allows one to declare type casting and default values. Say
+   if you have a date string, and need to cast it to a Date object. There are
+   many built in type casts or even define your own.
+
+   #+begin_src ruby
+     class WidgetForm
+       include ActiveModel::Model
+       include ActiveModel::Attributes
+
+       attribute :quantity, :integer
+       attribute :expires_at, :date
+
+       validates :quantity, presence: true
+     end
+   #+end_src
+
+   See also
+   http://api.rubyonrails.org/classes/ActiveModel/Attributes/ClassMethods.html
+
+   This is NOT the [[https://api.rubyonrails.org/classes/ActiveRecord/Attributes/ClassMethods.html][ActiveRecord attributes API]] but it works in some of the same
+   ways.
+
+*** ~ActiveMode::Type~
+    This goes along with ~ActiveModel::Attributes~, specifically the type casting
+    declarations. There are many built in types. See also
+    https://api.rubyonrails.org/classes/ActiveModel/Type.html
+
+**** Declaring custom types
+

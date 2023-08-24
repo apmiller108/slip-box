@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec and blocks
 #+date: 2022-08-12 12:14 PM
-#+updated: 2022-08-12 14:50 PM
+#+updated: 2023-08-21 08:09 AM
 #+filetags: :rspec:ruby:
 
 #+begin_src ruby
@@ -27,13 +27,13 @@
         allow(Foo).to receive(:call).and_yield
         allow(Bar).to receive(:call)
       end
-    
+
       describe '.call' do
         it 'calls Foo' do
           described_class.call
           expect(Foo).to have_received(:call)
         end
-    
+
         it 'calls Bar' do
           described_class.call
           expect(Bar).to have_received(:call)
@@ -55,4 +55,4 @@
     end
   #+end_src
 
-  
+
