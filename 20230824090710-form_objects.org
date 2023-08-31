@@ -4,7 +4,7 @@
 #+title: Form objects
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2023-08-31 11:40 AM
+#+updated:  2023-08-31 13:51 PM
 
 There's a lot on the internet about form objects in Rails. I think it was first
 popularized by Thoughtbot. I've found this pattern useful as a container for
@@ -16,8 +16,8 @@ to do API calls to other services, etc. Anyway, this is just a quick cheatsheet.
 ** ~ActiveModel::Model~
    At a minimum, you'll probably want this module. It includes [[http://api.rubyonrails.org/classes/ActiveModel/API.html][ActiveModel::API]]
    which provides among other things:
-   1. An initializer that takes a hash and assigned the key-value pairs to the
-      objects defined attr_accessors
+   1. An ~initializer~ method that takes a hash and assigns the key-value pairs to the
+      class' defined ~attr_accessor~
    2. The API needed for interfacing with Action Pack and Action View
    3. Support for declaring validations
 
@@ -63,8 +63,8 @@ to do API calls to other services, etc. Anyway, this is just a quick cheatsheet.
      end
    #+end_src
 
-   In this example the string `'3'` is cast to `Integer` and the expires_at date
-   string is cast to a Ruby `Date` object.
+   In this example the string ~'3'~ is cast to ~Integer~ and the expires_at date
+   string is cast to a Ruby ~Date~ object.
    #+begin_src ruby
      form = WidgetForm.new(quantity: '3', expires_at: '2023-12-31')
      form.quantity # => 3
@@ -82,59 +82,97 @@ to do API calls to other services, etc. Anyway, this is just a quick cheatsheet.
     declarations. There are many built in types. See also
     https://api.rubyonrails.org/classes/ActiveModel/Type.html
 
-**** Declaring custom types
-     If the built in types aren't enough, and there are peculiar use cases, we
-     can define custom types. Let's say we have temperature that could be
-     submitted in either Celsius or Fahrenheit and we want to store the values
-     in Kelvin.
+    If the built in types aren't enough, and there are peculiar use cases, and
+    we're feeling particularly bold, we can define custom types. Let's say we
+    have temperature that could be submitted in either Celsius or Fahrenheit and
+    we want to store the values in Kelvin.
 
+    To do this, we define a custom type class that defines a `cast` method.
+    This method contains the custom logic for doing the conversion from F or C
+    to K in the decimal data type.
 
-     To do this, we define a custom type class that defines a `cast` method.
-     This method contains the custom logic for doing the conversion from F or C
-     to K in the decimal data type.
+    #+begin_src ruby
+      class Kelvin < ActiveModel::Type::Decimal
+        K_BASE = 273.15.to_d
 
-     #+begin_src ruby
-       class Kelvin < ActiveModel::Type::Decimal
-         K_BASE = 273.15.to_d
+        def cast(value)
+          value.upcase!
+          temp_in_kelvin = if value.include?('C')
+                            value.delete('C').to_d + K_BASE
+                          elsif value.include?('F')
+                            ((value.delete('F').to_d - 32) * (Rational(5, 9))) + K_BASE
+                          end
+          super(temp_in_kelvin)
+        end
+      end
+    #+end_src
 
-         def cast(value)
-           value.upcase!
-           temp_in_kelvin = if value.include?('C')
-                              value.delete('C').to_d + K_BASE
-                            elsif value.include?('F')
-                              ((value.delete('F').to_d - 32) * (Rational(5, 9))) + K_BASE
-                            end
-           super(temp_in_kelvin)
-         end
-       end
-     #+end_src
+    Then we register the custom type.
 
-     Then we register the custom type.
+    #+begin_src ruby
+      ActiveModel::Type.register(:kelvin, Kelvin)
+    #+end_src
 
-     #+begin_src ruby
-       ActiveModel::Type.register(:kelvin, Kelvin)
-     #+end_src
+    ...And use it as we would one of the built in types
 
-     ...And use it as we would one of the built in types
+    #+begin_src ruby
+      class WidgetForm
+        include ActiveModel::Model
+        include ActiveModel::Attributes
 
-     #+begin_src ruby
-       class WidgetForm
-         include ActiveModel::Model
-         include ActiveModel::Attributes
+        attribute :quantity, :integer
+        attribute :expires_at, :date
+        attribute :active, :boolean, default: true
+        attribute :temperature, :kelvin
 
-         attribute :quantity, :integer
-         attribute :expires_at, :date
-         attribute :active, :boolean, default: true
-         attribute :temperature, :kelvin
+        validates :quantity, presence: true
+      end
+    #+end_src
 
-         validates :quantity, presence: true
-       end
-     #+end_src
+    #+begin_src ruby
+      form = WidgetForm.new(temperature: '1 C')
+      form.temperature # => 0.27415e3
 
-     #+begin_src ruby
-       form = WidgetForm.new(temperature: '1 C')
-       form.temperature # => 0.27415e3
+      form = WidgetForm.new(temperature: '1 f')
+      form.temperature # => 0.255927777764e3
+    #+end_src
 
-       form = WidgetForm.new(temperature: '1 f')
-       form.temperature # => 0.255927777764e3
-     #+end_src
+    Doing this does have implications for front ends when displaying the value
+    back to the user in their temperature unit preference. For example,
+    returning the value in scientific notation in K would be quite unexpected.
+    So we'll probably need some custom conversion back to F or C.
+
+    #+begin_src ruby
+      class Kelvin < ActiveModel::Type::Decimal
+        K_BASE = 273.15.to_d
+
+        def cast(value)
+          value.upcase!
+          temp_in_kelvin = if value.include?('C')
+                            value.delete('C').to_d + K_BASE
+                          elsif value.include?('F')
+                            ((value.delete('F').to_d - 32) * (Rational(5, 9))) + K_BASE
+                          end
+          super(temp_in_kelvin)
+        end
+
+        def self.to_preferred_unit(value, unit)
+          if unit == :celsius
+            "#{(value - K_BASE)} C"
+          elsif unit == :fahrenheit
+            fahrenheit = (((value - K_BASE) * 9) / 5) + 32
+            "#{fahrenheit.round(2)} F"
+          end
+        end
+      end
+    #+end_src
+
+    #+begin_src ruby
+      form = WidgetForm.new(temperature: '15.3 c')
+      form.temperature # => 0.28845e3
+      Kelvin.to_preferred_unit(form.temperature, :celsius) # => "15.3 C"
+
+      form = WidgetForm.new(temperature: '104.3 f')
+      form.temperature # => 0.3133166666666666666988e3
+      Kelvin.to_preferred_unit(form.temperature, :fahrenheit) # => "104.3 F"
+    #+end_src
