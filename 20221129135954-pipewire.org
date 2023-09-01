@@ -3,10 +3,12 @@
 :END:
 #+title: pipewire
 #+date: 2022-11-29 13:59 PM
-#+updated: 2023-01-29 17:10 PM
+#+updated: 2023-08-27 09:18 AM
 #+filetags: :linux:audio:
 
 https://docs.pipewire.org/index.html
+
+see also [[id:959acd5a-c6f7-4247-baf6-d8f5c7fd765a][pulseaudio]]
 
 * GUI
   [[https://gitlab.freedesktop.org/rncbc/qpwgraph][qpwgraph]] works just like qjackctl
