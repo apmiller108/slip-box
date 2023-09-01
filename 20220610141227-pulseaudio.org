@@ -3,7 +3,7 @@
 :END:
 #+title: pulseaudio
 #+date: 2022-06-10 14:12 PM
-#+updated: 2022-06-18 23:09 PM
+#+updated: 2023-09-01 14:29 PM
 #+filetags: :linux:audio:
 
 * Configuration
@@ -41,3 +41,5 @@
    pactl unload-module module-loopback
    pactl unload-module module-null-sink
    #+end_src
+* Troubleshooting
+  https://support.system76.com/articles/audio/
