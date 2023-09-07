@@ -1,10 +1,10 @@
 :PROPERTIES:
 :ID:       E7CAC743-E22D-48FC-9922-19081FA8A495
 :END:
-#+title: Form objects
+#+title: Form objects or ActiveModel modules
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2023-09-07 09:56 AM
+#+updated:  2023-09-07 14:55 PM
 
 There's a lot on the internet about form objects in Rails. I think it was first
 popularized by Thoughtbot. I've found this pattern useful as clean way to handle
@@ -13,10 +13,14 @@ ActiveRecord object. For example, forms that create or update multiple records
 (eg, an alternative to [[http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html#method-i-accepts_nested_attributes_for][accepts_nested_attributes_for]]) or forms that need to do
 API calls to other services, etc.
 
-This gist of this is that we can leverage various ~ActiveModel~ modules to add
-behavior to ruby classes, giving them the familiar ActiveRecord interface.
+These notes are really about how to make use of various ~ActiveModel~ modules in
+your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is one
+(obvious) example.
 
 * ActiveModel Modules
+  This gist of this is that we can leverage various ~ActiveModel~ modules to add
+  behavior to ruby classes, giving them the familiar ActiveRecord interface.
+
 ** ~ActiveModel::Model~
    At a minimum, you'll probably want this module. It includes [[http://api.rubyonrails.org/classes/ActiveModel/API.html][ActiveModel::API]]
    which provides among other things:
@@ -118,7 +122,7 @@ behavior to ruby classes, giving them the familiar ActiveRecord interface.
    This is optional, but quite useful as an alternative to the traditional
    ~attr_accessor~. It allows one to declare type casting and default values. Say
    if you have a date string, and need to cast it to a Date object. There are
-   many built in type casts or you can even define your own.
+   many [[https://api.rubyonrails.org/classes/ActiveModel/Type.html][built in types]] casts or you can even define your own custom one.
 
    #+begin_src ruby
      class WidgetForm
@@ -149,17 +153,18 @@ behavior to ruby classes, giving them the familiar ActiveRecord interface.
    ways. See also [[id:40FFCDB2-F065-4EDC-9DED-C3007827B470][ActiveRecord]] notes.
 *** ~ActiveMode::Type~
     This goes along with ~ActiveModel::Attributes~, specifically the type casting
-    declarations. There are many built in types. See also
-    https://api.rubyonrails.org/classes/ActiveModel/Type.html
+    declarations. There are many [[https://api.rubyonrails.org/classes/ActiveModel/Type.html][built in types]] which will likely satisfy the
+    vast majority of use cases.
 
-    If the built in types aren't enough, and there are peculiar use cases, and
-    we're feeling particularly bold, we can define custom types. Let's say we
-    have temperature that could be submitted in either Celsius or Fahrenheit and
-    we want to store the values in Kelvin.
+    If, however,the built in types aren't enough, and there are peculiar use
+    cases, and we're feeling particularly bold, then we can define a custom type.
+    Let's say we have temperature that could be submitted in either Celsius or
+    Fahrenheit and we want to store the values in [[https://en.wikipedia.org/wiki/Kelvin][Kelvin]].
 
-    To do this, we define a custom type class that defines a ~cast~ method.
-    This method contains the custom logic for doing the conversion from F or C
-    to K in the decimal data type.
+    To do this, we define a custom type class that defines a ~cast~ method. This
+    method contains the custom logic for doing the conversion from F or C to K
+    in the decimal data type (ie, so our class inherits from
+    ~ActiveModel::Type::Decimal~).
 
     #+begin_src ruby
       class Kelvin < ActiveModel::Type::Decimal
@@ -177,13 +182,13 @@ behavior to ruby classes, giving them the familiar ActiveRecord interface.
       end
     #+end_src
 
-    Then we register the custom type.
+    Then we register the custom type in an initializer...
 
     #+begin_src ruby
       ActiveModel::Type.register(:kelvin, Kelvin)
     #+end_src
 
-    ...And use it as we would one of the built in types
+    ...And use it in the same way we would use a built in type.
 
     #+begin_src ruby
       class WidgetForm
@@ -216,16 +221,6 @@ behavior to ruby classes, giving them the familiar ActiveRecord interface.
       class Kelvin < ActiveModel::Type::Decimal
         K_BASE = 273.15.to_d
 
-        def cast(value)
-          value.upcase!
-          temp_in_kelvin = if value.include?('C')
-                            value.delete('C').to_d + K_BASE
-                          elsif value.include?('F')
-                            ((value.delete('F').to_d - 32) * (Rational(5, 9))) + K_BASE
-                          end
-          super(temp_in_kelvin)
-        end
-
         def self.to_preferred_unit(value, unit)
           if unit == :celsius
             "#{(value - K_BASE)} C"
@@ -246,3 +241,63 @@ behavior to ruby classes, giving them the familiar ActiveRecord interface.
       form.temperature # => 0.3133166666666666666988e3
       Kelvin.to_preferred_unit(form.temperature, :fahrenheit) # => "104.3 F"
     #+end_src
+
+** ~ActiveModel::Callback~
+   This module will provide the ability to define callbacks that can be declared
+   just like ActiveRecord callbacks (eg, ~before_create~, ~after_initialize~, etc)
+
+   Extending from this module will provide the [[http://api.rubyonrails.org/classes/ActiveModel/Callbacks.html#method-i-define_model_callbacks][define_model_callbacks]]. As an
+   example, lets say we want to do some benchmarking around the ~submit~ method.
+
+   There are three steps to this after extending from ~ActiveModel::Callbacks~:
+
+   1. Use the ~define_model_callbacks~ class macro to declare callbacks for a
+      particular method. By default you will get ~before_~, ~after_~ and ~around_~
+      callbacks. We can optionally specify ~:only~ to create only the callbacks we
+      need.
+   2. Call ~run_callbacks~ passing the callback name registered using
+      ~define_model_callbacks~ as an argument. A block should be passed that
+      contains the actual method implementation.
+   3. Declare the callback passing a method name containing the code that should
+      be run as part of the callback. Optionally, a class could be used instead
+      of a method (see [[http://api.rubyonrails.org/classes/ActiveModel/Callbacks.html#method-i-define_model_callbacks][docs]] for more on that). Here, we using a method to run
+      the [[https://ruby-doc.org/3.2.0/stdlibs/benchmark/Benchmark.html][benchmark]] and log the results.
+
+   #+begin_src ruby
+     class WidgetForm
+       include ActiveModel::Model
+       include ActiveModel::Attributes
+       extend ActiveModel::Callbacks
+
+       define_model_callbacks :submit, only: :around
+
+       around_submit :log_benchmark
+
+       def submit
+         run_callbacks :submit do
+           return false if invalid?
+
+           # Do the submitting stuff
+         end
+       end
+
+       def log_benchmark
+         benchmark = Benchmark.measure do
+           yield
+         end
+         Rails.logger.info "#{self.class}#submit benchmark results:\n#{benchmark}"
+       end
+     end
+   #+end_src
+
+** ~ActiveModel::Validation::Callbacks~
+   Include this module to use ~before_validation~ and ~after_validation~.
+** ~ActiveModel::Serialization::JSON~
+   In basic example above, we had a JSON API controller action return the JSON
+   representation of the ~WidgetForm~. It was OK, but not ideal. If we to
+   customize this, we could override the ~as_json~ method to return a serializable
+   hash of just the attributes we want to return to the client. Alternatively,
+   if we needed a bit more flexibility, we can include
+   ~ActiveModel::Serialization::JSON~
+
+   See also http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html
