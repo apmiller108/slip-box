@@ -4,7 +4,7 @@
 #+title: Form objects or ActiveModel modules
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2023-09-07 14:55 PM
+#+updated:  2023-09-07 16:20 PM
 
 There's a lot on the internet about form objects in Rails. I think it was first
 popularized by Thoughtbot. I've found this pattern useful as clean way to handle
@@ -22,7 +22,7 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
   behavior to ruby classes, giving them the familiar ActiveRecord interface.
 
 ** ~ActiveModel::Model~
-   At a minimum, you'll probably want this module. It includes [[http://api.rubyonrails.org/classes/ActiveModel/API.html][ActiveModel::API]]
+   At a minimum, we'll probably want this module. It includes [[http://api.rubyonrails.org/classes/ActiveModel/API.html][ActiveModel::API]]
    which provides among other things:
    1. An ~initializer~ method that takes a hash and assigns the key-value pairs to the
       class' defined ~attr_accessor~
@@ -30,6 +30,9 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
    3. Support for declaring validations
 
    See also http://api.rubyonrails.org/classes/ActiveModel/Model.html
+
+   The following, rather stupid example, demonstrates the initializer and
+   validations.
 
    #+begin_src ruby
      class WidgetForm
@@ -58,10 +61,10 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
    #+end_src
 
    This gives us the fundamentals for being able to use this form in a
-   controller, taking in user provided parameters. Although, we're probably
-   going to encounter issues with this naive implementation -- more on this
-   below. For now, however, we can implement a controller. The example here is
-   for a JSON API. There will be a separate section on using form objects in
+   controller (and view), taking in user provided parameters. Although, we're
+   probably going to encounter issues with this naive implementation -- more on
+   this below. For now, however, we can implement a controller. The example here
+   is for a JSON API. There will be a separate section on using form objects in
    HTML rendered views.
 
    #+begin_src ruby
@@ -101,12 +104,10 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
    #+end_src
 
    Without validation errors, the JSON dump of the form is returned to the
-   client. This isn't the JSON structure we'd ultimately want, but again this is
-   the most basic approach we can take. We'll look at options for customizing
-   the JSON output below.
+   client.
    #+begin_src shell
      curl --request POST \
-          --url http://localhost:300/widgets/ \
+          --url http://localhost:3000/widgets/ \
           --header 'Accept: application/json' \
           --header 'Content-Type: application/json' \
           --data '{
@@ -118,12 +119,20 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
 
      {"attributes":{},"quantity":1,"expires_at":"2024-01-01","validation_context":null,"errors":{}}
    #+end_src
+
+   This likely isn't the JSON structure we'd ultimately want, but again this is
+   the most basic approach we can take. We'll look at options for customizing
+   the JSON output below. But first, lets look at an alternative way to handle
+   the form's properties.
+
 ** ~ActiveModel::Attributes~
    This is optional, but quite useful as an alternative to the traditional
    ~attr_accessor~. It allows one to declare type casting and default values. Say
-   if you have a date string, and need to cast it to a Date object. There are
-   many [[https://api.rubyonrails.org/classes/ActiveModel/Type.html][built in types]] casts or you can even define your own custom one.
+   if we have a date string, and we'd like to instead represent this using a
+   Ruby Date object for convenience. There are many [[https://api.rubyonrails.org/classes/ActiveModel/Type.html][built in types]] casts or you
+   can even define your own custom one.
 
+   Here we will demonstrate three types:
    #+begin_src ruby
      class WidgetForm
        include ActiveModel::Model
@@ -138,12 +147,16 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
    #+end_src
 
    In this example the string ~'3'~ is cast to ~Integer~ and the expires_at date
-   string is cast to a Ruby ~Date~ object.
+   string is cast to a Ruby ~Date~ object. ~active~ is ~true~ by default, and setting
+   it to ~'0'~ will cast the value to ~false~.
    #+begin_src ruby
      form = WidgetForm.new(quantity: '3', expires_at: '2023-12-31')
      form.quantity # => 3
      form.expires_at # => Sun, 31 Dec 2023
      form.active # => true
+
+     form.active = '0'
+     form.active # => false
    #+end_src
 
    See also
@@ -156,15 +169,15 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
     declarations. There are many [[https://api.rubyonrails.org/classes/ActiveModel/Type.html][built in types]] which will likely satisfy the
     vast majority of use cases.
 
-    If, however,the built in types aren't enough, and there are peculiar use
-    cases, and we're feeling particularly bold, then we can define a custom type.
+    If, however,the built in types aren't enough, we have peculiar use
+    cases, and we're feeling particularly *bold*, then we can define a custom type.
     Let's say we have temperature that could be submitted in either Celsius or
     Fahrenheit and we want to store the values in [[https://en.wikipedia.org/wiki/Kelvin][Kelvin]].
 
-    To do this, we define a custom type class that defines a ~cast~ method. This
-    method contains the custom logic for doing the conversion from F or C to K
-    in the decimal data type (ie, so our class inherits from
-    ~ActiveModel::Type::Decimal~).
+    To do this, we define a custom type class that itself defines a ~cast~ method.
+    This method contains the custom logic for doing the conversion from F or C
+    to K in the decimal data type; hence our class inherits from
+    ~ActiveModel::Type::Decimal~.
 
     #+begin_src ruby
       class Kelvin < ActiveModel::Type::Decimal
@@ -185,22 +198,18 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
     Then we register the custom type in an initializer...
 
     #+begin_src ruby
+      # config/initializers/active_model_types.rb
       ActiveModel::Type.register(:kelvin, Kelvin)
     #+end_src
 
-    ...And use it in the same way we would use a built in type.
+    ...And use it in the same way we would use one of the built in types.
 
     #+begin_src ruby
       class WidgetForm
         include ActiveModel::Model
         include ActiveModel::Attributes
 
-        attribute :quantity, :integer
-        attribute :expires_at, :date
-        attribute :active, :boolean, default: true
         attribute :temperature, :kelvin
-
-        validates :quantity, presence: true
       end
     #+end_src
 
@@ -214,8 +223,9 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
 
     Doing this does have implications for front ends when displaying the value
     back to the user in their temperature unit preference. For example,
-    returning the value in scientific notation in K would be quite unexpected.
-    So we'll probably need some custom conversion back to F or C.
+    returning the value in scientific notation in K would be quite unexpected
+    when the user submitting the value in either C or F. So we'll probably need
+    some custom conversion to case the value back to F or C.
 
     #+begin_src ruby
       class Kelvin < ActiveModel::Type::Decimal
@@ -241,6 +251,10 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
       form.temperature # => 0.3133166666666666666988e3
       Kelvin.to_preferred_unit(form.temperature, :fahrenheit) # => "104.3 F"
     #+end_src
+
+    Now we can display the value back to the user in their preferred unit. For
+    the JSON representation, we'll need to customize the JSON dump (more on this
+    below)
 
 ** ~ActiveModel::Callback~
    This module will provide the ability to define callbacks that can be declared
@@ -301,3 +315,6 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
    ~ActiveModel::Serialization::JSON~
 
    See also http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html
+* Using form objects in HTML rendered views (Action View)
+  In the examples above we've been using our form object in JSON responses. Lets
+  look at using them in HTML views.
