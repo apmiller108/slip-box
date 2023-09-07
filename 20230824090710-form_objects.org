@@ -4,13 +4,17 @@
 #+title: Form objects
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2023-09-07 09:44 AM
+#+updated:  2023-09-07 09:56 AM
 
 There's a lot on the internet about form objects in Rails. I think it was first
-popularized by Thoughtbot. I've found this pattern useful as a container for
-complex or non-standard forms. For example, forms that create or update multiple
-records (eg, an alternative to [[http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html#method-i-accepts_nested_attributes_for][accepts_nested_attributes_for]]) or forms that need
-to do API calls to other services, etc. Anyway, this is just a quick cheatsheet.
+popularized by Thoughtbot. I've found this pattern useful as clean way to handle
+complex or non-standard forms where we're not working with just a single
+ActiveRecord object. For example, forms that create or update multiple records
+(eg, an alternative to [[http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html#method-i-accepts_nested_attributes_for][accepts_nested_attributes_for]]) or forms that need to do
+API calls to other services, etc.
+
+This gist of this is that we can leverage various ~ActiveModel~ modules to add
+behavior to ruby classes, giving them the familiar ActiveRecord interface.
 
 * ActiveModel Modules
 ** ~ActiveModel::Model~
