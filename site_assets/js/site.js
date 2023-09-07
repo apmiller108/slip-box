@@ -7,9 +7,11 @@ function ready (callback) {
 };
 
 ready(function() {
-  // Sets the href property of the TOC links.
+  // Sets the href property of the TOC links. Normalize to downcase removing the
+  // non-alphanumeric characters. This is how the anchor links are built in publish.org
   document.querySelectorAll('#table-of-contents a').forEach(function(node) {
-    var href = "#" + node.textContent.toLowerCase().replace(/\s/g, '-');
+    var href = "#" + node.textContent.toLowerCase()
+                                     .replace(/[\W_]/g, '');
     node.setAttribute('href', href);
   });
 
