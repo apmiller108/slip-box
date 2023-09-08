@@ -1,29 +1,35 @@
 :PROPERTIES:
 :ID:       E7CAC743-E22D-48FC-9922-19081FA8A495
 :END:
-#+title: Form objects or ActiveModel modules
+#+title: Fun with ActiveModel's modules
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2023-09-07 16:20 PM
+#+updated:  2023-09-08 16:28 PM
 
-There's a lot on the internet about form objects in Rails. I think it was first
-popularized by Thoughtbot. I've found this pattern useful as clean way to handle
-complex or non-standard forms where we're not working with just a single
-ActiveRecord object. For example, forms that create or update multiple records
-(eg, an alternative to [[http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html#method-i-accepts_nested_attributes_for][accepts_nested_attributes_for]]) or forms that need to do
-API calls to other services, etc.
+Make use of various ~ActiveModel~ modules in your Ruby objects to get ~ActiveRecord~
+like behavior. Code that would otherwise be complex, can be simplified by
+providing a familiar Railsy interface.
 
-These notes are really about how to make use of various ~ActiveModel~ modules in
-your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is one
-(obvious) example.
+The form object pattern is one example.
+
+There's already lot on the internet about form objects in Rails. Rather than
+just the basic example, I want to document more advanced use cases organized by
+the different ~ActiveModel~ modules and the specialized behavior they can provide
+our ruby objects.
+
+I've found the form object pattern useful as clean way to handle complex or
+forms where we're not working with just a single ActiveRecord object. For
+example, forms that create or update multiple records (eg, an alternative to
+[[http://api.rubyonrails.org/classes/ActiveRecord/NestedAttributes/ClassMethods.html#method-i-accepts_nested_attributes_for][accepts_nested_attributes_for]]) or forms that need to do API calls to other
+services, etc.
 
 * ActiveModel Modules
-  This gist of this is that we can leverage various ~ActiveModel~ modules to add
-  behavior to ruby classes, giving them the familiar ActiveRecord interface.
+  This gist of this is that we can leverage ~ActiveModel~ modules to add
+  behavior to ruby classes, giving them a familiar ActiveRecord interface.
 
 ** ~ActiveModel::Model~
-   At a minimum, we'll probably want this module. It includes [[http://api.rubyonrails.org/classes/ActiveModel/API.html][ActiveModel::API]]
-   which provides among other things:
+   At a minimum, we'll want this module. It includes [[http://api.rubyonrails.org/classes/ActiveModel/API.html][ActiveModel::API]] which
+   provides among other things:
    1. An ~initializer~ method that takes a hash and assigns the key-value pairs to the
       class' defined ~attr_accessor~
    2. The API needed for interfacing with Action Pack and Action View
@@ -184,6 +190,8 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
         K_BASE = 273.15.to_d
 
         def cast(value)
+          return if value.blank?
+
           value.upcase!
           temp_in_kelvin = if value.include?('C')
                             value.delete('C').to_d + K_BASE
@@ -232,9 +240,11 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
         K_BASE = 273.15.to_d
 
         def self.to_preferred_unit(value, unit)
-          if unit == :celsius
+          return if value.blank?
+
+          if unit == 'C'
             "#{(value - K_BASE)} C"
-          elsif unit == :fahrenheit
+          elsif unit == 'F'
             fahrenheit = (((value - K_BASE) * 9) / 5) + 32
             "#{fahrenheit.round(2)} F"
           end
@@ -245,11 +255,11 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
     #+begin_src ruby
       form = WidgetForm.new(temperature: '15.3 c')
       form.temperature # => 0.28845e3
-      Kelvin.to_preferred_unit(form.temperature, :celsius) # => "15.3 C"
+      Kelvin.to_preferred_unit(form.temperature, 'C') # => "15.3 C"
 
       form = WidgetForm.new(temperature: '104.3 f')
       form.temperature # => 0.3133166666666666666988e3
-      Kelvin.to_preferred_unit(form.temperature, :fahrenheit) # => "104.3 F"
+      Kelvin.to_preferred_unit(form.temperature, 'F') # => "104.3 F"
     #+end_src
 
     Now we can display the value back to the user in their preferred unit. For
@@ -295,6 +305,8 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
          end
        end
 
+       private
+
        def log_benchmark
          benchmark = Benchmark.measure do
            yield
@@ -305,16 +317,178 @@ your Ruby objects to do ~ActiveRecord~ like things. The form object pattern is o
    #+end_src
 
 ** ~ActiveModel::Validation::Callbacks~
-   Include this module to use ~before_validation~ and ~after_validation~.
-** ~ActiveModel::Serialization::JSON~
+   Include this module to use ~before_validation~ and ~after_validation~ callbacks.
+
+   #+begin_src ruby
+     class WidgetForm
+       include ActiveModel::Model
+       include ActiveModel::Attributes
+       include ActiveModel::Validations::Callbacks
+
+       attribute :name, :string
+       attribute :slug, :string
+
+       validates :name, :slug, presence: true
+
+       before_validation :set_slug
+
+       private
+
+       def set_slug
+         return if name.blank?
+
+         self.slug = name.parameterize
+       end
+     end
+   #+end_src
+
+    #+begin_src ruby
+      form = WidgetForm.new(name: 'da bomb widget 5000')
+      form.slug # => nil
+      form.valid? # => true
+      form.slug # => "da-bomb-widget-5000"
+    #+end_src
+
+** ~ActiveModel::Serialization~
    In basic example above, we had a JSON API controller action return the JSON
    representation of the ~WidgetForm~. It was OK, but not ideal. If we to
    customize this, we could override the ~as_json~ method to return a serializable
-   hash of just the attributes we want to return to the client. Alternatively,
-   if we needed a bit more flexibility, we can include
-   ~ActiveModel::Serialization::JSON~
+   hash of just the attributes we want to return to the client.
 
-   See also http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html
+   There a little bit more going on here than just overriding ~as_json~. We're
+   also defining an ~initialize~ method that will call a method to set the
+   ~~preferred_temperature_unit~ attribute (eg, F or C) from the ~temperature~
+   before it is type cast to Kelvin. The ~preferred_temperature_unit~ is used to
+   convert the temperature in Kelvin back to Fahrenheit or Celsius. ActiveRecord
+   has a convenience method, [[https://api.rubyonrails.org/classes/ActiveRecord/AttributeMethods/BeforeTypeCast.html#method-i-read_attribute_before_type_cast][read_attribute_before_type_cast]], that would be
+   helpful here, but it is not provided by ~ActiveModel::Attributes~. So, we do a
+   little more work.
+
+   #+begin_src ruby
+     class WidgetForm
+       include ActiveModel::Model
+       include ActiveModel::Attributes
+
+       attribute :name, :string
+       attribute :quantity, :integer
+       attribute :expires_at, :date
+       attribute :active, :boolean, default: true
+       attribute :temperature, :kelvin
+       attribute :preferred_temperature_unit, :string
+
+       validates :preferred_temperature_unit, inclusion: %w[C F], allow_nil: true
+
+       def initialize(attributes)
+         super(attributes)
+         set_temperature_unit(attributes['temperature'])
+       end
+
+       def as_json(_opts = nil)
+         attributes.merge(temperature: Kelvin.to_preferred_unit(temperature, preferred_temperature_unit))
+       end
+
+       private
+
+       def set_temperature_unit(temperature)
+         return if temperature.blank?
+
+         self.preferred_temperature_unit = temperature.upcase.match(/[FC]/)[0]
+       end
+     end
+   #+end_src
+
+   The ~attributes~ method comes from ~ActiveModel::Attributes~ and returns a hash
+   of the declared attributes and their values.
+
+   Now we get a more sensible JSON response:
+
+   #+begin_src shell
+     curl --request POST \
+          --url http://localhost:3000/widgets/ \
+          --header 'Accept: application/json' \
+          --header 'Content-Type: application/json' \
+          --data '{
+             "widget": {
+         "expires_at": "2024-01-01",
+         "quantity": 1,
+         "temperature": "1 c",
+         "name": "da bomb widget 5000"
+       }
+     }'
+
+     {"name":"da bomb widget 5000","quantity":1,"expires_at":"2024-01-01","active":true,"temperature":"1.0 C","preferred_temperature_unit":"C"}
+   #+end_src
+
+   Okay, so what about ~ActiveModel::Serialization~? We can use include this
+   module to provide some flexibility in how the object is serialized, by
+   providing the [[https://api.rubyonrails.org/classes/ActiveModel/Serialization.html#method-i-serializable_hash][serializable_hash]] method. We can use this in the controller to
+   customize the serialization.
+
+   #+begin_src ruby
+     class WidgetsController < ApplicationController
+       def create
+         form = WidgetForm.new(widget_params)
+         if form.submit
+           render json: form.serializable_hash(
+                    except: :preferred_temperature_unit, methods: :temperature_in_kelvin
+                  )
+         else
+           render json: { errors: form.errors.full_messages }
+         end
+       end
+     end
+   #+end_src
+
+   We exclude the ~preferred_temperature_unit~ and include a new method
+   ~temperature_in_kelvin~ which is an aliased attribute of ~temperature~. To make
+   this work, there are a couple things we need to do in the form. Namely,
+   create the alias and make sure we're returning the ~temperature~ in the
+   preferred unit.
+
+   #+begin_src ruby
+     class WidgetForm
+       include ActiveModel::Model
+       include ActiveModel::Attributes
+       include ActiveModel::Serialization
+
+       attribute :name, :string
+       attribute :quantity, :integer
+       attribute :expires_at, :date
+       attribute :active, :boolean, default: true
+       attribute :temperature, :kelvin
+       attribute :preferred_temperature_unit, :string
+
+       validates :quantity, :name, presence: true
+       validates :preferred_temperature_unit, inclusion: %w[C F], allow_nil: true
+
+       alias_attribute :temperature_in_kelvin, :temperature
+
+       def initialize(attributes)
+         super(attributes)
+         set_temperature_unit(attributes['temperature'])
+       end
+
+       private
+
+       def read_attribute_for_serialization(attribute)
+         if attribute == 'temperature'
+           Kelvin.to_preferred_unit(temperature, preferred_temperature_unit)
+         else
+           super
+         end
+       end
+
+       def set_temperature_unit(temperature)
+         return if temperature.blank?
+
+         self.preferred_temperature_unit = temperature.upcase.match(/[FC]/)[0]
+       end
+     end
+   #+end_src
+
+   - ~alias_attribute~
+   - ~read_attribute_for_serialization~
+
 * Using form objects in HTML rendered views (Action View)
   In the examples above we've been using our form object in JSON responses. Lets
   look at using them in HTML views.
