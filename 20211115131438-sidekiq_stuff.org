@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2023-01-27 11:10 AM
+#+updated: 2023-09-12 08:15 AM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -39,7 +39,7 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
     #+end_src
 
 ** Retry Sets
-   #+begin_src 
+   #+begin_src
    r = Sidekiq::RetrySet.new
    #+end_src
 * Enqueuing in bulk
@@ -76,7 +76,7 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
    #+begin_src ruby
      class SomeWorker
        include Sidekiq::Worker
-     
+
        def perform
          # Limit 5 per 1 second window. If limit is reached, job thread will pause
          # (sleep) for 1 second before trying again. If still limited, job will be
@@ -92,19 +92,19 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
 
 * Batches
   https://github.com/mperham/sidekiq/wiki/Batches
-  
+
   Gives you a collection of jobs that can be monitored as a group. And has
   callbacks for success and complete.
 
   #+attr_html: :width 750
-  [[file:images/batches.png]] 
+  [[file:images/batches.png]]
 
    #+begin_src ruby
      class BatchWorker
        include Sidekiq::Worker
-     
+
        BATCH_DESCRIPTION = 'Test Limiter Batch'
-     
+
        def perform
          batch = Sidekiq::Batch.new
          batch.description = BATCH_DESCRIPTION
