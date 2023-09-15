@@ -4,7 +4,7 @@
 #+title: The Utility of ActiveModel
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2023-09-15 14:21 PM
+#+updated:  2023-09-15 14:46 PM
 
 Make use of various ~ActiveModel~ modules in your Ruby objects to get ~ActiveRecord~
 like behavior. Code that would otherwise be complex, can be simplified by
@@ -338,7 +338,10 @@ behavior to ruby classes, giving them a familiar ActiveRecord interface.
   Okay that's nice, so what about ~ActiveModel::Serialization~? We can use
   include this module to provide some flexibility in how the object is
   serialized, by providing the [[https://api.rubyonrails.org/classes/ActiveModel/Serialization.html#method-i-serializable_hash][serializable_hash]] method. We can use this in the
-  controller to customize the serialization.
+  controller to customize the serialization. For example, we don't want to send
+  back the ~preferred_temperature_unit~ since this is something we compute as part
+  of the type casting to Kelvin, but we do want to return the temperature value
+  in Kelvin. We can do that like this:
 
   #+begin_src ruby
     class WidgetsController < ApplicationController
@@ -402,8 +405,12 @@ behavior to ruby classes, giving them a familiar ActiveRecord interface.
     end
   #+end_src
 
-  - ~alias_attribute~
-  - ~read_attribute_for_serialization~
+  See also [[https://api.rubyonrails.org/classes/ActiveModel/AttributeMethods/ClassMethods.html#method-i-alias_attribute][alias_attribute]]
+
+  The ~read_attribute_for_serialization~ is a private method that is called for
+  each attribute name that is included in the ~serializable_hash~. There is very little
+  documentation on this, but it is referenced in the
+  [[https://api.rubyonrails.org/classes/ActiveModel/Serialization.html][ActiveModel::Serialization docs]]. See the implementation in the code [[https://github.com/rails/rails/blob/d21d811ffece4d3959bcd37e58fec77590ff6f93/activemodel/lib/active_model/serialization.rb#L172-L176][here]].
 
 * ActiveModel::Callback
   This module will provide the ability to define callbacks that can be declared
@@ -457,6 +464,8 @@ behavior to ruby classes, giving them a familiar ActiveRecord interface.
 
 * ActiveModel::Validation::Callbacks
   Include this module to use ~before_validation~ and ~after_validation~ callbacks.
+  Lets say we require the presence of a ~slug~ but it is something generated
+  automatically from the ~name~.
 
   #+begin_src ruby
     class WidgetForm
