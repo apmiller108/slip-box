@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2023-08-04 15:43 PM
+#+updated: 2023-09-16 22:37 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -248,6 +248,7 @@
     echo "POSTGRES_USER=postgres" >> .env
     echo "POSTGRES_PASSWORD=postgres" >> .env
     echo "POSTGRES_HOST=database" >> .env
+    echo "PGUSER=postgres" >> .env
     echo "REDIS_URL=redis://redis:6379/1" >> .env
   #+end_src
 
