@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2023-03-18 11:30 AM
+#+updated: 2023-09-17 10:08 AM
 #+filetags: :linux:
 
 * System Information
@@ -35,7 +35,7 @@
 * Shortcuts
   See also [[https://support.system76.com/articles/pop-keyboard-shortcuts/][pop keyboard shortcuts]] post for a complete list. Here are just a few
   that I like to use, but always forget.
-  
+
   | Shortcut           | Action                                                           |
   |--------------------+------------------------------------------------------------------|
   | SUPER + HJKL       | Switch window focus                                              |
@@ -45,7 +45,7 @@
   | SUPER + SHIFT + JK | Move active window between workspaces.                           |
   | SUPER + ESC        | Lock                                                             |
   | SUPER + T          | Open a terminal                                                  |
-  
+
 ** Launcher Shortcuts
    SUPER opens the launcher. ~?~ shows all the possible commands.
    | Shortcut      | action                               |
@@ -61,12 +61,16 @@
   sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && flatpak update -y
   #+end_src
 
+  If you encounter issues like dependency conflicts, try instead
+  #+begin_src shell
+   sudo apt full-upgrade
+  #+end_src
 * Compiler toolchain
   For Pop_Os and Ubuntu install ~build-essential~. Contains things like G++/GCC,
   GNU Debugger and other packages for compiling C/C++
-  
+
   #+begin_src shell
-  sudo apt-get install build-essential 
+  sudo apt-get install build-essential
   #+end_src
 
 * Logs
@@ -82,7 +86,7 @@
 
 * Wake from suspend on USB device input
   The following should work on other Linux distros.
-** Gathering Bus and device info  
+** Gathering Bus and device info
 *** See which devices are wakeup disabled
      #+begin_src shell
      grep . /sys/bus/usb/devices/*/power/wakeup
@@ -109,7 +113,7 @@
      #+begin_src shell
        lsusb
      #+end_src
-     
+
     You can list devices by product name. Might be useful in some cases.
      #+begin_src shell
        grep . /sys/bus/usb/devices/*/product
@@ -123,7 +127,7 @@
   Sometimes I am unable to wake the computer up from suspend. There is often a
   ~dmesg~ log indicating something like:
 
-  #+begin_src 
+  #+begin_src
   psmouse serio1: elantech: elantech_send_cmd query 0x02 failed.
   #+end_src
 
@@ -136,7 +140,7 @@
      goes into suspend.
 *** View the current configuration for usb autosuspend
      #+begin_src shell
-     cat /sys/module/usbcore/parameters/autosuspend 
+     cat /sys/module/usbcore/parameters/autosuspend
      #+end_src
 *** change usb autosuspend config
      #+begin_src shell
@@ -186,10 +190,10 @@
    #+end_src
 
    See also https://www.linux.org/threads/solved-cannot-get-wifi-recognized-when-installing-popos-22-04-on-2015-macbook-pro.40277/post-183971
-    
+
 
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
   - https://support.system76.com/articles/pop-keyboard-shortcuts/
   - https://support.system76.com/articles/login-loop-pop/
-    
+

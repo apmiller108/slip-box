@@ -3,7 +3,7 @@
 :END:
 #+title: Wine
 #+date: 2021-12-05 20:52 PM
-#+updated: 2022-11-29 10:56 AM
+#+updated: 2023-09-17 11:01 AM
 #+filetags: :linux:
 
 Run Windows programs on linux
@@ -13,15 +13,28 @@ Run Windows programs on linux
   https://wiki.winehq.org/Ubuntu
 
   You'll also want [[https://wiki.winehq.org/Winetricks][Winetricks]]
-  
+
 * Configuring Wine
   There's a GUI applications for this. Just run ~winecfg~.
 
 ** Graphics
    With 4k monitors, the applications will be tiny. Go to the ~Graphics~
    tab and increase the Screen resolution dpi value.
+*** Frozen / Unresponsive GUIs
+    Try [[https://github.com/doitsujin/dxvk][dxvk]]
 
-* Program Installation   
+    1. Create a new wine prefix for the program that doesn't work properly (see
+       Program Installation below) and install it.
+    2. Download a release from https://github.com/doitsujin/dxvk and follow the
+       instructions in the README. Basically, you will copy some DLLs from the
+       release to the WINEPREFIX location and add DLL overrides using ~wineconfig~
+    3. There are drivers and additional dependencies that might be needed.
+       See also
+       - https://linuxconfig.org/improve-your-wine-gaming-on-linux-with-dxvk
+       - https://github.com/robbert-vdh/yabridge/issues/258
+    4. If this is a VST plug, add the plugin location using ~yabridgectl add~ and run
+       ~~yabridgectl sync~ (See VST Plugins section below)
+* Program Installation
 ** Installation options
    You can have multiple installation directories. For example, you have run a
    32bit application on a 64bit system by doing something like this:
@@ -44,7 +57,7 @@ Run Windows programs on linux
    The env vars will only be set for that terminal sessions. For subsequent
    terminal sessions, they need to be reset or used inline when running the
    command to start the app.
-   
+
    #+begin_src shell
    WINEPREFIX=~/.wine-someapp WINEARCH="win32" wine ~/.wine-someapp/drive_c/Program\ Files/someapp/someapp.exe
    #+end_src
