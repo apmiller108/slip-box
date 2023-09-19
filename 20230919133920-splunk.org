@@ -1,0 +1,67 @@
+:PROPERTIES:
+:ID:       8BC16DA0-AC9B-447E-8BD1-767566E9D84C
+:END:
+#+title: Splunk
+#+date: 2023-09-19 13:39 PM
+#+updated:  2023-09-19 14:23 PM
+#+filetags: :devops:
+
+Splunk's documentation isn't great in terms of discoverability. This is a
+cheatsheet for Splunk's query language that I've found useful and might need
+again. Some of these examples are from the Splunk docs.
+
+* LIKE
+  There are at least two ways. Like many other things, multiple terms can be
+  chained with ~AND~ / ~OR~
+  1. ~host=foo*~
+  2. ~| where like(host, "foo%")~
+* Pie charts
+  Use ~...| stats count by source~ in the query. Checkout the ~Statistics~ and
+  ~Visualization~ tabs.
+
+  Another way if you have a computed value...
+
+  ~... | chart avg(bytes) over source~
+
+  ~source~ is the pie slices while the slice size is determined by the percent of
+  the sum of ~avg(bytes)~
+
+  see also https://docs.splunk.com/Documentation/DashApp/0.9.0/DashApp/chartsPie
+
+* Count based on a computed value
+  Use ~if~ or ~case~ statements and pipe to ~eval~ to set a variable.
+
+  #+begin_src
+    | eval version=if((like(uri_path, "%/v2/%")), "V2", "V1") | stats count by version
+  #+end_src
+
+  With that you can view as pie chart.
+
+  See also https://docs.splunk.com/Documentation/SCS/current/SearchReference/ConditionalFunctions
+
+* Timechart
+  ~... | timechart span=1h count by status~
+* Sorting
+  Here is an example of sorting the counts in descending order.
+  ~... | stats count by source | sort -count~
+
+* dedup
+  You can dedup based on one of more columns
+  ~... | dedup source~
+
+** Using a computed value
+   #+begin_src
+     ... | eval group=if(action="api/wigets#show", -1, random()) | dedup group http_referrer
+   #+end_src
+** Using a time bin
+
+   #+begin_src
+     ... | bin span=1h _time | dedup source _time
+   #+end_src
+
+   See also https://kinneygroup.com/blog/splunk-dedup-command/
+   and
+   https://docs.splunk.com/Documentation/SCS/current/SearchReference/dedupcommandsyntaxdetails
+
+* Math functions
+  https://docs.splunk.com/Documentation/SCS/current/SearchReference/MathematicalFunctions
