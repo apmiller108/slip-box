@@ -3,13 +3,13 @@
 :END:
 #+title: Large SQL data migrations
 #+date: 2021-06-21 20:35 PM
-#+updated: 2021-07-06 11:12 AM
+#+updated: 2023-09-20 11:29 AM
 #+filetags: :sql:postgres:
 
 * Use PL/pgSQL
-  See [[id:B1708529-05EA-41A7-8926-11E93C397DEA][SQL Procedural Language]]. This is useful for batching (see below). 
+  See [[id:B1708529-05EA-41A7-8926-11E93C397DEA][SQL Procedural Language]]. This is useful for batching (see below).
 
-** Transaction Management  
+** Transaction Management
    One important caveat here is that we can't ~COMMIT~  transactions in PL/pgSQL.
    This becomes an issue when using ~LOOP~ on batched operations where it would
    be ideal to commit on each iteration of a loop. For this, we need to use
@@ -33,7 +33,7 @@
     3. Call the outer function to kick it off.
 
     For example:
-   
+
     #+begin_src sql
       CREATE OR replace function f_migrate_things_batch(batch_start, batch_end)
       RETURNS void AS
@@ -41,7 +41,7 @@
           PERFORM dblink_connect('my_dblink','dbname=my_database port=5432 user=username');
 
           sql_string := $query$
-            -- Some long SQL string that references batch_start/batch_end
+            -- Some long SQL string that references batch_start/batch_end as `%1$s` and `%2$s`
           $query$;
 
           -- Interpolate dynamic variables since dblink won't have access to them.
@@ -88,7 +88,7 @@
 
       select f_migrate_things_in_batches();
     #+end_src
-  
+
 * Drop and recreate indexes
   This can speed things up.
 * Use batches
