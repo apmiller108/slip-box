@@ -1,0 +1,28 @@
+:PROPERTIES:
+:ID:       CD58C290-AF97-4882-98D9-2FCC7B61763E
+:END:
+#+title: postgresql.conf
+#+date: 2023-09-22 14:10 PM
+#+updated:  2023-09-22 15:01 PM
+#+filetags: :postgres:
+
+See also [[id:4D90F42B-B4DA-4CDA-9885-B8FF372FDB72][psql]]
+
+* Where is it?
+  This will print the path
+  #+begin_src shell
+    psql -c "SHOW config_file;"
+  #+end_src
+* Enabling extensions
+** pg_stat_statements
+   1. Add it to the conf
+      #+begin_src
+        shared_preload_libraries = 'pg_stat_statements'	# (change requires restart)
+      #+end_src
+   2. Enable it using ~psql~ for the database of choice.
+      #+begin_src
+        psql -d mydatabase -c "create extension pg_stat_statements;"
+      #+end_src
+* Data directory
+  Set the path using the ~PGDATA~ env var or set the ~data_directory~ variable in
+  the conf.

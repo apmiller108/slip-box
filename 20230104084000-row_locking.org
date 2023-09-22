@@ -3,8 +3,10 @@
 :END:
 #+title: Row locking
 #+date: 2023-01-04 08:40 AM
-#+updated: 2023-02-21 15:16 PM
+#+updated: 2023-09-22 15:04 PM
 #+filetags: :postgres:
+
+See also https://www.postgresql.org/docs/current/explicit-locking.html
 
 * FOR UPDATE
   This clause is used as part of a select query and can define:
@@ -20,5 +22,5 @@
   concurrency in general, even things not explicitly tied to data in the
   database.
   See also:
-    - https://www.postgresql.org/docs/12/explicit-locking.html#ADVISORY-LOCKS
-    - https://www.postgresql.org/docs/12/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS
+    - https://www.postgresql.org/docs/current/explicit-locking.html#ADVISORY-LOCKS
+    - https://www.postgresql.org/docs/current/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS

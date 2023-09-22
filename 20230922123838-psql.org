@@ -1,0 +1,94 @@
+:PROPERTIES:
+:ID:       4D90F42B-B4DA-4CDA-9885-B8FF372FDB72
+:END:
+#+title: psql
+#+date: 2023-09-22 12:38 PM
+#+updated:  2023-09-22 15:39 PM
+#+filetags: :postgres:
+
+See also [[id:CD58C290-AF97-4882-98D9-2FCC7B61763E][postgresql.conf]]
+See also [[id:D111FFA2-4A9D-41F4-87DC-E59F3D6E8564][Row locking]]
+
+* Authentication
+  There are several methods.
+  See also https://stackoverflow.com/a/6524167
+** Using env vars
+   - ~PGUSER~
+   - ~PGPASSWORD~
+* .psqlrc
+  To me the most important one is ~\pset null '(null)'~ in order to distinguish
+  between empty string and null.
+
+  See also
+   - https://github.com/apmiller108/dotfiles/blob/master/psql/psqlrc
+   - https://thoughtbot.com/blog/an-explained-psqlrc
+* Meta commands
+** \c
+   ...followed by the database name to connect to it.
+** \g
+   Run the last command. Also use up arrow enter.
+** \l
+   List the databases on the server
+** \o
+   ...followed by a filename, to toggle writing query output to that file.
+** \s
+   Prints history of commands run previously.
+   TIP: ~ctrl r~ "reverse search" is available
+** \timing
+   Toggles timing which prints the time each command takes
+** \x
+   Expanded display to make output more readable
+* System catalog tables
+  - These are tables that begin with ~pg_*~ (use tab completion to see the list)
+  - ~SELECT * FROM~ these tables to get system information.
+  Here's just a few for reference:
+** pg_extension
+   Contains installed extensions
+** pg_stat_activity
+   Database activity. This will show the ~pid~ of the activity owner. Use the ~pid~
+   to cancel or terminate queries.
+** pg_locks
+* Terminate queries
+  Find the pid by querying ~pg_stat_activity~, then...
+  - ~SELECT pg_cancel_backend(pid)~ (graceful)
+  - ~SELECT pg_terminate_backend(pid)~
+* Transactions
+  Do things in transactions and validate them before committing them. Use
+  rollback when things get weird.
+  #+begin_src sql
+  BEGIN;
+
+  -- Insert, update, modify schema, or whatever
+  -- Verify it worked. If it didn't Use `ROLLBACK;`.
+
+  COMMIT;
+  #+end_src
+* Miscellaneous
+** PG_BACKEND_PID()
+   ~psql~ process ID
+   #+begin_src sql
+     SELECT PG_BACKEND_PID();
+   #+end_src
+** Find PostgreSQL config file
+   This will print the file path to the config file.
+   #+begin_src
+    SHOW config_file;
+   #+end_src
+  See also [[id:CD58C290-AF97-4882-98D9-2FCC7B61763E][postgresql.conf]]
+** Find the data directory
+   #+begin_src
+    SHOW data_directory;
+   #+end_src
+* Scripting
+  Commands can be passed to ~psql~ using the ~-c~ switch, which outputs the results
+  to stdout
+
+  #+begin_src shell
+    psql -h database -d myapp_development -c "select * from users" > results
+  #+end_src
+
+  Use the ~-f~ followed by a file path to run commands from a file.
+
+  #+begin_src shell
+    psql -f insert_widgets.sql
+  #+end_src
