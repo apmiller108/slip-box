@@ -21,14 +21,14 @@ this:
 #+begin_src javascript
   class WebSocketWrapper {
     socket;
-  
+
     constructor(url) {
       this.url = url
     }
-  
+
     open() {
       this.socket = new WebSocket(this.url);
-  
+
       return new Promise((resolve) => {
         if (this.socket && this.socket.readyState !== this.socket.OPEN) {
           this.socket.addEventListener('open', () => { resolve() });
@@ -38,7 +38,7 @@ this:
       });
     }
   }
-  
+
   const myWS = new WebSocketWrapper("wss://example.com/foo");
   await myWS.open();
 #+end_src
