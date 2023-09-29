@@ -1,0 +1,30 @@
+:PROPERTIES:
+:ID:       A7B098E7-2E2E-48C8-9553-48E08727FA38
+:END:
+#+title: pg_dump
+#+date: 2023-09-29 12:55 PM
+#+updated:  2023-09-29 13:04 PM
+#+filetags: :postgres:
+
+
+* Basic example
+  Use this in order to restore by using ~psql~. See also [[id:4D90F42B-B4DA-4CDA-9885-B8FF372FDB72][psql]] for how to restore.
+  #+begin_src
+    pg_dump --dbname mydatabase --no-owner --no-privileges --file dump.sql
+  #+end_src
+
+** Using pg_restore?
+   Use the ~-Fc~ flag (format-custom) to dump to a file whose format is suitable
+   for ~pg_restore~.
+
+   When using ~pg_restore~ you can use some of the same flags, like ~--data-only~ if
+   you don't want to restore schema. Also, ~--disable-triggers~ can be useful if
+   you need to skip constraint checks.
+** Only want data?
+   Use ~--data-only~ flag.
+** Only want certain tables?
+   Use ~-t~ flag (this matches against a pattern, so you can use ~*~ wildcards)
+
+   #+begin_src shell
+   pg_dump --dbname mydatabase --no-owner --no-privileges -t users --file dump.sql
+   #+end_src

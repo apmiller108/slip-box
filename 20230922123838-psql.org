@@ -3,7 +3,7 @@
 :END:
 #+title: psql
 #+date: 2023-09-22 12:38 PM
-#+updated:  2023-09-22 15:39 PM
+#+updated:  2023-09-29 13:48 PM
 #+filetags: :postgres:
 
 See also [[id:CD58C290-AF97-4882-98D9-2FCC7B61763E][postgresql.conf]]
@@ -25,12 +25,16 @@ See also [[id:D111FFA2-4A9D-41F4-87DC-E59F3D6E8564][Row locking]]
 * Meta commands
 ** \c
    ...followed by the database name to connect to it.
+** \dx
+   list installed extensions
 ** \g
    Run the last command. Also use up arrow enter.
 ** \l
    List the databases on the server
 ** \o
    ...followed by a filename, to toggle writing query output to that file.
+** \pset format wrapped
+   Turn on wrapping of the results
 ** \s
    Prints history of commands run previously.
    TIP: ~ctrl r~ "reverse search" is available
@@ -38,6 +42,18 @@ See also [[id:D111FFA2-4A9D-41F4-87DC-E59F3D6E8564][Row locking]]
    Toggles timing which prints the time each command takes
 ** \x
    Expanded display to make output more readable
+* Restore a dump
+  See also
+   - [[id:A7B098E7-2E2E-48C8-9553-48E08727FA38][pg_dump]]
+   - https://www.postgresql.org/docs/current/backup-dump.html#BACKUP-DUMP-RESTORE
+
+  #+begin_src
+  psql --set ON_ERROR_STOP=on --quiet \
+    --no-psqlrc \
+    --output /dev/null \
+    dbname \
+    --file database_dump.sql
+  #+end_src
 * System catalog tables
   - These are tables that begin with ~pg_*~ (use tab completion to see the list)
   - ~SELECT * FROM~ these tables to get system information.
@@ -71,12 +87,12 @@ See also [[id:D111FFA2-4A9D-41F4-87DC-E59F3D6E8564][Row locking]]
    #+end_src
 ** Find PostgreSQL config file
    This will print the file path to the config file.
-   #+begin_src
+   #+begin_src sql
     SHOW config_file;
    #+end_src
   See also [[id:CD58C290-AF97-4882-98D9-2FCC7B61763E][postgresql.conf]]
 ** Find the data directory
-   #+begin_src
+   #+begin_src sql
     SHOW data_directory;
    #+end_src
 * Scripting
