@@ -3,8 +3,11 @@
 :END:
 #+title: My audio setup
 #+date: 2022-06-21 18:01 PM
-#+updated: 2023-09-24 13:39 PM
+#+updated: 2023-09-30 19:22 PM
 #+filetags: :audio:
+
+#+attr_html: :width 750
+[[file:images/my-setup_1.webp]]
 
 * Diagram
 [[file:images/audio-setup-2023-09-24-0933.png]]
