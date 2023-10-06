@@ -3,8 +3,8 @@
 :END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2023-10-06 14:34 PM
-#+filetags: :rails:ruby:
+#+updated: 2023-10-06 15:47 PM
+#+filetags: :postgresql:sql:rails:ruby:
 
 * Casting with :using option (cast string to int)
   :PROPERTIES:
@@ -267,10 +267,15 @@
     db:version
   #+end_src
 
-* Adding Check Contraints
+* Adding Check Constraints
   :PROPERTIES:
   :CUSTOM_ID: adding-check-contraints
   :END:
+  #+begin_src ruby
+  add_check_constraint :things, "completed_at > created_at", name: 'things_completed_after_created'
+  #+end_src
+
+** Enforcing rails polymorphic as FK constraint example
   #+begin_src ruby
     class CreatePaymentMethodOwners < ActiveRecord::Migration[5.1]
       def up
