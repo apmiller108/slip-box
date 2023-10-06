@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2023-05-05 13:41 PM
+#+updated: 2023-10-06 14:34 PM
 #+filetags: :rails:ruby:
 
 * Casting with :using option (cast string to int)
@@ -45,15 +45,16 @@
   :CUSTOM_ID: reversible
   :END:
   #+begin_src ruby
-    def change  reversible do |dir|
-          dir.up do
-            # up code
-          end
-
-          dir.down do
-            # rollback code
-          end
+    def change
+      reversible do |dir|
+        dir.up do
+          # up code
         end
+
+        dir.down do
+          # rollback code
+        end
+      end
     end
   #+end_src
 * create_table(name, options, &block) / change_table(name, options,&block)
@@ -126,8 +127,7 @@
 
   - If you need to index, use GIN or GiST index type.
   - GIN and GiST indexes support queries with @>, ?, ?&, and ?|
-  - [[evernote:///view/129538667/s690/4efadc8a-a49d-4082-aeab-051cbf680d3b/4efadc8a-a49d-4082-aeab-051cbf680d3b/][JSON
-    Operators]].
+  - [[evernote:///view/129538667/s690/4efadc8a-a49d-4082-aeab-051cbf680d3b/4efadc8a-a49d-4082-aeab-051cbf680d3b/][JSON Operators]].
 
   #+begin_src ruby
     add_column :users, :settings, :jsonb, null: false, default: '{}'
@@ -193,20 +193,26 @@
     :index
   #+end_example
 
-  Schema Tasks
+* add_ examples
+  See Disabled transactions for concurrently
+
+    #+begin_src ruby
+      add_index :payments, [:order_id, :amount, :payment_date, :status],
+                name: 'unique_index_to_avoid_duplicate_payments',
+                where: "status ='Scheduled'",
+                unique: true
+    #+end_src
+
 
   #+begin_example
-    add_index
-    #  Partial index with :where option:   add_index(:clients, :status, where: 'active’)#  Partial composite unique indexadd_index :payments, [:order_id, :amount, :payment_date, :status]            name: 'unique_index_to_avoid_duplicate_payments’,            where: "status = 'Scheduled'”,            unique: true
-  #+end_example
-
-  #+begin_example
-    add_columnadd_foreign_keyadd_reference
+    add_column
+    add_foreign_keya
+    add_reference
   #+end_example
 
   #+begin_example
     t.references :category
-    #  cascadingt.references :user, index: true, foreign_key: {on_delete: :cascade}
+    t.references :user, index: true, foreign_key: { on_delete: :cascade }
   #+end_example
 
 * polymorphic
@@ -225,7 +231,7 @@
     t.references :protection_category, index: { name: 'index_financing_limits_on_protection_category_id'}
   #+end_src
 
-* Disable transactions
+* Disable transactions / Concurrently add indexes
   :PROPERTIES:
   :CUSTOM_ID: disable-transactions
   :END:

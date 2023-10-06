@@ -3,10 +3,10 @@
 :END:
 #+title: Large SQL data migrations
 #+date: 2021-06-21 20:35 PM
-#+updated: 2023-09-20 11:29 AM
+#+updated: 2023-10-06 13:14 PM
 #+filetags: :sql:postgres:
 
-* Use PL/pgSQL
+* Use PL/pgSQL and batches
   See [[id:B1708529-05EA-41A7-8926-11E93C397DEA][SQL Procedural Language]]. This is useful for batching (see below).
 
 ** Transaction Management
@@ -18,6 +18,38 @@
    See also
    https://newbedev.com/postgresql-cannot-begin-end-transactions-in-pl-pgsql
 
+*** Stored Procedures
+    Can be used in PG versions 11+
+    - Provide feedback to stdout
+    - commit at the conclusion of each loop
+    #+begin_src  sql
+      CREATE OR REPLACE PROCEDURE update_things_foo_to_bar()
+        LANGUAGE plpgsql
+        AS $$
+
+        DECLARE
+          current_id INT := (select min(id) from things);
+          max_id INT := (select max(id) from things);
+          batch_size INT := 1000;
+          rows_updated INT;
+
+        BEGIN
+          WHILE current_id <= max_id LOOP
+            UPDATE things
+            SET foo = 'bar'
+            WHERE id >= current_id
+            AND id < current_id + batch_size;
+
+            GET DIAGNOSTICS rows_updated = ROW_COUNT;
+
+            COMMIT;
+
+            RAISE NOTICE 'current_id: %; rows_updated: %', current_id, rows_updated;
+
+            current_id := current_id + batch_size;
+          END LOOP;
+        END $$
+    #+end_src
 *** dblink extension
     For older versions of Postgres, one hack is to use the [[https://www.postgresql.org/docs/current/contrib-dblink-function.html][dblink]] extension,
     build a SQL string, execute it on the [[https://www.postgresql.org/docs/current/contrib-dblink-function.html][dblink]] connection and ~COMMIT~. Note

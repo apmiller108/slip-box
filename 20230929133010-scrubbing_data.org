@@ -3,7 +3,7 @@
 :END:
 #+title: Scrubbing data
 #+date: 2023-09-29 13:30 PM
-#+updated:  2023-09-29 16:00 PM
+#+updated:  2023-10-06 11:14 AM
 #+filetags: :postgres:
 
 A strategy for scrubbing data from a postgres dump for use in a performance
@@ -31,8 +31,8 @@ testing environment.
   - GREATEST
   - SPLIT_PART
 
-  Here is an example of an email scrubbing function. Built functions that are
-  generally useful:
+** Email scrubber example
+  Here is an example of an email scrubbing function.
 
   #+begin_src sql
     CREATE OR REPLACE FUNCTION scrub_email(email_address varchar(255))
@@ -48,26 +48,56 @@ testing environment.
         );
       $$ LANGUAGE SQL;
 
+  #+end_src
+
+  To use it:
+
+  #+begin_src sql
     SELECT scrub_email(email) from users;
   #+end_src
 
-* Table Copying
-  Create a copy of a table. This will take the place of the original table
-  and will contain the scrubbed columns.
-** Copy table
-  Create a copy of a table. This just copies the table schema. Not the data.
-  See also https://www.postgresql.org/docs/current/sql-createtable.html#SQL-CREATETABLE-PARMS-LIKE
+* Update table strategy
+  Use the function to update the table, destructively. Use vacuum and reindex
+  after the updates. Also consider update in batches.
   #+begin_src sql
-  CREATE TABLE users_copy (LIKE users INCLUDING ALL)
+    UPDATE users set email = scrub_email(email);
   #+end_src
+** Batches
+   See also [[id:F544CDDD-34B9-4475-B265-1139F18D9090][Large SQL data migrations]] for using stored procedures
+
+** Vacuum
+  After updates to rows, old row versions are still retained.
+
+  #+begin_src sql
+    VACUUM (ANALYZE, VERBOSE) users;
+  #+end_src
+** Reindex
+
+  #+begin_src  sql
+    REINDEX INDEX users_email_idx;
+  #+end_src
+
+* Table copying strategy
+  The copied table will take the place of the original table and will contain
+  sensitive data columns with the scrubbed data. This is non-destructive and can
+  be rolled back.
+
+** Copy table
+  This just copies the table schema. Not the data.
+  See also
+  https://www.postgresql.org/docs/current/sql-createtable.html#SQL-CREATETABLE-PARMS-LIKE
+
+  #+begin_src sql
+    CREATE TABLE users_copy (LIKE users INCLUDING ALL)
+  #+end_src
+
 *** Excluding things for speedier copying
-  You can use ~EXCLUDING~ after ~INCLUDING ALL~
-  (eg, ~LIKE users INCLUDING ALL EXCLUDING INDEXES~). Not having the indexes in
-  place when the data is copied in the next step will be faster. That could be
-  useful for millions of rows, but the indexes will still need to be created
-  after the copying is done.
+  - You can use ~EXCLUDING~ after ~INCLUDING ALL~ (eg, ~LIKE users INCLUDING ALL EXCLUDING INDEXES~).
+  - Not having the indexes in place when the data is copied in the next step
+    will be faster. That could be useful for millions of rows.
+  - The trade off is that the indexes and FKs will still need to be created after the copying is done.
 ** Copy data
-   Here custom scrubbing functions can be applied.
+   Here custom scrubbing functions can be applied to copy data into the new table.
    #+begin_src sql
      INSERT INTO users_copy(first_name, last_name, email, type, created_at, updated_at)
                  (
@@ -80,7 +110,7 @@ testing environment.
    by the original table it was copied from.
 
    #+begin_src sql
-   ALTER SEQUENCE users_id_seq OWNED BY users_copy.id
+    ALTER SEQUENCE users_id_seq OWNED BY users_copy.id
    #+end_src
 ** Copy indexes and FKs
    **If the table was copied excluding Indexes and Constraints*, they will need to
@@ -88,7 +118,7 @@ testing environment.
 
    To list the indexes on the original table:
    #+begin_src sql
-   select pg_get_indexdef(indexrelid) || ';' AS index from pg_index where indrelid = 'public.users'::regclass;
+    select pg_get_indexdef(indexrelid) || ';' AS index from pg_index where indrelid = 'public.users'::regclass;
    #+end_src
 ** Drop and rename
    Drop the original table and rename the copy in the same transaction. Cascade
