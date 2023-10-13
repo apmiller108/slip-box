@@ -1,0 +1,18 @@
+:PROPERTIES:
+:ID:       6A08F445-6C81-4C71-BBA6-6974CABFD0CE
+:END:
+#+title: Ruby gems
+#+date: 2023-10-13 13:46 PM
+#+updated:  2023-10-13 13:50 PM
+#+filetags: :ruby:
+
+* Database
+** active_record_doctor
+   https://github.com/gregnavis/active_record_doctor
+** database_consistency
+   https://github.com/djezzzl/database_consistency
+** fx
+   Versioned database functions
+   https://github.com/teoljungberg/fx
+** strong_migrations
+   https://github.com/ankane/strong_migrations

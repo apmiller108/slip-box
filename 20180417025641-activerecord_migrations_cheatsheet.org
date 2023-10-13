@@ -3,8 +3,8 @@
 :END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2023-10-06 15:47 PM
-#+filetags: :postgresql:sql:rails:ruby:
+#+updated: 2023-10-13 13:51 PM
+#+filetags: :postgres:sql:rails:ruby:
 
 * Casting with :using option (cast string to int)
   :PROPERTIES:
@@ -312,6 +312,24 @@
         drop_table :payment_method_owners
       end
     end
+  #+end_src
+
+* Enabling Postgres extensions
+  #+begin_src sql
+    enable_extension ​'citext'​ ​unless​ extension_enabled?(​'citext'​)
+  #+end_src
+* Postgres generated columns
+  Requires postgres v12+
+  See also
+  https://www.postgresql.org/docs/current/ddl-generated-columns.html#DDL-GENERATED-COLUMNS
+
+  This might be useful to compose queries where you would want to select on some
+  computation of several columns.
+
+  *Warning* see also https://github.com/ankane/strong_migrations#adding-a-stored-generated-column
+
+  #+begin_src ruby
+  t.virtual, :height_in, as: (height_cm / 2.54), stored: true
   #+end_src
 
 * Data Migrations

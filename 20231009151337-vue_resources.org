@@ -1,0 +1,21 @@
+:PROPERTIES:
+:ID:       029DB802-ACFF-4366-8661-352CE4763630
+:END:
+#+title: Vue resources
+#+date: 2023-10-09 15:13 PM
+#+updated:  2023-10-09 15:31 PM
+
+This is just a link dump of some resources for doing VueJS development
+
+* Documentation
+  - [[https://vuejs.org/guide/introduction.html][vuejs.org]]
+  - [[https://test-utils.vuejs.org/guide/][test-utils.vuejs.org]]
+  - [[https://vitejs.dev/guide/][vitejs.dev]]
+  - [[https://vitest.dev/guide/][vitest.dev]]
+
+* Quick reference
+  - https://learnvue.co/LearnVue-Vue-3-Cheatsheet.pdf
+
+* Tutorials
+  - https://michaelnthiessen.com/articles
+

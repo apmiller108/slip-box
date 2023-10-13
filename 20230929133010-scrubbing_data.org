@@ -3,18 +3,16 @@
 :END:
 #+title: Scrubbing data
 #+date: 2023-09-29 13:30 PM
-#+updated:  2023-10-06 11:14 AM
+#+updated:  2023-10-13 11:11 AM
 #+filetags: :postgres:
 
 A strategy for scrubbing data from a postgres dump for use in a performance
-testing environment.
+testing environment. You might have a dump of prod data that contains sensitive
+information.
 
-* Identify which columns contain sensitive data
-  Once identified, tag the columns with a column comment
-
-  #+begin_src sql
-    COMMENT ON COLUMN users.email IS 'sensitive_data=true'
-  #+end_src
+The dump could be loaded by someone authorized to do so, a SQL script run
+against the loaded data to scrub the sensitive data, then dumped again and
+shared with developers.
 
 * Compose a function
   See also https://github.com/teoljungberg/fx for database function version

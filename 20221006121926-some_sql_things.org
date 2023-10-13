@@ -3,7 +3,7 @@
 :END:
 #+title: Some SQL things
 #+date: 2022-10-06 12:19 PM
-#+updated: 2023-10-06 16:01 PM
+#+updated: 2023-10-13 12:33 PM
 #+filetags: :sql:postgres
 
 * Join only on first record
@@ -127,11 +127,14 @@
     FROM deletes;
    #+end_src
 * Constraints (PG)
-  See also [[id:A3972BA3-6BD6-4970-8B22-0065A1F7978D][ActiveRecord Migrations Cheatsheet]] for some stuff on ~CHECK~
-  constraints
-
-  See also https://www.crunchydata.com/blog/postgres-constraints-for-newbies as
-  an easy to read reference on PG constraints
+  - See also [[id:A3972BA3-6BD6-4970-8B22-0065A1F7978D][ActiveRecord Migrations Cheatsheet]] for some stuff on ~CHECK~
+    CONSTRAINT
+  - See also https://www.crunchydata.com/blog/postgres-constraints-for-newbies as
+    an easy to read reference on PG constraints
+  - See also
+    https://www.crunchydata.com/blog/enums-vs-check-constraints-in-postgres for a
+    case for preferring CHECK CONSTRAINT over ENUM. tl;dr there much easier to
+    update since you don't have to modify the existing data.
 
 ** deferring constraints
    Some constraints support deferrability (checks do not)
@@ -148,3 +151,8 @@
 
    See also https://hashrocket.com/blog/posts/deferring-database-constraints for
    more advanced example
+** EXCLUSION CONSTRAINT
+   These are like unique constraints, but allows you to define uniqueness
+   criteria way beyond simple equality of a unique index.
+
+   See also https://www.postgresql.org/docs/current/sql-createtable.html#SQL-CREATETABLE-EXCLUDE
