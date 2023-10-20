@@ -1,0 +1,91 @@
+:PROPERTIES:
+:ID:       B51EC77B-17C2-4D8C-9F77-8CD069B171C2
+:END:
+#+title: Vue testing
+#+date: 2023-10-17 15:14 PM
+#+updated:  2023-10-20 12:57 PM
+#+filetags: :vuejs:
+
+Some VueJS unit testing things for a quick reference.
+
+Most of testing is interacting with a ~wrapper~, so much of what is needed can be
+found here https://v1.test-utils.vuejs.org/
+
+* Debugging
+** Inspect properties on component
+   inspect the ~_setupState~ to view refs, computed properties, etc.
+
+   #+begin_src javascript
+     wrapper.vm._setupState.someComputedProperty.value
+   #+end_src
+
+* Emits
+** Emitted
+   returns an array of the emitted event data
+   #+begin_src javascript
+     wrapper.emitted()['my-event']
+   #+end_src
+
+** Trigger an emit on a child
+   #+begin_src javascript
+    const child = wrapper.findComponent(ChildComponent)
+    child.vm.$emit('my-event')
+   #+end_src
+
+*** synced props
+    Emit the update event to the parent.
+    #+begin_src javascript
+      child.vm.$emit('update:foo, 'bar');
+    #+end_src
+
+    See also https://v2.vuejs.org/v2/guide/components-custom-events#sync-Modifier
+
+* Flushing promises
+  Await on a function that returns a Promise whose resolve is a callback to
+  ~setTimeout~. That's it. You don't need a library.
+  See also https://github.com/kentor/flush-promises/blob/master/index.js
+* Pinia
+** Provision data in a store
+   #+begin_src  js
+    import { useMyStore } from '@/stores';
+    const myStore = useMyStore();
+    beforeAll() { myStore.stuff = 'stuff' };
+   #+end_src
+* Triggering events
+  See https://v1.test-utils.vuejs.org/api/wrapper/#trigger
+** Keys
+   #+begin_src js
+    await wrapper.trigger('keyup.enter')
+   #+end_src
+
+* Vitest
+** Mocking useRouter
+  #+begin_src js
+    import { vi } from 'vitest';
+    const routerPush = vi.fn();
+
+    vi.mock('vue-router/composables', () => ({
+      useRouter: () => ({
+        push: routerPush
+      })
+    }));
+
+    it(() => expect(routerPush).toHaveBeenCalledWith({});
+  #+end_src
+
+** Stubbing imported functions
+   See also https://vitest.dev/api/mock.html
+  #+begin_src js
+    import { vi } from 'vitest';
+    import { myFunction } from '@/my/component;
+
+    vi.mock('@/my/component');
+
+    beforeEach(() => {
+      myFunction.mockResolvedValue({});
+    });
+
+    it(() => { expect(myFunction).toHaveBeenCalledWith("foo") })
+  #+end_src
+
+  Use ~mockReturnValue~ for synchronous returns
