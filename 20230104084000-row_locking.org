@@ -1,21 +1,39 @@
 :PROPERTIES:
 :ID:       D111FFA2-4A9D-41F4-87DC-E59F3D6E8564
 :END:
-#+title: Row locking
+#+title: Database Locks
 #+date: 2023-01-04 08:40 AM
-#+updated: 2023-09-22 15:04 PM
+#+updated: 2023-10-13 17:31 PM
 #+filetags: :postgres:
 
 See also https://www.postgresql.org/docs/current/explicit-locking.html
 
-* FOR UPDATE
-  This clause is used as part of a select query and can define:
-  - The lock strength. See also https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-ROWS
-  - Name the specific tables in the query whose rows should be locked. If no
-    table is specified, all tables used in the query are locked.
-  - What action to take if encountering lock contention
+* Lock Timeout
+  In order to prevent transaction from waiting a long time to obtain a lock, use
+  the ~lock_timeout~ parameter. It can be set globally or per transaction.
 
-  See also https://www.postgresql.org/docs/current/sql-select.html#SQL-FOR-UPDATE-SHARE
+** lock timeout
+   #+begin_src sql
+    BEGIN;
+    SET LOCAL lock_timeout = '5s';
+    ALTER TABLE things ADD COLUMN foo_id INTEGER;
+    END;
+   #+end_src
+
+   This will timeout after 5 seconds if the transaction cannot obtain a lock. It
+   will throw:
+   #+begin_src
+    ERROR:  canceling statement due to lock timeout
+   #+end_src
+* Row locking
+** FOR UPDATE
+   This clause is used as part of a select query and can define:
+   - The lock strength. See also https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-ROWS
+   - Name the specific tables in the query whose rows should be locked. If no
+     table is specified, all tables used in the query are locked.
+   - What action to take if encountering lock contention
+
+   See also https://www.postgresql.org/docs/current/sql-select.html#SQL-FOR-UPDATE-SHARE
 
 * Advisory Locks
   These aren't row locks, but worth mentioning. You can use these to control

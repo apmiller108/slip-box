@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2023-10-13 13:51 PM
+#+updated: 2023-10-13 15:45 PM
 #+filetags: :postgres:sql:rails:ruby:
 
 * Casting with :using option (cast string to int)
@@ -271,9 +271,23 @@
   :PROPERTIES:
   :CUSTOM_ID: adding-check-contraints
   :END:
+
   #+begin_src ruby
-  add_check_constraint :things, "completed_at > created_at", name: 'things_completed_after_created'
+    add_check_constraint :things, "completed_at > created_at", name: 'things_completed_after_created'
   #+end_src
+
+  Add ~validate: false~ to add ~NOT VALID~ to the check which would only enforce the
+  check on updates and inserts. Existing records would not be enforced. This
+  option would also mean the exclusive lock on the table due to adding the
+  constraint would be much shorter.
+
+  To enforce the constraint on existing rows:
+
+  #+begin_src sql
+    validate_check_constraint :things, name: 'things_completed_after_created'
+  #+end_src
+
+
 
 ** Enforcing rails polymorphic as FK constraint example
   #+begin_src ruby

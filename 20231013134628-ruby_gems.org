@@ -3,8 +3,12 @@
 :END:
 #+title: Ruby gems
 #+date: 2023-10-13 13:46 PM
-#+updated:  2023-10-13 13:50 PM
+#+updated:  2023-10-13 15:29 PM
 #+filetags: :ruby:
+
+This is a list of potentially useful Ruby libraries.
+
+See also https://github.com/markets/awesome-ruby
 
 * Database
 ** active_record_doctor
