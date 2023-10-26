@@ -3,7 +3,7 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2023-05-02 12:59 PM
+#+updated: 2023-10-26 08:33 AM
 #+filetags: :philosophy:
 
 #+begin_quote
@@ -81,4 +81,14 @@ I would like to see you living
 In better conditions
 
 --- [[https://en.wikipedia.org/wiki/Hafez][Hafez]]
+#+end_quote
+
+#+begin_quote
+Rats racing to populate an island don’t leave a little aside as a preserve where
+the few rats who live there can live happy lives producing artwork. Cancer cells
+don’t agree to leave the lungs alone because they realize it’s important for the
+body to get oxygen. Competition and optimization are blind idiotic processes and
+they fully intend to deny us even one lousy galaxy.
+
+--- [[https://slatestarcodex.com/2014/07/30/meditations-on-moloch/][Medidations on Maloch]]
 #+end_quote
