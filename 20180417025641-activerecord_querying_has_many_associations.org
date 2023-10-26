@@ -1,89 +1,108 @@
 :PROPERTIES:
 :ID:       28FC6AAD-4491-4DA5-BB3A-796E9EECD235
 :END:
-#+title: ActiveRecord Querying has_many Associations
+#+title: ActiveRecord Querying
 #+date: 2018-04-17 02:56 AM
-#+updated: 2022-08-18 11:16 AM
+#+updated: 2023-10-20 14:51 PM
 #+filetags: :rails:ruby:
 
 * ActiveRecord Querying has_many Associations
   :PROPERTIES:
   :CUSTOM_ID: activerecord-querying-has_many-associations
   :END:
-*** joining a associations
-    :PROPERTIES:
-    :CUSTOM_ID: joining-a-associations
-    :END:
-    #+begin_src ruby
-      Location.joins(:people)
-    #+end_src
+** joining a associations
+   :PROPERTIES:
+   :CUSTOM_ID: joining-a-associations
+   :END:
+   #+begin_src ruby
+     Location.joins(:people)
+   #+end_src
 
-    #+begin_src ruby
-      Location.joins(people: :roles)
-    #+end_src
+   #+begin_src ruby
+     Location.joins(people: :roles)
+   #+end_src
 
-*** merging scopes
-    :PROPERTIES:
-    :CUSTOM_ID: merging-scopes
-    :END:
-    #+begin_src ruby
-      Place.select("places.*, communes.*")
-           .joins(:commune)
-           .merge(Commune.where(:id => [1,2,3])
-    #+end_src
+** merging scopes
+   :PROPERTIES:
+   :CUSTOM_ID: merging-scopes
+   :END:
+   #+begin_src ruby
+     Place.select("places.*, communes.*")
+          .joins(:commune)
+          .merge(Commune.where(:id => [1,2,3])
+   #+end_src
 
-*** Joins with Where
-    :PROPERTIES:
-    :CUSTOM_ID: joins-with-where
-    :END:
-    #+begin_src ruby
-      Location.joins(people: :roles).where(roles: { billable: true } )
-    #+end_src
+** Joins with Where
+   :PROPERTIES:
+   :CUSTOM_ID: joins-with-where
+   :END:
+   #+begin_src ruby
+     Location.joins(people: :roles).where(roles: { billable: true } )
+   #+end_src
 
-*** Joins with Distinct
-    :PROPERTIES:
-    :CUSTOM_ID: joins-with-distinct
-    :END:
-    #+begin_src ruby
-      Location.joins(people: :roles).where(roles: { billable: true } ).distinct
-    #+end_src
+** Joins with Distinct
+   :PROPERTIES:
+   :CUSTOM_ID: joins-with-distinct
+   :END:
+   #+begin_src ruby
+     Location.joins(people: :roles).where(roles: { billable: true } ).distinct
+   #+end_src
 
-    #+begin_src sql
-      SELECT DISTINCT * from locations
-      INNER JOIN people on people.location_id = location.id
-      INNER JOIN roles on role.id = people.role_id
-      WHERE role.billable = TRUE
-    #+end_src
+   #+begin_src sql
+     SELECT DISTINCT * from locations
+     INNER JOIN people on people.location_id = location.id
+     INNER JOIN roles on role.id = people.role_id
+     WHERE role.billable = TRUE
+   #+end_src
 
-*** from method (sub-querying)
-    :PROPERTIES:
-    :CUSTOM_ID: from-method-sub-querying
-    :END:
-    Using distinct and order may require you to pay attention to the order
-    of operations of the query. For example, select the distinct records,
-    then join another table and order by a column on the joined table.
-    You'll get this error:
+** Where subquery
+   Compose a SQL string and interpolate it into the where clause.
 
-    #+begin_src
-    PG::InvalidColumnReference: ERROR: for SELECT
-    DISTINCT, ORDER BY expressions must appear in select list from can
-    create a subquery that is executed first.
-    #+end_src
+   #+begin_src ruby
+    Asteroid.where('period > (:avg)', avg: Asteroid.select('avg(period)'))
+   #+end_src
 
-    - Put the ~distinct~ in the subquery.
-    - Scopes can be used as the sub query with a name provided
-    #+begin_src ruby
-      Location.from(Location.billable, :locations).merge(Region.order(:name)).merge(Location.order(:name))
-    #+end_src
+   See also https://pganalyze.com/blog/active-record-subqueries-rails#the-where-subquery
 
-    It will create this SQL:
-    #+begin_src sql
-      SELECT * FROM (
-        SELECT DISCTINCT * FROM locations 
-        INNER JOIN people on people.location_id = location.id
-        INNER JOIN roles on people.role_id = role.id   
-        WHERE role.billable = TRUE
-      ) locations
-      INNER JOIN regions on region.id = location.region_id
-      ORDER BY region.name ASC, location.name ASC
-    #+end_src
+** from method (sub-querying)
+   :PROPERTIES:
+   :CUSTOM_ID: from-method-sub-querying
+   :END:
+
+   See also
+   https://pganalyze.com/blog/active-record-subqueries-rails#the-from-subquery
+
+   Using distinct and order may require you to pay attention to the order
+   of operations of the query. For example, select the distinct records,
+   then join another table and order by a column on the joined table.
+   You'll get this error:
+
+   #+begin_src
+   PG::InvalidColumnReference: ERROR: for SELECT
+   DISTINCT, ORDER BY expressions must appear in select list from can
+   create a subquery that is executed first.
+   #+end_src
+
+   - Put the ~distinct~ in the subquery.
+   - Scopes can be used as the sub query with a name provided
+   #+begin_src ruby
+     Location.from(Location.billable, :locations).merge(Region.order(:name)).merge(Location.order(:name))
+   #+end_src
+
+   It will create this SQL:
+   #+begin_src sql
+     SELECT * FROM (
+       SELECT DISCTINCT * FROM locations
+       INNER JOIN people on people.location_id = location.id
+       INNER JOIN roles on people.role_id = role.id
+       WHERE role.billable = TRUE
+     ) locations
+     INNER JOIN regions on region.id = location.region_id
+     ORDER BY region.name ASC, location.name ASC
+   #+end_src
+
+** CTE
+   Use any model ~.with~
+   #+begin_src ruby
+     Asteroid.with(recently_discovered: Asteroid.where.not(rarity: 0).where(created_at: 30.days.ago..)).from('recently_rated').count
+   #+end_src

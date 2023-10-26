@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord
 #+date: 2018-04-12 02:12 AM
-#+updated: 2023-05-17 08:10 AM
+#+updated: 2023-10-20 14:14 PM
 #+filetags: :ruby:rails:
 
 This is a big ass dump of ActiveRecod stuff I've learned.
@@ -367,6 +367,10 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
    :CUSTOM_ID: select
    :END:
 
+   Using select for a limited set of columns could increase query performance by
+   making it more likely the data will be queried using an efficient Index Only
+   Scan.
+
    - Add calculated or composed columns
    - NOTE: the calculated column will show in =attributes= method or
      calling the method directly
@@ -432,12 +436,15 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
    :CUSTOM_ID: includes--eager-loading--preloading
    :END:
 
-    LEFT OUTER JOIN to grab additional associated data. Delegates to
-    eager_load when joining, and to preload when doing two queries (an
-    additional WHERE IN)to get the associated data.With where
+    Using ~includes~ will produce LEFT OUTER JOIN to grab additional associated
+    data if there is a ~where~ condition. Otherwise will do two queries (an
+    additional WHERE IN)to get the associated data.
 
+    Using [[https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-strict_loading][strict_loading]] will raise an error on attempted lazy loading. In order
+    to get access to associated records, one must eager load.
+ 
    #+begin_src ruby
-     User.includes(:auctions).where(auctions: {name: 'Lumina'})
+     User.includes(:auctions).where(auctions: { name: 'Lumina' })
    #+end_src
 
 ** find_or_create_by / create_with
@@ -705,7 +712,16 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
     end
   #+end_src
 * Gems / Extensions
+  See also [[id:6A08F445-6C81-4C71-BBA6-6974CABFD0CE][Ruby gems]]
 ** Scenic
    database views
 ** store_attribute
    https://github.com/palkan/store_attribute
+* Query logs
+  See also https://api.rubyonrails.org/classes/ActiveRecord/QueryLogs.html
+
+  Append or prepend comments to queries so you can find them in logs easier.
+
+  #+begin_src
+    /*application:MyApp,controller:things,action:index*/​
+  #+end_src
