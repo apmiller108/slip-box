@@ -1,0 +1,21 @@
+:PROPERTIES:
+:ID:       856D907D-F10D-4D4D-AF58-FB76942D7AC5
+:END:
+#+title: Llama
+#+date: 2023-10-26 13:42 PM
+#+updated:  2023-10-26 13:56 PM
+
+* Using it locally
+** Download a model
+   From https://gpt4all.io/index.html I downloaded
+   nous-hermes-llama2-13b.Q4_0.gguf at the time of writing this.
+** llama-cpp-python
+   See also https://github.com/abetlen/llama-cpp-python
+
+   #+begin_src python
+     pip install llama-cpp-python
+
+     from llama_cpp import Llama
+     llm = Llama(model_path="path/to/model")
+     llm("How do I add two numbers using elisp?")
+   #+end_src
