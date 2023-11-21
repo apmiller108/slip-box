@@ -3,14 +3,13 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2023-04-19 12:45 PM
+#+updated: 2023-11-21 08:10 AM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
 probably forget.
 
 * Word Wrapping
-
  - ~auto-fill-mode~ is what you need. This will automatically wrap words after
    the line exceeds whatever value is set for [[elisp:(describe-variable 'fill-column)][fill-column]]
 
@@ -34,7 +33,12 @@ probably forget.
      ;; Save Org buffers after refiling
      (advice-add 'org-refile :after 'org-save-all-org-buffers)
    #+end_src
+* Deleting text
+  Using evil-mode
 
+  ~dtx~ where ~x~ is the thing you want to delete up to.
+  ~dt space~ will delete up to first whitespace
+  ~df space~ will delete up to and including the first whitespace
 * Surrounding
   Just use [[id:D1A12F6B-6303-4DFF-AFD8-8742A16D1A7E][Evil-surround]].
   - ~s(~ to surround region (with parenthesis in this example)
