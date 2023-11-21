@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2023-10-13 15:45 PM
+#+updated: 2023-11-03 14:05 PM
 #+filetags: :postgres:sql:rails:ruby:
 
 * Casting with :using option (cast string to int)
@@ -38,7 +38,10 @@
   :PROPERTIES:
   :CUSTOM_ID: list-migrations
   :END:
-  =rails db:migrate:status=
+
+  #+begin_src shell
+    rails db:migrate:status
+  #+end_src
 
 * Reversible
   :PROPERTIES:

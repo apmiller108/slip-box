@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord
 #+date: 2018-04-12 02:12 AM
-#+updated: 2023-10-20 14:14 PM
+#+updated: 2023-11-03 15:29 PM
 #+filetags: :ruby:rails:
 
 This is a big ass dump of ActiveRecod stuff I've learned.
@@ -79,6 +79,10 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
   By default, Rails attempts to optimize performance by turning on a
   simple query cache. It is a hash stored on the current thread, one for
   every active database connection.
+
+  The cache lives for the duration of a controller action.
+
+  See also http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/QueryCache.html
 
 ** Manual Query Cache
    :PROPERTIES:
@@ -214,6 +218,16 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
      User.joins(:comments).group("users.name").count("comments.id")
    #+end_src
 
+*** Counter cache
+    - Depends on a ~~*_count~ column added to the parent table.
+    - declared counter_cache adds callbacks to update the count cache on the parent
+
+    #+begin_src ruby
+      belongs_to :user, counter_cache: true
+    #+end_src
+
+    See also
+    https://api.rubyonrails.org/classes/ActiveRecord/CounterCache/ClassMethods.html
 * Store
   Wrap key/value store columns (eg, jsonb) and define accessors. Add typecasting
   wit https://github.com/palkan/store_attribute
@@ -296,28 +310,33 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
   :CUSTOM_ID: database-locking
   :END:
 
-  - Optimistic Locking: Good for infrequent collisions. Database records
-    are not actually locked. If two different model instances are loaded
-    for the same record and saved differently, the first one wins while
-    the second one raises ~ActiveRecord::StaleObject~.
+  See also [[id:D111FFA2-4A9D-41F4-87DC-E59F3D6E8564][Database Locks]]
+** Optimistic Locking
+   Good for infrequent collisions. Database records are not actually locked. If
+   two different model instances are loaded for the same record and saved
+   differently, the first one wins while the second one raises
+   ~ActiveRecord::StaleObject~.
 
-    - Just add an integer column named lock_version to a given table, with
+    - Add an integer column named ~lock_version~ to a given table, with
       a default value of zero.
-    - Handle the ~ActiveRecord::StaleObject~ error
+    - Where the records are updated, add handlers for the ~ActiveRecord::StaleObject~ error
+** Pessimistic Locking
+    Locks the records returns from a select statement. Works with transactions.
+    Records are released when the transaction completes. Keep the transactions
+    small to make sure they execute quickly.
 
-  - Pessimistic Locking: Locks the records returns from a select
-    statement. Works with transactions. Records are released when the
-    transaction completes. Keep the transactions small to make sure they
-    execute quickly.
+    #+begin_src ruby
+      Timesheet.transaction do
+        t = Timesheet.lock.first
+        t.approved = true
+        t.save!
+      end
+    #+end_src
 
-  #+begin_src ruby
-    Timesheet.transaction do
-      t = Timesheet.lock.first
-      t.approved = true
-      t.save!
-    end
-  #+end_src
-
+    Can also pass a locking clause
+    #+begin_src ruby
+      Foo.active.lock("FOR UPDATE OF pa_requests NOWAIT")
+    #+end_src
 * QueryingOther
   :PROPERTIES:
   :CUSTOM_ID: queryingother
@@ -325,16 +344,11 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
 
   See also [[id:28FC6AAD-4491-4DA5-BB3A-796E9EECD235][ActiveRecord Querying has_many Associations]]
 
-** Where
-   :PROPERTIES:
-   :CUSTOM_ID: where
-   :END:
+** Where with JSON field (Postgres)
 
-*** JSON field (Postgres)
-
-   #+begin_src ruby
-     User.where('preferences @> ?', { newsletter: true }.to_json)
-   #+end_src
+  #+begin_src ruby
+    User.where('preferences @> ?', { newsletter: true }.to_json)
+  #+end_src
 
 ** Bind Variables
    :PROPERTIES:
@@ -342,14 +356,6 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
    :END:
    #+begin_src ruby
      Message.where("subject LIKE :foo OR body LIKE :foo", foo: '%woah%')
-   #+end_src
-
-** With Joins
-   :PROPERTIES:
-   :CUSTOM_ID: with-joins
-   :END:
-   #+begin_src ruby
-     User.joins(:posts).where(posts: { active: true })
    #+end_src
 
 ** Limit/Offset
@@ -387,8 +393,8 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
 
    - Useful for referencing subqueries or views.
    - See also:
-     - [[http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-from][[[http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-from]]]]
-     - [[https://hashrocket.com/blog/posts/advanced-queries-with-activerecord-s-from-method][[[https://hashrocket.com/blog/posts/advanced-queries-with-activerecord-s-from-method]]]]
+     - [[http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-from][http://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-from]]
+     - [[https://hashrocket.com/blog/posts/advanced-queries-with-activerecord-s-from-method][https://hashrocket.com/blog/posts/advanced-queries-with-activerecord-s-from-method]]
 
    #+begin_src ruby
      Topic.select('title').from(Topic.approved).to_sql
@@ -515,13 +521,21 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
    #+begin_src ruby
      Timesheet.unscoped.where("created_at < ?", 1.year.ago)
    #+end_src
-
-   - =find_by_sql(String)=
-     - Returns objects based on the SQL string arg.
-     - Use bind variables
-     - Use this for writing complex SQL queries that don't lend themselves
-       well to using AR's query API (like having to use CTEs)
-
+* Query using SQL
+** find_by_sql(String)
+   #+begin_src ruby
+   User.find_by_sql("select * from users limit 1")
+   #+end_src
+   - Returns AR objects based on the SQL string arg
+   - Use bind variables
+   - Use this for writing complex SQL queries that don't lend themselves
+     well to using AR's query API (like having to use CTEs)
+** execute
+   - This returns a PG::Result object.
+   - This can save a lot of memory since it will not return AR objects.
+   #+begin_src ruby
+   ActiveRecord::Base.connection.execute
+   #+end_src
 * Using the Database Connection Directly
   :PROPERTIES:
   :CUSTOM_ID: using-the-database-connection-directly
@@ -713,8 +727,6 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
   #+end_src
 * Gems / Extensions
   See also [[id:6A08F445-6C81-4C71-BBA6-6974CABFD0CE][Ruby gems]]
-** Scenic
-   database views
 ** store_attribute
    https://github.com/palkan/store_attribute
 * Query logs
