@@ -3,7 +3,7 @@
 :END:
 #+title: postgresql.conf
 #+date: 2023-09-22 14:10 PM
-#+updated:  2023-09-22 15:01 PM
+#+updated:  2023-11-16 16:00 PM
 #+filetags: :postgres:
 
 See also [[id:4D90F42B-B4DA-4CDA-9885-B8FF372FDB72][psql]]
@@ -26,3 +26,5 @@ See also [[id:4D90F42B-B4DA-4CDA-9885-B8FF372FDB72][psql]]
 * Data directory
   Set the path using the ~PGDATA~ env var or set the ~data_directory~ variable in
   the conf.
+* Making changes
+  Might consider checking this into source control for a given application.

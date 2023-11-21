@@ -3,7 +3,7 @@
 :END:
 #+title: psql
 #+date: 2023-09-22 12:38 PM
-#+updated:  2023-09-29 13:48 PM
+#+updated:  2023-11-03 14:13 PM
 #+filetags: :postgres:
 
 See also [[id:CD58C290-AF97-4882-98D9-2FCC7B61763E][postgresql.conf]]
@@ -27,6 +27,8 @@ See also [[id:D111FFA2-4A9D-41F4-87DC-E59F3D6E8564][Row locking]]
    ...followed by the database name to connect to it.
 ** \dx
    list installed extensions
+** \dv
+   list views
 ** \g
    Run the last command. Also use up arrow enter.
 ** \l
