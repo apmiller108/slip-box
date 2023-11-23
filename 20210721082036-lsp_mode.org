@@ -3,7 +3,7 @@
 :END:
 #+title: lsp-mode
 #+date: 2021-07-21 08:20 AM
-#+updated: 2023-08-04 12:22 PM
+#+updated: 2023-11-18 14:53 PM
 #+filetags: :lsp:emacs:
 
 https://emacs-lsp.github.io/lsp-mode/
@@ -14,8 +14,8 @@ https://develop.spacemacs.org/layers/+lang/ruby/README.html#language-server-prot
   server you want independent of priority you can do this:
 
   #+begin_src emacs-lisp
-  (add-to-list 'lsp-disabled-clients 'ruby-ls)
-  (add-to-list 'lsp-enabled-clients 'ruby-lsp-ls)
+  (add-to-list 'lsp-disabled-clients 'ruby-ls) ;; solargraph
+  (add-to-list 'lsp-enabled-clients 'ruby-lsp-ls) ;; ruby-lsp (shopify's thing)
   #+end_src
 * Typescript
 ** Setup
