@@ -1,0 +1,109 @@
+:PROPERTIES:
+:ID:       c8829a4b-16b2-4216-a12f-15c07001db6a
+:END:
+#+title: view_component testing
+#+date: 2023-11-22 17:55 PM
+#+updated:  2023-11-22 20:05 PM
+#+filetags: :ruby:rails:
+
+I'm getting acquainted with [[https://github.com/viewcomponent/view_component][view_component]], which is a Ruby library for building
+view components (surprise) in Ruby on Rails. It seems to be what the cool kids
+are into these days, as an alternative to standard, out-of-the-box RoR views and
+view partials. Server based MVC is still the name of the game, here, but with
+better encapsulation. A view component is a plain ruby object that is
+initialized with whatever arguments, and defines what is exposed to a view
+template (erb, haml, slim). It's nice because it brings OOP to the view layer in
+RoR.
+
+There's something to learn about testing these things, for which the
+[[https://viewcomponent.org/guide/testing.html][documentation]] is a great starting place. But pretty quickly I found myself
+having to figure some things out, which, I acknowledge might be because I'm not
+component-ing the "right" way.
+
+For example, I have a component that depends on another component. I imagine
+this a common scenario, as it is with building frontends in VueJS.
+
+#+begin_src ruby
+  # /app/views/components/message_component.rb
+  class MessageComponent < ApplicationViewComponent
+    attr_reader :message
+
+    def initialize(message:)
+      @message = message
+    end
+
+    def id
+      dom_id(message)
+    end
+  end
+#+end_src
+
+With this template:
+
+#+begin_src ruby
+  -# /app/views/message_component/message_component.html.haml
+  %div{ id: id }
+    = render InlineEditComponent.new(model: [current_user, message], attribute: :content) do |component|
+      = component.with_field_slot do
+        = message.content
+    = link_to t('message.edit'), edit_user_message_path(current_user, message)
+#+end_src
+
+I want to test the ~MessageComponent~ in isolation. I want to mock the
+~InlineEditComponent~. What makes it even more interesting if the fact that the
+~InlineEditComponent~ has a [[https://viewcomponent.org/guide/slots.html][slot]] which is populated by the ~MessageComponent~. It
+took some trial and error, but I've so far settled on this:
+
+#+begin_src ruby
+  RSpec.describe MessageComponent, type: :component do
+    subject { page }
+    let(:message) { build_stubbed(:message, :with_user, content: message_content) }
+    let(:user) { message.user }
+    let(:message_content) { Faker::Lorem.sentence }
+    let(:component) { described_class.new(message:) }
+    class MockInlineEditComponent < ApplicationViewComponent
+      TEXT = 'InlineEditComponent'
+      renders_one :field_slot
+      haml_template <<~HAML
+        #{TEXT}
+        = field_slot
+      HAML
+    end
+
+    before do
+      allow(InlineEditComponent).to receive(:new).and_return(MockInlineEditComponent.new)
+      with_current_user(user) { render_inline(component) }
+    end
+
+    it { is_expected.to have_link 'Edit Message' }
+
+    it 'instantiates the InlineEditComponent with the proper args' do
+      expect(InlineEditComponent).to have_received(:new).with(model: [user, message], attribute: :content)
+    end
+
+    it 'renders the InlineEditComponent' do
+      expect(page).to have_text(MockInlineEditComponent::TEXT)
+    end
+
+    it { is_expected.to have_text message_content }
+  end
+#+end_src
+
+It defines a mock class of the ~InlineEditComponent~, which provides the bare
+minimum to function as a container for a slot and a template. With this, I can
+test that the rendered output does include the ~InlineEditComponent~ along with
+the ~field_slot~ through which the ~message.content~ is rendered. I'm
+uneasy about mocking the slot this way, though. For one thing, this test will
+still pass even if I change the name of the slot on the ~InlineEditComponent~. It
+would be nice to get a kind of verifying double behavior on a slot. Anyway,
+that's what feature/system tests are for, right? This is good enough for now.
+
+A couple other things worth pointing out:
+- I could not use an anonymous class for the mock (eg,
+  ~Class.new(ApplicationViewComponent)~). It would break due to the view_component
+  expecting the component class should have a [[https://github.com/ViewComponent/view_component/blob/main/lib/view_component/base.rb#L409][name]].
+- The ~with_current_user~ thing in the ~before~ block comes from [[https://dry-rb.org/gems/dry-effects/0.4/][dry-effects]]. In
+  short, the implementation here provide Devise's ~current_user~ to the component
+  keeping one from have the pass ~current_user~ to every components ~initialize~
+  method. There's a detailed description of this technique is the useful Evil
+  Martian's [[https://evilmartians.com/chronicles/viewcomponent-in-the-wild-building-modern-rails-frontends][2-parter on view_components]].
