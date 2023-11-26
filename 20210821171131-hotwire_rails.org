@@ -3,7 +3,7 @@
 :END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2023-11-26 12:19 PM
+#+updated: 2023-11-26 12:21 PM
 #+filetags: :javascript:ruby:rails:
 
 * What is this?
@@ -61,7 +61,7 @@
     dom defined with ~<turbo-frame>~ elements.
 *** Turbo streams
     More control over how the DOM is updated. HTML can be appended, updated,
-    removed ...etc.
+    removed ...etc. See also [[id:a9825c81-8f3b-42f7-acb8-f5fb4ee359b9][Turbo Streams]].
 *** DOM morphing
     This is something new in Turbo 8. Morphing is a different way of updating
     the DOM. It does a diff and the new and old templates and updates the stuff
