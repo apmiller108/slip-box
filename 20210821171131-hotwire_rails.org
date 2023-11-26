@@ -3,8 +3,8 @@
 :END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2023-05-05 12:24 PM
-#+filetags: javascript:ruby:rails:
+#+updated: 2023-11-26 12:19 PM
+#+filetags: :javascript:ruby:rails:
 
 * What is this?
   [[https://hotwired.dev/][Hotwire]] is a way of building web applications that, at its core, is about
@@ -17,7 +17,6 @@
      rather with dynamic behavior typical of an SPA.
   3. Strada: something to do with mobile -- not sure. As now this moment it has
      not been made public
-
 
   See https://github.com/hotwired for all the libraries.
 
@@ -33,10 +32,8 @@
    By default Rails 7 will use import maps. Consider also using [[https://esbuild.github.io/][esbuild]]. See
    also [[https://github.com/rails/jsbundling-rails][jsbundling-rails]] and [[https://www.youtube.com/watch?v=qOptalp8zUY][GoRails How to use ESBuild...]]
 *** esbuild
-    See also http://www.ahmednadar.com/posts/setup-tailwindcss-and-esbuild-on-rails-7
-    Example:
     #+begin_src shell
-      rails new foo --javascript=esbuild --css=tailwind
+      rails new foo --javascript=esbuild --css=bootstrap
     #+end_src
 **** bin/dev
      Rails apps are now started with ~bin/dev~ for development. This uses [[https://github.com/ddollar/foreman][foreman]]
@@ -51,9 +48,25 @@
      #+begin_src json
        "scripts": {
          "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
-         "build:css": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify"
+         "build:css": "sass ./app/assets/stylesheets/application.bootstrap.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
        }
      #+end_src
+* Turbo
+** Concepts
+*** Turbo links
+    Intercept the request from a clicked link. Remake the request using ~fetch~
+    and replace the ~body~ element as opposed to a page reload.
+*** Turbo frames
+    Same thing as turbo links, but updates are applied to only sections of the
+    dom defined with ~<turbo-frame>~ elements.
+*** Turbo streams
+    More control over how the DOM is updated. HTML can be appended, updated,
+    removed ...etc.
+*** DOM morphing
+    This is something new in Turbo 8. Morphing is a different way of updating
+    the DOM. It does a diff and the new and old templates and updates the stuff
+    that changed. Turbo will be using [[https://github.com/basecamp/idiomorph][idiomorph]].
+    See also https://evilmartians.com/chronicles/the-future-of-full-stack-rails-turbo-morph-drive
 * Tutorials
   - https://gorails.com/episodes/inline-editing-turbo-frames: Shows how to
     leverage turbo frames and rails partials to add inline field editing to a
