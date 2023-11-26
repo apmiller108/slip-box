@@ -1,0 +1,148 @@
+:PROPERTIES:
+:ID:       a9825c81-8f3b-42f7-acb8-f5fb4ee359b9
+:END:
+#+title: Turbo Streams
+#+date: 2023-11-25 15:06 PM
+#+updated:  2023-11-26 12:18 PM
+#+filetags: :rails:
+
+ [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
+ The idea with turbo streams is to have the server render some HTML, but the
+ frontend handle that HTML response in some declared way (eg, the action). The
+ actions, which are preformed with reference to a target DOM element (referenced
+ by the element's ID), can be:
+ - append
+ - prepend
+ - replace
+ - update
+ - remove
+ - before
+ - after
+
+ A turbo stream can either be a response from the server, or pushed to the
+ frontend client over web sockets. Either way, the outcome is an update to a
+ part of the DOM.
+
+ The mechanics are well explained in the [[https://turbo.hotwired.dev/handbook/streams][docs]], but it wasn't completely clear to
+ me on how this is integrated with Rails via the [[https://github.com/hotwired/turbo-rails][turbo-rails]] gem.
+
+* A turbo stream request
+  How does the front end send an HTTP request to the sever indicating that it
+  wants a turbo stream response? This is done by setting the ~Accept~ header to
+  ~text/vnd.turbo-stream.html~
+
+  #+begin_src shell
+    curl --request GET \
+    --url http://localhost:3000/messages/new \
+    --header 'Accept: text/vnd.turbo-stream.html'
+  #+end_src
+
+  In order to have the Rails frontend perform HTTP requests with the turbo
+  stream format say for a link, set the ~tubo_stream~ data property.
+
+  #+begin_src ruby
+    link_to 'New Message', new_message_path, data: { turbo_stream: 'true'}
+  #+end_src
+
+* The turbo stream response
+  The controller should be configured to handle a turbo stream format.
+
+  #+begin_src ruby
+  def new
+    @message = Messages.new
+    respond_to do |format|
+      format.turbo_stream
+    end
+  end
+  #+end_src
+
+  This will implicitly render the view template
+  ~app/views/messages/new.turbo_stream.haml~ within which the ~turbo_stream~ tag
+  helper can be used to generated the expected turbo frame HTML. See
+  [[https://github.com/hotwired/turbo-rails/blob/v1.5.0/app/models/turbo/streams/tag_builder.rb][Turbo::Streams::TagBuilder]] for a dive into the implementation.
+
+  #+begin_src ruby
+  = turbo_stream.prepend 'messages' do
+    = render MessageFormComponent.new(message: @message)
+  #+end_src
+
+  Any of the above actions can be used, called as a method on the TagBuilder
+  object. The argument, ~messages~ , is the DOM element ID that should be
+  targeted, in this case the container to which the message form should be
+  prepended.
+
+** turbo-stream tag
+   The server will render the following with help from the ~turbo_stream~ tag
+   helper:
+
+   #+begin_src html
+    <turbo-stream action="prepend" target="messages">
+      <template>
+        <form action="/messages" accept-charset="UTF-8" method="post">
+          <!-- etc, etc, etc -->
+        </form>
+      </template>
+    </turbo-stream>
+   #+end_src
+
+   The key things are:
+   1. The ~turbo-stream~ tag which declares both the action (see list above) and
+      the target (the DOM id on which the action is applied)
+   2. A ~template~ tag.
+
+* Deletes
+  Deletes can be handled also by setting data attributes on a link, optionally
+  with a confirmation prompt.
+
+  #+begin_src ruby
+  = link_to 'Delete', @message, data: { turbo_method: 'delete', turbo_confirm: 'Are you sure?' }
+  #+end_src
+
+  What does the sever respond with? We can keep it simple with an inline render:
+
+  #+begin_src ruby
+    def destroy
+      message = Message.find(params[:id])
+      message.destroy
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.remove(message)
+        end
+        format.html { redirect_to messages_path }
+      end
+    end
+  #+end_src
+
+  This will response with the follow markup, form which turbo will remove the
+  DOM element with id ~message_4~.
+
+  #+begin_src html
+    <turbo-stream action="remove" target="message_4"></turbo-stream>
+  #+end_src
+
+** What about redirects?
+   We might just want to redirect instead, even conditionally. If we're reusing
+   view components or partials, we might have the ability to delete from an
+   index page and from a show page. It doesn't make sense to return a turbo
+   stream that removes elements on the show page since the resource is being
+   deleted.
+
+  #+begin_src ruby
+  def destroy
+    message = Messages.find(params[:id])
+    message.destroy
+    respond_to do |format|
+      format.turbo_stream do
+        if request.referrer == messages_url
+          render turbo_stream: turbo_stream.remove(message)
+        else
+          redirect_to messages_path, status: :see_other, notice: 'Message was deleted'
+        end
+      end
+      format.html { redirect_to messages_path }
+    end
+  end
+  #+end_src
+
+  *NOTE* the status ~see_other~ ([[https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303][303]]) which is used in response to a PUT or POST
+   where the redirect is meant to be a GET. See also https://github.com/hotwired/turbo/issues/84
