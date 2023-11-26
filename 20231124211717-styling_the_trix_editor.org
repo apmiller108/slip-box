@@ -1,0 +1,31 @@
+:PROPERTIES:
+:ID:       0c0f903a-ade6-46ea-a5b4-d633df841981
+:END:
+#+title: Styling the Trix editor (Action Text)
+#+date: 2023-11-24 21:17 PM
+#+updated:  2023-11-24 22:54 PM
+#+filetags: :rails:
+
+ [[https://guides.rubyonrails.org/action_text_overview.html][Action Text]] uses the [[https://trix-editor.org/][Trix Editor]]. Out of the box it comes with a style sheet
+ that actually does a rather good job of providing basic styling. Without any
+ styles, the editor is usable, but very raw.
+
+ #+attr_html: :width 750
+ [[file:images/unstyled-trix-editor.png]]
+
+ If using a CSS framework that has utility classes, with SCSS, the Trix and
+ Action Text classes can be made to extend from the CSS framework classes. For
+ example, have the attachment caption extend from several bootstrap utility
+ classes.
+
+  #+begin_src scss
+    // app/assets/stylesheets/actiontext.scss
+    @import 'trix/dist/trix'; // Optionally use Trix's provided stylesheet as a starter
+    action-text-attachment {
+      .attachment__caption {
+        @extend .fw-light, .text-center, .text-black-50;
+      }
+    }
+  #+end_src
+
+  See also https://sass-lang.com/documentation/at-rules/extend/
