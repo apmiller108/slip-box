@@ -3,7 +3,7 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2023-11-26 12:21 PM
+#+updated:  2023-11-26 14:48 PM
 #+filetags: :rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
@@ -115,8 +115,9 @@
     end
   #+end_src
 
-  This will response with the follow markup, form which turbo will remove the
-  DOM element with id ~message_4~.
+  This action will respond with the following markup, form which turbo will
+  remove the DOM element with id ~message_4~ by returning an empty, templateless,
+  ~turbo-frame~ element.
 
   #+begin_src html
     <turbo-stream action="remove" target="message_4"></turbo-stream>
