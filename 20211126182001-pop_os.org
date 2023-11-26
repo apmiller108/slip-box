@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2023-09-17 10:08 AM
+#+updated: 2023-11-24 15:29 PM
 #+filetags: :linux:
 
 * System Information
@@ -190,7 +190,8 @@
    #+end_src
 
    See also https://www.linux.org/threads/solved-cannot-get-wifi-recognized-when-installing-popos-22-04-on-2015-macbook-pro.40277/post-183971
-
+* Webcam
+  This should just work out of the box. Test it with [[https://wiki.gnome.org/Apps/Cheese][cheese]].
 
 * Resources
   - https://blog.system76.com/post/655369428109869056/popos-2104-a-release-of-cosmic-proportions
