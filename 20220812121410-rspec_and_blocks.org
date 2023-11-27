@@ -3,8 +3,10 @@
 :END:
 #+title: RSpec and blocks
 #+date: 2022-08-12 12:14 PM
-#+updated: 2023-08-21 08:09 AM
+#+updated: 2023-11-27 10:37 AM
 #+filetags: :rspec:ruby:
+
+How to test this with RSpec?
 
 #+begin_src ruby
   module Thing
@@ -19,7 +21,8 @@
 
 * Stubbing
   When stubbing ~Foo.call~, in order for block that contains ~Bar.call~ to be
-  called, we need to use ~and_yield~. It can take arguments. See https://www.rubydoc.info/gems/rspec-mocks/RSpec%2FMocks%2FMessageExpectation:and_yield
+  called, we need to use ~and_yield~. It can take arguments. See also
+  https://www.rubydoc.info/gems/rspec-mocks/RSpec%2FMocks%2FMessageExpectation:and_yield
 
   #+begin_src ruby
     RSpec.describe Thing do
@@ -55,4 +58,9 @@
     end
   #+end_src
 
-
+* Other RSpecy things
+  This isn't related to block testing, but putting this here for now.
+** ~and_invoke~
+   Can be used to stub multiple calls to the same method, which could raise and
+retry see also
+https://www.rubydoc.info/github/rspec/rspec-mocks/RSpec%2FMocks%2FMessageExpectation:and_invoke
