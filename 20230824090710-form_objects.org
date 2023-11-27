@@ -4,7 +4,7 @@
 #+title: The Utility of ActiveModel
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2023-09-15 14:46 PM
+#+updated:  2023-11-27 10:12 AM
 
 Make use of various ~ActiveModel~ modules in your Ruby objects to get ~ActiveRecord~
 like behavior. Code that would otherwise be complex, can be simplified by
@@ -13,7 +13,7 @@ providing a familiar Railsy interface while also saving you some development tim
 The form object pattern is one example.
 
 There's already lot on the internet about form objects in Rails. Rather than
-just the basic example, I want to document more advanced use cases organized by
+just the basic example, I want to document additional use cases organized by
 the different ~ActiveModel~ modules and the specialized behavior they can provide
 our ruby objects.
 
@@ -69,8 +69,8 @@ behavior to ruby classes, giving them a familiar ActiveRecord interface.
   controller (and view), taking in user provided parameters. Although, we're
   probably going to encounter issues with this naive implementation -- more on
   this below. For now, however, we can implement a controller. The example here
-  is for a JSON API. There will be a separate section on using form objects in
-  HTML rendered views.
+  is for a JSON API, but these form objects can be used in views with ~form_with~
+  as one would an ActiveRecord object.
 
   #+begin_src ruby
     class WidgetsController < ApplicationController
