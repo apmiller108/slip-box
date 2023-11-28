@@ -3,7 +3,7 @@
 :END:
 #+title: Zero config HTTP servers
 #+date: 2022-11-30 13:43 PM
-#+updated: 2023-11-10 12:27 PM
+#+updated: 2023-11-27 14:11 PM
 #+filetags: :web_development:
 
 
@@ -51,3 +51,6 @@
 
   ~(httpd-serve-directory)~ from the current buffer to serve its directory on
   port 8080
+
+* FTP server
+  Run one using Docker. See also https://github.com/garethflowers/docker-ftp-server/tree/main
