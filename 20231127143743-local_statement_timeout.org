@@ -1,0 +1,145 @@
+:PROPERTIES:
+:ID:       0245E963-8E8B-47F3-BFDC-51A0E943E61C
+:END:
+#+title: Local timeouts and ActiveRecord transactions
+#+date: 2023-11-27 14:37 PM
+#+updated:  2023-11-28 16:16 PM
+#+filetags: :postgres:rails:
+
+There may be cases where the default [[https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-STATEMENT-TIMEOUT][statement_timeout]] value for a database
+connection might not be high enough for certain long-running queries. One option
+is to just increase the value for the connection. Another option is the increase
+the timeout locally, for a specific query.
+
+* Connection timeout
+  For an ActiveRecord Postgres database configuration, a ~statement_timeout~ can be
+  set in the ~database.yml~. In this example, all connections to this database
+  will timeout after 1 second (can use other units, ms is the default).
+  #+begin_src yml
+    production_replica:
+      replica: true
+      variables:
+        statement_timeout: 1s
+  #+end_src
+
+  It's a good idea to set a value for this since the default is ~0~ which disables
+  timeouts and could grind down an application with unexpectedly long running
+  queries.
+* Local timeout
+  A local time can be used to temporarily override the ~statement_timeout~ defined
+  on the connection. A local timeout must be declared within a transaction,
+  otherwise it will be ignored and the connection ~statement_timeout~ will be
+  used. The timeout of ~2s~ below will apply only for the transaction and will take
+  precedence over the timeout for the connection (~1s~) See also
+  https://www.postgresql.org/docs/16/sql-set.html
+
+  #+begin_src sql
+    BEGIN;
+    SET LOCAL statement_timeout = '2s';
+    SELECT pg_sleep(1.8);
+    COMMIT;
+  #+end_src
+
+  Without the local timeout, the ~pg_sleep(1.8)~ will raise a timeout error given
+  a ~statement_timeout~ for the connection is ~1s~.
+  #+begin_src
+    ERROR:  canceling statement due to statement timeout
+  #+end_src
+
+** How can this be used with ActiveRecord's query interface?
+   We know we need a [[https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/DatabaseStatements.html#method-i-transaction][transaction]], within which we need to [[https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/DatabaseStatements.html#method-i-execute][execute]] a [[https://www.postgresql.org/docs/16/sql-set.html][SET]] statement.
+   Putting that together, we might do something like this
+
+    #+begin_src ruby
+      ActiveRecord::Base.transaction do
+        ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '5s';")
+        Message.all
+      end
+    #+end_src
+
+    Strangely, in the Rails logs in development that will produce this:
+
+    #+begin_src sql
+      TRANSACTION (0.7ms)  BEGIN
+      (3.4ms)  SET LOCAL statement_timeout = '5s';
+      TRANSACTION (0.5ms)  COMMIT
+      Message Load (0.4ms)  SELECT "messages".* FROM "messages" /* loading for pp */ LIMIT $1  [["LIMIT", 11]]
+    #+end_src
+
+    The transaction appears to ~COMMIT~ before the select statement making the
+    local timeout useless.
+
+    In fact, this can be tested using ~pg_sleep~. Given a ~statement_timeout~ of ~1s~
+    defined for the connection in the ~database.yml~...
+
+    #+begin_src ruby
+    ActiveRecord::Base.transaction do
+      ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '2s';")
+      Message.select('id, pg_sleep(1.8)')
+    end
+    #+end_src
+
+    ...it will raise the following error:
+    #+begin_src
+    An error occurred when inspecting the object: #<ActiveRecord::QueryCanceled:"PG::QueryCanceled: ERROR:  canceling statement due to statement timeout\n">
+    #+end_src
+
+    If we change the ruby code to use ~execute~ for both statements...
+
+    #+begin_src ruby
+    ActiveRecord::Base.transaction do
+      ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '5s';")
+      ActiveRecord::Base.connection.execute(Message.all.to_sql)
+    end
+    #+end_src
+
+    ...then we something that looks more like what one would expect. Both the local
+    timeout and the query are within the transaction.
+
+    #+begin_src sql
+      TRANSACTION (0.4ms)  BEGIN
+      (2.4ms)  SET LOCAL statement_timeout = '5s';
+      (1.2ms)  SELECT "messages".* FROM "messages"
+      TRANSACTION (0.9ms)  COMMIT
+    #+end_src
+
+    And if we re-do the test above with ~pg_timeout~...
+
+    #+begin_src ruby
+    ActiveRecord::Base.transaction do
+      ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '2s';")
+      ActiveRecord::Base.connection.execute(
+        Message.select('id, pg_sleep(1.8)').to_sql
+      )
+    end
+    #+end_src
+
+    It will complete with no timeout error, again appearing to be within the DB
+    transaction.
+    #+begin_src sql
+      TRANSACTION (0.3ms)  BEGIN
+      (2.0ms)  SET LOCAL statement_timeout = '2s';
+      (1803.2ms)  SELECT id, pg_sleep(1.8) FROM "messages"
+      TRANSACTION (0.6ms)  COMMIT
+    #+end_src
+
+    I didn't know why this happened, so I asked about it
+    https://github.com/rails/rails/issues/50201
+
+    *TL;DR* This happens because the transaction block returns an
+    ActiveRecord::Relation object which is lazy loaded. Chaining ~.load~ will
+    force the query to be performed within the transaction block.
+
+    #+begin_src ruby
+      ActiveRecord::Base.transaction do
+        ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '5s';")
+        Message.all.load
+      end
+    #+end_src
+
+    #+begin_src sql
+      TRANSACTION (0.2ms)  BEGIN
+      (2.9ms)  SET LOCAL statement_timeout = '2s';
+      Message Load (7.1ms)  SELECT "messages".* FROM "messages"
+      TRANSACTION (0.3ms)  COMMIT
+    #+end_src
