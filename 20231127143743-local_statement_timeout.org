@@ -3,7 +3,7 @@
 :END:
 #+title: Local timeouts and ActiveRecord transactions
 #+date: 2023-11-27 14:37 PM
-#+updated:  2023-11-28 20:14 PM
+#+updated:  2023-11-28 20:20 PM
 #+filetags: :postgres:rails:
 
 There may be cases where the default [[https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-STATEMENT-TIMEOUT][statement_timeout]] value for a database
@@ -88,7 +88,7 @@ the timeout locally, for a specific query.
 
     #+begin_src ruby
     ActiveRecord::Base.transaction do
-      ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '5s';")
+      ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '2s';")
       ActiveRecord::Base.connection.execute(Message.all.to_sql)
     end
     #+end_src
@@ -98,7 +98,7 @@ the timeout locally, for a specific query.
 
     #+begin_src sql
       TRANSACTION (0.4ms)  BEGIN
-      (2.4ms)  SET LOCAL statement_timeout = '5s';
+      (2.4ms)  SET LOCAL statement_timeout = '2s';
       (1.2ms)  SELECT "messages".* FROM "messages"
       TRANSACTION (0.9ms)  COMMIT
     #+end_src
@@ -136,7 +136,7 @@ the timeout locally, for a specific query.
 
     #+begin_src ruby
       ActiveRecord::Base.transaction do
-        ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '5s';")
+        ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '2s';")
         Message.all.load
       end
     #+end_src
