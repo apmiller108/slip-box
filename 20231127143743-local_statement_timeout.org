@@ -3,7 +3,7 @@
 :END:
 #+title: Local timeouts and ActiveRecord transactions
 #+date: 2023-11-27 14:37 PM
-#+updated:  2023-11-28 16:16 PM
+#+updated:  2023-11-28 20:14 PM
 #+filetags: :postgres:rails:
 
 There may be cases where the default [[https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-STATEMENT-TIMEOUT][statement_timeout]] value for a database
@@ -13,7 +13,7 @@ the timeout locally, for a specific query.
 
 * Connection timeout
   For an ActiveRecord Postgres database configuration, a ~statement_timeout~ can be
-  set in the ~database.yml~. In this example, all connections to this database
+  set in the ~database.yml~. In this example, all queries to this database
   will timeout after 1 second (can use other units, ms is the default).
   #+begin_src yml
     production_replica:
@@ -52,16 +52,16 @@ the timeout locally, for a specific query.
 
     #+begin_src ruby
       ActiveRecord::Base.transaction do
-        ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '5s';")
+        ActiveRecord::Base.connection.execute("SET LOCAL statement_timeout = '2s';")
         Message.all
       end
     #+end_src
 
-    Strangely, in the Rails logs in development that will produce this:
+    Strangely, we'll see this in the logs:
 
     #+begin_src sql
       TRANSACTION (0.7ms)  BEGIN
-      (3.4ms)  SET LOCAL statement_timeout = '5s';
+      (3.4ms)  SET LOCAL statement_timeout = '2s';
       TRANSACTION (0.5ms)  COMMIT
       Message Load (0.4ms)  SELECT "messages".* FROM "messages" /* loading for pp */ LIMIT $1  [["LIMIT", 11]]
     #+end_src
@@ -69,8 +69,8 @@ the timeout locally, for a specific query.
     The transaction appears to ~COMMIT~ before the select statement making the
     local timeout useless.
 
-    In fact, this can be tested using ~pg_sleep~. Given a ~statement_timeout~ of ~1s~
-    defined for the connection in the ~database.yml~...
+    In fact, this can be tested using ~pg_sleep~. Given the ~statement_timeout~ of ~1s~
+    defined for the connection in the ~database.yml~, the following code...
 
     #+begin_src ruby
     ActiveRecord::Base.transaction do
@@ -79,7 +79,7 @@ the timeout locally, for a specific query.
     end
     #+end_src
 
-    ...it will raise the following error:
+    ...will raise a timeout error:
     #+begin_src
     An error occurred when inspecting the object: #<ActiveRecord::QueryCanceled:"PG::QueryCanceled: ERROR:  canceling statement due to statement timeout\n">
     #+end_src
@@ -123,12 +123,16 @@ the timeout locally, for a specific query.
       TRANSACTION (0.6ms)  COMMIT
     #+end_src
 
-    I didn't know why this happened, so I asked about it
+    I didn't know why, in the previous examples, the query was being run outside
+    of the transaction, so I asked about it
     https://github.com/rails/rails/issues/50201
 
-    *TL;DR* This happens because the transaction block returns an
-    ActiveRecord::Relation object which is lazy loaded. Chaining ~.load~ will
-    force the query to be performed within the transaction block.
+    *TL;DR* This happens because the transaction block is returning an
+    ActiveRecord::Relation object which is lazily loaded. It is loaded after the
+    transaction block completes (eg, when iterating over the collection or when
+    inspect is called on it by virtue of running it in the rails console).
+    Therefore, chaining ~.load~ will force the query to be performed within the
+    transaction block.
 
     #+begin_src ruby
       ActiveRecord::Base.transaction do
@@ -143,3 +147,10 @@ the timeout locally, for a specific query.
       Message Load (7.1ms)  SELECT "messages".* FROM "messages"
       TRANSACTION (0.3ms)  COMMIT
     #+end_src
+
+    While that explains the issue, I find this behavior undesirable. Admittedly,
+    this is likely a rare edge case. Most uses of a transaction will involve
+    performing write operations where this problem does not arise (eg, no lazily
+    loaded relations with ~update~, ~create~, etc). Still, perhaps it is possible to
+    change this behavior so that relations are always loaded when within a
+    transaction block.
