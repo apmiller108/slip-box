@@ -3,7 +3,7 @@
 :END:
 #+title: Raised vegetable gardening
 #+date: 2023-04-02 08:04 AM
-#+updated: 2023-06-26 07:46 AM
+#+updated: 2023-11-28 20:19 PM
 #+filetags: :countrylife:gardening:
 #+OPTIONS: ^:{}
 
@@ -141,3 +141,8 @@
    #+attr_html: :width 750
    [[file:images/raised_bed_20230625_update_2.webp]]
 
+** Final update
+   - We had many zuchinnis and squash. They actually overwhelmed the carrots.
+   - We has many tomatoes still growing up to the first frost in early November
+   - Carrots where overwhelmed by the zuchinni and squash
+   - The onions did not grow
