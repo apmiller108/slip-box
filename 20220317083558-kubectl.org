@@ -3,7 +3,7 @@
 :END:
 #+title: Kubectl
 #+date: 2022-03-17 08:35 AM
-#+updated: 2022-09-19 12:07 PM
+#+updated: 2023-12-05 08:00 AM
 #+filetags: :kubernetes:
 
 See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
@@ -21,3 +21,8 @@ See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 | Exec                    | kubectl exec -it mypod -- bash                       |
 | Get deployment info     | kubectl get deployments foo -o yaml                  |
 
+* Recipes
+** forward a port
+    #+begin_src shell
+      kubectl port-forward --namespace foospace $(kubectl get pods --namespace foospace --selector "app=mssql" --output=name) 1433:1433
+    #+end_src
