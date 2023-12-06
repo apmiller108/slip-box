@@ -1,0 +1,245 @@
+:PROPERTIES:
+:ID:       CBE89A34-2938-4EF5-A2CC-B509E6B7EFA5
+:END:
+#+title: Transcribing wavs
+#+date: 2023-12-05 21:27 PM
+#+updated:  2023-12-06 15:07 PM
+#+filetags: :ruby:ai:
+
+I needed to do a bit a research on transcribing audio files. I did some ruby
+scripting to test several approaches including Azure Speech and OpenAI speech to
+text (whisper). Both services have synchronous transcription options but with
+limits. At the time of writing this, OpenAI speech to text is limited to
+transcribing an audio file with a maximum size of 25 MB. Azure Speech takes a
+different approach and limits based on duration (you can send a file of whatever
+size, but it will only transcribe up to 60 seconds).
+
+I knew I was going to be dealing with wav files that would likely always
+be more than 60 seconds in duration and greater than 25 MB. I did explore
+Azure's batch transcription, which worked well, but had significantly more
+overhead. So, I looked at a couple work-arounds to the synchronous transcription
+limitations.
+
+* File size limits
+  This was the easier limit to deal with. It's trivial to determine a file size
+  of any file type, but a bit more involved to determine the audio duration of a
+  wav file.
+** Convert to mp3
+   An mp3 is compressed audio format, while a wav is a lossless, uncompressed
+   format. So, I figured I could use ffmpeg to do the conversion to mp3 and have
+   some levers to pull (eg, bit-rate) to further reduce filesize if needed. The
+   quality of the audio matters only insofar as it impacts the ability of the
+   model to accurately perform the transcription.
+
+   The script below is the simplest implementation and assumes the mp3 will
+   always be under the 25 MB limit. The ~sample.wav~ is a 30 second clip from the
+   [[https://changelog.com/friends/22#t=3241][Changelog Podcast]]. This converts the wav file to mp3 as a [[https://ruby-doc.org/3.2.0/stdlibs/tempfile/Tempfile.html][Tempfile]] before
+   uploading to the speech to text service. It's important to ensure that
+   tempfile is closed and deleted.
+
+   #+begin_src ruby
+     require 'json'
+     require 'tempfile'
+
+     ENDPOINT = 'https://api.openai.com'.freeze
+     PATH = '/v1/audio/transcriptions'.freeze
+
+     file_path = ARGV[0] || 'sample.wav'
+
+     begin
+       # Convert wav to mp3
+       t_file = Tempfile.create([File.basename(file_path), '.mp3'])
+       `ffmpeg -i #{file_path} -codec:a libmp3lame -qscale:a 2 -y #{t_file.path}`
+
+       puts "Wav file size: #{File.open(file_path).size}"
+       puts "Mp3 file size: #{t_file.size}"
+
+       headers = {
+         'Authorization' => "Bearer #{ENV['OPENAI_API_KEY']}",
+         'Content-Type' => 'multipart/form-data',
+         'Accept' => 'application/json'
+       }
+
+       conn = Faraday.new(url: ENDPOINT, headers:) do |f|
+         f.request :multipart
+       end
+
+       response = conn.post(PATH) do |req|
+         req.body = {
+           file: Faraday::Multipart::FilePart.new(t_file, 'audio/wav'),
+           model: 'whisper-1'
+         }
+       end
+
+       puts response.status
+       puts response.body
+     ensure
+       t_file.close
+       t_file.unlink
+     end
+   #+end_src
+
+   Running this script will produce the following output (the ffmpeg output is
+   omitted):
+   #+begin_src
+      Wav file size: 2274232
+      Mp3 file size: 331404
+      200
+      {
+        "text": "Then we are now now we just do a newsletter once a week and we
+        we publish that out and best newsletter in tech By the way, hey, thank
+        you very much. I appreciate that. It's genuinely really good. It's the
+        only one that I subscribe to I love that about you. How do you know it's
+        really good if it's the only one you subscribe to well You got me That's
+        I have a special skill of ruining compliments. Um, no, that's awesome"
+      }
+   #+end_src
+
+   This created an mp3 around 15% the size of the original wav.
+
+   Here is a breakdown of the ffmpeg command used in the script above:
+
+   #+begin_src shell
+     ffmpeg -i sample.wav -codec:a libmp3lame -qscale:a 2 -y sample.mp3
+   #+end_src
+
+   - ~-i~: input file
+   - ~-codec:a libmp3lame~: audio codec for mp3 encoding
+   - ~-qscale:a 2~: sets the quality for the audio stream (~a~) to level 2. This is
+     codec specific, which in this case represents the ~lame~ option ~-V2~ (VRB
+     170-210). This can be adjusted to produce smaller file sizes/lower audio quality.
+     See also https://trac.ffmpeg.org/wiki/Encode/MP3#VBREncoding.
+   - ~-y~: will overwrite output file without requiring confirmation. I needed
+     this since I was creating the tempfile first.
+
+*** Convert and split
+    The above assumes the conversion will always be under 25 MB, which might be
+    true depending on the source wavs and the bit rate selected. If, however,
+    there is a need to split the mp3 into smaller files, this can be done with
+    ffmpeg, but by specifying the duration each mp3 should be. For example:
+
+    #+begin_src sh
+      ffmpeg -i sample.wav -codec:a libmp3lame -qscale:a 2 -f segment -segment_time 10 /var/tmp/sample%03d.mp3
+    #+end_src
+
+    This will split the wav file into mp3s of 10 second duration.
+
+** Split the wav file
+   In the event ffmpeg or equivalent tool will not be available in the
+   environment in which the code will run, another option is the split the wav
+   file without converting to mp3. Wav files have a 44 byte header at the
+   beginning that contains information like sample rate, bit depth, etc, so each
+   smaller wav file will need to be written with the correct header information
+   in order to be read and transcribed properly.
+
+   Fortunately, this can be done easily with the [[https://github.com/jstrait/wavefile/][wavefile]] gem. The script below
+   takes a wav file and splits it at approximately some size limit (5MB by
+   default), writing each smaller file to a Tempfile and yielding the list of
+   tempfiles to the caller to do with whatever (in this case posting to the
+   transcription service)
+
+   #+begin_src ruby
+     require 'wavefile'
+     require 'tempfile'
+
+     class WaveChunker
+       FORMAT = WaveFile::Format.new(:mono, :pcm_16, 44100)
+
+       attr_reader :file, :chunk_size
+
+       # @param file [IO] a wave file
+       # @param chunk_size [Integer] max size for each wave file in bytes
+       def initialize(file, chunk_size = 5_000_000)
+         @file = file
+         @chunk_size = chunk_size
+       end
+
+       # Pass a block to operate on the list of temp wav files
+       def chunk
+         reader = WaveFile::Reader.new(file)
+
+         puts <<~FORMAT
+           Chunking #{file.path}:
+             Audio format: #{reader.native_format.audio_format}
+             Channels: #{reader.native_format.channels}
+             Bits per sample: #{reader.native_format.bits_per_sample}
+             Sample rate: #{reader.native_format.sample_rate}
+         FORMAT
+
+         t_files = []
+         t_file = Tempfile.new # This might also work with StringIO if its OK to keep everything in memory
+         writer = WaveFile::Writer.new(t_file, FORMAT)
+
+         reader.each_buffer do |buffer|
+           if t_file.size >= chunk_size
+             writer.close
+             t_files << t_file
+             t_file = Tempfile.new
+             writer = WaveFile::Writer.new(t_file, FORMAT)
+           end
+
+           writer.write(buffer)
+
+           if reader.current_sample_frame == reader.total_sample_frames
+             writer.close
+             t_files << t_file
+           end
+         end
+
+         t_files.each(&:rewind)
+
+         yield t_files
+       ensure
+         # Close and delete tmp files
+         t_files.each do |tf|
+           tf.close
+           tf.unlink
+         end
+       end
+     end
+   #+end_src
+
+   I used the ~WaveChunker~ like this:
+   #+begin_src ruby
+     ENDPOINT = 'https://api.openai.com'.freeze
+     PATH = '/v1/audio/transcriptions'.freeze
+
+     file_path = ARGV[0] || 'sample.wav'
+     file = File.open(file_path)
+
+     WaveChunker.new(file, 24_000_000).chunk do |files|
+       headers = {
+         'Authorization' => "Bearer #{ENV['OPENAI_API_KEY']}",
+         'Content-Type' => 'multipart/form-data',
+         'Accept' => 'application/json'
+       }
+
+       conn = Faraday.new(url: ENDPOINT, headers:) do |f|
+         f.request :multipart
+         f.response :logger
+       end
+
+       files.each do |f|
+         response = conn.post(PATH) do |req|
+           req.body = {
+             file: Faraday::Multipart::FilePart.new(f, 'audio/wav'),
+             model: 'whisper-1'
+             # We could include the optional `prompt` param with the previous chunk's transcription
+             # to tell the model we are continuing from previously transcribed audio.
+           }
+         end
+         puts response.status
+         puts response.body
+       end
+     end
+   #+end_src
+
+* Audio duration limits
+  Azure speech lets you synchronously transcribe up to 60 seconds of audio.
+  Anything more than that is recommended to use batch transcription. But why not
+  split an wav file in 60 sec parts and POST each one combining the results?
+  There are reasons why not to do this, but seems like it would be fun to try.
+** Bytes to seconds
+   wav headers http://www.topherlee.com/software/pcm-tut-wavformat.html
+
+   WIP
