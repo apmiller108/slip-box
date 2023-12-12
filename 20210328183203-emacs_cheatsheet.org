@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2023-11-21 08:10 AM
+#+updated: 2023-12-12 12:28 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -60,7 +60,9 @@ probably forget.
   5. ~ESC~ (the repeated chars are added)
 * Font
   ~M-x menu-set-font~ offers a GUI font picker and size setter with previews.
-
+* helm-projectile-find-file
+  - This does fuzzy matching by default
+  - Start search query with a SPC to switch from fuzzy to exact match.
 * Troubleshooting
 ** Freezes
 *** ~C g~ will break a loop
