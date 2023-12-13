@@ -3,7 +3,7 @@
 :END:
 #+title: psql
 #+date: 2023-09-22 12:38 PM
-#+updated:  2023-11-03 14:13 PM
+#+updated:  2023-12-13 10:58 AM
 #+filetags: :postgres:
 
 See also [[id:CD58C290-AF97-4882-98D9-2FCC7B61763E][postgresql.conf]]
@@ -22,6 +22,51 @@ See also [[id:D111FFA2-4A9D-41F4-87DC-E59F3D6E8564][Row locking]]
   See also
    - https://github.com/apmiller108/dotfiles/blob/master/psql/psqlrc
    - https://thoughtbot.com/blog/an-explained-psqlrc
+* Logs
+** Where are the logs?
+   See also https://www.postgresql.org/docs/current/runtime-config-logging.html#RUNTIME-CONFIG-LOGGING-WHERE
+   #+begin_src sql
+     SHOW log_destination;
+   #+end_src
+
+   #+begin_src
+    log_destination
+    -----------------
+    stderr
+    (1 row)
+   #+end_src
+
+   stderr is default, but other options are available. See docs above.
+   There is also a log collector that will capture log entries and write to a
+   file. So determine if logs are being collected:
+
+   #+begin_src sql
+     SHOW log_collector;
+   #+end_src
+
+   #+begin_src
+   logging_collector
+   -------------------
+   on
+   (1 row)
+   #+end_src
+
+   If the log collector isn't on, see [[id:CD58C290-AF97-4882-98D9-2FCC7B61763E][postgresql.conf]] for how to turn it on.
+   If the collector is on, find the current collection file with:
+
+   #+begin_src sql
+    SELECT pg_current_logfile();
+   #+end_src
+
+   This will print a path relative to the data directory. To find the location
+   of the data directory:
+
+   #+begin_src sql
+    SHOW data_directory;
+   #+end_src
+
+   Putting those two things together, you can tail the logs.
+
 * Meta commands
 ** \c
    ...followed by the database name to connect to it.

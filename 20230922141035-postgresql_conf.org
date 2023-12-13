@@ -3,7 +3,7 @@
 :END:
 #+title: postgresql.conf
 #+date: 2023-09-22 14:10 PM
-#+updated:  2023-11-16 16:00 PM
+#+updated:  2023-12-13 11:00 AM
 #+filetags: :postgres:
 
 See also [[id:4D90F42B-B4DA-4CDA-9885-B8FF372FDB72][psql]]
@@ -13,6 +13,7 @@ See also [[id:4D90F42B-B4DA-4CDA-9885-B8FF372FDB72][psql]]
   #+begin_src shell
     psql -c "SHOW config_file;"
   #+end_src
+
 * Enabling extensions
 ** pg_stat_statements
    1. Add it to the conf
@@ -27,4 +28,14 @@ See also [[id:4D90F42B-B4DA-4CDA-9885-B8FF372FDB72][psql]]
   Set the path using the ~PGDATA~ env var or set the ~data_directory~ variable in
   the conf.
 * Making changes
-  Might consider checking this into source control for a given application.
+  - Might consider checking this into source control for a given application.
+  - Always restart postgres after making changes.
+     #+begin_src shell
+      systemctl restart postgresql
+     #+end_src
+* Turn on log collection
+  Write logs to a file, but setting...
+
+  #+begin_src
+  logging_collector = on
+  #+end_src

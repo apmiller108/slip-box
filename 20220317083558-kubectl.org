@@ -3,11 +3,13 @@
 :END:
 #+title: Kubectl
 #+date: 2022-03-17 08:35 AM
-#+updated: 2023-12-05 08:00 AM
+#+updated: 2023-12-13 09:07 AM
 #+filetags: :kubernetes:
 
 See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
+For some of these commands, use the ~-n~ flag to specify the namespace if the
+namespace wasn't already set with ~set-context~
 | Description             | Command                                              |
 |-------------------------+------------------------------------------------------|
 | Get namespaces          | kubectl get ns                                       |
@@ -26,3 +28,5 @@ See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
     #+begin_src shell
       kubectl port-forward --namespace foospace $(kubectl get pods --namespace foospace --selector "app=mssql" --output=name) 1433:1433
     #+end_src
+
+    This executes an inner command to get the pod name from a selector.
