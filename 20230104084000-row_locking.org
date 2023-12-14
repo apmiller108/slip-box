@@ -3,7 +3,7 @@
 :END:
 #+title: Database Locks
 #+date: 2023-01-04 08:40 AM
-#+updated: 2023-10-13 17:31 PM
+#+updated: 2023-12-14 08:18 AM
 #+filetags: :postgres:
 
 See also https://www.postgresql.org/docs/current/explicit-locking.html
@@ -42,3 +42,5 @@ See also https://www.postgresql.org/docs/current/explicit-locking.html
   See also:
     - https://www.postgresql.org/docs/current/explicit-locking.html#ADVISORY-LOCKS
     - https://www.postgresql.org/docs/current/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS
+
+  For using advisory locks in RoR, see https://github.com/ClosureTree/with_advisory_lock

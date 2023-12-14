@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec things
 #+date: 2022-08-12 12:14 PM
-#+updated: 2023-12-03 20:41 PM
+#+updated: 2023-12-14 11:37 AM
 #+filetags: :rspec:ruby:
 
 * Blocks
@@ -61,7 +61,8 @@
 
 ** Custom matchers
    You can pass blocks to custom matchers, but we need to use the ~block_arg~
-   method. This forward the captured block to the ~assert_turbo_stream~ method.
+   method. In this example, the captured block is forwarded to the
+   ~assert_turbo_stream~ method.
 
    🚨 *Must use curly braces for blocks passed to matchers*
    not only will ~do/end~ not work, it will silently fail.
@@ -78,5 +79,43 @@
 * Method stubs
 ** ~and_invoke~
    Can be used to stub multiple calls to the same method, which could raise and
-retry see also
-https://www.rubydoc.info/github/rspec/rspec-mocks/RSpec%2FMocks%2FMessageExpectation:and_invoke
+   retry see also https://www.rubydoc.info/github/rspec/rspec-mocks/RSpec%2FMocks%2FMessageExpectation:and_invoke
+* Advisory Locks
+  See also [[id:D111FFA2-4A9D-41F4-87DC-E59F3D6E8564][Database Locks]]
+
+  Example code to test:
+  #+begin_src ruby
+    def call
+      result = MyModel.with_advisory_lock_result('my_lock', timeout_seconds: 0) do
+        # do things sensitive to competing consumers
+      end
+      raise MyError unless result.lock_was_acquired?
+    end
+  #+end_src
+
+  Test the lock creation and behavior with lock cannot be acquired:
+
+  #+begin_src ruby
+    describe '#call' do
+      it 'creates an advisory lock' do
+        allow(MyModel).to receive(:with_advisory_lock_result).and_call_original
+        described_class.new.call
+        expect(MyModel).to have_received(:with_advisory_lock_result).with('my_lock', timeout_seconds: 0)
+      end
+
+      context 'when an advisory lock cannot be acquired' do
+        it 'raises an error' do
+          locking_thread = Thread.new do
+            MyModel.with_advisory_lock('my_lock') do
+              sleep 3 # retain lock for enough time to perform expection below
+            end
+          end
+          sleep 0.5 # Allow time for the Thread to be created and lock acquired before the main thread does
+
+          expect { described_class.call }.to raise_error(described_class::MyError)
+
+          locking_thread.kill # Dispose of the thread after expectation (no need to wait any longer)
+        end
+      end
+    end
+  #+end_src
