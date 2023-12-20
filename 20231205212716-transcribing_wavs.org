@@ -3,7 +3,7 @@
 :END:
 #+title: Transcribing wavs
 #+date: 2023-12-05 21:27 PM
-#+updated:  2023-12-15 14:05 PM
+#+updated:  2023-12-15 14:18 PM
 #+filetags: :ruby:ai:
 
 I needed to do a bit a research on transcribing audio files. I did some ruby
@@ -116,18 +116,18 @@ limitations.
     - ~-y~: will overwrite output file without requiring confirmation. I needed
       this since I was creating the tempfile first.
 
-**** Convert and split
-     The above assumes the conversion will always be under 25 MB, which might be
-     true depending on the source wavs and the bit rate selected. If, however,
-     there is a need to split the mp3 into smaller files, this can be done with
-     ffmpeg, but by specifying the duration each mp3 should be. For example:
+*** Convert to mp3 and split
+    The above assumes the conversion will always be under 25 MB, which might be
+    true depending on the source wavs and the bit rate selected. If, however,
+    there is a need to split the mp3 into smaller files, this can be done with
+    ffmpeg, but by specifying the duration each mp3 should be. For example:
 
-     #+begin_src sh
-       ffmpeg -i sample.wav -codec:a libmp3lame -qscale:a 2 -f segment -segment_time 10 /var/tmp/sample%03d.mp3
-     #+end_src
+    #+begin_src sh
+      ffmpeg -i sample.wav -codec:a libmp3lame -qscale:a 2 -f segment -segment_time 10 /var/tmp/sample%03d.mp3
+    #+end_src
 
-     This will convert the wave into mp3s each with a 10 second duration, named
-     ~sample001.mp3~, ~sample002.mp3~, ...etc.
+    This will convert the wave into mp3s each with a 10 second duration, named
+    ~sample001.mp3~, ~sample002.mp3~, ...etc.
 
 *** Split the wav file
     In the event ffmpeg or equivalent tool will not be available in the

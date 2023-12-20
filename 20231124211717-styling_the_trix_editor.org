@@ -1,22 +1,23 @@
 :PROPERTIES:
 :ID:       0c0f903a-ade6-46ea-a5b4-d633df841981
 :END:
-#+title: Styling the Trix editor (Action Text)
+#+title: Customizing ActionText views
 #+date: 2023-11-24 21:17 PM
-#+updated:  2023-11-24 22:54 PM
+#+updated:  2023-12-20 16:06 PM
 #+filetags: :rails:
 
- [[https://guides.rubyonrails.org/action_text_overview.html][Action Text]] uses the [[https://trix-editor.org/][Trix Editor]]. Out of the box it comes with a style sheet
- that actually does a rather good job of providing basic styling. Without any
- styles, the editor is usable, but very raw.
+* Styling the Trix editor
+  [[https://guides.rubyonrails.org/action_text_overview.html][Action Text]] uses the [[https://trix-editor.org/][Trix Editor]]. Out of the box it comes with a style sheet
+  that actually does a rather good job of providing basic styling. Without any
+  styles, the editor is usable, but very raw.
 
- #+attr_html: :width 750
- [[file:images/unstyled-trix-editor.png]]
+  #+attr_html: :width 750
+  [[file:images/unstyled-trix-editor.png]]
 
- If using a CSS framework that has utility classes, with SCSS, the Trix and
- Action Text classes can be made to extend from the CSS framework classes. For
- example, have the attachment caption extend from several bootstrap utility
- classes.
+  If using a CSS framework that has utility classes, with SCSS, the Trix and
+  Action Text classes can be made to extend from the CSS framework classes. For
+  example, have the attachment caption extend from several bootstrap utility
+  classes.
 
   #+begin_src scss
     // app/assets/stylesheets/actiontext.scss
@@ -29,3 +30,97 @@
   #+end_src
 
   See also https://sass-lang.com/documentation/at-rules/extend/
+* Customizing the blob
+  Rails provides a basic view partial to render attachments:
+  ~app/views/active_storage/blobs/_blob.html.haml~. In order do anything
+  meaningful with attachments other than images, this will need some
+  customization. For example, play an audio file using the HTML5 audio player.
+
+  First, I like using view components, so I extracted the blob partial to a
+  component which is rendered in ~_blob.html.haml~
+
+  #+begin_src ruby
+    # app/views/active_storage/blobs/_blob.html.haml
+    = render BlobComponent.new(blob: blob, in_gallery: local_assigns[:in_gallery])
+  #+end_src
+
+  #+begin_src ruby
+    # app/views/components/blob_component.rb
+
+    class BlobComponent < ApplicationViewComponent
+      DEFAULT_IMAGE_SIZE = [1024, 768].freeze
+      GALLERY_IMAGE_SIZE = [800, 600].freeze
+
+      attr_reader :blob, :in_gallery
+
+      delegate :audio?, :byte_size, :content_type, :filename, :representable?, :representation, :url, to: :blob
+
+      def initialize(blob:, in_gallery:)
+        @blob = blob
+        @in_gallery = in_gallery
+      end
+
+      def caption
+        return @caption if defined? @caption
+
+        @caption = blob.try(:caption)
+      end
+
+      def caption? = caption.present?
+
+        def humanized_file_size
+          number_to_human_size byte_size
+        end
+
+        def resize_to_limit
+          in_gallery ? GALLERY_IMAGE_SIZE : DEFAULT_IMAGE_SIZE
+        end
+
+        def fig_caption
+          tag.figcaption(class: 'attachment__caption') do
+            if caption?
+              caption
+            else
+              tag.span(filename, class: 'attachment__name') +
+                tag.span(humanized_file_size, class: 'attachment__size')
+            end
+          end
+        end
+      end
+  #+end_src
+
+  When the blob's content type is an audio file, make it playing in the HTML5
+  audio player. There is some stuff omitted here to keep it simple. There's a
+  StimulusJS controller for instance, but that's not required for this example.
+  
+  #+begin_src haml
+    -# app/views/components/blob_component/blob_component.html.haml
+    .c-blob{data: { controller: :blob }}
+      %figure{class:  "attachment attachment--#{representable? ? 'preview' : 'file'} attachment--#{filename.extension}"}
+        - if audio?
+          .audio-player.d-flex
+            %div
+              %audio{controls: true, preload: :metadata, width: "100%", data: { 'blob-target' => :audio }}
+                %source{src: url, type: content_type}
+              = fig_caption
+
+        - elsif representable?
+          = image_tag representation(resize_to_limit: resize_to_limit)
+          = fig_caption
+  #+end_src
+
+  In order to do this customization, we have to whitelist the HTML attributes
+  and tags with the sanitizer, otherwise they will not be rendered.
+
+  #+begin_src ruby
+    # config/application.rb
+
+    config.after_initialize do
+      ActionText::ContentHelper.sanitizer.class.allowed_attributes += %w[
+        style controls poster preload type data-controller data-blob-target data-bs-toggle aria-expanded
+      ]
+      ActionText::ContentHelper.sanitizer.class.allowed_tags += %w[
+        audio embed iframe source video button
+      ]
+    end
+  #+end_src
