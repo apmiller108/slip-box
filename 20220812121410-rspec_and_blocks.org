@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec things
 #+date: 2022-08-12 12:14 PM
-#+updated: 2023-12-14 11:37 AM
+#+updated: 2023-12-21 14:01 PM
 #+filetags: :rspec:ruby:
 
 * Blocks
@@ -117,5 +117,41 @@
           locking_thread.kill # Dispose of the thread after expectation (no need to wait any longer)
         end
       end
+    end
+  #+end_src
+* Testing ActiveRecord concerns (need an anonymous database backed model?)
+  1. Create an anonymous class that inherits from ~ApplicationRecord~
+  2. Create a table and insert some records if needed
+  3. Make sure the model sets the ~table_name~
+  4. In the test, now you can instantiate ~model_class.new~ and test the concerns
+     behviour proxied through the model_class obj
+
+  #+begin_src ruby
+    RSpec.describe MyConcern do
+      let(:model_class) do
+        Class.new(ApplicationRecord) do
+          self.table_name = 'mock_table'
+          extend MyConcern
+        end
+      end
+
+      before :all do
+        ActiveRecord::Base.connection.execute(<<~SQL)
+          CREATE TABLE mock_table (
+            id serial PRIMARY KEY,
+            label varchar
+          );
+
+          INSERT INTO mock_table (label)
+          VALUES ('Foo'), ('Bar');
+        SQL
+      end
+
+      after :all do
+        ActiveRecord::Base.connection.drop_table :mock_types
+      end
+
+      # ... specs here
+
     end
   #+end_src
