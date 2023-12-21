@@ -15,6 +15,7 @@ configured like this for docker-compose.
   (eval . (setq-local rspec-use-docker-when-possible t))
   (eval . (setq-local rspec-docker-command "docker-compose run --rm"))
   (eval . (setq-local rspec-docker-container "ruby"))
+  (eval . (setq-local rspec-docker-cwd "/rails/"))
   (eval . (setq-local rspec-docker-file-name "Dockerfile"))))
 #+end_src
 

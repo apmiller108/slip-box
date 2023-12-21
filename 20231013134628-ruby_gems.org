@@ -3,12 +3,15 @@
 :END:
 #+title: Ruby gems
 #+date: 2023-10-13 13:46 PM
-#+updated:  2023-12-21 13:27 PM
+#+updated:  2023-12-21 14:22 PM
 #+filetags: :ruby:
 
 This is a list of potentially useful Ruby libraries.
 
-See also https://github.com/markets/awesome-ruby
+See also
+- https://github.com/markets/awesome-ruby
+- https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps
+
 
 * Background jobs
 ** whenever
