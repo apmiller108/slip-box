@@ -3,7 +3,7 @@
 :END:
 #+title: Ruby gems
 #+date: 2023-10-13 13:46 PM
-#+updated:  2023-11-03 15:11 PM
+#+updated:  2023-12-21 13:27 PM
 #+filetags: :ruby:
 
 This is a list of potentially useful Ruby libraries.
@@ -15,6 +15,11 @@ See also https://github.com/markets/awesome-ruby
    Create cron jobs that can run rail runner, rake or shell commands using nice
    ruby syntax
    https://github.com/javan/whenever
+** schked
+   Like whenever
+   https://github.com/bibendi/schked
+** sidekiq-limit_fetch
+   https://github.com/deanpcmad/sidekiq-limit_fetch
 * Database
 ** active_record_doctor
    https://github.com/gregnavis/active_record_doctor
@@ -28,3 +33,6 @@ See also https://github.com/markets/awesome-ruby
    https://github.com/scenic-views/scenic
 ** strong_migrations
    https://github.com/ankane/strong_migrations
+** store_attribute
+   Type casting for store accessors
+   https://github.com/palkan/store_attribute
