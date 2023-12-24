@@ -4,7 +4,7 @@
 
 #+title: Build a Ruby Gem
 #+date: 2018-04-11 02:17 AM
-#+updated: 2023-08-14 08:15 AM
+#+updated: 2023-12-23 20:43 PM
 #+filetags: :ruby:
 
 * What is this?
@@ -48,6 +48,7 @@ See [[https://github.com/mperham/sidekiq/wiki/Middleware?utm_source=build-a-ruby
 - Version numbers by default are in =lib/my-gem/version.rb= file. Why is there a
   file for this and not just hardcoded in the gemspec. No idea.
 - See [[http://semver.org/][semantic versioning]].
+- See also https://bundler.io/guides/gemfile.html
 
 * Extending Rails with Railties
 

@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2023-11-03 14:05 PM
+#+updated: 2023-12-19 20:36 PM
 #+filetags: :postgres:sql:rails:ruby:
 
 * Casting with :using option (cast string to int)
@@ -128,6 +128,7 @@
   :CUSTOM_ID: jsonb-fields
   :END:
 
+  - jsonb supports indexing (json does not)
   - If you need to index, use GIN or GiST index type.
   - GIN and GiST indexes support queries with @>, ?, ?&, and ?|
   - [[evernote:///view/129538667/s690/4efadc8a-a49d-4082-aeab-051cbf680d3b/4efadc8a-a49d-4082-aeab-051cbf680d3b/][JSON Operators]].

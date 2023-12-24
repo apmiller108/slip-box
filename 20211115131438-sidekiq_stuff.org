@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2023-12-02 20:17 PM
+#+updated: 2023-12-23 15:48 PM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -130,11 +130,10 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
   https://github.com/mperham/sidekiq/blob/v7.0.0/docs/capsule.md#sidekiq-70-capsules
 
 * Add-ons
+  See also [[id:6A08F445-6C81-4C71-BBA6-6974CABFD0CE][Ruby gems]]
   - [[https://github.com/gzigzigzeo/sidekiq-grouping][sidekiq-grouping]]: combines individually enqueued jobs into one job with a
     single argument. Useful for converting a bunch of single requests to a
     single bulk request.
-  - [[https://github.com/bibendi/schked][schked]]: for scheduling things, like jobs. Note that periodic jobs is a
-    sidekiq-ent feature.
 * Setup
   For redis configuration just set ~REDIS_URL~ env var.
   see https://github.com/sidekiq/sidekiq/wiki/Using-Redis for more options.
