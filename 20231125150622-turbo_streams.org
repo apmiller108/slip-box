@@ -3,7 +3,7 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2023-12-27 14:33 PM
+#+updated:  2023-12-27 14:34 PM
 #+filetags: :rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
@@ -196,8 +196,10 @@
    #+end_src
 
    There's a helper method for each turbo stream action that wraps the generic
-   ~broadcast_action_to~ method. See also
-   https://github.com/hotwired/turbo-rails/blob/main/app/channels/turbo/streams/broadcasts.rb
+   ~broadcast_action_to~ method. See also:
+
+   - https://github.com/hotwired/turbo-rails/blob/main/app/channels/turbo/streams/broadcasts.rb
+   - https://www.driftingruby.com/episodes/broadcasting-progress-from-background-jobs
 
    *NOTE*: instead of ~content~ one can use ~partial~ and point to the partial path.
 ** with view_component components
