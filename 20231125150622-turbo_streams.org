@@ -3,7 +3,7 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2023-12-15 14:06 PM
+#+updated:  2023-12-27 14:33 PM
 #+filetags: :rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
@@ -166,4 +166,67 @@
   #+end_src
 
   *NOTE* the status ~see_other~ ([[https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303][303]]) which is used in response to a PUT or POST
-   where the redirect is meant to be a GET. See also https://github.com/hotwired/turbo/issues/84
+  where the redirect is meant to be a GET. See also https://github.com/hotwired/turbo/issues/84
+* turbo_stream_from (turbo streams over WebSocket connection)
+   This method is used in the view templates to generate a
+   ~turbo-cable-stream-source~ HTML tag with a couple data attributes describing
+   the channel and stream.
+
+   #+begin_src haml
+     = turbo_stream_from current_user, 'posts'
+   #+end_src
+
+   The above generates: (See also https://turbo.hotwired.dev/handbook/streams#integration-with-server-side-frameworks)
+   #+begin_src html
+     <turbo-cable-stream-source
+       channel="Turbo::StreamsChannel"
+       signed-stream-name="verylongsignedstring"
+     ></turbo-cable-stream-source>
+   #+end_src
+
+   The ~Turbo::StreamsChannel~ ActionCable channel is dedicated to turbo streams.
+   The stream name is signed based on the "streamables" (eg, current_user and
+   'posts') for a bit of security. The streamables can include multiple objects
+   to narrow scope of the stream. Include the a user object to setup a stream
+   for a particular user's posts
+
+   Now to broadcast a message, you can do this from the code:
+   #+begin_src ruby
+     Turbo::StreamsChannel.broadcast_prepend_to([user, 'posts'], target: 'posts', content: 'HELLO')
+   #+end_src
+
+   There's a helper method for each turbo stream action that wraps the generic
+   ~broadcast_action_to~ method. See also
+   https://github.com/hotwired/turbo-rails/blob/main/app/channels/turbo/streams/broadcasts.rb
+
+   *NOTE*: instead of ~content~ one can use ~partial~ and point to the partial path.
+** with view_component components
+   There are several approaches to this, all kind of hacky.
+   See also https://github.com/ViewComponent/view_component/issues/1106
+
+   #+begin_src ruby
+     Turbo::StreamsChannel.broadcast_action_to(
+       [user, 'posts'],
+       target: 'post_20',
+       content: PostComponent.new(post:).render_in(ActionController::Base.new.view_context)
+       action: :replace
+     )
+   #+end_src
+
+   Might be helpful to wrap this in a function
+   #+begin_src ruby
+     module ViewComponentBroadcaster
+       module_function
+
+       def call(streamables, component:, **options)
+         Turbo::StreamsChannel.broadcast_action_to(
+           streamables,
+           target: component.id,
+           content: component.render_in(ActionController::Base.new.view_context),
+           ,**options
+         )
+       end
+     end
+
+     ViewComponentBroadcaster.call([user, 'posts', component: PostComponent.new(post:), action: :replace)
+   #+end_src
