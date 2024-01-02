@@ -3,7 +3,7 @@
 :END:
 #+title: Customizing ActionText views
 #+date: 2023-11-24 21:17 PM
-#+updated:  2023-12-20 16:06 PM
+#+updated:  2024-01-02 08:44 AM
 #+filetags: :rails:
 
 * Styling the Trix editor
@@ -31,6 +31,9 @@
 
   See also https://sass-lang.com/documentation/at-rules/extend/
 * Customizing the blob
+  See also https://github.com/rails/rails/tree/v7.1.2/actiontext
+  See also https://acuments.com/uploading-audio-video-pdf-with-action-text.html
+
   Rails provides a basic view partial to render attachments:
   ~app/views/active_storage/blobs/_blob.html.haml~. In order do anything
   meaningful with attachments other than images, this will need some
@@ -89,10 +92,10 @@
       end
   #+end_src
 
-  When the blob's content type is an audio file, make it playing in the HTML5
+  When the blob's content type is an audio file, make it playable in the HTML5
   audio player. There is some stuff omitted here to keep it simple. There's a
   StimulusJS controller for instance, but that's not required for this example.
-  
+
   #+begin_src haml
     -# app/views/components/blob_component/blob_component.html.haml
     .c-blob{data: { controller: :blob }}

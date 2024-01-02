@@ -3,7 +3,7 @@
 :END:
 #+title: Ruby gems
 #+date: 2023-10-13 13:46 PM
-#+updated:  2023-12-21 14:22 PM
+#+updated:  2023-12-21 15:15 PM
 #+filetags: :ruby:
 
 This is a list of potentially useful Ruby libraries.
@@ -11,7 +11,6 @@ This is a list of potentially useful Ruby libraries.
 See also
 - https://github.com/markets/awesome-ruby
 - https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps
-
 
 * Background jobs
 ** whenever
@@ -23,6 +22,11 @@ See also
    https://github.com/bibendi/schked
 ** sidekiq-limit_fetch
    https://github.com/deanpcmad/sidekiq-limit_fetch
+** sidekiq-unique-job
+   Unique jobs is a sidekiq ENT feature. Use this instead if you can't buy it.
+   https://github.com/mhenrixon/sidekiq-unique-jobs
+** sidekiq-cron
+   https://github.com/sidekiq-cron/sidekiq-cron
 * Database
 ** active_record_doctor
    https://github.com/gregnavis/active_record_doctor

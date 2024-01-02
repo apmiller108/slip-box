@@ -3,7 +3,7 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2023-12-27 14:34 PM
+#+updated:  2024-01-02 08:45 AM
 #+filetags: :rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
@@ -40,11 +40,13 @@
   #+end_src
 
   In order to have the Rails frontend perform HTTP requests with the turbo
-  stream format say for a link, set the ~tubo_stream~ data property.
+  stream format say for a link (GET request), set the ~tubo_stream~ data property.
 
   #+begin_src ruby
     link_to 'New Message', new_message_path, data: { turbo_stream: 'true'}
   #+end_src
+
+  For POST requests, this is done automatically.
 
 * The turbo stream response
   The controller should be configured to handle a turbo stream format.
