@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2023-12-17 11:20 AM
+#+updated: 2024-01-05 14:49 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -64,7 +64,63 @@ probably forget.
 * helm-projectile-find-file
   - This does fuzzy matching by default
   - Start search query with a SPC to switch from fuzzy to exact match.
+* Treesitter
+  Having this in emacs means syntax highlighting via a syntax tree rather than
+  regex patters, better movement and hopefully faster.
+** Mac
+   If using emacs plus, tree-sitter will be installed as a dependency of emacs
+   v29+. See also https://github.com/d12frosted/homebrew-emacs-plus/pull/546
+** Linux
+   Need to install tree sitter first, then build emacs v29 from source.
+
+   See also https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
+** Install Grammars
+  https://tree-sitter.github.io/tree-sitter/
+   Tree sitter needs grammars to work. Emacs needs to know where they are. The
+   easiest way is to create a make telling emacs where the grammars are located
+   (ie, git repo) then you can have emacs download and compile them.
+
+    #+begin_src elisp
+    (setq treesit-language-source-alist
+        '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+          (html "https://github.com/tree-sitter/tree-sitter-html")
+          (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+          (json "https://github.com/tree-sitter/tree-sitter-json")
+          (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+          (org "https://github.com/tree-sitter/tree-sitter-org")
+          (ruby "https://github.com/ikatyang/tree-sitter-ruby")
+          (scss "https://github.com/ikatyang/tree-sitter-scss")
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+          (vue "https://github.com/ikatyang/tree-sitter-vue")
+          (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+    #+end_src
+
+    Then use ~treesit-install-language-grammar~
+
+    Check if its working. This returns ~t~ if the language is supported, otherwise ~nil~
+    #+begin_src elisp
+    (treesit-language-available-p 'typescript)
+    #+end_src
+
+** New modes
+   You can map the old modes to the new ones. but this comes potentially at a price.
+
+    #+begin_src elisp
+    (setq major-mode-remap-alist
+          '((typescript-mode . typescript-ts-mode)))
+    #+end_src
 * Troubleshooting
+** Performance issues
+   Use the built in profiler.
+   1. ~M-x profiler-start~ and select what you want to profile.
+   2. Do the thing that is slow
+   3. ~M-x profiler-stop~
+   4. ~M-x profiler-report~
+   5. Drill down into the items with ~TAB~
+
 ** Freezes
 *** ~C g~ will break a loop
 *** Send kill cmd to trigger debugger
