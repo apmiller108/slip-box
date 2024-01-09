@@ -25,3 +25,17 @@
 
   #+RESULTS:
   [[file:images/plantuml_demo.png]]
+* Mermaid alternative
+https://github.com/apmiller108/mermaid-layer
+#+begin_src mermaid :file images/mermaid-demo.png
+---
+title: Order example
+---
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+#+end_src
+
+#+RESULTS:
+[[file:images/mermaid-demo.png]]
