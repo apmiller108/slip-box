@@ -3,15 +3,17 @@
 :END:
 #+title: SharedWorker
 #+date: 2021-10-12 09:32 AM
-#+updated: 2021-10-20 16:08 PM
+#+updated: 2024-01-09 14:10 PM
 #+filetags: :javascript:
 
 * Key points
   - Can be accessed from difference browsing contexts (windows/tabs iframes,
     workers) within the same origin (protocol, host and port)
-  - Inherits properties and methods (eg, ~addEventListener()~) from [[https://developer.mozilla.org/en-US/docs/Web/API/EventTarget][EventTarget]] 
+  - Inherits properties and methods (eg, ~addEventListener()~) from [[https://developer.mozilla.org/en-US/docs/Web/API/EventTarget][EventTarget]]
   - Messages can be sent and received over the ~port~ property (ie, ~onmessage~,
     ~postMessage~)
+  - The JS code running in SharedWorkers do not have access to cookies. They
+    have their own scope (see self below)
 * Debugging
 ** Chrome
    Visit ~chrome://inspect/#workers~. A SharedWorker context will have its own
@@ -35,13 +37,13 @@
     #+begin_src javascript
       // shared-worker.ts
       import SuperAwesomeThing from './SuperAwesomeThing';
-      
+
       // self is that SharedWorkerGlobalScope
       const swgs = self as any;
-      
+
       swgs.onconnect = function(e: MessageEvent) {
         const port = e.ports[0];
-      
+
         if (!swgs.superAwesomeThing) {
           swgs.superAwesomeThing = new SuperAwesomeThing();
           swgs.superAwesomeThing.init();
@@ -58,6 +60,8 @@
 ** For Webpack v5
    You don't need worker-loader. Webpack v5 has built-in support for workers.
    See also https://webpack.js.org/guides/web-workers/
+* Vite
+  https://v3.vitejs.dev/guide/features.html#web-workers
 * Resources
   - https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker
   - https://github.com/mdn/simple-shared-worker
