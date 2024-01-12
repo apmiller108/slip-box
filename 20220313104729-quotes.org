@@ -3,7 +3,7 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2023-10-26 08:33 AM
+#+updated: 2024-01-12 08:36 AM
 #+filetags: :philosophy:
 
 #+begin_quote
@@ -91,4 +91,11 @@ body to get oxygen. Competition and optimization are blind idiotic processes and
 they fully intend to deny us even one lousy galaxy.
 
 --- [[https://slatestarcodex.com/2014/07/30/meditations-on-moloch/][Medidations on Maloch]]
+#+end_quote
+
+#+begin_quote
+That's the Native way of teaching. We have this, traditional pedagogy of, "just
+get out there and learn, fucker."
+
+--- Spirit, [[https://www.youtube.com/watch?v=qBD-pMDbTqg][Reservation Dogs]]
 #+end_quote
