@@ -3,7 +3,7 @@
 :END:
 #+title: Customizing ActionText views
 #+date: 2023-11-24 21:17 PM
-#+updated:  2024-01-02 08:44 AM
+#+updated:  2024-01-18 16:54 PM
 #+filetags: :rails:
 
 * Styling the Trix editor
@@ -30,6 +30,10 @@
   #+end_src
 
   See also https://sass-lang.com/documentation/at-rules/extend/
+* Customizing the Trix editor
+  See also
+  - https://github.com/lazaronixon/trix-extensions
+  - https://github.com/basecamp/trix/tree/main/src/trix/config
 * Customizing the blob
   See also https://github.com/rails/rails/tree/v7.1.2/actiontext
   See also https://acuments.com/uploading-audio-video-pdf-with-action-text.html

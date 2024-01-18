@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2023-12-19 20:36 PM
+#+updated: 2024-01-01 14:43 PM
 #+filetags: :postgres:sql:rails:ruby:
 
 * Casting with :using option (cast string to int)
@@ -227,6 +227,9 @@
     t.references :category, polymorphic: true
   #+end_src
 
+  #+begin_src shell
+  $ rails g migration CreateWidgets imageable:references{polymorphic}
+  #+end_src
 * Overriding Index Name
   :PROPERTIES:
   :CUSTOM_ID: overriding-index-name
