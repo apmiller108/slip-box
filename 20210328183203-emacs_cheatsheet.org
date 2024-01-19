@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2024-01-05 14:49 PM
+#+updated: 2024-01-16 09:55 AM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -113,7 +113,7 @@ probably forget.
           '((typescript-mode . typescript-ts-mode)))
     #+end_src
 * Troubleshooting
-** Performance issues
+** Performance issues (profiling)
    Use the built in profiler.
    1. ~M-x profiler-start~ and select what you want to profile.
    2. Do the thing that is slow
