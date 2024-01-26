@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2024-01-02 08:46 AM
+#+updated: 2024-01-19 09:47 AM
 #+filetags: :rails:ruby:
 
 * Starting it up
@@ -89,7 +89,10 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
        end
      end
    #+end_src
-
+* Poison Pills
+  Jobs that cause the process to crash are called "poison pills". You can find
+  these in the logs (~Killed poison pill~)
+  See also https://github.com/sidekiq/sidekiq/wiki/Reliability#poison-pills
 * Batches
   https://github.com/mperham/sidekiq/wiki/Batches
 
