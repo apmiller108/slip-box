@@ -3,7 +3,7 @@
 :END:
 #+title: view_component testing
 #+date: 2023-11-22 17:55 PM
-#+updated:  2023-12-27 15:26 PM
+#+updated:  2024-01-26 12:27 PM
 #+filetags: :ruby:rails:
 
 I'm getting acquainted with [[https://github.com/viewcomponent/view_component][view_component]], which is a Ruby library for building
@@ -62,7 +62,7 @@ took some trial and error, but I've so far settled on this:
     let(:message_content) { Faker::Lorem.sentence }
     let(:component) { described_class.new(message:) }
     let(:inline_edit_component) do
-      class.new(ApplicationViewComponent) do
+      Class.new(ApplicationViewComponent) do
         renders_one :field_slot
         haml_template <<~HAML
           InlineEditComponent
@@ -74,6 +74,7 @@ took some trial and error, but I've so far settled on this:
 
     before do
       stub_const('InlineEditComponent', inline_edit_component)
+      allow(InlineEditComponent).to receive(:new).and_call_original
       with_current_user(user) { render_inline(component) }
     end
 
