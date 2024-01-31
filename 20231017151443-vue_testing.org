@@ -3,7 +3,7 @@
 :END:
 #+title: Vue testing
 #+date: 2023-10-17 15:14 PM
-#+updated:  2023-11-21 11:24 AM
+#+updated:  2024-01-31 14:07 PM
 #+filetags: :vuejs:
 
 Some VueJS unit testing things for a quick reference.
@@ -76,14 +76,32 @@ found here https://v1.test-utils.vuejs.org/
    #+begin_src js
     await wrapper.trigger('keyup.enter')
    #+end_src
+* Mocking the vue router
+  *See also Vitest below!*
+  https://test-utils.vuejs.org/guide/advanced/vue-router.html#Using-a-Real-Router
 
+  #+begin_src js
+    import { mount } from '@vue/test-utils'
+    import { createRouter, createWebHistory } from 'vue-router'
+    import { routes } from "@/router"
+
+    const router = createRouter({
+      history: createWebHistory(),
+      routes:
+    })
+    const wrapper = mount(MyComponent, {
+      global: {
+        plugins: [router]
+      }
+    })
+  #+end_src
 * Vitest
 ** Mocking useRouter
   #+begin_src js
     import { vi } from 'vitest';
-    const routerPush = vi.fn();
+    const routerPush = vi.fn(); // spy
 
-    vi.mock('vue-router/composables', () => ({
+    vi.mock('vue-router', () => ({
       useRouter: () => ({
         push: routerPush
       })
