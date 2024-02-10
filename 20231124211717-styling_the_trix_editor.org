@@ -3,7 +3,7 @@
 :END:
 #+title: Customizing ActionText views
 #+date: 2023-11-24 21:17 PM
-#+updated:  2024-01-18 16:54 PM
+#+updated:  2024-01-21 12:36 PM
 #+filetags: :rails:
 
 * Styling the Trix editor
@@ -31,6 +31,7 @@
 
   See also https://sass-lang.com/documentation/at-rules/extend/
 * Customizing the Trix editor
+  Add custom buttons and behaviors.
   See also
   - https://github.com/lazaronixon/trix-extensions
   - https://github.com/basecamp/trix/tree/main/src/trix/config
