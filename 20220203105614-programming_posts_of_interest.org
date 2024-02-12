@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2023-07-06 11:50 AM
+#+updated: 2024-02-12 08:20 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -42,6 +42,10 @@ and/or framework.
     bunch of gotchas to set this up, so worth a watch. This can be used for
     deploying pretty much anywhere, even on prem. Servers need to be prepared in
     advance (eg, load balancer, app nodes, database server, etc.)
+  - https://stanko.io/deconstructing-action-cable-DC7F33OsjGmK
+    This is an explanation of how ActionCable works. There's some information in
+    here that might help demystify some things or at least reveal details not in
+    the [[https://guides.rubyonrails.org/action_cable_overview.html][official guide.]]
 * Javascript
   - https://www.akshaykhot.com/using-hotwire-without-rails/: Explains how to use
     Hotwire (Turbo primarily) without the RoR framework. What's nice about this

@@ -3,7 +3,7 @@
 :END:
 #+title: Vue testing
 #+date: 2023-10-17 15:14 PM
-#+updated:  2024-01-31 14:07 PM
+#+updated:  2024-01-31 14:48 PM
 #+filetags: :vuejs:
 
 Some VueJS unit testing things for a quick reference.
@@ -87,7 +87,7 @@ found here https://v1.test-utils.vuejs.org/
 
     const router = createRouter({
       history: createWebHistory(),
-      routes:
+      routes
     })
     const wrapper = mount(MyComponent, {
       global: {
