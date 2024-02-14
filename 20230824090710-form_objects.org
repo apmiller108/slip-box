@@ -4,7 +4,7 @@
 #+title: The Utility of ActiveModel
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2023-11-27 10:17 AM
+#+updated:  2024-02-13 19:41 PM
 
 Make use of various ~ActiveModel~ modules in your Ruby objects to get ~ActiveRecord~
 like behavior like type casting, validation, and callbacks. Code that would
@@ -130,7 +130,40 @@ behavior to ruby classes, giving them a familiar ActiveRecord interface.
   the most basic approach we can take. We'll look at options for customizing
   the JSON output below. But first, lets look at an alternative way to handle
   the form's attributes.
+** Validating child objects
+   It's not uncommon to have forms to create or update one or more ActiveRecord
+   objects. In this case, we can use a custom validation method and add the
+   child object errors to the form.
 
+   #+begin_src ruby
+     class WidgetForm
+       include ActiveModel::Model
+
+       attr_accessor :quantity, :expires_at
+
+       validates :quantity, presence: true
+       validate :validate_component
+
+       def initialize(attrs)
+         super(attrs)
+         self.component = Component.new(attrs.slice(:type, :name))
+       end
+
+       def submit
+         return false if invalid?
+       end
+
+       private
+
+       def validate_component
+         return if component.valid?
+
+         component.errors.each do |error|
+           errors.add(error.attribute, error.message)
+         end
+       end
+     end
+   #+end_src
 * ActiveModel::Attributes
   This is optional, but quite useful as an alternative to the traditional
   ~attr_accessor~. It allows one to declare type casting and default values. Say
