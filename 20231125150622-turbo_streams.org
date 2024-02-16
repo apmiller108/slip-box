@@ -3,7 +3,7 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2024-02-10 09:15 AM
+#+updated:  2024-02-15 19:13 PM
 #+filetags: :rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
@@ -263,3 +263,5 @@
      // Now do whatever with the response content
   #+end_src
 
+* Custom TurboStream ActionCable Channel
+  See also https://github.com/hotwired/turbo-rails/blob/main/app/channels/turbo/streams_channel.rb
