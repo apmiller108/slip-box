@@ -3,7 +3,7 @@
 :END:
 #+title: Customizing ActionText views
 #+date: 2023-11-24 21:17 PM
-#+updated:  2024-01-21 12:36 PM
+#+updated:  2024-03-07 20:14 PM
 #+filetags: :rails:
 
 * Styling the Trix editor
@@ -132,3 +132,22 @@
       ]
     end
   #+end_src
+* Customizing plain text attachment
+  See also
+  https://gorails.com/blog/how-to-render-actiontext-attachments-in-plain-text
+
+  On the attachable class (or ActiveStorage::Blob) override the following method:
+  #+begin_src ruby
+  def attachable_plain_text_representation(caption = nil)
+    caption || sprintf(self.class::PLAIN_TEXT_ATTACHMENT_TEMPLATE,
+                        json: attributes.slice('content_type', 'filename').to_json)
+  end
+  #+end_src
+
+  This is from tmp. In this case I'm serializing attributes to JSON to be
+  retrieved by a view component and replaced with some custom HTML markup (eg,
+  icons to represent the attachment type)
+* Observing changes to attachments
+  See event [[https://github.com/basecamp/trix?tab=readme-ov-file#observing-editor-changes][trix-attachment-add]]
+  See also https://stackoverflow.com/a/63675437 for observing when attachment is
+  finished uploading
