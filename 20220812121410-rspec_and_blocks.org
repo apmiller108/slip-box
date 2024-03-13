@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec things
 #+date: 2022-08-12 12:14 PM
-#+updated: 2024-02-25 15:29 PM
+#+updated: 2024-03-13 15:57 PM
 #+filetags: :rspec:ruby:
 
 * Blocks
@@ -159,3 +159,89 @@
 * Matchers and their aliases
   See also https://rubydoc.info/github/rspec/rspec-expectations/RSpec/Matchers
   https://gist.github.com/JunichiIto/f603d3fbfcf99b914f86
+
+* Upload ActiveStorage Blob
+  1. Open a file
+  2. Use [[https://api.rubyonrails.org/classes/ActiveStorage/Blob.html#method-c-create_and_upload-21][create_and_upload!]]
+  #+begin_src ruby
+    let(:io) { File.open Rails.root.join('spec/fixtures/files/image.png') }
+    let(:blob) { ActiveStorage::Blob.create_and_upload!(io:, filename: 'image.png') }
+  #+end_src
+
+
+  In ~config/storage.yml~ the adapter is probably test and looks something like
+  this
+
+  #+begin_src yaml
+    test:
+      service: Disk
+      root: <%= Rails.root.join("tmp/storage") %>
+  #+end_src
+
+  So, after the test suite, you probably want to clean some shit up.
+
+  #+begin_src ruby
+    # spec/rails_helper.rb
+    config.after(:suite) do
+      FileUtils.rm_rf(ActiveStorage::Blob.service.root)
+    end
+  #+end_src
+
+* Testing 404s in request specs
+  In test and development (eg, local requests) 404s will show as an exception
+  page (ie, redirect response) for ActiveRecord::RecordNotFound. If you want to
+  disable this and get an actual 404 as it would be in prod, here's one way.
+
+  #+begin_src ruby
+  RSpec.shared_context 'with disable consider all requests local' do
+    before do
+      method = Rails.application.method(:env_config)
+      allow(Rails.application).to receive(:env_config).with(no_args) do
+        method.call.merge(
+          'action_dispatch.show_exceptions' => :all,
+          'action_dispatch.show_detailed_exceptions' => false,
+          'consider_all_requests_local' => false
+        )
+      end
+    end
+  end
+  #+end_src
+
+* Clipboard copying in system tests
+  Let's say you have a JS feature that tests if the browser supports clipboard
+  copying before showing a copy to clipboard button:
+
+  #+begin_src js
+  if ('clipboard' in navigator ) {
+    // show the copy button
+  }
+  #+end_src
+
+  *NOTE*: this example uses Cuprite/Ferrum gems
+
+  If for some reason, the clipboard isn't available in the test environment
+  browser, it can be mocked:
+
+  See also https://github.com/rubycdp/ferrum?tab=readme-ov-file#evaluate_asyncexpression-wait_time-args
+
+   #+begin_src ruby
+    c.before(:example, type: :system) do
+      page.driver.browser.evaluate_on_new_document(<<~JS)
+        const clipboard = {
+          writeText: text => new Promise(resolve => this.text = text),
+          readText: () => new Promise(resolve => resolve(this.text))
+        }
+        Object.defineProperty(navigator, 'clipboard', { value: clipboard } )
+      JS
+    end
+   #+end_src
+
+   This in the spec, you can retrieve the clipboard text the was copied
+
+   See also
+   https://github.com/rubycdp/ferrum?tab=readme-ov-file#evaluate_asyncexpression-wait_time-args
+
+  #+begin_src ruby
+    text = page.driver.browser.evaluate_async(%(arguments[0](navigator.clipboard.readText())), 1) # this is some werid ass js syntax
+    expect(text).to eq 'foo'
+  #+end_src
