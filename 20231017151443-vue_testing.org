@@ -3,7 +3,7 @@
 :END:
 #+title: Vue testing
 #+date: 2023-10-17 15:14 PM
-#+updated:  2024-01-31 14:48 PM
+#+updated:  2024-02-29 09:24 AM
 #+filetags: :vuejs:
 
 Some VueJS unit testing things for a quick reference.
@@ -126,3 +126,20 @@ found here https://v1.test-utils.vuejs.org/
   #+end_src
 
   Use ~mockReturnValue~ for synchronous returns
+
+  *Warning: Typescript will not like this approach* Use this instead:
+
+  #+begin_src js
+    import { vi } from 'vitest';
+
+    const { someFunction }  = vi.hoisted(() => {
+      return { someFunction: vi.fn() }
+    });
+
+    vi.mock('@/api/myModule, () => {
+      return {
+        default: { someFunction },
+        someFunction
+      }
+    });
+  #+end_src

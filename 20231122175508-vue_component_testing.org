@@ -3,7 +3,7 @@
 :END:
 #+title: view_component testing
 #+date: 2023-11-22 17:55 PM
-#+updated:  2024-01-26 12:27 PM
+#+updated:  2024-03-11 15:40 PM
 #+filetags: :ruby:rails:
 
 I'm getting acquainted with [[https://github.com/viewcomponent/view_component][view_component]], which is a Ruby library for building
@@ -20,6 +20,7 @@ There's something to learn about testing these things, for which the
 having to figure some things out, which, I acknowledge might be because I'm not
 component-ing the "right" way.
 
+* Nested Components
 For example, I have a component that depends on another component. I imagine
 this a common scenario, as it is with building frontends in VueJS.
 

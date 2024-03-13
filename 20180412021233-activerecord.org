@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord
 #+date: 2018-04-12 02:12 AM
-#+updated: 2023-12-27 14:45 PM
+#+updated: 2024-02-15 13:25 PM
 #+filetags: :ruby:rails:
 
 This is a big ass dump of ActiveRecod stuff I've learned.
@@ -564,7 +564,6 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
   :END:
 
   - Read the file, split on ‘;' and execute each statement.
-
   #+begin_src ruby
     def execute_sql_file(path)
       File.read(path). split(';').each do |sql|
@@ -589,7 +588,7 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
    #+end_src
 *** Self referential join
     This does a self referential join including the ~record_type~ as part of the
-    join clause. Then joins to the record through it. This following is from an
+    join clause. Then joins to the record through it. Then following is from an
     ActiveStorage::Attachment extension in https://github.com/apmiller108/tmp/tree/main/app/models/concerns
     #+begin_src ruby
       belongs_to :record, polymorphic: true
