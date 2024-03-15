@@ -3,7 +3,7 @@
 :END:
 #+title: Hotwire rails
 #+date: 2021-08-21 17:11 PM
-#+updated: 2023-11-26 12:21 PM
+#+updated: 2024-03-15 09:52 AM
 #+filetags: :javascript:ruby:rails:
 
 * What is this?
@@ -73,8 +73,6 @@
     show page. Most of this is done in the erb view templates. See [[https://github.com/thoughtbot/hotwire-example-template/tree/hotwire-example-inline-edit][source code]]
     for an example.
 * Resources
-  - https://github.com/hotwired
-  - https://www.honeybadger.io/blog/hotwire-rails/
   - https://github.com/thoughtbot/hotwire-example-template/tree/hotwire-example-inline-edit
   - https://gorails.com/series/hotwire-rails
   - https://blog.appsignal.com/2022/07/06/get-started-with-hotwire-in-your-ruby-on-rails-app.html
@@ -82,3 +80,7 @@
     turbo frames without Rails)
   - https://www.akshaykhot.com/understanding-hotwire-turbo-streams/ (Turbo
     streams without Rails)
+  - https://blog.appsignal.com/2024/03/13/turbo-streaming-modals-in-ruby-on-rails
+  - https://justin.searls.co/posts/how-to-make-a-nice-2fa-otp-sms-code-form/
+  - https://www.beflagrant.com/blog/turbo-confirmation-bias-2024-01-10
+  - https://code.avi.nyc/turbo-frame-search-filters

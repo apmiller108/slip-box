@@ -3,8 +3,10 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2024-01-19 09:47 AM
+#+updated: 2024-03-15 11:32 AM
 #+filetags: :rails:ruby:
+
+For a deep ass dive, read this https://www.mikeperham.com/how-sidekiq-works/
 
 * Starting it up
   ~sidekiq -q default -q foo~
@@ -140,3 +142,19 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
 * Setup
   For redis configuration just set ~REDIS_URL~ env var.
   see https://github.com/sidekiq/sidekiq/wiki/Using-Redis for more options.
+* Testing
+  To run jobs inline in a test:
+
+  #+begin_src ruby
+    require 'sidekiq/testing'
+
+    RSpec.describe 'My Test' do
+      before do
+        Sidekiq::Testing.inline!
+      end
+
+      after do
+        Sidekiq::Testing.fake!
+      end
+    end
+  #+end_src
