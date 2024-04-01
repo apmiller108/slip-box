@@ -4,7 +4,7 @@
 
 #+title: New computer setup
 #+date: 2021-09-23 21:22 PM
-#+updated: 2023-08-08 16:18 PM
+#+updated: 2024-04-01 09:22 AM
 #+filetags: :shell:
 
 A got a new laptop, a System 76 Gazelle with [[https://pop.system76.com][pop_os]]. This was the first I time
@@ -49,7 +49,7 @@ this shit out and maybe automate some of it too.
   See https://github.com/ohmyzsh/ohmyzsh
 * Create symlink for dotzsh file
      #+begin_src shell
-     ln -s ~/dotfiles/git/zshrc ~/.zshrc
+     ln -s ~/dotfiles/shell/zshrc ~/.zshrc
      #+end_src
 * Install fzf
   https://github.com/junegunn/fzf
@@ -63,7 +63,7 @@ this shit out and maybe automate some of it too.
 * Install vim
 ** Create symlink for dotvimrc file
       #+begin_src shell
-      ln -s ~/dotfiles/git/vimrc ~/.vimrc
+      ln -s ~/dotfiles/vim/vimrc ~/.vimrc
       #+end_src
 * Install rbenv
    https://github.com/rbenv/rbenv#basic-git-checkout
