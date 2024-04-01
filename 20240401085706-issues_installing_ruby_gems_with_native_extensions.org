@@ -3,13 +3,13 @@
 :END:
 #+title: Issues installing Ruby gems with native extensions
 #+date: 2024-04-01 08:57 AM
-#+updated:  2024-04-01 09:06 AM
+#+updated:  2024-04-01 09:56 AM
 #+filetags: :ruby:
 
-* Compilier errors
+* Compiler errors
 ** ~error: incompatible function pointer types~
 - clang 16 defaults -Wincompatible-function-pointer-types to be on.
-- This can be turned off with the proper complier flags
+- This can be turned off with the proper compiler flags
 
 #+begin_src sh
   gem install oj -v 3.6.11 -- --with-cflags=-Wno-error=incompatible-function-pointer-types
