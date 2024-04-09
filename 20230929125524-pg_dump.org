@@ -3,7 +3,7 @@
 :END:
 #+title: pg_dump
 #+date: 2023-09-29 12:55 PM
-#+updated:  2023-10-13 12:02 PM
+#+updated:  2024-04-09 09:11 AM
 #+filetags: :postgres:
 
 
@@ -28,4 +28,10 @@
 
    #+begin_src shell
    pg_dump --dbname mydatabase --no-owner --no-privileges -t users --file dump.sql
+   #+end_src
+** Need to specify connection details?
+   Use the same flags as you would with [[id:4D90F42B-B4DA-4CDA-9885-B8FF372FDB72][psql]]
+
+   #+begin_src shell
+   pg_dump -h localhost -p 9001 -U postgres -d mydatabase -Fc --file dump.sql
    #+end_src
