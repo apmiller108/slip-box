@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec things
 #+date: 2022-08-12 12:14 PM
-#+updated: 2024-03-13 15:57 PM
+#+updated: 2024-04-23 13:24 PM
 #+filetags: :rspec:ruby:
 
 * Blocks
@@ -49,7 +49,8 @@
 ** Expecting
     We can expect the subject under test to yield control by passing a block to
     expect with an argument. The argument itself is a block, captured (~&b~) and
-    passed to the method call. See also https://relishapp.com/rspec/rspec-expectations/v/3-11/docs/built-in-matchers/yield-matchers
+    passed to the method call. See also
+    https://rubydoc.info/github/rspec/rspec-expectations/RSpec%2FMatchers:yield_with_args
 
     #+begin_src ruby
       it 'yields control to a block' do
