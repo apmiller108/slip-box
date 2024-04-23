@@ -3,8 +3,11 @@
 :END:
 #+title: Datadog distributed tracing
 #+date: 2022-08-12 12:09 PM
-#+updated: 2022-08-12 12:13 PM
+#+updated: 2024-04-12 08:45 AM
 #+filetags: :ruby:
+
+*NOTE: Newer versions of ddtrace have all this as an option (for sidekiq jobs)**
+See also https://github.com/datadog/dd-trace-rb/blob/master/docs/GettingStarted.md#sidekiq
 
 This is for [[https://github.com/DataDog/dd-trace-rb/tree/v1.1.0][ddtrace v1.1]]
 
