@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2024-03-15 11:32 AM
+#+updated: 2024-04-16 10:12 AM
 #+filetags: :rails:ruby:
 
 For a deep ass dive, read this https://www.mikeperham.com/how-sidekiq-works/
@@ -28,10 +28,10 @@ For a deep ass dive, read this https://www.mikeperham.com/how-sidekiq-works/
    it out and start over.
 ** Scheduled jobs
    See also https://www.rubydoc.info/github/mperham/sidekiq/Sidekiq/ScheduledSet
-#+begin_src shell
-irb(main):001:0> r = Sidekiq::ScheduledSet.new
-=> #<Sidekiq::ScheduledSet:0x00000000090f6a50 @name="schedule", @_size=1>
-#+end_src
+    #+begin_src shell
+    irb(main):001:0> scheduled_set = Sidekiq::ScheduledSet.new
+    => #<Sidekiq::ScheduledSet:0x00000000090f6a50 @name="schedule", @_size=1>
+    #+end_src
 
 *** Add a scheduled job to the queue
     See also https://www.rubydoc.info/github/mperham/sidekiq/Sidekiq/SortedEntry
@@ -63,6 +63,13 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
   - Jobs are unique for the duration set OR until the job completes
     successfully.
   - If job retries beyond the specified duration, another job can be pushed.
+
+** Manually deleting unique job locks
+Try using the ~redis-cli~. Something like...
+
+#+begin_src shell
+redis-cli --scan --pattern "*unique*" | xargs redis-cli DEL
+#+end_src
 * Scheduled jobs
   https://github.com/mperham/sidekiq/wiki/Scheduled-Jobs
 
@@ -129,6 +136,7 @@ irb(main):001:0> r = Sidekiq::ScheduledSet.new
    Sidekiq::BatchSet.new.each { |batch| p batch }
    #+end_src
 
+   - Batches can be deleted programmatically: ~batch.delete~
 * Capsules
   Introduced in Sidekiq v7. This should let you define concurrency options per
   queue.
