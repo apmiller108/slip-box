@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2024-02-12 08:20 AM
+#+updated: 2024-04-23 11:39 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -53,3 +53,7 @@ and/or framework.
 * DevOps
   - [[https://railsnotes.xyz/blog/deploying-ruby-on-rails-with-dokku-redis-sidekiq-arm-docker-hetzner][Deploying Ruby on Rails with Dokku]]: this is a kinda of ultimate guide for
     using Dokku. Includes deploying with docker.
+  - [[https://www.netguru.com/blog/responsive-system-with-aws-aurora-and-a-ruby-application][AWS Aurora and RoR]]: Describes the challenges of reducing both application
+    node and database bottle necks by using auto scaling techniques with EC2 and
+    Aurora; and testing by doing performance tests and failovers. Required
+    careful DB and connection pooling configuration.
