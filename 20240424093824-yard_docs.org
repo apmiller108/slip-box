@@ -1,0 +1,28 @@
+:PROPERTIES:
+:ID:       2E8CDED0-FB68-4FAA-8690-E2841CF3D441
+:END:
+#+title: yard docs
+#+date: 2024-04-24 09:38 AM
+#+updated:  2024-04-24 09:54 AM
+
+I can never remember [[https://yardoc.org/guides/index.html][yard]] doc syntax. Here's a nice cheatsheet:
+
+https://gist.github.com/chetan/1827484
+
+quick example:
+
+#+begin_src ruby
+  # A method that does stuff and things +this will be rendered inside <code> tag+
+  # @param bar [String] description of param
+  # @param baz [Int] description of param
+  # @yield [bar] description of block
+  # @raise [ArgumentError] description of the error
+  def foo(bar:, baz: 0)
+    # Do stuff and things
+    raise ArgumentError if baz.negative?
+    yield bar
+  end
+#+end_src
+
+- yard handles default params automatically, no need to specify this in the description
+- running ~yardoc~ will write documentation files to ~./doc~ by default
