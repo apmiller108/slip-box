@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2024-04-23 11:39 AM
+#+updated: 2024-05-02 11:12 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -31,8 +31,6 @@ and/or framework.
     also [[id:fcba0c10-cdb7-4d98-96ad-acf6afafe275][Make something enumerable]] for another example.
   - [[https://blog.arkency.com/dont-waste-your-time-on-assets-compilation-on-heroku/][Don't waste your time on assets compilation on Heroku]]: A silly, click-baity
     title, but an interesting take on piping Rails assets to a CDN.
-  - [[https://www.shalerb.org/][Shale]]: This isn't a post, but a library for object mapping and
-    serialization. It looks promising.
   - [[https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps][Gemfile of dreams: Libraries we use to build rails apps]]: Evil Martians'
     commonly uses Rails libs.
   - https://semaphoreci.com/blog/ruby-webassembly: How to webassembly in Ruby as
@@ -42,10 +40,13 @@ and/or framework.
     bunch of gotchas to set this up, so worth a watch. This can be used for
     deploying pretty much anywhere, even on prem. Servers need to be prepared in
     advance (eg, load balancer, app nodes, database server, etc.)
-  - https://stanko.io/deconstructing-action-cable-DC7F33OsjGmK
+  - [[https://stanko.io/deconstructing-action-cable-DC7F33OsjGmK][Deconstructing ActionCable]]
     This is an explanation of how ActionCable works. There's some information in
     here that might help demystify some things or at least reveal details not in
     the [[https://guides.rubyonrails.org/action_cable_overview.html][official guide.]]
+  - [[https://discuss.rubyonrails.org/t/explaining-thruster-a-new-37signals-gem-that-speeds-up-your-app/85567][Explaining Thruster]]
+    A post on discuss.rubyonrails.org about Thruster and different asset caching
+    strategies using reverse proxies, CDNs, etc.
 * Javascript
   - https://www.akshaykhot.com/using-hotwire-without-rails/: Explains how to use
     Hotwire (Turbo primarily) without the RoR framework. What's nice about this
