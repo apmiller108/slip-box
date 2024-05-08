@@ -3,7 +3,7 @@
 :END:
 #+title: Ruby gems
 #+date: 2023-10-13 13:46 PM
-#+updated:  2024-01-16 12:19 PM
+#+updated:  2024-05-02 11:13 AM
 #+filetags: :ruby:
 
 This is a list of potentially useful Ruby libraries.
@@ -47,3 +47,6 @@ See also
 ** trace_location
    Uses TracePoint to log source locations of method calls for a given operation
    https://github.com/yhirano55/trace_location
+* Serialization
+** [[https://www.shalerb.org/][Shale]]
+   A library for object mapping and serialization. It looks promising.
