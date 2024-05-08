@@ -3,7 +3,7 @@
 :END:
 #+title: Zero config HTTP servers
 #+date: 2022-11-30 13:43 PM
-#+updated: 2023-11-27 14:11 PM
+#+updated: 2024-05-08 09:08 AM
 #+filetags: :web_development:
 
 
@@ -51,6 +51,17 @@
 
   ~(httpd-serve-directory)~ from the current buffer to serve its directory on
   port 8080
+
+* Parcel
+  https://parceljs.org/
+
+  This is an NPM package.
+
+  This will serve on localhost:1234 by default. It supports hot reloading without configuration.
+
+  #+begin_src shell
+    npx parcel index.html
+  #+end_src
 
 * FTP server
   Run one using Docker. See also https://github.com/garethflowers/docker-ftp-server/tree/main
