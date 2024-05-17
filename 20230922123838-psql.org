@@ -3,7 +3,7 @@
 :END:
 #+title: psql
 #+date: 2023-09-22 12:38 PM
-#+updated:  2023-12-13 10:58 AM
+#+updated:  2024-05-17 10:03 AM
 #+filetags: :postgres:
 
 See also [[id:CD58C290-AF97-4882-98D9-2FCC7B61763E][postgresql.conf]]
@@ -144,7 +144,8 @@ See also [[id:D111FFA2-4A9D-41F4-87DC-E59F3D6E8564][Row locking]]
    #+end_src
 * Scripting
   Commands can be passed to ~psql~ using the ~-c~ switch, which outputs the results
-  to stdout
+  to stdout. If you need to supply a password for the user supplied by the ~-U~
+  flag, you can prefix the command with ~PGPASSWORD=mypassword~
 
   #+begin_src shell
     psql -h database -d myapp_development -c "select * from users" > results

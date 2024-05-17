@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord
 #+date: 2018-04-12 02:12 AM
-#+updated: 2024-02-15 13:25 PM
+#+updated: 2024-05-17 10:08 AM
 #+filetags: :ruby:rails:
 
 This is a big ass dump of ActiveRecod stuff I've learned.
@@ -753,4 +753,25 @@ database access, and adds domain logic on that data. ---Martin Fowler, Patterns 
 
   #+begin_src
     /*application:MyApp,controller:things,action:index*/​
+  #+end_src
+* Schema Format
+  Change the format to from ruby (db/schema.rb) to SQL (db/structure.sql) with:
+
+  #+begin_src ruby
+    # config/application.rb
+    config.active_record.schema_format = :sql
+  #+end_src
+
+  This uses pg_dump. Pass flags to PG dump as needed. For available options run
+  ~pg_dump --help~
+  See also https://github.com/rails/rails/issues/38695
+
+  #+begin_src ruby
+    module Hubble
+      class Application < Rails::Application
+        config.active_record.schema_format = :sql
+        ActiveRecord::Tasks::DatabaseTasks.structure_dump_flags = ['--exclude-schema=rollback', '--if-exists', '--clean']
+        ...
+      end
+    end
   #+end_src
