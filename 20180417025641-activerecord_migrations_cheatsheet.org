@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2024-01-01 14:43 PM
+#+updated: 2024-04-11 20:59 PM
 #+filetags: :postgres:sql:rails:ruby:
 
 * Casting with :using option (cast string to int)
@@ -118,10 +118,8 @@
   :PROPERTIES:
   :CUSTOM_ID: postgres-types
   :END:
-  All Postgres
-  Types:[[[https://github.com/rails/rails/blob/master/activerecord/lib/active_record/connection_adapters/postgresql_adapter.rb#]]
-  L75-L116]([[https://github.com/rails/rails/blob/master/activerecord/lib/active_record/connection_adapters/postgresql_adapter.rb#]]
-  L75-L116)
+  All Postgres types
+  https://github.com/rails/rails/blob/master/activerecord/lib/active_record/connection_adapters/postgresql_adapter.rb#L75-L116
 
 * JSONB Fields
   :PROPERTIES:
