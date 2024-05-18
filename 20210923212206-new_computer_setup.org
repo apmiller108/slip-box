@@ -4,7 +4,7 @@
 
 #+title: New computer setup
 #+date: 2021-09-23 21:22 PM
-#+updated: 2024-05-18 11:40 AM
+#+updated: 2024-05-18 11:48 AM
 #+filetags: :shell:
 
 A got a new laptop, a System 76 Gazelle with [[https://pop.system76.com][pop_os]]. This was the first I time
@@ -122,13 +122,13 @@ this shit out and maybe automate some of it too.
 
    And for v29:
    #+begin_src shell
-   ../configure --with-native-compilation --with-json --with-xwidgets --with-pgtk --with-mailutils CFLAGS="-O2 -march=native" CC="gcc-10"
+   ../configure --with-native-compilation --with-json --with-xwidgets --with-mailutils CFLAGS="-O2 -march=native" CC="gcc-10"
    #+end_src
 
    Then install it
    #+begin_src shell
     make -j 2
-    make install
+    sudo make install
    #+end_src
 
 
