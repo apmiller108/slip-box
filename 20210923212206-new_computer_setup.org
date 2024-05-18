@@ -4,7 +4,7 @@
 
 #+title: New computer setup
 #+date: 2021-09-23 21:22 PM
-#+updated: 2024-04-01 09:22 AM
+#+updated: 2024-05-18 11:40 AM
 #+filetags: :shell:
 
 A got a new laptop, a System 76 Gazelle with [[https://pop.system76.com][pop_os]]. This was the first I time
@@ -82,8 +82,13 @@ this shit out and maybe automate some of it too.
    unpack it and continue...
 *** Or master branch
    Clone the Emacs repo: https://git.savannah.gnu.org/git/emacs.git
+
+   To install a certain tagged version
+   - ~git tag~ to list all available tags
+   - checkout the version you want: ~git checkout emacs-29.3~
 ** Dependencies I needed
-   Run the following to determine if you have the dependencies needed:
+   Run the following to determine if you have the dependencies needed and create
+   the ~configure~ file
    #+begin_src sh
    ./autogen.sh
    #+end_src
@@ -100,13 +105,37 @@ this shit out and maybe automate some of it too.
 
    See [[https://gitlab.com/mslot/src_installs/-/blob/master/emacs_install_ubuntu.sh][this]] which was helpful. After install those, I was able to move on.
 
-** Config and install
-   This is how I configured and installed it.
+** Configure and install
+   Create a build directory
    #+begin_src
-   CC="gcc-10" ./configure --with-modules --with-cairo --with-imagemagick --with-rsvg --with-mailutils --with-native-compilation
-   make -j 2
-   make install
+   mkdir build && cd build
    #+end_src
+   Run ../configure with the desired build flags, whatever they mean
+
+   To see all available build flags ~./configure --help~
+
+   This is how I configured and installed it when I installed v28
+   #+begin_src shell
+   CC="gcc-10" ./configure --with-modules --with-cairo --with-imagemagick --with-rsvg --with-mailutils --with-native-compilation
+   #+end_src
+
+
+   And for v29:
+   #+begin_src shell
+   ../configure --with-native-compilation --with-json --with-xwidgets --with-pgtk --with-mailutils CFLAGS="-O2 -march=native" CC="gcc-10"
+   #+end_src
+
+   Then install it
+   #+begin_src shell
+    make -j 2
+    make install
+   #+end_src
+
+
+   If using the same emacs repo from previous installs, there might be old .elc
+   files from previous version installs. That will cause a problem. I'm not sure
+   how to recompile them. Maybe the bootstrap command? Anyway deleting and
+   re-cloning the repo works too.
 
    See also https://www.masteringemacs.org/article/speed-up-emacs-libjansson-native-elisp-compilation
 ** Add chemacs2 and profiles
