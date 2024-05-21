@@ -3,7 +3,7 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2024-02-15 19:13 PM
+#+updated:  2024-05-21 08:49 AM
 #+filetags: :rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
@@ -103,7 +103,9 @@
       @message = Message.new
       respond_to do |format|
         format.turbo_stream do
-          render inline: turbo_stream.prepend('messages', MessageFormComponent.new(message: @message).render_in(view_context))
+          render(
+            turbo_stream: turbo_stream.prepend('messages', MessageFormComponent.new(message: @message).render_in(view_context))
+          )
         end
       end
     end
@@ -212,7 +214,7 @@
      Turbo::StreamsChannel.broadcast_action_to(
        [user, 'posts'],
        target: 'post_20',
-       content: PostComponent.new(post:).render_in(ActionController::Base.new.view_context)
+       content: ApplicationController.render(component, layout: false),
        action: :replace
      )
    #+end_src
@@ -226,7 +228,7 @@
          Turbo::StreamsChannel.broadcast_action_to(
            streamables,
            target: component.id,
-           content: component.render_in(ActionController::Base.new.view_context),
+           content: ApplicationController.render(component, layout: false),
            ,**options
          )
        end
