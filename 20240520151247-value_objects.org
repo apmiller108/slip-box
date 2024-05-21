@@ -3,7 +3,7 @@
 :END:
 #+title: Value objects
 #+date: 2024-05-20 15:12 PM
-#+updated:  2024-05-20 15:46 PM
+#+updated:  2024-05-21 08:23 AM
 #+filetags: :ruby:rails:
 
 Sometimes I find myself coding business logic around object's property.
@@ -22,7 +22,6 @@ class ColorType
   DEFAULT = 'e4f2fe'.freeze
 
   attr_reader :hex
-  alias hex_color hex
 
   def initialize(hex = nil)
     @hex = hex.presence || DEFAULT
