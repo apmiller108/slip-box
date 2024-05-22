@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2024-05-02 11:12 AM
+#+updated: 2024-05-21 11:31 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -51,6 +51,10 @@ and/or framework.
   - https://www.akshaykhot.com/using-hotwire-without-rails/: Explains how to use
     Hotwire (Turbo primarily) without the RoR framework. What's nice about this
     is that it becomes very clear what Turbo is all about.
+* Database
+  - https://shopify.engineering/how-to-introduce-composite-primary-keys-in-rails:
+    Using composite primary keys in a multi-tenant environment to improve
+    database read performance (at the expense of write performance).
 * DevOps
   - [[https://railsnotes.xyz/blog/deploying-ruby-on-rails-with-dokku-redis-sidekiq-arm-docker-hetzner][Deploying Ruby on Rails with Dokku]]: this is a kinda of ultimate guide for
     using Dokku. Includes deploying with docker.
