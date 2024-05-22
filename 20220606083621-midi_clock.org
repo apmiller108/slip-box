@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2022-08-12 15:01 PM
+#+updated: 2024-05-21 15:23 PM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -11,13 +11,13 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
 * Clock Message
   - 24 messages = 1 quarter note.
   - When 24 clock messages are received, the receiving MIDI device knows that 1
-    quarter note has passed. 
+    quarter note has passed.
   - To generate a MIDI clock signal, calculate the pulse rate based on the BPM
-    and send a simple message at that rate. 
+    and send a simple message at that rate.
 ** Formula
 *** Pulse per ms rate
    1 minute = 60 seconds = 60,000 ms
-  
+
    #+begin_src
    60,000 ms / ppq * bpm
    #+end_src
@@ -27,7 +27,7 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
    #+begin_src ruby
      ppq = 24.0
      bpm = 120.0
-    
+
      ppms = 60_000 / (ppq * bpm)
      "One pulse every #{ppms} ms"
    #+end_src
@@ -48,7 +48,7 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
 ** MIDI Stop
 ** MIDI Continue
 * Sending MIDI Clock from Mixxx
-** Existing Limitation  
+** Existing Limitation
   Mixxx only supports a 20ms resolution timer. This will work for BPMs under 100
   so it's not practical. See [[https://github.com/mixxxdj/mixxx/blob/7672cf1a5efcc17b0ead2f28c7585414fea41b7b/src/controllers/scripting/legacy/controllerscriptinterfacelegacy.cpp#L455-L458][ControllerScriptInterfaceLegacy::beginTimer]]. It
   uses [[https://doc.qt.io/qt-5/qobject.html#startTimer][QObject startTimer]] which only supports using MS. This need microsecond
@@ -78,19 +78,26 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
     In order to develop stuff depending on RtMidi and compiling for JACK, you'll
     need the jackd2 development files:
     #+begin_src shell
-    sudo apt-get install libjack-jackd2-dev        
+    sudo apt-get install libjack-jackd2-dev
     #+end_src
 
 ** JACK audio connection kit
    https://jackaudio.org/api/index.html
-   
+
    This can be used to send/receive MIDI.
 
 *** Examples
     - https://github.com/x42/jack_midi_clock/blob/master/jack_midi_clock.c
     - https://github.com/DarkPoubelle/behringer-x-touch-mini-mapper/blob/080e8abe2fce00e84678c000afefed8b63fe6731/main.cpp
     - https://github.com/Ardour/ardour/blob/83225886a16a29100b88825e083da267e38e26e1/libs/backends/jack/jack_portengine.cc
-   
+** Conclusion
+  This shit ain't gonna work unless I use an external device to generate the midi
+  clock signal based on beat data from mixxx:
+  - [[https://manual.mixxx.org/2.3/en/chapters/appendix/mixxx_controls#control-\[ChannelN\]-beat_active][beat_active]]
+  - [[https://manual.mixxx.org/2.3/en/chapters/appendix/mixxx_controls#control-\[ChannelN\]-beat_distance][beat_distance]]
+
+  See also https://www.youtube.com/watch?v=hSNHhLqYp_o who appears to have
+  accomplished this.
 * Resources
   - https://en.wikipedia.org/wiki/MIDI_beat_clock
   - http://midi.teragonaudio.com/tech/midispec/clock.htm
