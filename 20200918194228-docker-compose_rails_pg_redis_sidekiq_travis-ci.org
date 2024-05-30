@@ -3,7 +3,7 @@
 :END:
 #+title: docker-compose Rails PG Redis Sidekiq Travis-CI
 #+date: 2020-09-18 19:42 PM
-#+updated: 2023-09-16 22:37 PM
+#+updated: 2024-05-30 14:08 PM
 #+filetags: :docker:rails:
 
 * Instructions
@@ -38,7 +38,7 @@
   #+begin_src emacs-lisp :var key=""
     (setq config
           '(("ruby-version" . "3.2.2")
-            ("node-version" . "20")
+            ("node-major" . "20")
             ("pg-version" . "latest")
             ("redis-version" . "latest")
             ("app-name" . "tmp")))
@@ -55,49 +55,60 @@
 
   #+begin_src dockerfile :noweb tangle
     ARG RUBY_VERSION=<<config("ruby-version")>>
-    ARG NODE_VERSION=<<config("node-version")>>
 
-    FROM node:$NODE_VERSION-slim as node
+    FROM ruby:$RUBY_VERSION-slim as base
 
-    WORKDIR /app
+    RUN apt-get update -qq \
+        && apt-get install --no-install-recommends -y build-essential ca-certificates curl gnupg locales libvips libpq-dev \
+          libwebp-dev \
+        && apt-get clean \
+        && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+    WORKDIR /rails
+
+    # Install Node and Yarn JS package manager
+    # See also https://github.com/nodesource/distributions#installation-instructions
+    ARG NODE_MAJOR=<<config("node-major")>>
+    ARG YARN_VERSION=1.22.19
+    RUN mkdir -p /etc/apt/keyrings && \
+        curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+        echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_MAJOR}.x nodistro main" | \
+        tee /etc/apt/sources.list.d/nodesource.list && \
+        apt-get update && \
+        apt-get install nodejs -y && \
+        npm install -g yarn@$YARN_VERSION
+
+    # Install JS dependencies
+    FROM base as node
 
     COPY package.json yarn.lock ./
     RUN yarn install
 
-    FROM ruby:$RUBY_VERSION as base
-
-    RUN apt-get update -qq \
-        && apt-get install --no-install-recommends -y build-essential locales libvips libpq-dev \
-        && apt-get clean \
-        && rm -rf /var/lib/apt/lists /var/cache/apt/archives
-
-    WORKDIR /app
-
+    # Install Ruby dependencies
     FROM base as gems
 
     COPY Gemfile Gemfile.lock ./
     RUN gem install bundler && bundle install --jobs 20 --retry 5
 
+    # Final build
     FROM base as build
+
+    WORKDIR /rails
 
     RUN locale-gen en_US.UTF-8
     ENV LANG en_US.UTF-8
     ENV LANGUAGE en_US:en
     ENV LC_ALL en_US.UTF-8
 
+
     COPY . ./
-    COPY --from=node /usr/lib /usr/lib
-    COPY --from=node /usr/local/share /usr/local/share
-    COPY --from=node /usr/local/lib /usr/local/lib
-    COPY --from=node /usr/local/include /usr/local/include
-    COPY --from=node /usr/local/bin /usr/local/bin
-    COPY --from=node /opt /opt
-    COPY --from=node /app/node_modules /app/node_modules
+    # Copy ruby and JS dependencies
     COPY --from=gems /usr/local/bundle /usr/local/bundle
+    COPY --from=node /rails/node_modules /rails/node_modules
 
     EXPOSE 3000
 
-    CMD ["bin/start"]
+    CMD ["bin/dev"]
   #+end_src
 
 * docker-compose
@@ -192,7 +203,7 @@
 
     # Install node from nodesource
     https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
-    curl -fsSL https://deb.nodesource.com/setup_<<config("node-version")>>.x | bash - && apt-get install -y nodejs
+    curl -fsSL https://deb.nodesource.com/setup_<<config("node-major")>>.x | bash - && apt-get install -y nodejs
 
     # Install yarn
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -200,15 +211,7 @@
     apt update && apt install -y yarn
 
     # Setup rails app
-    rails new <<config("app-name")>> --database=postgresql --javascript=esbuild --css=bootstrap
-
-    cd <<config("app-name")>>
-    mv * .*  ../
-    cd ..
-    rmdir <<config("app-name")>>
-
-    # COMMENT THE FOLLOWING IN TO INSTALL webpacker
-    # bin/rails webpacker:install
+    rails new . --database=postgresql --javascript=esbuild --css=bootstrap --name=<<config("app-name")>>
 
     bundle add sidekiq --skip-install
     bundle add rubocop --group development --require false --skip-install
