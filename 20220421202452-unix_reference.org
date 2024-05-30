@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2023-01-30 11:31 AM
+#+updated: 2024-05-28 15:10 PM
 #+filetags: unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -17,13 +17,13 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
    #+begin_src shell
    ls -l
    #+end_src
-   
+
   | type | user | group | other |
   |------+------+-------+-------|
   | -    | rwx  | rw-   | r--   |
 
   Type could be ~d~ (ie, directory)
-   
+
 ** Change permissions
     #+begin_src shell
       chmod u+rw file
@@ -46,7 +46,7 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
   | groups username        | list a user's groups          |
   | getent group groupname | list users in a group         |
   | cat /etc/group         | list all groups on the system |
-   
+
 ** Manage group membership
    Use ~gpasswd~
 * User Information
@@ -60,13 +60,13 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
 
 * Magic SysRq key
   Send low level commands regardless of system state (freeze)
-  
+
   - Hold down ~ALT~ + ~SysRq~
     - If on a laptop or keyboard with no ~SysRq~ key use ~Fn~ + ~Prtsc~ and
       release (be keep holding ~ALT~)
   - See also https://en.wikipedia.org/wiki/Magic_SysRq_key
   - ~REISUB~ for a safe restart
-  
+
 
 * Repositories (apt)
 ** Release file expired error
@@ -74,7 +74,7 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
 
    1. Find another mirror. One that isn't expired. Or...
    2. Instruct apt to always skip the validity check
-   
+
       #+begin_src shell
       touch /etc/apt/apt.conf.d/99no-check-valid-until && \
       echo 'Acquire::Check-Valid-Until no;' > /etc/apt/apt.conf.d/99no-check-valid-until
@@ -84,12 +84,12 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
    apt-get install something=1.1.1
    #+end_src
 *** Check for available versions
-    #+begin_src  
+    #+begin_src
     apt-cache policy ruby-full
     #+end_src
 ** Add a repository
    First add software-properties-common:
-   
+
    #+begin_src shell
    apt-get install -y software-properties-common
    #+end_src
@@ -112,7 +112,7 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
     #+begin_src shell
     df -h
     #+end_src
-  
+
 ** Disk Usage
 *** du (disk usage)
     Example: (human-readable)
@@ -124,7 +124,7 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
 *** scp
     Example: (recursive). This will use remote directories the map to the
     specified user's home directory. Enter remote user's pw when prompted.
-    #+begin_src 
+    #+begin_src
     scp -r "scp://pi@192.168.68.55/user/dir/path/to/stuff" ~/Downloads
     #+end_src
 
