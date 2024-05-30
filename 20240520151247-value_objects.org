@@ -3,13 +3,14 @@
 :END:
 #+title: Value objects
 #+date: 2024-05-20 15:12 PM
-#+updated:  2024-05-21 08:23 AM
+#+updated:  2024-05-30 12:26 PM
 #+filetags: :ruby:rails:
 
 Sometimes I find myself coding business logic around object's property.
 Depending on how much is involved, it might make sense to extract an object that
 represents the value to contain that business logic.
 
+* Color example
 I had for example an object with a ~color~ property, whose value is a color hex
 code. I wanted to know if the color was considered dark or light, the RGB
 representation and if it was the default color all the objects are instantiated
@@ -18,61 +19,61 @@ with.
 In this case, I created a ColorType value object
 
 #+begin_src ruby
-class ColorType
-  DEFAULT = 'e4f2fe'.freeze
+  class ColorType
+    DEFAULT = 'e4f2fe'.freeze
 
-  attr_reader :hex
+    attr_reader :hex
 
-  def initialize(hex = nil)
-    @hex = hex.presence || DEFAULT
+    def initialize(hex = nil)
+      @hex = hex.presence || DEFAULT
+    end
+
+    def to_rgb
+      [r, g, b]
+    end
+
+    def r = hex[0..1].to_i(16)
+    def g = hex[2..3].to_i(16)
+    def b = hex[4..5].to_i(16)
+
+    def darkish?
+      to_rgb.sum < (255 * 3) / 3.6
+    end
+
+    def default?
+      hex == DEFAULT
+    end
   end
-
-  def to_rgb
-    [r, g, b]
-  end
-
-  def r = hex[0..1].to_i(16)
-  def g = hex[2..3].to_i(16)
-  def b = hex[4..5].to_i(16)
-
-  def darkish?
-    to_rgb.sum < (255 * 3) / 3.6
-  end
-
-  def default?
-    hex == DEFAULT
-  end
-end
 #+end_src
 
 Which I then wrapped around the object's color value (ActiveRecord object in
 this case)
 
 #+begin_src  ruby
-class Memo < ApplicationRecord
-  def color
-    ColorType.new(super)
+  class Memo < ApplicationRecord
+    def color
+      ColorType.new(super)
+    end
   end
-end
 #+end_src
 
 Example usage.
 
 #+begin_src ruby
-irb(main):001> m = Memo.new
-=>
-#<Memo:0x0000ffff67460160
-...
-irb(main):002> m.color
-=> #<ColorType:0x0000ffff5fe732e0 @hex="e4f2fe">
-irb(main):003> m.color.hex
-=> "e4f2fe"
-irb(main):004> m.color.to_rgb
-=> [228, 242, 254]
-irb(main):005> m.color.darkish?
-=> false
-irb(main):006> m.color.default?
-=> true
+  irb(main):001> m = Memo.new
+  =>
+  #<Memo:0x0000ffff67460160
+  ...
+  irb(main):002> m.color
+  => #<ColorType:0x0000ffff5fe732e0 @hex="e4f2fe">
+  irb(main):003> m.color.hex
+  => "e4f2fe"
+  irb(main):004> m.color.to_rgb
+  => [228, 242, 254]
+  irb(main):005> m.color.darkish?
+  => false
+  irb(main):006> m.color.default?
+  => true
 #+end_src
 
 Why do this? All these methods could just be added to the model, but it kinda
@@ -81,8 +82,68 @@ reusability if needed.
 
 We could do more with this. Need equality comparison? That can added:
 
-  #+begin_src ruby
-    def ==(other)
-      hex == other.hex
-    end
-  #+end_src
+#+begin_src ruby
+  def ==(other)
+    hex == other.hex
+  end
+#+end_src
+
+* Why value objects
+
+1. **Clarity**: Value objects provide a clear and expressive way to represent
+   domain concepts, making the code more readable and easier to understand. For
+   me this is the primary reason.
+2. **Reusability**: Value objects can be easily reused across different parts of
+   the application, as they are self-contained and do not have any external
+   dependencies.
+3. **Immutability**: Value objects should be immutable. This makes them
+   thread-safe and easier to reason about, as they cannot be accidentally
+   modified by other parts of the application.
+
+* Some canonical examples
+
+** Money
+#+begin_src ruby
+class Money
+  attr_reader :amount
+
+  def initialize(amount)
+    @amount = amount
+  end
+
+  def +(other)
+    Money.new(amount + other.amount)
+  end
+
+  def -(other)
+    Money.new(amount - other.amount)
+  end
+
+  def ==(other)
+    amount == other.amount
+  end
+end
+#+end_src
+
+** Address
+
+#+begin_src ruby
+class Address
+  attr_reader :street, :city, :state, :zip
+
+  def initialize(street, city, state, zip)
+    @street = street
+    @city = city
+    @state = state
+    @zip = zip
+  end
+
+  def ==(other)
+    street == other.street && city == other.city && state == other.state && zip == other.zip
+  end
+
+  def to_s
+    "#{street}, #{city}, #{state} #{zip}"
+  end
+end
+#+end_src
