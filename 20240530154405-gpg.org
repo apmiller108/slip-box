@@ -1,0 +1,75 @@
+:PROPERTIES:
+:ID:       31B93D5D-9659-45CD-BA68-63F19595A0E4
+:END:
+#+title: GPG
+#+date: 2024-05-30 15:44 PM
+#+updated:  2024-05-30 16:07 PM
+#+filetags: :security:linux:git:emacs:
+
+* Setup
+
+** Debian
+#+begin_src shell
+sudo apt-get install gnupg2 -y
+#+end_src
+
+** MacOS
+#+begin_src shell
+brew install gpt2 gpt-agent pinentry-mac
+#+end_src
+
+Create ~/.gnupg/gpg-agent.conf~ if it doesn't exist
+
+Add the line:
+#+begin_src
+pinentry-program /your/path/to/pinentry-mac
+#+end_src
+This program will shows a GUI prompt asking for the GPG key passphrase when
+needed with the option to add it to the keychain.
+
+Then run to restart the agent with the new configuration:
+#+begin_src shell
+killall gpg-agent
+#+end_src
+
+See also https://docs.releng.linuxfoundation.org/en/latest/gpg.html
+* Generate keys
+Run the following and follow the prompts. Choose a passphrase and don't forget it.
+#+begin_src shell
+gpg2 --gen-key
+#+end_src
+The public and private keys will be generated into the ~/.gnupg~ dir.
+* Export
+Export keys to import them on to another machine. You might want to list your
+keys first.
+#+begin_src shell
+gpg2 --list-keys
+#+end_src
+
+** Export public key
+#+begin_src shell
+gpg2 --export --armor --output pub.asc {{email address}}
+#+end_src
+
+** Export private key
+#+begin_src shell
+gpg2 --export-secret-keys --armor --output priv.asc {{email address}}
+#+end_src
+
+Transfer key files to usb drive or transfer to other machine via ssh.
+* Import
+Import exported keys from another machine
+
+#+begin_src shell
+gpg2 --import {{filename}}
+#+end_src
+* Emacs
+Uses EasyPG package. See commands prefixed with ~epa-~
+
+To encrypt an org file for example, run ~epa-encrypt-file~. This will use the GPG
+key to encrypt the file and add a ~.gpg~ extension. After that emacs will
+automatically decrypt the file when viewing it and encrypt it when saving edits.
+
+See also https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources
+* Git (signed commits)
+Follow the github docs on this topic
