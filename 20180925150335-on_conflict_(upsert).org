@@ -3,7 +3,7 @@
 :END:
 #+title: ON CONFLICT (UPSERT)
 #+date: 2018-09-25 15:03 PM
-#+updated: 2021-06-25 15:50 PM
+#+updated: 2024-05-24 10:25 AM
 #+filetags: :sql:postgres:
 
 * ON CONFLICT (UPSERT)
@@ -34,3 +34,4 @@
 
     - [[http://www.postgresqltutorial.com/postgresql-upsert/][PostgreSQL Upsert Using INSERT ON CONFLICT statement]]
     - [[https://hashrocket.com/blog/posts/upsert-records-with-postgresql-9-5][Upsert Records with PostgreSQL 9.5 | Hashrocket]]
+    - [[https://api.rubyonrails.org/classes/ActiveRecord/Persistence/ClassMethods.html#method-i-upsert_all][upsert_all in Ruby on Rails]]
