@@ -3,7 +3,7 @@
 :END:
 #+title: Ruby gems
 #+date: 2023-10-13 13:46 PM
-#+updated:  2024-05-02 11:13 AM
+#+updated:  2024-05-31 12:03 PM
 #+filetags: :ruby:
 
 This is a list of potentially useful Ruby libraries.
@@ -35,6 +35,9 @@ See also
 ** fx
    Versioned database functions
    https://github.com/teoljungberg/fx
+** postgresql_cursor
+   Leverage [[https://www.postgresql.org/docs/16/plpgsql-cursors.html][PG's cursor]] feature as an alternative to find_each / find_in_batches
+   https://github.com/afair/postgresql_cursor
 ** scenic
    Versioned database views
    https://github.com/scenic-views/scenic
