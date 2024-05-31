@@ -1,0 +1,47 @@
+:PROPERTIES:
+:ID:       2C9F2DEA-090D-4282-BBC7-213CE18CC92E
+:END:
+#+title: Thoughts on TypeScript
+#+date: 2024-05-31 09:31 AM
+#+updated:  2024-05-31 11:58 AM
+#+filetags: :javascript:
+
+The ability to declare types for variables, function parameters, and return
+values can provide several advantages:
+
+1. **Improved Documentation**: By explicitly defining the types in your code, you
+   create a more self-documenting codebase. Other developers (or your future
+   self) can more quickly understand the expected inputs and outputs of functions
+2. **Stronger Error Checking**: The TypeScript compiler can use the type
+   information to catch errors at compile-time, rather than waiting for runtime.
+   This includes catching type mismatches, calling functions with the wrong
+   arguments, and accessing properties that don't exist on an object.
+3. **Enhanced IDE Support**: TypeScript integrates well with code editors,
+   providing features like code completion, in-editor documentation and better
+   code navigation.
+
+The tradeoff for these benefits is the additional effort required to declare and
+maintain the type system. Developers have to spend time annotating their code
+with type information, ensuring that the types satisfy the compiler's rules, and
+deal with build steps that can take a noticable amount of time depending on the
+size of the project. This reduced productivity (and sometimes frustration of
+having to discover that special type incantation to make the compiler "happy")
+has to be weighed against the benefits listed above.
+
+For some projects, the type checking and documentation advantages of TypeScript
+may be worth the investment. But for others, like MVPs, prototypes, projects
+with heavy use of automated tests, large libraries (eg [[https://news.ycombinator.com/item?id=35892250][Svelte]]) the productivity
+cost of managing the type system may not justify the tradeoff.
+
+To expand on testing: Projects with diligent automated testing may not see a
+significant benefit from TypeScript in terms of finding bugs or refactoring
+confidence. A well-designed set of unit tests can already catch some of the
+issues that the TypeScript compiler would identify. Tests can catch type-related
+errors, such as passing the wrong arguments to a function or accessing
+properties that don't exist on an object. In a codebase with comprehensive unit
+test coverage, the additional bug-finding capabilities of TypeScript's type
+system may be somewhat redundant.
+
+See also
+- [[https://news.ycombinator.com/item?id=35892250][Svelte's explanation for removing TS]]
+- [[https://github.com/tc39/proposal-type-annotations][ECMAScript proposal for type annotations]]
