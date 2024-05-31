@@ -3,8 +3,8 @@
 :END:
 #+title: Thoughts on TypeScript
 #+date: 2024-05-31 09:31 AM
-#+updated:  2024-05-31 11:58 AM
-#+filetags: :javascript:
+#+updated:  2024-05-31 12:54 PM
+#+filetags: :typescript:
 
 The ability to declare types for variables, function parameters, and return
 values can provide several advantages:
