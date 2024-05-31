@@ -3,7 +3,7 @@
 :END:
 #+title: GPG
 #+date: 2024-05-30 15:44 PM
-#+updated:  2024-05-30 16:07 PM
+#+updated:  2024-05-31 11:58 AM
 #+filetags: :security:linux:git:emacs:
 
 * Setup
@@ -18,16 +18,17 @@ sudo apt-get install gnupg2 -y
 brew install gpt2 gpt-agent pinentry-mac
 #+end_src
 
-Create ~/.gnupg/gpg-agent.conf~ if it doesn't exist
+Create ~/.gnupg/gpg-agent.conf~ if it doesn't exist and add the path to
+pinentry-mac. This program will shows a GUI prompt asking for the GPG key
+passphrase when needed with the option to add it to the keychain.
 
-Add the line:
 #+begin_src
 pinentry-program /your/path/to/pinentry-mac
 #+end_src
-This program will shows a GUI prompt asking for the GPG key passphrase when
-needed with the option to add it to the keychain.
 
-Then run to restart the agent with the new configuration:
+Then stop the agent so the next time it is run it will pick up the updated
+configuration above.
+
 #+begin_src shell
 killall gpg-agent
 #+end_src
@@ -38,7 +39,7 @@ Run the following and follow the prompts. Choose a passphrase and don't forget i
 #+begin_src shell
 gpg2 --gen-key
 #+end_src
-The public and private keys will be generated into the ~/.gnupg~ dir.
+The public and private keys will be generated into the ~~/.gnupg~ dir.
 * Export
 Export keys to import them on to another machine. You might want to list your
 keys first.
