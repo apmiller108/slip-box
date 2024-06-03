@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2023-11-24 15:29 PM
+#+updated: 2024-05-25 09:39 AM
 #+filetags: :linux:
 
 * System Information
@@ -65,6 +65,8 @@
   #+begin_src shell
    sudo apt full-upgrade
   #+end_src
+** APT sources
+   Sources are found in various files located in ~/etc/apt/sources.list.d/~
 * Compiler toolchain
   For Pop_Os and Ubuntu install ~build-essential~. Contains things like G++/GCC,
   GNU Debugger and other packages for compiling C/C++
