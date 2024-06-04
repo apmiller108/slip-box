@@ -1,0 +1,64 @@
+:PROPERTIES:
+:ID:       6ED8C431-3789-4AF7-808A-DA55BC6CF6EF
+:END:
+#+title: CurrentAttributes
+#+date: 2024-06-04 11:19 AM
+#+updated:  2024-06-04 14:27 PM
+#+filetags: :rails:
+
+
+Rails' ActiveSupport provides an abstraction for setting thread isolated global
+state that is set on a per web request basis. After each request, the
+state is automatically reset.
+
+See also
+https://api.rubyonrails.org/classes/ActiveSupport/CurrentAttributes.html
+
+The canonical example is setting ~Current.user~ for an authenticated web request.
+
+#+begin_src ruby
+  class Current < ActiveSupport::CurrentAttributes
+    attribute :user
+  end
+#+end_src
+
+#+begin_src ruby
+  def set_current_user
+    Current.user = User.find_by(id: cookies.encrypted[:user_id])
+  end
+#+end_src
+
+See also https://api.rubyonrails.org/classes/ActionDispatch/Cookies.html
+
+* dry-effects Alternative
+⚠️ I would only use something like CurrentAttributes sparingly if at all. If
+something like global state makes sense for a certain use cases, consider a
+safer alternative https://github.com/dry-rb/dry-effects (they say it isn't
+global state, but it is just with more explicit code and errors that get raised
+to enforce using it 'safely').
+
+~Reader~ for example, allows passing a value down the stack. It's strictly for
+reading, so if writing state down the stack is needed, use the ~State~ effect.
+
+#+begin_src ruby
+  class ApplicationController < ActionController::Base
+    include Dry::Effects::Handler.Reader(:current_user)
+
+    around_action :provide_current_user
+
+    def provide_current_user(&block)
+      user = User.find_by(id: cookies.encrypted[:user_id])
+      with_current_user(user, &block)
+    end
+  end
+#+end_src
+
+#+begin_src ruby
+  class ThingThatDoesStuff
+    include Dry::Effects.Reader(:current_user, default: nil)
+
+    def call
+      current_user.things
+    end
+  end
+#+end_src
