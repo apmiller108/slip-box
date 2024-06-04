@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2024-01-16 09:55 AM
+#+updated: 2024-06-03 19:49 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -129,3 +129,10 @@ probably forget.
     #+end_src
 
     See also https://emacs.stackexchange.com/a/649
+** Reinstall package
+For example, delete and install org. Find org in the list and open. There's a
+button to install it.
+#+begin_src
+M-x package-delete RET org RET
+M-x list-packages RET / n org RET
+#+end_src
