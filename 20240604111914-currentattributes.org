@@ -3,7 +3,7 @@
 :END:
 #+title: CurrentAttributes
 #+date: 2024-06-04 11:19 AM
-#+updated:  2024-06-04 14:27 PM
+#+updated:  2024-06-05 16:12 PM
 #+filetags: :rails:
 
 
@@ -62,3 +62,8 @@ reading, so if writing state down the stack is needed, use the ~State~ effect.
     end
   end
 #+end_src
+
+Why is the better than CurrentAttributes?
+- Must explicitly declare (via module inclusion) which classes can read or set the
+  global state
+- Accessing global state before it is set raises an error
