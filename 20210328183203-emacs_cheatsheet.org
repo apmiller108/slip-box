@@ -3,76 +3,89 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2024-06-04 14:47 PM
+#+updated: 2024-06-05 16:04 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
 probably forget.
 
-* Evil mode
-** movement
-0 - beginning of line
-^ - beginning of non-whitespace
-$ - end of line
-9j - move down 9 lines
-w - move forward by word
-b - move backward by word
-gg - first line
-G - last line
-C-u - up half page
-C-d - down half page
-f/ - move forward to first "/" character
-t/ = move forward right before the first "/" character
-; - repeat that command again
-H - head of the screen
-M - middle of the screen
-L - last of the screen
-} - move forward by paragraph or block
-{ - move backwards by paragraph or block
-~*~ - search for word under the cursor
-~#~ - search backwards for word under cursor
-/ - search forward
-? - search backward
-% - find matching brace, paren, etc
-ma - mark a line in a file with marker "a"
-`a - after moving around, go back to the exact position of marker "a"
-'a - after moving around, go back to line of marker "a"
-:marks - view all the marks
-'' - go to the last place you were
-[{ - jump back to the "{" at the beginning of the current code block
 
-** editing
-x - delete char under cursor
-X - delete char before cursor
-A - add to end of line
-I - insert at the beginning of the line
-dd - delete line
-D - delete from cursor to end of line
-di' - delete text inside single quotes
-yy - copy line
-Y - copy from cursor to end of line
-cc - change line
-C - change from cursor to end of line
-cit - change text inside html tag
-ci' - change text inside single quotes
-ci{ - change text inside curly brackets.
-ci... - etc
-p - paste after cursor
-P = paste before cursor
-o - add line below
-O - add line above
-. = repeat last comment
-r - replace character
-R - replace. (overwrite) (good for columns of text)
-J - join line (cursor can be anywhere on line)
-
-** visual mode
-v - visual char mode
-V - visual line mode
-C-v - block visual mode
+* Evil mode (and then some)
+** Movement
+    | Command | Description                                                      |
+    |---------+------------------------------------------------------------------|
+    | ~0~       | beginning of line                                                |
+    | ~^~       | beginning of non-whitespace                                      |
+    | ~$~       | end of line                                                      |
+    | ~9j~      | move down 9 lines                                                |
+    | ~w~       | move forward by word                                             |
+    | ~b~       | move backward by word                                            |
+    | ~gg~      | first line                                                       |
+    | ~G~       | last line                                                        |
+    | ~C-u~     | up half page                                                     |
+    | ~C-d~     | down half page                                                   |
+    | ~f/~      | move forward to first "/" character                              |
+    | ~t/~      | move forward right before the first "/" character                |
+    | ~;~       | repeat that command again                                        |
+    | ~H~       | head of the screen                                               |
+    | ~M~       | middle of the screen                                             |
+    | ~L~       | last of the screen                                               |
+    | ~}~       | move forward by paragraph or block                               |
+    | ~{~       | move backwards by paragraph or block                             |
+    | ~*~~      | search for word under the cursor                                 |
+    | ~#~~      | search backwards for word under cursor                           |
+    | ~/~       | search forward                                                   |
+    | ~?~       | search backward                                                  |
+    | ~%~       | find matching brace, paren, etc                                  |
+    | ~ma~      | mark a line in a file with marker "a"                            |
+    | ~`a~      | after moving around, go back to the exact position of marker "a" |
+    | ~'a~      | after moving around, go back to line of marker "a"               |
+    | ~:marks~  | view all the marks                                               |
+    | ~''~      | go back to the last place you were before moving                 |
+    | ~g;~      | go back to the last place edited                                 |
+    | ~[{~      | go back to beginning of code block                               |
+** Editing
+    | Command | Description                                     |
+    |---------+-------------------------------------------------|
+    | ~A~       | add to end of line                              |
+    | ~I~       | insert at the beginning of the line             |
+    | ~yy~      | copy line                                       |
+    | ~Y~       | copy from cursor to end of line                 |
+    | ~cc~      | change line                                     |
+    | ~C~       | change from cursor to end of line               |
+    | ~cit~     | change text inside html tag                     |
+    | ~ci'~     | change text inside single quotes                |
+    | ~ci{~     | change text inside curly brackets.              |
+    | ~ci~...   | change text inside whatever                     |
+    | ~p~       | paste after cursor                              |
+    | ~P~       | paste before cursor                             |
+    | ~o~       | add line below                                  |
+    | ~O~       | add line above                                  |
+    | ~.~       | repeat last command                             |
+    | ~r~       | replace character                               |
+    | ~R~       | replace. (overwrite) (good for columns of text) |
+    | ~J~       | join line (cursor can be anywhere on line)      |
+** Deleting text
+    | Command  | Description                                                   |
+    |----------+---------------------------------------------------------------|
+    | ~dd~       | delete line                                                   |
+    | ~di'~      | delete text inside single quotes (or inside whatever)         |
+    | ~x~        | delete char under cursor                                      |
+    | ~X~        | delete char before cursor                                     |
+    | ~D~        | delete from cursor to end of line                             |
+    | ~d$~       | delete from cursor to end of line                             |
+    | ~dtx~      | delete up to ~x~ where ~x~ is the thing you want to delete up to. |
+    | ~dt space~ | will delete up to first whitespace                            |
+    | ~df space~ | will delete up to and including the first whitespace          |
+** Visual mode
+    | Command | Description       |
+    |---------+-------------------|
+    | ~v~       | visual char mode  |
+    | ~V~       | visual line mode  |
+    | ~C-v~     | block visual mode |
 
 * Word Wrapping
- - ~auto-fill-mode~ is what you need. This will automatically wrap words after
+~auto-fill-mode~ is what you need. This will automatically wrap words after
    the line exceeds whatever value is set for [[elisp:(describe-variable 'fill-column)][fill-column]]
 
    For example, turn it on for org-mode
@@ -81,7 +94,7 @@ C-v - block visual mode
      (add-hook 'org-mode-hook (lambda () (auto-fill-mode 1)))
    #+end_src
 
- - ~fill-region~ does what is says
+~fill-region~ does what is says
 
 * Advising Functions
   [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Advising-Functions.html][Advising-Functions docs]]
@@ -95,13 +108,6 @@ C-v - block visual mode
      ;; Save Org buffers after refiling
      (advice-add 'org-refile :after 'org-save-all-org-buffers)
    #+end_src
-* Deleting text
-  Using evil-mode (these work in Vim as well)
-
-  ~dtx~ where ~x~ is the thing you want to delete up to.
-  ~dt space~ will delete up to first whitespace
-  ~df space~ will delete up to and including the first whitespace
-  ~d$~ will delete from cursor to end of line
 * Surrounding
   Use [[id:D1A12F6B-6303-4DFF-AFD8-8742A16D1A7E][Evil-surround]]
   ~s(~ to surround region (with parenthesis in this example)
@@ -114,7 +120,7 @@ C-v - block visual mode
   ~cs'~ to replace surround (example using single quote, but can be anything)
 
 ** Selecting text within surround
-   ~vi~ [Option]
+~vi~ [Option]
 * Repeating text
   1. Select the region
   2. ~SHIFT I~ (evil insert line count)
@@ -123,8 +129,8 @@ C-v - block visual mode
 * Font
   ~M-x menu-set-font~ offers a GUI font picker and size setter with previews.
 * helm-projectile-find-file
-  - This does fuzzy matching by default
-  - Start search query with a SPC to switch from fuzzy to exact match.
+    This does fuzzy matching by default
+    Start search query with a SPC to switch from fuzzy to exact match.
 * Treesitter
   Having this in emacs means syntax highlighting via a syntax tree rather than
   regex patters, better movement and hopefully faster.
@@ -197,3 +203,10 @@ C-v - block visual mode
     M-x package-delete RET org RET
     M-x list-packages RET / n org RET
   #+end_src
+* Word Processing
+** Spell check
+*** flyspell
+    See functions ~flyspell-~
+*** aspell
+** Dictionary
+  See functions ~dictionary-~
