@@ -3,7 +3,7 @@
 :END:
 #+title: GPG
 #+date: 2024-05-30 15:44 PM
-#+updated:  2024-05-31 11:58 AM
+#+updated:  2024-06-08 21:13 PM
 #+filetags: :security:linux:git:emacs:
 
 * Setup
@@ -40,6 +40,8 @@ Run the following and follow the prompts. Choose a passphrase and don't forget i
 gpg2 --gen-key
 #+end_src
 The public and private keys will be generated into the ~~/.gnupg~ dir.
+* Renew
+Keys will expire after some time, but they can be renewed. Search for how to do this.
 * Export
 Export keys to import them on to another machine. You might want to list your
 keys first.
