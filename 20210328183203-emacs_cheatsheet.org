@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2024-06-05 16:04 PM
+#+updated: 2024-06-07 13:50 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -32,8 +32,8 @@ probably forget.
     | ~L~       | last of the screen                                               |
     | ~}~       | move forward by paragraph or block                               |
     | ~{~       | move backwards by paragraph or block                             |
-    | ~*~~      | search for word under the cursor                                 |
-    | ~#~~      | search backwards for word under cursor                           |
+    | ~*~       | search for word under the cursor                                 |
+    | ~#~       | search backwards for word under cursor                           |
     | ~/~       | search forward                                                   |
     | ~?~       | search backward                                                  |
     | ~%~       | find matching brace, paren, etc                                  |

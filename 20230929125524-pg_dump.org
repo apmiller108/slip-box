@@ -3,7 +3,7 @@
 :END:
 #+title: pg_dump
 #+date: 2023-09-29 12:55 PM
-#+updated:  2024-04-09 09:11 AM
+#+updated:  2024-06-07 13:43 PM
 #+filetags: :postgres:
 
 
@@ -21,6 +21,10 @@
    When using ~pg_restore~ you can use some of the same flags, like ~--data-only~ if
    you don't want to restore schema. Also, ~--disable-triggers~ can be useful if
    you need to skip constraint checks.
+
+   #+begin_src shell
+    pg_restore -h localhost -p 9001 -U postgres --dbname=mydatabsae --data-only --disable-triggers path/to/dumpfile.sql
+   #+end_src
 ** Only want data?
    Use ~--data-only~ flag.
 ** Only want certain tables?
