@@ -1,0 +1,14 @@
+{
+  "name": "slip-box",
+  "version": "1.0.0",
+  "description": "Slip-box of org notes in Zettelkasten style. Hosted at [notes.alex-miller.co](https://notes.alex-miller.co).",
+  "main": "build-index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lunr": "^2.3.9"
+  }
+}
