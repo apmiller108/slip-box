@@ -3,7 +3,7 @@
 :END:
 #+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2023-12-14 20:08 PM
+#+updated: 2024-06-10 15:30 PM
 #+filetags: :org_mode:org_roam:emacs:
 
 * Overview
@@ -21,7 +21,7 @@
    sort on the homepage.
  - CI is run on GitHub actions where this is built and deployed to Netlify.
    It is hosted at https://notes.alex-miller.co/. See [[https://github.com/apmiller108/slip-box/blob/main/.github/workflows/main.yml][CI configuration.]]
-    
+
 ** Learning resources for org-mode publishing
   - [[https://orgmode.org/manual/Publishing.html#Publishing][Org-mode publishing documentation]]
   - [[https://youtu.be/618uCFTNNpE][System Crafters YouTube Episode: Static Websites with Emacs, Org Mode and Sourcehut]]
@@ -36,16 +36,16 @@
     ~ln -s site_assets/css public/css~
     ~ln -s site_assets/favicon public/favicon~
 *** Serving locally
-    After building locally to the ~public~ directory, I use the
+    After building locally (see below) to the ~public~ directory, I use the
     [[https://github.com/skeeto/emacs-web-server][emacs-web-server package]] to serve it locally. Use ~httpd-serve-directory~
     and point it at the publishing directory. It will serve the site on
-    http://localhost:8080/. 
+    http://localhost:8080/. See also [[id:0FB30792-CC20-4653-BEC4-F5B47A434CD6][Zero config HTTP servers]] for other options.
 
 ** Building
    Run ~build_script.sh~. Among other things, this calls out to functions
    defined in ~publish.el~, which itself uses this file.
 
-   This build requires having [[https://www.ruby-lang.org/en/][Ruby]] and [[https://lunrjs.com/][lunr]] installed. I use these to pre-build
+   This build requires having [[https://www.ruby-lang.org/en/][Ruby]] and [[https://lunrjs.com/][lunr]] installed (npm install). I use these to pre-build
    the search index.
 
    Files will build into the ~public/~  dir
@@ -54,12 +54,12 @@
 *** With docker
     - Build a tagged container: ~docker build -t build-site .~
     - Run the build script against the container: ~docker run -it --rm -v "$PWD/public":/app/public build-site~
-    
-** Deploying   
+
+** Deploying
 * Dependencies
 
 ** Package repositories
-   
+
   - Adds ~melpa~ and ~elpa~ archives.
   - Sets the package archives directory so that packages aren't installed in
     ~~/.emacs.d/elpa~.
@@ -81,7 +81,7 @@
 
    See [[https://github.com/jwiegley/use-package][use-package repo]] for more on this. It's a clean way to handle
    dependencies in emacs.
- 
+
   #+begin_src emacs-lisp +n :results silent
     (unless (package-installed-p 'use-package)
       (package-install 'use-package))
@@ -122,7 +122,7 @@
    - Tell it to use a stylesheet over line styles by setting the
      ~org-html-htmlize-output-type~ variable. See below.
    - Check out [[https://github.com/gongzhitaao/orgcss][Org css]] for more on this.
-   
+
    #+begin_src emacs-lisp +n :results silent
     (use-package htmlize :ensure t)
    #+end_src
@@ -152,8 +152,8 @@
 
 * Variables
 ** Site variables
-   These get referenced when generating the HTML. 
-   
+   These get referenced when generating the HTML.
+
    #+begin_src elisp +n :results silent
   (setq my/site-title   "Alex's Slip-box"
         my/site-tagline "These are my org-mode notes in sort of Zettelkasten style"
@@ -181,7 +181,7 @@
 ** HTML exporter variables
    - Tell ~htmlize~ to use a CSS stylesheet rather than inline styles.
    - Use ~describe-variable~ to learn about the rest of them.
-   
+
    #+begin_src emacs-lisp +n :results silent
      (setq org-html-metadata-timestamp-format "%Y-%m-%d"
            org-html-checkbox-type 'site-html
@@ -198,8 +198,8 @@
    #+begin_src emacs-lisp +n :results silent
      (setq make-backup-files nil)
    #+end_src
-   
-* Export document 
+
+* Export document
 ** Site header
    - This function is called when generating the HTML template below.
      - ~info~ arg is a plist from which we can get configuration details about
@@ -238,31 +238,28 @@
 ** Site footer
    - This function is called when generating the HTML template below.
    - ~creator~ is ~Emacs {{version}} (Org mode {{version}})~
-  
+
    #+begin_src elisp +n :results silent
      (defun my/site-footer (info)
        (sxml-to-xml
        `(footer (@ (class "footer uk-section uk-section-secondary"))
                  (div (@ (class "uk-container footer-container"))
                       (div (@ (class "footer-links"))
-                           (a (@ (href "https://notes.alex-miller.co/")
-                                 (class "footer-link")
-                                 (uk-icon "icon: album"))
-                                 "notes")
                            (a (@ (href "https://github.com/apmiller108")
                                  (class "footer-link")
                                  (uk-icon "icon: github-alt"))
                                  "github")
-                           (a (@ (href "https://twitter.com/apmiller108")
+                           (a (@ (href "https://notes.alex-miller.co/")
                                  (class "footer-link")
-                                 (uk-icon "icon: twitter"))
-                              "@apmiller108")
-                           (a (@ (href "https://www.reddit.com/user/apmillz")
+                                 (uk-icon "icon: album"))
+                                 "notes")
+                           (a (@ (href "https://alex-miller.co/")
                                  (class "footer-link")
-                                 (uk-icon "icon: reddit"))
-                              "u/apmillz"))
-                      (div (@ (class "made-with"))
-                           (p "Made with " ,(plist-get info :creator)))))))
+                                 (uk-icon "icon: home"))
+                                 "alex-miller.co"))
+                      (div (@ (class "copyright"))
+                           (p "Made with " ,(plist-get info :creator))
+                           (p ,(format "Copyright © %d Alex P. Miller. All rights reserved." (string-to-number (format-time-string "%Y")))))))))
    #+end_src
 
 ** The HTML Template
@@ -413,7 +410,7 @@
           (org-element-put-property link :path
                                     (my/format-path-for-anchor-tag
                                               (org-element-property :path link))))
-      
+
         (if (and (string= 'file (org-element-property :type link))
                 (file-name-extension (org-element-property :path link))
                 (string-match "png\\|jpg\\|svg\\|webp"
@@ -437,7 +434,7 @@
 
 *** Headings
     This part is largely unchanged from David Wilson's publish.el on which
-    this is based.     
+    this is based.
     - Maybe something else already requires [[https://github.com/emacs-mirror/emacs/blob/emacs-27.2/lisp/emacs-lisp/subr-x.el][subx-r.el]], but we make sure we can
       use ~thread-last~.
     - This helper function is used when rendering headlines. It kebab cases the
@@ -528,7 +525,7 @@
     duplicate values removed and sorted alphabetical ascending. These are turned
     into tags on the page used for filtering the entries by topic. All of the JS
     used for filtering is provided by the [[https://getuikit.com/][UIkit]] CSS framework.
-    
+
     #+begin_src emacs-lisp +n :results silent
       (defun my/sitemap (title list)
         (let* ((unique-tags
@@ -566,12 +563,12 @@
                                 "\n"))))
           "\n#+END_EXPORT\n")))
    #+end_src
-   
+
 * Derived backend
    You can derive a custom backend from an existing one and can override certain
    functions. In this example, ~my-site-html~ derives from ~html~ and overrides
    template, link, and headline functions.
-   
+
    - The ~:translate-alist~ part allows you to map an org element to a function
      handler.
    - The ~:options-alist~ gives you the ability to define keywords that map to
@@ -587,7 +584,7 @@
          when publishing.
          *UPDATE:* with org-roam V2, ~roam_tags~ where replaced with just
          org-mode's ~filetags~
-  
+
   #+begin_src emacs-lisp +n :results silent
     (org-export-define-derived-backend
         'site-html
@@ -637,7 +634,7 @@
      would be ~/my-post/index.html~.
    - Finally, it calls ~org-publish-org-to~ which publishes a file using the
      selected backend.
-   
+
    #+begin_src emacs-lisp +n :results silent
      (defun my/org-html-publish-to-html (plist filename pub-dir)
        (with-current-buffer (find-file filename)
@@ -659,7 +656,7 @@
    This is the configuration for the publishable projects. Each project can be
    published independently with ~org-publish~ and the project name (eg
    ~(org-publish "site")~), or all of them with ~org-publish-all~.
-   
+
    #+BEGIN_SRC emacs-lisp +n :results silent
      (setq org-publish-project-alist
            (list
