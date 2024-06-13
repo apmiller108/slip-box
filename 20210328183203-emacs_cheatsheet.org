@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2024-06-07 13:50 PM
+#+updated: 2024-06-13 14:49 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -210,3 +210,6 @@ probably forget.
 *** aspell
 ** Dictionary
   See functions ~dictionary-~
+* List key strokes
+~C-h l~ calls ~view-lossage~. This does not update as keys are pressed, but gives
+you at static list of the 300 key presses.
