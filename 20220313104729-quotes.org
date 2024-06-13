@@ -3,7 +3,7 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2024-01-12 08:36 AM
+#+updated: 2024-06-13 15:36 PM
 #+filetags: :philosophy:
 
 #+begin_quote
@@ -98,4 +98,10 @@ That's the Native way of teaching. We have this, traditional pedagogy of, "just
 get out there and learn, fucker."
 
 --- Spirit, [[https://www.youtube.com/watch?v=qBD-pMDbTqg][Reservation Dogs]]
+#+end_quote
+
+#+begin_quote
+It's more fun when you freak out.
+
+--- Dominique Miller
 #+end_quote
