@@ -213,3 +213,7 @@ probably forget.
 * List key strokes
 ~C-h l~ calls ~view-lossage~. This does not update as keys are pressed, but gives
 you at static list of the 300 key presses.
+* Exiting
+** When in client mode
+This will close the client but keep the server running
+~C-x C-c~  ~save-buffers-kill-terminal~ 
