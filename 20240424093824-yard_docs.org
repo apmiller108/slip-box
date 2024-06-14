@@ -3,11 +3,11 @@
 :END:
 #+title: yard docs
 #+date: 2024-04-24 09:38 AM
-#+updated:  2024-04-24 09:54 AM
+#+updated:  2024-06-14 11:30 AM
 
-I can never remember [[https://yardoc.org/guides/index.html][yard]] doc syntax. Here's a nice cheatsheet:
+I can never remember [[https://yardoc.org/guides/index.html][yard]] doc syntax.
 
-https://gist.github.com/chetan/1827484
+👀 *Here's a nice cheatsheet:* https://github.com/chriscz/cheatsheets/blob/main/yard/index.md 👀
 
 quick example:
 
@@ -17,10 +17,12 @@ quick example:
   # @param baz [Int] description of param
   # @yield [bar] description of block
   # @raise [ArgumentError] description of the error
+  # @return [Symbol, nil]
   def foo(bar:, baz: 0)
     # Do stuff and things
     raise ArgumentError if baz.negative?
     yield bar
+    return :foo if baz.zero?
   end
 #+end_src
 
