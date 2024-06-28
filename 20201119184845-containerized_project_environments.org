@@ -3,7 +3,7 @@
 :END:
 #+title: Containerized project environments
 #+date: 2020-11-19 18:48 PM
-#+updated: 2023-08-14 08:15 AM
+#+updated: 2024-06-28 11:55 AM
 #+filetags: :docker:ruby:
 
 Instead of messing about with version managers and local environment setup
@@ -22,7 +22,11 @@ that big of a deal.
   #+begin_src shell
   docker run -it --rm -v "$PWD":/app -w "/app" ruby:latest bash
   #+end_src
-
+** Exclude a directory
+   Working on a node project, probably don't want the local node_modules directory
+   #+begin_src shell
+   docker run -it --rm -v "$PWD":/app -v /app/node_modules node:latest bash
+   #+end_src
 * The quick and dirty
   Just need a bare environment for messing around? Copy this to a Dockerfile,
   pick an image, build and run. (see build and run command comments below)
