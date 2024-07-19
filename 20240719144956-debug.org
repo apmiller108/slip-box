@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       C4087782-793A-40D7-99D1-6C459D5D3408
+:END:
+#+title: debug
+#+date: 2024-07-19 14:49 PM
+#+updated:  2024-07-19 14:56 PM
+#+filetags: :ruby:
+
+As of ruby v3.1 debug gem in included. Still, you might want to add the gem if
+you want to use the latest version.
+
+Insert break points with ~binding.b~
+
+See
+https://github.com/ruby/debug?tab=readme-ov-file#debug-command-on-the-debug-console
+for a list of all the debug console commands.

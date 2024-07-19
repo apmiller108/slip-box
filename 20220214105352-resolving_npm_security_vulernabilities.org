@@ -3,7 +3,7 @@
 :END:
 #+title: Resolving NPM security vulernabilities
 #+date: 2022-02-14 10:53 AM
-#+updated: 2023-06-09 15:35 PM
+#+updated: 2024-07-02 11:34 AM
 #+filetags: :npm:security:javascript:
 
 * Tools
@@ -49,14 +49,21 @@
   3. Manually update the top level packages one-by-one. The vulnerability is
      with one of their dependencies and could be resolved with a newer version.
 
+     For top level:
      - Use ~npm outdated some-package~.
      - Find the "Wanted" version
      - Change the version in the ~package.json~ to the "Wanted" version.
      - Run ~npm install~ to update that package.
+
+     For below top level:
+     - Running ~npm audit~ will show which dependency has the vulnerable one
+     - Update that dependency.
+     - Also can use ~npm ls~ to see where the package sits in the dependency tree
   4. That may not work to resolve a dependency of a dependency at whatever
      depth it is. Try to update that dependency manually with:
 
-     ~npm update some-dependency-of-a-dependency --depth 5~ (npm v6)
+     ~npm update some-dependency-of-a-dependency --depth 5~ (npm v6 **removed in
+     newer versions**)
 
      This probably won't work. If it did, it would have been updated as part of
      ~npm audit fix~. So, instead dig into the ~package-lock.json~ and see if
