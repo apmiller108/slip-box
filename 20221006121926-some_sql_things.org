@@ -3,7 +3,7 @@
 :END:
 #+title: Some SQL things
 #+date: 2022-10-06 12:19 PM
-#+updated: 2023-11-03 14:10 PM
+#+updated: 2024-07-19 15:04 PM
 #+filetags: :sql:postgres
 
 * Join only on first record
@@ -120,6 +120,19 @@
     INTO temp_delete_widgets_20230627
     FROM deletes;
    #+end_src
+** Use case 2: Updates where you'd want to use a join
+   #+begin_src sql
+     WITH posts_to_update AS (
+       SELECT id FROM posts p
+       JOIN authors a ON a.id = p.author_id
+       WHERE a.name IN ('dude1', 'dude1')
+       )
+     UPDATE posts
+         active = false
+     FROM posts_to_update
+     WHERE posts.id = posts_to_update.id;
+   #+end_src
+
 * Constraints (PG)
   - See also [[id:A3972BA3-6BD6-4970-8B22-0065A1F7978D][ActiveRecord Migrations Cheatsheet]] for some stuff on ~CHECK~
     CONSTRAINT
