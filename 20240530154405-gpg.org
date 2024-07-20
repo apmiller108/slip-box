@@ -3,7 +3,7 @@
 :END:
 #+title: GPG
 #+date: 2024-05-30 15:44 PM
-#+updated:  2024-06-08 21:13 PM
+#+updated:  2024-07-20 10:08 AM
 #+filetags: :security:linux:git:emacs:
 
 * Setup
@@ -66,6 +66,15 @@ Import exported keys from another machine
 #+begin_src shell
 gpg2 --import {{filename}}
 #+end_src
+* Trust
+Configure the trust level of a certain key by opening the interactive editing
+program.
+
+#+begin_src sh
+gpg --edit-key <user@email.com>
+#+end_src
+
+At the prompt type ~edit~ and select the trust level from the menu.
 * Emacs
 Uses EasyPG package. See commands prefixed with ~epa-~
 
