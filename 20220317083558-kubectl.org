@@ -3,7 +3,7 @@
 :END:
 #+title: Kubectl
 #+date: 2022-03-17 08:35 AM
-#+updated: 2024-05-17 09:17 AM
+#+updated: 2024-08-13 12:19 PM
 #+filetags: :kubernetes:
 
 See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
@@ -38,5 +38,5 @@ namespace wasn't already set with ~set-context~
     #+end_src
 ** Copy remote file to local
     #+begin_src
-      kubectl cp hubble/$(kubectl get po --template '{{range.items}}{{.metadata.name}}{{end}}' -n foospace --selector=component=web):/path/to/remote/file /path/to/local
+      kubectl cp deploymentname/$(kubectl get po --template '{{range.items}}{{.metadata.name}}{{end}}' -n foospace --selector=component=web):/path/to/remote/file /path/to/local
     #+end_src

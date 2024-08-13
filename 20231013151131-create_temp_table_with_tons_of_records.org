@@ -3,13 +3,14 @@
 :END:
 #+title: Create temp table with tons of records
 #+date: 2023-10-13 15:11 PM
-#+updated:  2023-10-13 15:17 PM
+#+updated:  2024-08-08 11:04 AM
 #+filetags: :sql:postgres:
 
 This might be useful for doing some rudimentary performance testing.
 
 See also [[id:F544CDDD-34B9-4475-B265-1139F18D9090][Large SQL data migrations]]
 
+* Postgres
 This example generates a temp table called things, with 1 million rows.
 #+begin_src sql
 \timing
@@ -22,3 +23,8 @@ SELECT
   'Name-' || seq::TEXT as name
 FROM GENERATE_SERIES(1, 1000000) AS t(seq);
 #+end_src
+
+* MSSQL
+I'm not sure how best to do this with MSSQL, but one option is a loop, but it
+takes a long time (hours) if you need millions of records.
+See also https://www.mssqltips.com/sqlservertip/5148/populate-large-tables-with-random-data-for-sql-server-performance-testing/

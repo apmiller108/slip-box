@@ -3,8 +3,8 @@
 :END:
 #+title: Transcribing wavs
 #+date: 2023-12-05 21:27 PM
-#+updated:  2023-12-15 14:18 PM
-#+filetags: :ruby:ai:
+#+updated:  2024-07-31 08:31 AM
+#+filetags: :ruby:ai:ffpeg
 
 I needed to do a bit a research on transcribing audio files. I did some ruby
 scripting to test several approaches including Azure Speech and OpenAI speech to
