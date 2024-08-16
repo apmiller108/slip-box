@@ -1,0 +1,55 @@
+:PROPERTIES:
+:ID:       59ED4C2F-6166-4277-B3B5-3BAF6E8929F6
+:END:
+#+title: ActiveRecord query objects
+#+date: 2024-08-16 11:36 AM
+#+updated:  2024-08-16 13:22 PM
+
+Isolate business logic from models.
+
+See also [[id:28FC6AAD-4491-4DA5-BB3A-796E9EECD235][ActiveRecord Querying]]
+
+* Base class
+
+#+begin_src ruby
+  # app/models/application_query.rb
+  class ApplicationQuery
+    class << self
+      def resolve(...)
+        new.resolve(...)
+      end
+    end
+
+    attr_reader :relation
+
+    def initialize(relation)
+      @relation = relation
+    end
+
+    def resolve(*args)
+      relation
+    end
+  end
+#+end_src
+
+* Subclass example
+This is from [[https://github.com/apmiller108/tmp][tmp]]
+
+#+begin_src ruby
+  # app/models/user/with_image_containing_memos.rb
+  class User
+    class WithImageContainingMemos < ApplicationQuery
+      def initialize(relation = User.all)
+        super(relation)
+      end
+
+      def resolve(image_count: 1)
+        User.with(
+          with_image_memos: Memo.where(image_attachment_count: image_count..)
+                                .select(:user_id)
+                                .distinct
+        ).joins(:with_image_memos)
+      end
+    end
+  end
+#+end_src
