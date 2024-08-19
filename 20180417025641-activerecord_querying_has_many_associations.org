@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord Querying
 #+date: 2018-04-17 02:56 AM
-#+updated: 2024-08-16 13:22 PM
+#+updated: 2024-08-19 09:40 AM
 #+filetags: :rails:ruby:
 
 See also [[id:59ED4C2F-6166-4277-B3B5-3BAF6E8929F6][ActiveRecord query objects]]
@@ -119,3 +119,9 @@ See also [[id:59ED4C2F-6166-4277-B3B5-3BAF6E8929F6][ActiveRecord query objects]]
              .from('recently_rated_discovered AS asteroids')
              .count
    #+end_src
+
+* Batches
+There's a few ways of doing batch operations, here's several:
+- [[https://api.rubyonrails.org/classes/ActiveRecord/Batches.html#method-i-in_batches][in_batches]]
+- [[https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-insert_all][insert_all]]
+- [[https://api.rubyonrails.org/classes/ActiveRecord/Relation.html#method-i-upsert_all][upsert_all]]
