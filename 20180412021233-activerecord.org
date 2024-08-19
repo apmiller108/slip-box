@@ -3,10 +3,15 @@
 :END:
 #+title: ActiveRecord
 #+date: 2018-04-12 02:12 AM
-#+updated: 2024-05-17 10:08 AM
+#+updated: 2024-08-19 09:35 AM
 #+filetags: :ruby:rails:
 
 This is a big ass dump of ActiveRecod stuff I've learned.
+
+See also:
+- [[id:28FC6AAD-4491-4DA5-BB3A-796E9EECD235][ActiveRecord Querying]]
+- [[id:59ED4C2F-6166-4277-B3B5-3BAF6E8929F6][ActiveRecord query objects]]
+- [[id:A3972BA3-6BD6-4970-8B22-0065A1F7978D][ActiveRecord Migrations Cheatsheet]]
 
 #+begin_quote
 An object that wraps a row in a database table or view, encapsulates the
