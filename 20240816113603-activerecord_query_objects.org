@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord query objects
 #+date: 2024-08-16 11:36 AM
-#+updated:  2024-08-16 13:22 PM
+#+updated:  2024-08-19 09:59 AM
 
 Isolate business logic from models.
 
@@ -53,3 +53,35 @@ This is from [[https://github.com/apmiller108/tmp][tmp]]
     end
   end
 #+end_src
+
+** Adding scopes
+  One could decide to extract scopes used for a query object to the relevant
+  model. Or they could be extracted to a module within the query object as a way
+  of wrapping parts of the query in methods that organize the code and improve
+  readabilty.
+
+  #+begin_src ruby
+    # app/models/user/with_image_containing_memos.rb
+    class User
+      class WithImageContainingMemos < ApplicationQuery
+        module Scopes
+          def with_image_count_gt(count)
+            where(image_attachment_count: image_count..)
+          end
+        end
+
+        def initialize(relation = User.all)
+          super(relation)
+        end
+
+        def resolve(image_count: 1)
+          User.with(
+            with_image_memos: Memo.extending(Scopes)
+                                  .with_image_count_gt(image_count)
+                                  .select(:user_id)
+                                  .distinct
+          ).joins(:with_image_memos)
+        end
+      end
+    end
+  #+end_src
