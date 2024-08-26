@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord query objects
 #+date: 2024-08-16 11:36 AM
-#+updated:  2024-08-19 09:59 AM
+#+updated:  2024-08-23 11:41 AM
 
 Isolate business logic from models.
 
@@ -14,10 +14,8 @@ See also [[id:28FC6AAD-4491-4DA5-BB3A-796E9EECD235][ActiveRecord Querying]]
 #+begin_src ruby
   # app/models/application_query.rb
   class ApplicationQuery
-    class << self
-      def resolve(...)
-        new.resolve(...)
-      end
+    def self.call(...)
+      new.resolve(...)
     end
 
     attr_reader :relation
@@ -83,5 +81,14 @@ This is from [[https://github.com/apmiller108/tmp][tmp]]
           ).joins(:with_image_memos)
         end
       end
+    end
+  #+end_src
+** Attach query obj to scope
+  Query objects can be attached to active record scopes if you want, as long as
+  the object responds to ~call~
+
+  #+begin_src ruby
+    class User < ApplicationRecord
+      scope :with_image_containing_memos, WithImageContainingMemos
     end
   #+end_src

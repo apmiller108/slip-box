@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2024-05-21 11:31 AM
+#+updated: 2024-08-26 15:49 PM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -47,6 +47,8 @@ and/or framework.
   - [[https://discuss.rubyonrails.org/t/explaining-thruster-a-new-37signals-gem-that-speeds-up-your-app/85567][Explaining Thruster]]
     A post on discuss.rubyonrails.org about Thruster and different asset caching
     strategies using reverse proxies, CDNs, etc.
+  - [[https://books.writesoftwarewell.com/3/rails-router][The Rails Router (ebook)]]
+    An e-book that covers the RoR router pretty thoroughly
 * Javascript
   - https://www.akshaykhot.com/using-hotwire-without-rails/: Explains how to use
     Hotwire (Turbo primarily) without the RoR framework. What's nice about this
