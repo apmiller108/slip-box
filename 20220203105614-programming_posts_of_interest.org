@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2024-08-26 15:49 PM
+#+updated: 2024-08-27 12:17 PM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -33,13 +33,6 @@ and/or framework.
     title, but an interesting take on piping Rails assets to a CDN.
   - [[https://evilmartians.com/chronicles/gemfile-of-dreams-libraries-we-use-to-build-rails-apps][Gemfile of dreams: Libraries we use to build rails apps]]: Evil Martians'
     commonly uses Rails libs.
-  - https://semaphoreci.com/blog/ruby-webassembly: How to webassembly in Ruby as
-    of February, 2023.
-  - [[https://www.driftingruby.com/episodes/deploying-with-mrsk][Drifting Ruby: Deploying with MRSK]]
-    Screen cast of deploying with docker to Digital Ocean using [[https://github.com/mrsked/mrsk][MRSK]]. There's a
-    bunch of gotchas to set this up, so worth a watch. This can be used for
-    deploying pretty much anywhere, even on prem. Servers need to be prepared in
-    advance (eg, load balancer, app nodes, database server, etc.)
   - [[https://stanko.io/deconstructing-action-cable-DC7F33OsjGmK][Deconstructing ActionCable]]
     This is an explanation of how ActionCable works. There's some information in
     here that might help demystify some things or at least reveal details not in
@@ -60,7 +53,17 @@ and/or framework.
 * DevOps
   - [[https://railsnotes.xyz/blog/deploying-ruby-on-rails-with-dokku-redis-sidekiq-arm-docker-hetzner][Deploying Ruby on Rails with Dokku]]: this is a kinda of ultimate guide for
     using Dokku. Includes deploying with docker.
+  - [[https://www.driftingruby.com/episodes/deploying-with-mrsk][Drifting Ruby: Deploying with MRSK]]
+    Screen cast of deploying with docker to Digital Ocean using [[https://github.com/mrsked/mrsk][MRSK]]. There's a
+    bunch of gotchas to set this up, so worth a watch. This can be used for
+    deploying pretty much anywhere, even on prem. Servers need to be prepared in
+    advance (eg, load balancer, app nodes, database server, etc.)
   - [[https://www.netguru.com/blog/responsive-system-with-aws-aurora-and-a-ruby-application][AWS Aurora and RoR]]: Describes the challenges of reducing both application
     node and database bottle necks by using auto scaling techniques with EC2 and
     Aurora; and testing by doing performance tests and failovers. Required
     careful DB and connection pooling configuration.
+  - [[https://samwho.dev/load-balancing/][Load Balancing]]: A visual guide to load balancing strategies like round
+    robin, least connections, PEWMA
+* Web Development
+  - [[https://blog.appsignal.com/2024/08/14/an-introduction-to-http-caching-in-ruby-on-rails][HTTP caching in RoR]]: While this is centered on RoR development, the post
+    discusses quite a bit about HTTP cache-related headers.
