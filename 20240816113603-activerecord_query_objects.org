@@ -3,7 +3,8 @@
 :END:
 #+title: ActiveRecord query objects
 #+date: 2024-08-16 11:36 AM
-#+updated:  2024-08-23 11:41 AM
+#+updated:  2024-08-28 16:38 PM
+#+filetags: :rails:
 
 Isolate business logic from models.
 
