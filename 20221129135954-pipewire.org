@@ -3,7 +3,7 @@
 :END:
 #+title: pipewire
 #+date: 2022-11-29 13:59 PM
-#+updated: 2023-09-01 14:29 PM
+#+updated: 2024-09-04 14:03 PM
 #+filetags: :linux:audio:
 
 https://docs.pipewire.org/index.html
@@ -13,10 +13,16 @@ see also [[id:959acd5a-c6f7-4247-baf6-d8f5c7fd765a][pulseaudio]]
 * GUI
   [[https://gitlab.freedesktop.org/rncbc/qpwgraph][qpwgraph]] works just like qjackctl
 * Scripting
+  See https://docs.pipewire.org/page_man_pw-cli_1.html
   See https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/Migrate-JACK
 ** pw-link
    Manage IO connections. Takes the place of ~jack_connect~, ~jack_disconnect~
    and ~jack_lsp~
+
+   https://docs.pipewire.org/page_man_pw-link_1.html
+
+** Dump midi messages
+  https://docs.pipewire.org/page_man_pw-mididump_1.html
 * Issues
 ** Volume very low
 *** Set volume using a mixer tool
