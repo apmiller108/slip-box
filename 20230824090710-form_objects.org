@@ -4,14 +4,15 @@
 #+title: The Utility of ActiveModel
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2024-02-13 19:41 PM
+#+updated:  2024-09-06 12:11 PM
 
 Make use of various ~ActiveModel~ modules in your Ruby objects to get ~ActiveRecord~
 like behavior like type casting, validation, and callbacks. Code that would
 otherwise be complex, can be simplified by providing a familiar Railsy interface
 while also saving you some development time.
 
-The form object pattern is one example.
+The form object pattern is one example:
+- https://github.com/apmiller108/tmp/blob/main/lib/conversation_form.rb
 
 There's already lot on the internet about form objects in Rails. Rather than
 just the basic example, I want to document additional use cases organized by
