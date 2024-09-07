@@ -3,7 +3,7 @@
 :END:
 #+title: My audio setup
 #+date: 2022-06-21 18:01 PM
-#+updated: 2024-09-07 12:05 PM
+#+updated: 2024-09-07 12:12 PM
 #+filetags: :audio:
 
 #+attr_html: :width 750
@@ -37,7 +37,11 @@
   https://github.com/apmiller108/audio/blob/main/pipewire_mixxx_startup.sh
 
 * Pics
-
+** Overview
 [[file:images/my-audio-setup-pic_1.webp]]
+
+** Poly Effects Beebo
 [[file:images/my-audio-setup-pic_2.webp]]
+
+** Roland SDE-1000 with 2 Channel EQ
 [[file:images/my-audio-setup-pic_3.webp]]
