@@ -3,14 +3,15 @@
 :END:
 #+title: My audio setup
 #+date: 2022-06-21 18:01 PM
-#+updated: 2023-09-30 19:22 PM
+#+updated: 2024-09-07 11:20 AM
 #+filetags: :audio:
 
 #+attr_html: :width 750
 [[file:images/my-setup_1.webp]]
 
 * Diagram
-[[file:images/audio-setup-2023-09-24-0933.png]]
+[[file:images/audio-setup-2024-09-07-0933.png]]
+
 
   [[file:images/audio-setup-2023-09-24-0933.excalidraw][Excalidraw diagram]]
 * Midi Clock
