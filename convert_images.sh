@@ -3,14 +3,14 @@
 # Converts the jpg files in the `./images` directory to webp. Filename is
 # changed and index appended.
 # Usage:
-#   From the slip_box directory run
+#   From the a dir containing jpg images
 #
 #   ./convert_images.sh my_new_file_name
 #
 #   This will output images/my_new_file_name_{i}.webp
 set -euo pipefail
 
-target_dir="./images"
+target_dir="./"
 extension=".webp"
 
 if [ $# -eq 0 ]; then
