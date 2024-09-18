@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec things
 #+date: 2022-08-12 12:14 PM
-#+updated: 2024-04-23 13:24 PM
+#+updated: 2024-09-18 13:49 PM
 #+filetags: :rspec:ruby:
 
 * Blocks
@@ -122,6 +122,9 @@
   #+end_src
 * Testing ActiveRecord concerns (need an anonymous database backed model?)
   1. Create an anonymous class that inherits from ~ApplicationRecord~
+     See also
+     https://www.rubydoc.info/gems/rubocop-rspec/RuboCop/Cop/RSpec/LeakyConstantDeclaration
+     for guidelines on creating anonymous classes
   2. Create a table and insert some records if needed
   3. Make sure the model sets the ~table_name~
   4. In the test, now you can instantiate ~model_class.new~ and test the concerns
