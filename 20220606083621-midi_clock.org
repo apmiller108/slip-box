@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2024-05-21 15:23 PM
+#+updated: 2024-10-11 11:17 AM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -90,6 +90,12 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
     - https://github.com/x42/jack_midi_clock/blob/master/jack_midi_clock.c
     - https://github.com/DarkPoubelle/behringer-x-touch-mini-mapper/blob/080e8abe2fce00e84678c000afefed8b63fe6731/main.cpp
     - https://github.com/Ardour/ardour/blob/83225886a16a29100b88825e083da267e38e26e1/libs/backends/jack/jack_portengine.cc
+* Arduino
+** Libraries
+*** TimerOne
+    https://www.pjrc.com/teensy/td_libs_TimerOne.html
+*** Examples
+    - https://github.com/DieterVDW/arduino-midi-clock
 ** Conclusion
   This shit ain't gonna work unless I use an external device to generate the midi
   clock signal based on beat data from mixxx:
