@@ -3,7 +3,7 @@
 :END:
 #+title: Ruby gems
 #+date: 2023-10-13 13:46 PM
-#+updated:  2024-05-31 12:03 PM
+#+updated:  2024-10-11 09:36 AM
 #+filetags: :ruby:
 
 This is a list of potentially useful Ruby libraries.
@@ -53,3 +53,7 @@ See also
 * Serialization
 ** [[https://www.shalerb.org/][Shale]]
    A library for object mapping and serialization. It looks promising.
+* Dates, Time and Schedules
+** ice_cube
+   Scheduling
+   https://github.com/ice-cube-ruby/ice_cube
