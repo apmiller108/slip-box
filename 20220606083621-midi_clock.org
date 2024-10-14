@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2024-10-11 11:17 AM
+#+updated: 2024-10-12 08:35 AM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]

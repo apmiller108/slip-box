@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI messages
 #+date: 2022-06-06 16:10 PM
-#+updated: 2022-06-16 20:36 PM
+#+updated: 2024-10-14 08:13 AM
 #+filetags: :audio:midi:
 
 See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
@@ -17,40 +17,47 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
   - MIDI messages are composed of several bytes. Just how many depends on the
     type of messages
   - The first byte is called the ~Status Byte~ and it has two parts, the message
-    type and the channel information. 
-    - Channel info is the four least significant bits
+    type and the channel information.
     - Message info is the first four bits
-    - The top most bit is always set. This identifies the first byte as the one
-      containing the message type and channel info.
+    - Channel info is the four least significant bits
+    - The top most bit is always set. This identifies the byte as the one
+      containing the message type and channel info (ie, status)
   - The subsequent bytes contain the message data.
     - The top bit is unset.
 
 ** Note On example
 *** Status Byte (first byte)
+   The first byte is the status indicating message type (1001 = 9/Note On) and
+   channel (0100 = 4/midi channel 5)
    | Message Type | Channel |
    |--------------+---------|
    | 1 0 0 1      | 0 1 0 0 |
 
    - Top bit is set
    - Message type: 9 = Note On
-   - Channel: 4 = Channel 5
+   - Channel: 4 (Channel 5)
+   - This means the Note On message is in the range of 9..24 (eg, 9 + the
+     channel 0 - 15)
 
 *** Data Bytes
-   | Byte             | Value | Data     |
-   |------------------+-------+----------|
-   | 0 0 1 1  1 1 0 0  |    60 | Note     |
-   | 0 1 1 1 1 1 1 1  |   127 | Velocity |
+   The next two bytes are note and velocity data:
+   | Byte            | Value | Data     |
+   |-----------------+-------+----------|
+   | 0 0 1 1 1 1 0 0 |    60 | Note     |
+   | 0 1 1 1 1 1 1 1 |   127 | Velocity |
 
    - Top bits are unset indicating these are the message values
    - 127 is therefore the maximum value
-    
+
 ** Note off
    - One common way is to use the same message type, but with a value of 0
 ** Hexadecimal Notation
    - Send message bytes using Hex notation, prefixed with ~0x~. For example,
      ~00111100~ (60) is sent as ~0x3c~.
    - See also https://kb.iu.edu/d/afdl
-     
+** Midi over USB
+  These messages will be 4 bytes. There is an extra header byte that comes first
+  which contains the cable and command.
 * Tools
 ** SendMIDI
    https://github.com/gbevin/SendMIDI
@@ -63,5 +70,5 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
 * Sending MIDI notes
 ** C / C++
    https://ccrma.stanford.edu/~craig/articles/linuxmidi/
-*** RtMidi   
+*** RtMidi
     https://www.music.mcgill.ca/~gary/rtmidi/
