@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2024-07-20 10:09 AM
+#+updated: 2024-10-15 11:15 AM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -213,7 +213,7 @@ probably forget.
 * List key strokes
 ~C-h l~ calls ~view-lossage~. This does not update as keys are pressed, but gives
 you at static list of the 300 key presses.
-* Exiting
+* Exiting / Quit / Close
 ** When in client mode
   This will close the client but keep the server running
   ~C-x C-c~  ~save-buffers-kill-terminal~ 

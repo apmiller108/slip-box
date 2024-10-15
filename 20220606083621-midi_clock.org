@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI clock
 #+date: 2022-06-06 08:36 AM
-#+updated: 2024-10-12 08:35 AM
+#+updated: 2024-10-15 14:52 PM
 #+filetags: :audio:midi:
 
 See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
@@ -94,8 +94,11 @@ See also [[id:5741B4DD-B291-4F6D-A33A-EB4CD83792FF][MIDI messages]]
 ** Libraries
 *** TimerOne
     https://www.pjrc.com/teensy/td_libs_TimerOne.html
-*** Examples
-    - https://github.com/DieterVDW/arduino-midi-clock
+*** uClock
+    https://github.com/midilab/uClock/tree/main
+** Examples
+  - https://github.com/DieterVDW/arduino-midi-clock
+  - https://github.com/craigyjp/MIDI-Master-Clock/tree/main
 ** Conclusion
   This shit ain't gonna work unless I use an external device to generate the midi
   clock signal based on beat data from mixxx:
