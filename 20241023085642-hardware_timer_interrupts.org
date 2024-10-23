@@ -1,0 +1,65 @@
+:PROPERTIES:
+:ID:       ADF4BA86-E350-441C-89C3-327BB269CEEA
+:END:
+#+title: Hardware timer interrupts
+#+date: 2024-10-23 08:56 AM
+#+updated:  2024-10-23 09:15 AM
+#+filetags: :cpp:arduino:
+
+Need an accurate clock. Try using a hardware timer interrupt. Set a period of
+time, the completion of which will pause the program to execute some operation
+(like a callback)
+
+See also https://www.instructables.com/Arduino-Timer-Interrupts/
+
+* Configuration
+There's a bunch of annoying and weird boiler plate to configuring a timer. There
+are calculators online that make it easy:
+
+https://deepbluembedded.com/arduino-timer-calculator-code-generator/
+
+1. Determine what longest period you need is.
+2. From that period, determine what prescaler you need to set.
+3. Set up the clock in a setup() function.
+4. Define the interrupt function. Keep it as simple as possible. The more it
+   does, the more the timing can be affected. If possible just set variables and
+   let the loop function do that rest based on the values set for those
+   variables.
+
+#+begin_src cpp
+  ISR(TIMER1_COMPA_vect)
+  {
+    OCR1A += 41666; // Advance The COMPA Register to "schedule" the next interrupt if needed.
+    // Code for what you want to do when the program is interrupted.
+  }
+
+  void setup()
+  {
+    TCCR1A = 0;           // Init Timer1A
+    TCCR1B = 0;           // Init Timer1B
+    TCCR1B |= B00000010;  // Prescaler = 8
+    OCR1A = 41666;        // Timer Compare1A Register. The interrupt will happen when the timer reaches this value.
+    TIMSK1 |= B00000010;  // Enable Timer COMPA Interrupt
+  }
+
+  void loop()
+  {
+    // ...
+  }
+#+end_src
+
+
+* Prescaler
+A Timer (8 or 16bit for most AVR boards) can only measure up to a certain period
+before resetting back to 0 based on the microcontroller's frequency. The
+prescaler divides by some number to allow for timing longer periods.
+
+
+See also https://www.instructables.com/Arduino-Timer-Interrupts/
+
+An interesting discussion on if/how the prescaler to affect the clock
+resolution: https://arduino.stackexchange.com/q/4022
+
+* Examples
+** uClock
+  https://github.com/midilab/uClock/blob/main/src/platforms/avr.h

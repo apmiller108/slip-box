@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec things
 #+date: 2022-08-12 12:14 PM
-#+updated: 2024-09-18 13:49 PM
+#+updated: 2024-10-21 11:07 AM
 #+filetags: :rspec:ruby:
 
 * Blocks
@@ -117,6 +117,28 @@
 
           locking_thread.kill # Dispose of the thread after expectation (no need to wait any longer)
         end
+      end
+    end
+  #+end_src
+* Testing base classes
+  You can test them by themselves or subclass them with a dummy class
+
+  #+begin_src ruby
+    RSpec.describe Thing::Base do
+      let(:dummy_thing) do
+        Class.new(described_class)
+      end
+
+      before do
+        stub_const('DummyThing', dummy_thing)
+      end
+
+      describe '#method_that_should_be_implemented' do
+        subject do
+          DummyThing.new.method_that_should_be_implemented
+        end
+
+        it { is_expected.to raise_error 'DummyThing must implement the method method_that_should_be_implemented'}
       end
     end
   #+end_src
