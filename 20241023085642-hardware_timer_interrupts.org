@@ -3,7 +3,7 @@
 :END:
 #+title: Hardware timer interrupts
 #+date: 2024-10-23 08:56 AM
-#+updated:  2024-10-23 09:15 AM
+#+updated:  2024-10-27 21:03 PM
 #+filetags: :cpp:arduino:
 
 Need an accurate clock. Try using a hardware timer interrupt. Set a period of
@@ -52,8 +52,13 @@ https://deepbluembedded.com/arduino-timer-calculator-code-generator/
 * Prescaler
 A Timer (8 or 16bit for most AVR boards) can only measure up to a certain period
 before resetting back to 0 based on the microcontroller's frequency. The
-prescaler divides by some number to allow for timing longer periods.
+prescaler divides by some number to allow for timing longer periods. The limit
+of the number of periods is that largest value that can be represented in 16
+bits (65535) or 8 bits (256).
 
+#+begin_src
+(timer speed (Hz)) = (Arduino clock speed (16MHz)) / prescaler
+#+end_src
 
 See also https://www.instructables.com/Arduino-Timer-Interrupts/
 

@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2024-10-15 11:15 AM
+#+updated: 2024-10-28 10:54 AM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -216,6 +216,8 @@ you at static list of the 300 key presses.
 * Exiting / Quit / Close
 ** When in client mode
   This will close the client but keep the server running
-  ~C-x C-c~  ~save-buffers-kill-terminal~ 
+  ~C-x C-c~  ~save-buffers-kill-terminal~
+
+  ~:q~ in evil mode does the same thing
 * Encryption
   See also [[id:31B93D5D-9659-45CD-BA68-63F19595A0E4][GPG]]
