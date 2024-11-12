@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI messages
 #+date: 2022-06-06 16:10 PM
-#+updated: 2024-11-12 08:34 AM
+#+updated: 2024-11-12 08:56 AM
 #+filetags: :audio:midi:
 
 See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
@@ -89,3 +89,12 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
    https://ccrma.stanford.edu/~craig/articles/linuxmidi/
 *** RtMidi
     https://www.music.mcgill.ca/~gary/rtmidi/
+* Midi Jack Wiring
+** Midi input
+  - https://www.kieranreck.co.uk/MIDI-6N137-vs-6N138-vs-6N139/
+** Midi output
+  Note the 220ohm resistor is optional and included as a safety precaution
+  against connecting miswired cables and whatnot (eg, current flowing into the
+  TX pin).
+  [[file:images/schematic_midi_out.jpg]]
+
