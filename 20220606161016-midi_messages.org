@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI messages
 #+date: 2022-06-06 16:10 PM
-#+updated: 2024-10-14 08:13 AM
+#+updated: 2024-11-12 08:34 AM
 #+filetags: :audio:midi:
 
 See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
@@ -38,7 +38,24 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
    - Channel: 4 (Channel 5)
    - This means the Note On message is in the range of 9..24 (eg, 9 + the
      channel 0 - 15)
+*** Bitwise AND
+   In order to determine if the status byte is On or Off, we just need to look
+   at the first 4 bits. We can mask out the last four bits with a bitwise &
+   operator.
 
+   #+begin_src cpp
+   if ((statusByte & 0xF0) == 0x90) { // ON message }
+   if ((statusByte & 0xF0) == 0x80) { // OFF message }
+   #+end_src
+
+   1. ~0xF0~ in binary is 11110000.
+   2. The ~&~ operation is performed between these two numbers. For example, if
+      the status byte is 10000011 (0x83 in hex, which is a Note Off message on
+      channel 4): 10000011 (status) & 11110000 (~0xF0~) is 10000000 (0x80). This
+      operation effectively "masks" the lower 4 bits (which represent the
+      channel) and keeps only the upper 4 bits (which represent the message
+      type). By comparing the result to ~0x80~ or ~0x90~ (10000000 or 10010000),
+      this checks for note Off or On, respectively.
 *** Data Bytes
    The next two bytes are note and velocity data:
    | Byte            | Value | Data     |
