@@ -3,7 +3,7 @@
 :END:
 #+title: Hardware timer interrupts
 #+date: 2024-10-23 08:56 AM
-#+updated:  2024-10-31 14:53 PM
+#+updated:  2024-11-12 10:19 AM
 #+filetags: :cpp:arduino:
 
 Need an accurate clock. Try using a hardware timer interrupt. Set a period of
@@ -11,6 +11,7 @@ time, the completion of which will pause the program to execute some operation
 (like a callback). I needed this for an Arduino [[https://github.com/apmiller108/mixxx_midi_clock][midi clock project]].
 
 * Configuration
+This example is for setting up Timer1 on AVR micro controller.
 There's a bunch of annoying and weird boiler plate to configuring a timer. There
 are calculators online that make it easy:
 
@@ -20,7 +21,7 @@ https://deepbluembedded.com/arduino-timer-calculator-code-generator/
 2. From that period, determine what prescaler you need to set. Use the TCCR1B
    control register bits to set this
 
-| CS02 | CS01 | CS00 | Description                                             |
+| CS12 | CS11 | CS10 | Description                                             |
 |------+------+------+---------------------------------------------------------|
 |    0 |    0 |    0 | No clock source (Timer/Counter stopped)                 |
 |    0 |    0 |    1 | clkI/O/(No prescaling)                                  |
