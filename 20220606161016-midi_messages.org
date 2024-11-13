@@ -3,7 +3,7 @@
 :END:
 #+title: MIDI messages
 #+date: 2022-06-06 16:10 PM
-#+updated: 2024-11-12 08:56 AM
+#+updated: 2024-11-13 12:05 PM
 #+filetags: :audio:midi:
 
 See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
@@ -17,28 +17,34 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
   - MIDI messages are composed of several bytes. Just how many depends on the
     type of messages
   - The first byte is called the ~Status Byte~ and it has two parts, the message
-    type and the channel information.
+    type and the channel information. See also https://midi.org/summary-of-midi-1-0-messages
     - Message info is the first four bits
     - Channel info is the four least significant bits
     - The top most bit is always set. This identifies the byte as the one
       containing the message type and channel info (ie, status)
   - The subsequent bytes contain the message data.
     - The top bit is unset.
-
-** Note On example
-*** Status Byte (first byte)
+** Midi over USB
+  These messages will be 4 bytes. There is an extra header byte that comes first
+  which contains the cable and command.
+** Hexadecimal Notation
+   - Send message bytes using Hex notation, prefixed with ~0x~. For example,
+     ~00111100~ (60) is sent as ~0x3c~.
+   - See also https://kb.iu.edu/d/afdl
+* Note On / Off
+** Status Byte (first byte)
    The first byte is the status indicating message type (1001 = 9/Note On) and
    channel (0100 = 4/midi channel 5)
    | Message Type | Channel |
    |--------------+---------|
    | 1 0 0 1      | 0 1 0 0 |
 
-   - Top bit is set
+   - Top bit is always set
    - Message type: 9 = Note On
    - Channel: 4 (Channel 5)
    - This means the Note On message is in the range of 9..24 (eg, 9 + the
      channel 0 - 15)
-*** Bitwise AND
+** Bitwise AND
    In order to determine if the status byte is On or Off, we just need to look
    at the first 4 bits. We can mask out the last four bits with a bitwise &
    operator.
@@ -56,7 +62,7 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
       channel) and keeps only the upper 4 bits (which represent the message
       type). By comparing the result to ~0x80~ or ~0x90~ (10000000 or 10010000),
       this checks for note Off or On, respectively.
-*** Data Bytes
+** Data Bytes
    The next two bytes are note and velocity data:
    | Byte            | Value | Data     |
    |-----------------+-------+----------|
@@ -65,16 +71,55 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
 
    - Top bits are unset indicating these are the message values
    - 127 is therefore the maximum value
+** Note off alternative
+  Other than sending a note off message (0x80), another common way is to send an
+  On message for a given note with value of 0
+** Note values
+    | Octave | C  | C#/Db | D  | D#/Eb | E  | F  | F#/Gb | G  | G#/Ab | A  | A#/Bb | B  |
+    |--------|----|-------|----|-------|----|----|-------|----|-------|----|-------|----|
+    | -1     | 0  | 1     | 2  | 3     | 4  | 5  | 6     | 7  | 8     | 9  | 10    | 11 |
+    | -1     | 12 | 13    | 14 | 15    | 16 | 17 | 18    | 19 | 20    | 21 | 22    | 23 |
+    | 0      | 24 | 25    | 26 | 27    | 28 | 29 | 30    | 31 | 32    | 33 | 34    | 35 |
+    | 1      | 36 | 37    | 38 | 39    | 40 | 41 | 42    | 43 | 44    | 45 | 46    | 47 |
+    | 2      | 48 | 49    | 50 | 51    | 52 | 53 | 54    | 55 | 56    | 57 | 58    | 59 |
+    | 3      | 60 | 61    | 62 | 63    | 64 | 65 | 66    | 67 | 68    | 69 | 70    | 71 |
+    | 4      | 72 | 73    | 74 | 75    | 76 | 77 | 78    | 79 | 80    | 81 | 82    | 83 |
+    | 5      | 84 | 85    | 86 | 87    | 88 | 89 | 90    | 91 | 92    | 93 | 94    | 95 |
+    | 6      | 96 | 97    | 98 | 99    | 100| 101| 102   | 103| 104   | 104| 106   | 107|
+    | 7      | 108| 109   | 110| 111   | 112| 113| 114   | 115| 116   | 117| 118   | 119|
+    | 8      | 120| 121   | 122| 123   | 124| 125| 126   | 127| -     | -  | -     |    |
 
-** Note off
-   - One common way is to use the same message type, but with a value of 0
-** Hexadecimal Notation
-   - Send message bytes using Hex notation, prefixed with ~0x~. For example,
-     ~00111100~ (60) is sent as ~0x3c~.
-   - See also https://kb.iu.edu/d/afdl
-** Midi over USB
-  These messages will be 4 bytes. There is an extra header byte that comes first
-  which contains the cable and command.
+* Pitch Bend (LSB and MSB)
+  The message structure is Status byte, LSB, MSB
+
+  1. Status byte: Always ~0xE0~ to ~0xEF~ (224 to 239), where the lower 4 bits
+  represent the MIDI channel (0-15).
+  2. LSB (Least Significant Byte): The lower 7 bits of the pitch bend value.
+  3. MSB (Most Significant Byte): The upper 7 bits of the pitch bend value.
+
+  The point here is that the pitch bend value is a 14-bit number, ranging from 0
+  to 16383, where 8192 represents no pitch bend. In other words you get higher
+  resolution than just 0-127
+
+  See also https://www.instructables.com/Send-and-Receive-MIDI-with-Arduino/ for
+  a good example.
+
+* Sending and Receiving MIDI notes
+** C / C++
+   https://ccrma.stanford.edu/~craig/articles/linuxmidi/
+*** RtMidi
+    https://www.music.mcgill.ca/~gary/rtmidi/
+*** Arduino Libs
+  - https://github.com/FortySevenEffects/arduino_midi_library
+  - https://github.com/arduino-libraries/MIDIUSB
+* Midi Jack Wiring
+** Midi input
+  - https://www.kieranreck.co.uk/MIDI-6N137-vs-6N138-vs-6N139/
+** Midi output
+  Note the 220ohm resistor is optional and included as a safety precaution
+  against connecting miswired cables and whatnot (eg, current flowing into the
+  TX pin).
+  [[file:images/schematic_midi_out.jpg]]
 * Tools
 ** SendMIDI
    https://github.com/gbevin/SendMIDI
@@ -84,17 +129,3 @@ See also [[id:24E1468A-279A-4B44-8AB8-A8A1C5D8D42D][MIDI clock]]
    Receive and print MIDI messages. Use this in conjunction with sendMIDI to try
    things out. Uses Alsa or JACK midi drivers.
    See also [[id:abbff1aa-b163-4f08-ba2c-c7ed8ca8ef12][Mixxx, Ardour, JACK and MIDI]]
-* Sending MIDI notes
-** C / C++
-   https://ccrma.stanford.edu/~craig/articles/linuxmidi/
-*** RtMidi
-    https://www.music.mcgill.ca/~gary/rtmidi/
-* Midi Jack Wiring
-** Midi input
-  - https://www.kieranreck.co.uk/MIDI-6N137-vs-6N138-vs-6N139/
-** Midi output
-  Note the 220ohm resistor is optional and included as a safety precaution
-  against connecting miswired cables and whatnot (eg, current flowing into the
-  TX pin).
-  [[file:images/schematic_midi_out.jpg]]
-
