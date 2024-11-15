@@ -3,7 +3,7 @@
 :END:
 #+title: pipewire
 #+date: 2022-11-29 13:59 PM
-#+updated: 2024-09-04 14:03 PM
+#+updated: 2024-11-13 14:33 PM
 #+filetags: :linux:audio:
 
 https://docs.pipewire.org/index.html
@@ -23,6 +23,43 @@ see also [[id:959acd5a-c6f7-4247-baf6-d8f5c7fd765a][pulseaudio]]
 
 ** Dump midi messages
   https://docs.pipewire.org/page_man_pw-mididump_1.html
+* Latency
+  See also
+  https://gitlab.freedesktop.org/pipewire/pipewire/-/wikis/Config-PipeWire#setting-buffer-size-quantum
+
+  This can be configured in ~~/.config/pipewire/~. Copy files from
+  /usr/share/pipewire
+
+  Applications can be set to use a certain buffer size / sample rate with:
+
+  #+begin_src sh
+    # buffer size over sample rate
+    PIPEWIRE_QUANTUM=192/48000 Ardour
+  #+end_src
+
+  This will determine the latency:
+
+  44.1kHz:
+
+  | Buffer       | Latency |
+  |--------------|---------|
+  | 32 samples   | 0.73ms  |
+  | 64 samples   | 1.45ms  |
+  | 128 samples  | 2.9ms   |
+  | 256 samples  | 5.8ms   |
+  | 512 samples  | 11.6ms  |
+  | 1024 samples | 23.2ms  |
+
+  48kHz:
+
+  | Buffer       | Latency |
+  |--------------|---------|
+  | 32 samples   | 0.67ms  |
+  | 64 samples   | 1.3ms   |
+  | 128 samples  | 2.7ms   |
+  | 256 samples  | 5.3ms   |
+  | 512 samples  | 10.67ms |
+  | 1024 samples | 21.3ms  |
 * Issues
 ** Volume very low
 *** Set volume using a mixer tool

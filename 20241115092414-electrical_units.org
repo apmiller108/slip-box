@@ -1,0 +1,40 @@
+:PROPERTIES:
+:ID:       360DA57D-0BD9-4BFF-8E62-8823FCC06F25
+:END:
+#+title: Electrical units
+#+date: 2024-11-15 09:24 AM
+#+updated:  2024-11-15 09:33 AM
+#+filetags: :arduino:electronics:
+
+Key electrical units within the International System of Units (SI):
+
+* Ampere
+Unit of electric current, defined by the force between two parallel
+conductors carrying a constant current. Specifically, 1 ampere is the current
+that produces a force of 2 * 10^-7 newtons per meter between two
+wires one meter apart in a vacuum.
+
+* Coulomb
+Unit of electric charge, defined by the current of 1 ampere flowing for one
+second. 1 ampere = 1 coulomb/second.
+
+* Electron Charge
+The charge of an electron is -1.602176565 * 10^-19 coulombs.
+
+1. coulomb = 6.241509343*10^18 electrons.
+2. Electrons in 1 ampere: A current of 1 ampere corresponds to 6.241509343*10^18 electrons per second.
+
+* Watt
+The unit of power, where  1 watt = 1 joule/second.
+
+* Volt
+The unit of electric potential difference, defined as the potential difference
+across a wire carrying 1 ampere when the power dissipated is 1 watt.
+
+1 volt = 1 watt/ampered or equivalently 1 volt = 1 joule/coulomb.
+
+* Ohm
+The unit of electrical resistance, defined as the resistance between two points
+when 1 volt is applied and 1 ampere of current flows.
+
+1 ohm = 1 volt/ampered.
