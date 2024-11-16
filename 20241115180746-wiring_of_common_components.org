@@ -1,0 +1,19 @@
+:PROPERTIES:
+:ID:       b6809c98-c2d8-4e75-9544-b7ae8ad9aeb0
+:END:
+#+title: Wiring of common components
+#+date: 2024-11-15 18:07 PM
+#+updated:  2024-11-15 18:12 PM
+#+filetags: :electroncis:ardunio:
+
+* Button
+** Pull up
+** Pull down
+* Switch
+** 3 Pin
+  1. One pin to VCC
+  2. One pin to ground
+  3. Center to digital input
+
+  When in ON position, it will connect VCC to input pin.
+  When in OFF position it will connect input pin to ground.
