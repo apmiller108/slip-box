@@ -3,7 +3,7 @@
 :END:
 #+title: publish.org
 #+date: 2021-05-06 21:24 PM
-#+updated: 2024-11-15 15:38 PM
+#+updated: 2024-11-18 09:51 AM
 #+filetags: :org_mode:org_roam:emacs:
 
 * Overview
@@ -63,18 +63,24 @@
   - Adds ~melpa~ and ~elpa~ archives.
   - Sets the package archives directory so that packages aren't installed in
     ~~/.emacs.d/elpa~.
-
+  - ~package-check-signature~ tells emacs to not verify package signatures. Its
+    just too damn annoying to deal with expired GPG keys for this build
+    processes.
+    See also
+    - https://metaredux.com/posts/2019/12/09/dealing-with-expired-elpa-gpg-keys.html
+    - https://www.reddit.com/r/emacs/comments/1cc2205/failed_to_download_gnu_archive_in_emacs_28/
   #+begin_src emacs-lisp +n :results silent
     (require 'package)
 
     (setq package-user-dir (expand-file-name "./.packages"))
 
-    (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                            ("elpa" . "https://elpa.gnu.org/packages/")))
+
+    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+    (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/") t)
+
+    (setq package-check-signature nil)
 
     (package-initialize)
-    (unless package-archive-contents
-      (package-refresh-contents))
   #+end_src
 
 ** use-package
