@@ -9,3 +9,4 @@ local
 
 # Local Netlify folder
 .netlify
+.deploy.sh
