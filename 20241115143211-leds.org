@@ -3,28 +3,20 @@
 :END:
 #+title: LEDs
 #+date: 2024-11-15 14:32 PM
-#+updated:  2024-11-15 14:33 PM
+#+updated:  2024-11-19 15:23 PM
 #+filetags: :electronics:arduino:
 
 * Resistors
-Which resistor should I use? When in doubt use 220 ohm. Otherwise...
-| LED Color     | 3.3V         | 3.7V         | 5V           | 6V           | 9V           | 12V          |
-|---------------|--------------|--------------|--------------|--------------|--------------|--------------|
-| AMBER         | 68 Ohm       | 82 Ohm       | 150 Ohm      | 220 Ohm      | 390 Ohm      | 560 Ohm      |
-| 2.1V, 20mA    | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/4 W        | 1/4 W        |
-| BLUE          | 5.6 Ohm      | 27 Ohm       | 100 Ohm      | 150 Ohm      | 330 Ohm      | 470 Ohm      |
-| 3.2V, 20mA    | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/4 W        |
-| GREEN         | 68 Ohm       | 82 Ohm       | 150 Ohm      | 220 Ohm      | 390 Ohm      | 560 Ohm      |
-| 2.1V, 20mA    | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/4 W        | 1/4 W        |
-| ORANGE        | 68 Ohm       | 100 Ohm      | 180 Ohm      | 220 Ohm      | 390 Ohm      | 560 Ohm      |
-| 2V, 20mA      | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/4 W        | 1/4 W        |
-| PINK          | 5.6 Ohm      | 27 Ohm       | 100 Ohm      | 150 Ohm      | 330 Ohm      | 470 Ohm      |
-| 3.2V, 20mA    | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/4 W        |
-| PURPLE        | 5.6 Ohm      | 27 Ohm       | 100 Ohm      | 150 Ohm      | 330 Ohm      | 470 Ohm      |
-| 3.2V, 20mA    | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/4 W        |
-| RED           | 82 Ohm       | 100 Ohm      | 180 Ohm      | 220 Ohm      | 390 Ohm      | 560 Ohm      |
-| 1.8V, 20mA    | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/4 W        | 1/4 W        |
-| WHITE         | 5.6 Ohm      | 27 Ohm       | 100 Ohm      | 150 Ohm      | 330 Ohm      | 470 Ohm      |
-| 3.2V, 20mA    | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/4 W        |
-| YELLOW        | 68 Ohm       | 100 Ohm      | 180 Ohm      | 220 Ohm      | 390 Ohm      | 560 Ohm      |
-| 2V, 20mA      | 1/8 W        | 1/8 W        | 1/8 W        | 1/8 W        | 1/4 W        | 1/4 W        |
+Which resistor should I use? When in doubt use 220 ohm. Otherwise, these are
+common resistor values:
+| LED Color         | 3.3V    | 3.7V    | 5V      | 6V      | 9V      | 12V     |
+|-------------------+---------+---------+---------+---------+---------+---------|
+| AMBER 2.1V, 20mA  | 68 Ohm  | 82 Ohm  | 150 Ohm | 220 Ohm | 390 Ohm | 560 Ohm |
+| BLUE 3.2V, 20mA   | 5.6 Ohm | 27 Ohm  | 100 Ohm | 150 Ohm | 330 Ohm | 470 Ohm |
+| GREEN 2.1V, 20mA  | 68 Ohm  | 82 Ohm  | 150 Ohm | 220 Ohm | 390 Ohm | 560 Ohm |
+| ORANGE 2V, 20mA   | 68 Ohm  | 100 Ohm | 180 Ohm | 220 Ohm | 390 Ohm | 560 Ohm |
+| PINK 3.2V, 20mA   | 5.6 Ohm | 27 Ohm  | 100 Ohm | 150 Ohm | 330 Ohm | 470 Ohm |
+| PURPLE 3.2V, 20mA | 5.6 Ohm | 27 Ohm  | 100 Ohm | 150 Ohm | 330 Ohm | 470 Ohm |
+| RED 1.8V, 20mA    | 82 Ohm  | 100 Ohm | 180 Ohm | 220 Ohm | 390 Ohm | 560 Ohm |
+| WHITE 3.2V, 20mA  | 5.6 Ohm | 27 Ohm  | 100 Ohm | 150 Ohm | 330 Ohm | 470 Ohm |
+| YELLOW 2V, 20mA   | 68 Ohm  | 100 Ohm | 180 Ohm | 220 Ohm | 390 Ohm | 560 Ohm |
