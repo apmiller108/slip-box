@@ -3,12 +3,21 @@
 :END:
 #+title: Wiring of common components
 #+date: 2024-11-15 18:07 PM
-#+updated:  2024-11-15 18:12 PM
+#+updated:  2024-11-19 14:56 PM
 #+filetags: :electroncis:ardunio:
 
 * Button
 ** Pull up
 ** Pull down
+* Pots
+  1. Center pin is output
+  2. One pin to VCC
+  3. The other pin to ground
+
+  [[file:images/pot-wiring.png]]
+
+  Switch ground and VCC to change how you want the output to respond in relation
+  to the direction you turn the knob.
 * Switch
 ** 3 Pin
   1. One pin to VCC
