@@ -3,12 +3,15 @@
 :END:
 #+title: Hardware timer interrupts
 #+date: 2024-10-23 08:56 AM
-#+updated:  2024-11-12 10:19 AM
+#+updated:  2024-11-26 09:44 AM
 #+filetags: :cpp:arduino:
 
 Need an accurate clock. Try using a hardware timer interrupt. Set a period of
 time, the completion of which will pause the program to execute some operation
 (like a callback). I needed this for an Arduino [[https://github.com/apmiller108/mixxx_midi_clock][midi clock project]].
+
+See also https://www.gammon.com.au/interrupts for an good overview of interrupts
+in general.
 
 * Configuration
 This example is for setting up Timer1 on AVR micro controller.
