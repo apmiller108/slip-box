@@ -221,3 +221,7 @@ you at static list of the 300 key presses.
   ~:q~ in evil mode does the same thing
 * Encryption
   See also [[id:31B93D5D-9659-45CD-BA68-63F19595A0E4][GPG]]
+* Installing / Upgrading (linux)
+Upgrade the same way you install it. Follow install instructions in [[id:944F1F58-4EC8-444C-B7CA-787ABC19025B][New computer setup]] 
+* GPG
+See also [[id:31B93D5D-9659-45CD-BA68-63F19595A0E4][GPG]] 

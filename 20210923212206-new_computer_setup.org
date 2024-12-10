@@ -76,7 +76,6 @@ this shit out and maybe automate some of it too.
      rbenv global 3.2.2 # set it to global
    #+end_src
 * Install Emacs
-  Version 28 with native-comp
 ** Download source code for the version you want
    http://mirror.us-midwest-1.nexcess.net/gnu/emacs/
    unpack it and continue...
@@ -90,7 +89,7 @@ this shit out and maybe automate some of it too.
    Run the following to determine if you have the dependencies needed and create
    the ~configure~ file
    #+begin_src sh
-   ./autogen.sh
+   CC="gcc-10" ./autogen.sh
    #+end_src
 
    There will probable be a lot of stuff missing. For example once...
@@ -119,10 +118,9 @@ this shit out and maybe automate some of it too.
    CC="gcc-10" ./configure --with-modules --with-cairo --with-imagemagick --with-rsvg --with-mailutils --with-native-compilation
    #+end_src
 
-
    And for v29:
    #+begin_src shell
-   ../configure --with-native-compilation --with-json --with-xwidgets --with-mailutils CFLAGS="-O2 -march=native" CC="gcc-10"
+   ../configure --with-native-compilation --with-json --with-xwidgets --with-imagemagick --with-rsvg CC="gcc-10"
    #+end_src
 
    Then install it
