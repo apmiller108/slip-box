@@ -36,15 +36,16 @@
   See also [[https://support.system76.com/articles/pop-keyboard-shortcuts/][pop keyboard shortcuts]] post for a complete list. Here are just a few
   that I like to use, but always forget.
 
-  | Shortcut           | Action                                                           |
-  |--------------------+------------------------------------------------------------------|
-  | SUPER + HJKL       | Switch window focus                                              |
-  | SUPER + ENTER      | Window adjustment mode. Use direction keys (HJKL) to move window |
-  | SUPER + g          | Toggle window float                                              |
-  | SUPER + CTRL + JK  | Navigate between work spaces                                     |
-  | SUPER + SHIFT + JK | Move active window between workspaces.                           |
-  | SUPER + ESC        | Lock                                                             |
-  | SUPER + T          | Open a terminal                                                  |
+  | Shortcut               | Action                                                           |
+  |------------------------+------------------------------------------------------------------|
+  | SUPER + HJKL           | Switch window focus                                              |
+  | SUPER + ENTER          | Window adjustment mode. Use direction keys (HJKL) to move window |
+  | SUPER + g              | Toggle window float                                              |
+  | SUPER + CTRL + JK      | Navigate between work spaces                                     |
+  | SUPER + SHIFT + JK     | Move active window between workspaces.                           |
+  | SUPER + ESC            | Lock                                                             |
+  | SUPER + T              | Open a terminal                                                  |
+  | ALT + CTRL + SHIFT + R | Screen shot selection                                            |
 
 ** Launcher Shortcuts
    SUPER opens the launcher. ~?~ shows all the possible commands.
