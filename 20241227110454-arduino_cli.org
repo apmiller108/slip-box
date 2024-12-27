@@ -1,0 +1,60 @@
+:PROPERTIES:
+:ID:       6bd4de5b-bb93-4862-bae7-f34046344f50
+:END:
+#+title: arduino-cli
+#+date: 2024-12-27 11:04 AM
+#+updated:  2024-12-27 11:40 AM
+
+* Quick start
+** Installation.
+  See https://arduino.github.io/arduino-cli
+  
+** Search for the ID for the platform you need
+
+   #+begin_src
+     arduino-cli core search avr
+   #+end_src
+
+** Install the core/platform you need
+
+   #+begin_src sh
+     arduino-cli core install arduino:avr
+   #+end_src
+
+** Search for the FQDN for the board you have
+
+   #+begin_src sh
+    arduino-cli board listall leonardo
+   #+end_src
+
+** Compile the sketch
+
+   Use ~--dump-profile~ to output what can use used to create a ~sketch.yaml~. This
+   file is useful for dependency management (eg, locking version)
+   #+begin_src sh
+    arduino-cli compile -b arduino:avr:leonardo path/to/project --dump-profile
+   #+end_src
+
+*** Install dependencies if needed
+   If the compilation fails due to missing some dependencies, then install them.
+   They will be installed to:
+
+   ~~/Arduino/libraries/MIDIUSB~
+
+   See also https://arduino.github.io/arduino-cli/commands/arduino-cli_lib_install/
+
+   #+begin_src sh
+    arduino-cli lib install MIDIUSB
+   #+end_src
+
+   Can install from a git URL too. But will need to configure the CLI with
+   for this:
+
+   #+begin_src sh
+    arduino-cli config set library.enable_unsafe_install true
+   #+end_src
+
+   #+begin_src sh
+    arduino-cli lib install --git-url https://github.com/FortySevenEffects/arduino_midi_library
+   #+end_src
+
