@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2024-05-28 15:10 PM
+#+updated: 2024-12-27 19:39 PM
 #+filetags: unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -145,6 +145,18 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
     #+end_src
 * Devices
   See also [[id:d5d67aa4-e66e-48de-90d1-051ef3a8df77][Pop_os]] (eg, ~lsusb~, etc)
+
+** Find TTY for USB device
+   Run dmesg in watch mode and look for tty, then plug in the device
+  #+begin_src sh
+    sudo dmesg -W | grep tty
+  #+end_src
+
+  It will print something like:
+  #+begin_src 
+    [74438.164216] cdc_acm 1-1:1.0: ttyACM0: USB ACM device
+  #+end_src
+
 * Logging
 ** Boot process
 *** dmesg

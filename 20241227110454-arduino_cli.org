@@ -3,7 +3,7 @@
 :END:
 #+title: arduino-cli
 #+date: 2024-12-27 11:04 AM
-#+updated:  2024-12-27 11:40 AM
+#+updated:  2024-12-27 11:46 AM
 
 * Quick start
 ** Installation.
@@ -33,6 +33,11 @@
    file is useful for dependency management (eg, locking version)
    #+begin_src sh
     arduino-cli compile -b arduino:avr:leonardo path/to/project --dump-profile
+   #+end_src
+
+   When using a profile:
+   #+begin_src sh
+    arduino-cli compile --profile mixxx_midi_clock
    #+end_src
 
 *** Install dependencies if needed
