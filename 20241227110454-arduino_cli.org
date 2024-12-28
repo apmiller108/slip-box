@@ -3,7 +3,7 @@
 :END:
 #+title: arduino-cli
 #+date: 2024-12-27 11:04 AM
-#+updated:  2024-12-27 11:46 AM
+#+updated:  2024-12-27 21:33 PM
 
 * Quick start
 ** Installation.
@@ -37,7 +37,7 @@
 
    When using a profile:
    #+begin_src sh
-    arduino-cli compile --profile mixxx_midi_clock
+    arduino-cli compile --profile mixxx_midi_clock --export-binaries
    #+end_src
 
 *** Install dependencies if needed
@@ -63,3 +63,15 @@
     arduino-cli lib install --git-url https://github.com/FortySevenEffects/arduino_midi_library
    #+end_src
 
+** Upload hex file to the device.
+  Weirdly the arduino-cli doesn't support this. Instead use [[https://github.com/avrdudes/avrdude][avrdude]].
+
+  First, you need to know which tty the device is on:
+
+  See also [[file:20220421202452-unix_reference.org::*Find TTY for USB device][Find TTY for USB device]] 
+
+  Example command to upload a hex file to Arduino Leonardo (NEED TO HIT RESET
+  BUTTON TO GET DEVICE INTO BOOTLOADER MODE FIRST)
+  #+begin_src sh
+    avrdude -c avr109 -P /dev/ttyACM0 -b 57600 -p atmega32u4 -D -U flash:w:mixxx_midi_clock.ino.hex:i
+  #+end_src
