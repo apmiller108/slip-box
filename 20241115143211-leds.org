@@ -3,7 +3,7 @@
 :END:
 #+title: LEDs
 #+date: 2024-11-15 14:32 PM
-#+updated:  2024-11-19 15:23 PM
+#+updated:  2024-12-03 12:51 PM
 #+filetags: :electronics:arduino:
 
 * Resistors
@@ -20,3 +20,21 @@ common resistor values:
 | RED 1.8V, 20mA    | 82 Ohm  | 100 Ohm | 180 Ohm | 220 Ohm | 390 Ohm | 560 Ohm |
 | WHITE 3.2V, 20mA  | 5.6 Ohm | 27 Ohm  | 100 Ohm | 150 Ohm | 330 Ohm | 470 Ohm |
 | YELLOW 2V, 20mA   | 68 Ohm  | 100 Ohm | 180 Ohm | 220 Ohm | 390 Ohm | 560 Ohm |
+
+Ohms Law: v = ir
+
+1 red LED on 5v circuit
+#+begin_src ruby
+r = (5.0 - 1.8) / 0.02
+#+end_src
+
+#+RESULTS:
+: 160.0
+
+3 blue LEDs in parallel on 5v circuit
+#+begin_src ruby
+r = (5.0 - 3.2) / (3 * 0.02)
+#+end_src
+
+#+RESULTS:
+: 30.000000000000004

@@ -3,7 +3,7 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2024-05-21 08:49 AM
+#+updated:  2024-12-30 15:36 PM
 #+filetags: :rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
@@ -170,7 +170,10 @@
   #+end_src
 
   *NOTE* the status ~see_other~ ([[https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303][303]]) which is used in response to a PUT or POST
-  where the redirect is meant to be a GET. See also https://github.com/hotwired/turbo/issues/84
+  where the redirect is meant to be a GET.
+  See also
+  - https://github.com/hotwired/turbo/issues/84
+  - https://turbo.hotwired.dev/handbook/drive#redirecting-after-a-form-submission
 * turbo_stream_from (turbo streams over WebSocket connection)
    This method is used in the view templates to generate a
    ~turbo-cable-stream-source~ HTML tag with a couple data attributes describing
