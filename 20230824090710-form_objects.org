@@ -4,7 +4,7 @@
 #+title: The Utility of ActiveModel
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2024-09-06 12:11 PM
+#+updated:  2025-01-02 15:36 PM
 
 Make use of various ~ActiveModel~ modules in your Ruby objects to get ~ActiveRecord~
 like behavior like type casting, validation, and callbacks. Code that would
@@ -51,7 +51,7 @@ behavior to ruby classes, giving them a familiar ActiveRecord interface.
 
       def submit
         return false if invalid?
-        # Do the submitting stuff
+        Widget.create(quantity:, expires_at:)
       end
     end
   #+end_src
@@ -152,6 +152,8 @@ behavior to ruby classes, giving them a familiar ActiveRecord interface.
 
        def submit
          return false if invalid?
+         Widget.create(quantity:, expires_at:)
+         component.save
        end
 
        private

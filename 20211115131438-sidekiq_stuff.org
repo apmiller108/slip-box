@@ -3,7 +3,7 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2024-04-16 10:12 AM
+#+updated: 2025-01-09 10:35 AM
 #+filetags: :rails:ruby:
 
 For a deep ass dive, read this https://www.mikeperham.com/how-sidekiq-works/
@@ -36,10 +36,23 @@ For a deep ass dive, read this https://www.mikeperham.com/how-sidekiq-works/
 *** Add a scheduled job to the queue
     See also https://www.rubydoc.info/github/mperham/sidekiq/Sidekiq/SortedEntry
     #+begin_src ruby
-      r = Sidekiq::ScheduledSet.new
-      r.first.add_to_queue
+      s = Sidekiq::ScheduledSet.new
+      s.first.add_to_queue
     #+end_src
+*** Logging what's in the queue
 
+  # Select jobs where the last argument is `3`
+  filtered_jobs = s.select { |job| job.args.last == 3 }
+
+  # Sort the filtered jobs by their scheduled time
+  sorted_jobs = filtered_jobs.sort_by { |job| job.at }
+
+  #+begin_src ruby
+    s = Sidekiq::ScheduledSet.new
+    s.each do |job|
+      puts "Job Class: #{job['class']} : Arguments: #{job.args} : Scheduled At: #{Time.at(job.at)}"
+    end
+  #+end_src
 ** Retry Sets
    #+begin_src
    r = Sidekiq::RetrySet.new
