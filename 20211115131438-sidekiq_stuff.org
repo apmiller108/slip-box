@@ -3,10 +3,10 @@
 :END:
 #+title: Sidekiq stuff
 #+date: 2021-11-15 13:14 PM
-#+updated: 2025-01-09 10:35 AM
+#+updated: 2025-01-09 11:22 AM
 #+filetags: :rails:ruby:
 
-For a deep ass dive, read this https://www.mikeperham.com/how-sidekiq-works/
+For a deep 🍑 dive, read this https://www.mikeperham.com/how-sidekiq-works/
 
 * Starting it up
   ~sidekiq -q default -q foo~
