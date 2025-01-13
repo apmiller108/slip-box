@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2024-05-25 09:39 AM
+#+updated: 2025-01-09 16:36 PM
 #+filetags: :linux:
 
 * System Information
@@ -59,7 +59,7 @@
 * Update packages
   Same thing as doing it through popshop, but here at least I can see the logging
   #+begin_src  shell
-  sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && flatpak update -y
+    sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y && flatpak update -y
   #+end_src
 
   If you encounter issues like dependency conflicts, try instead

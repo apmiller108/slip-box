@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2024-10-28 10:54 AM
+#+updated: 2025-01-12 19:59 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -222,6 +222,9 @@ you at static list of the 300 key presses.
 * Encryption
   See also [[id:31B93D5D-9659-45CD-BA68-63F19595A0E4][GPG]]
 * Installing / Upgrading (linux)
-Upgrade the same way you install it. Follow install instructions in [[id:944F1F58-4EC8-444C-B7CA-787ABC19025B][New computer setup]] 
+Upgrade the same way you install it. Follow install instructions in [[id:944F1F58-4EC8-444C-B7CA-787ABC19025B][New computer setup]]
 * GPG
-See also [[id:31B93D5D-9659-45CD-BA68-63F19595A0E4][GPG]] 
+See also [[id:31B93D5D-9659-45CD-BA68-63F19595A0E4][GPG]]
+* Copy and Paste in TUI mode
+  I tried a lot of things. The easiest is to use [[https://elpa.gnu.org/packages/xclip.html][xclip]]. Visual select and yank
+  is all you need to do once you activate xclip-mode.
