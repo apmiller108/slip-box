@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2024-08-27 12:17 PM
+#+updated: 2025-01-24 08:35 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -42,6 +42,8 @@ and/or framework.
     strategies using reverse proxies, CDNs, etc.
   - [[https://books.writesoftwarewell.com/3/rails-router][The Rails Router (ebook)]]
     An e-book that covers the RoR router pretty thoroughly
+  - https://railsnotes.xyz/blog/ferrum-stealth-browsing
+    Webscraping
 * Javascript
   - https://www.akshaykhot.com/using-hotwire-without-rails/: Explains how to use
     Hotwire (Turbo primarily) without the RoR framework. What's nice about this
@@ -53,11 +55,6 @@ and/or framework.
 * DevOps
   - [[https://railsnotes.xyz/blog/deploying-ruby-on-rails-with-dokku-redis-sidekiq-arm-docker-hetzner][Deploying Ruby on Rails with Dokku]]: this is a kinda of ultimate guide for
     using Dokku. Includes deploying with docker.
-  - [[https://www.driftingruby.com/episodes/deploying-with-mrsk][Drifting Ruby: Deploying with MRSK]]
-    Screen cast of deploying with docker to Digital Ocean using [[https://github.com/mrsked/mrsk][MRSK]]. There's a
-    bunch of gotchas to set this up, so worth a watch. This can be used for
-    deploying pretty much anywhere, even on prem. Servers need to be prepared in
-    advance (eg, load balancer, app nodes, database server, etc.)
   - [[https://www.netguru.com/blog/responsive-system-with-aws-aurora-and-a-ruby-application][AWS Aurora and RoR]]: Describes the challenges of reducing both application
     node and database bottle necks by using auto scaling techniques with EC2 and
     Aurora; and testing by doing performance tests and failovers. Required
