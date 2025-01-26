@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2025-01-12 19:59 PM
+#+updated: 2025-01-26 10:01 AM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -191,8 +191,8 @@ probably forget.
 ** Freezes
 *** ~C g~ will break a loop
 *** Send kill cmd to trigger debugger
-    #+begin_src
-    ps aux | grep -ie emacs | grep -v grep | awk '{print $2}' | xargs kill -SIGUSR2
+    #+begin_src sh
+      ps aux | grep -ie emacs | grep -v grep | awk '{print $2}' | xargs kill -SIGUSR2
     #+end_src
 
     See also https://emacs.stackexchange.com/a/649
@@ -228,3 +228,20 @@ See also [[id:31B93D5D-9659-45CD-BA68-63F19595A0E4][GPG]]
 * Copy and Paste in TUI mode
   I tried a lot of things. The easiest is to use [[https://elpa.gnu.org/packages/xclip.html][xclip]]. Visual select and yank
   is all you need to do once you activate xclip-mode.
+* RSpec-mode
+
+** Example dir locals config
+    #+begin_src emacs-lisp
+      ((ruby-mode
+        (eval . (setq-local rspec-use-docker-when-possible t))
+        (eval . (setq-local rspec-docker-command "docker compose run --rm"))
+        (eval . (setq-local rspec-docker-container "app"))
+        (eval . (setq-local rspec-docker-cwd "/rails/"))
+        (eval . (setq-local rspec-primary-source-dirs '("app")))
+        (eval . (add-to-list 'lsp-enabled-clients 'ruby-ls))
+        (eval . (setq-local rspec-docker-file-name "Dockerfile.dev")))
+      (js-mode
+        (eval . (add-to-list 'lsp-enabled-clients 'ts-ls))
+        )
+      )
+    #+end_src
