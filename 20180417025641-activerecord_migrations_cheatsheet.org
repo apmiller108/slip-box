@@ -3,7 +3,7 @@
 :END:
 #+title: ActiveRecord Migrations Cheatsheet
 #+date: 2018-04-17 02:56 AM
-#+updated: 2024-04-11 20:59 PM
+#+updated: 2025-01-30 13:46 PM
 #+filetags: :postgres:sql:rails:ruby:
 
 * Casting with :using option (cast string to int)
@@ -396,3 +396,18 @@
       SQL
     end
   #+end_src
+
+* Marking migrations as run
+
+Might happen with weird environment/database setups. Or just delete the migrations.
+
+#+begin_src ruby
+[
+20200203153610,
+20200317173631,
+20200406202751,
+20200409191258,
+20200423152225,
+20210805000000
+].each { |v| ActiveRecord::Base.connection.execute("insert into schema_migrations (version) values (#{v});") }
+#+end_src

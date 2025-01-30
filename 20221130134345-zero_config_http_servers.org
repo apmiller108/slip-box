@@ -3,7 +3,7 @@
 :END:
 #+title: Zero config HTTP servers
 #+date: 2022-11-30 13:43 PM
-#+updated: 2024-06-10 14:50 PM
+#+updated: 2025-01-28 12:34 PM
 #+filetags: :web_development:
 
 
@@ -21,7 +21,7 @@
 
    With a persistent domain:
    #+begin_src shell
-   ngrok http --domain=https://titmouse-charming-correctly.ngrok-free.app 3000
+     ngrok http --url=https://titmouse-charming-correctly.ngrok-free.app 3000
    #+end_src
 
 

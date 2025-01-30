@@ -3,7 +3,7 @@
 :END:
 #+title: Kubectl
 #+date: 2022-03-17 08:35 AM
-#+updated: 2024-08-13 12:19 PM
+#+updated: 2025-01-30 11:04 AM
 #+filetags: :kubernetes:
 
 See also https://kubernetes.io/docs/reference/kubectl/cheatsheet/
@@ -23,6 +23,8 @@ namespace wasn't already set with ~set-context~
 | Exec                           | kubectl exec -it mypod -- bash                       |
 | Get deployment info            | kubectl get deployments foo -o yaml                  |
 | Nuke everything in a namespace | kubectl delete all --all  -n foospace                |
+| Pod Resource usage             | kubectl top pod -n foospace                          |
+| Cluster Resource usage         | kubectl top node                                     |
 
 * Recipes
 ** forward a port
