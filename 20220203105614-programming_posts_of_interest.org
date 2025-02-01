@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2025-01-24 08:35 AM
+#+updated: 2025-01-31 20:13 PM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -44,6 +44,7 @@ and/or framework.
     An e-book that covers the RoR router pretty thoroughly
   - https://railsnotes.xyz/blog/ferrum-stealth-browsing
     Webscraping
+  - [[https://discuss.rubyonrails.org/t/active-storage-in-production-lessons-learned-and-in-depth-look-at-how-it-works/83289][ActiveStorage deep dive]]
 * Javascript
   - https://www.akshaykhot.com/using-hotwire-without-rails/: Explains how to use
     Hotwire (Turbo primarily) without the RoR framework. What's nice about this
