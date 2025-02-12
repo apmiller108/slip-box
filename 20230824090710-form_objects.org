@@ -4,7 +4,7 @@
 #+title: The Utility of ActiveModel
 #+filetags: :rails:ruby:
 #+date: 2023-08-24 09:07 AM
-#+updated:  2025-01-02 15:36 PM
+#+updated:  2025-02-12 08:43 AM
 
 Make use of various ~ActiveModel~ modules in your Ruby objects to get ~ActiveRecord~
 like behavior like type casting, validation, and callbacks. Code that would
@@ -131,6 +131,17 @@ behavior to ruby classes, giving them a familiar ActiveRecord interface.
   the most basic approach we can take. We'll look at options for customizing
   the JSON output below. But first, lets look at an alternative way to handle
   the form's attributes.
+
+** Some notes on ~form_with~
+  With building forms using ~form_with~ the URL and HTTP method are inferred. With
+  a form object this may not work the way you want it to. There are several ways
+  to solve it, depending on the form object and your needs.
+
+  - Use polymorphic_path and pass in an ActiveRecord object wrapped by the form object.
+  - Delegate ~persisted?~ to an ActiveRecord object wrapped by the form object.
+    Rails will infer the HTTP method from ~persisted?~.
+  - The form object defines methods like ~method~ and ~url~ that are passed as
+    options to ~form_with~
 ** Validating child objects
    It's not uncommon to have forms to create or update one or more ActiveRecord
    objects. In this case, we can use a custom validation method and add the
