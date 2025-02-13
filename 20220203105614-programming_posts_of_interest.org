@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2025-01-31 20:13 PM
+#+updated: 2025-02-13 11:22 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -45,6 +45,11 @@ and/or framework.
   - https://railsnotes.xyz/blog/ferrum-stealth-browsing
     Webscraping
   - [[https://discuss.rubyonrails.org/t/active-storage-in-production-lessons-learned-and-in-depth-look-at-how-it-works/83289][ActiveStorage deep dive]]
+    This was posted as a comment on discuss.rubyonrails.org but is like a
+    missing manual.
+  - [[https://petr.codes/blog/rails/flexible-api-versioning-with-rails/][Flexible API versioning with rails]]
+    Interesting use of routing constraints, and other custom objects to
+    implement API versioning without making too much of a mess of things.
 * Javascript
   - https://www.akshaykhot.com/using-hotwire-without-rails/: Explains how to use
     Hotwire (Turbo primarily) without the RoR framework. What's nice about this
