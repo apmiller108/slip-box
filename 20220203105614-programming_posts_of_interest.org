@@ -3,7 +3,7 @@
 :END:
 #+title: Programming posts of interest
 #+date: 2022-02-03 10:56 AM
-#+updated: 2025-02-13 11:22 AM
+#+updated: 2025-02-14 08:24 AM
 #+filetags: :ruby:javascript:sql:typescript:emacs
 
 This is list a list of programming articles that I find interesting and may want
@@ -40,20 +40,23 @@ and/or framework.
   - [[https://discuss.rubyonrails.org/t/explaining-thruster-a-new-37signals-gem-that-speeds-up-your-app/85567][Explaining Thruster]]
     A post on discuss.rubyonrails.org about Thruster and different asset caching
     strategies using reverse proxies, CDNs, etc.
-  - [[https://books.writesoftwarewell.com/3/rails-router][The Rails Router (ebook)]]
-    An e-book that covers the RoR router pretty thoroughly
   - https://railsnotes.xyz/blog/ferrum-stealth-browsing
     Webscraping
   - [[https://discuss.rubyonrails.org/t/active-storage-in-production-lessons-learned-and-in-depth-look-at-how-it-works/83289][ActiveStorage deep dive]]
     This was posted as a comment on discuss.rubyonrails.org but is like a
     missing manual.
+  - [[https://books.writesoftwarewell.com/3/rails-router][The Rails Router (ebook)]]
+    An e-book that covers the RoR router pretty thoroughly. Might want to have
+    this open when reading the next post about API versioning.
   - [[https://petr.codes/blog/rails/flexible-api-versioning-with-rails/][Flexible API versioning with rails]]
     Interesting use of routing constraints, and other custom objects to
     implement API versioning without making too much of a mess of things.
-* Javascript
+* Hotwire (Turbo, Stimulus)
   - https://www.akshaykhot.com/using-hotwire-without-rails/: Explains how to use
     Hotwire (Turbo primarily) without the RoR framework. What's nice about this
     is that it becomes very clear what Turbo is all about.
+  - [[https://radanskoric.com/articles/how-to-avoid-problem-with-turbo-morphing][Problems with morphing]]
+    Some good advice about matching server state with browser state.
 * Database
   - https://shopify.engineering/how-to-introduce-composite-primary-keys-in-rails:
     Using composite primary keys in a multi-tenant environment to improve
