@@ -3,7 +3,7 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2024-12-30 15:36 PM
+#+updated:  2025-02-24 08:17 AM
 #+filetags: :rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
@@ -49,7 +49,8 @@
   For POST requests, this is done automatically.
 
 * The turbo stream response
-  The controller should be configured to handle a turbo stream format.
+  The controller can be configured to handle a turbo stream format
+  independently.
 
   #+begin_src ruby
   def new
@@ -74,6 +75,17 @@
   object. The argument, ~messages~ , is the DOM element ID that should be
   targeted, in this case the container to which the message form should be
   prepended.
+
+  ⚠️ This does not have to be the case, a turbo_stream template will be implicitly
+  rendered if that is the only template available and a format is not specified.
+  This can be quite useful at times.
+
+  #+begin_src ruby
+  def edit
+    render content_type: 'text/html; turbo-stream'
+  end
+  #+end_src
+
 
 ** turbo-stream tag
    The server will render the following with help from the ~turbo_stream~ tag
