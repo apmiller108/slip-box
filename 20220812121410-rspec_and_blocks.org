@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec things
 #+date: 2022-08-12 12:14 PM
-#+updated: 2025-01-23 14:01 PM
+#+updated: 2025-03-11 20:55 PM
 #+filetags: :rspec:ruby:
 
 * Blocks
@@ -22,8 +22,13 @@
 
 ** Stubbing
     When stubbing ~Foo.call~, in order for block that contains ~Bar.call~ to be
-    called, we need to use ~and_yield~. It can take arguments. See also
-    https://www.rubydoc.info/gems/rspec-mocks/RSpec%2FMocks%2FMessageExpectation:and_yield
+    called, we need to use ~and_yield~.
+
+    It can take arguments:
+    See also
+    - https://rspec.info/features/3-13/rspec-mocks/configuring-responses/yielding/
+    - https://www.rubydoc.info/gems/rspec-mocks/RSpec%2FMocks%2FMessageExpectation:and_yield
+
 
     #+begin_src ruby
       RSpec.describe Thing do
