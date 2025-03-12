@@ -3,10 +3,10 @@
 :END:
 #+title: Plantuml and Mermaid with org-mode
 #+date: 2021-02-12 20:45 PM
-#+filetags: :org_mode:plantuml:emacs:
+#+filetags: :org_mode:plantuml:emacs:mermaid
 
 * Resources
-  [[id:0028A552-7D1F-4BA5-AE24-17DF94A33D83][Plantuml]] 
+  [[id:0028A552-7D1F-4BA5-AE24-17DF94A33D83][Plantuml]]
   [[http://www.alvinsim.com/diagrams-with-plantuml-and-emacs/][Blog Post: Diagrams with Plantuml and Emacs]]
 
 * Basic Usage
