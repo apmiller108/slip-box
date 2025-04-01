@@ -3,7 +3,7 @@
 :END:
 #+title: Vector based search
 #+date: 2025-04-01 12:52 PM
-#+updated:  2025-04-01 15:30 PM
+#+updated:  2025-04-01 15:33 PM
 #+filetags: :rails:ruby:
 
 Notes from a recent feature on a Ruby on Rails side project.
@@ -212,6 +212,39 @@ class ConversationSearch
   end
 end
 #+end_src
+
+#+begin_src mermaid :file images/vector-search-vector-similarity-viz.svg
+  graph LR
+    subgraph "Vector Space"
+        Q((Query Vector))
+        D1((Doc 1: 0.3))
+        D2((Doc 2: 0.6))
+        D3((Doc 3: 0.8))
+        D4((Doc 4: 0.9))
+
+        Q --- |0.3| D1
+        Q --- |0.6| D2
+        Q --- |0.8| D3
+        Q --- |0.9| D4
+    end
+
+    subgraph "Search Results"
+        R1[Doc 1: Most Relevant]
+        R2[Doc 2: Relevant]
+        R3[Doc 3: Less Relevant]
+        R4[Doc 4: Not Returned]
+    end
+
+    D1 --> R1
+    D2 --> R2
+    D3 --> R3
+
+    style D4 fill:#f99,stroke:#333
+    style R4 fill:#f99,stroke:#333
+#+end_src
+
+#+RESULTS:
+[[file:images/vector-search-vector-similarity-viz.svg]]
 
 This uses cosine distance ~<=>~ since the comparison is between a query (a short
 string) and a document that is longer by comparison. See also pgvector docs
