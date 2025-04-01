@@ -3,7 +3,7 @@
 :END:
 #+title: Vector based search
 #+date: 2025-04-01 12:52 PM
-#+updated:  2025-04-01 15:22 PM
+#+updated:  2025-04-01 15:29 PM
 #+filetags: :rails:ruby:
 
 Notes from a recent feature on a Ruby on Rails side project.
@@ -238,3 +238,31 @@ Search: Implement vector similarity search using the <=> operator with a relevan
 
 UI: Create search interface components for user interaction
 
+
+#+begin_src mermaid :file images/vector-search-process-flow.svg
+  sequenceDiagram
+    participant User
+    participant Rails as Rails App
+    participant Sidekiq
+    participant VoyageAPI as Voyage API
+    participant Postgres as PostgreSQL + pgvector
+
+    User->>Rails: Create/Update Conversation
+    Rails->>Postgres: Save Conversation
+    Rails->>Sidekiq: Queue ConversationEmbeddingJob
+    Sidekiq->>Rails: Execute Job
+    Rails->>Rails: Generate text blob from conversation
+    Rails->>VoyageAPI: Request embeddings for text
+    VoyageAPI->>Rails: Return vector embeddings
+    Rails->>Postgres: Store vector in conversation.embedding
+
+    User->>Rails: Search for conversations
+    Rails->>VoyageAPI: Generate embedding for search query
+    VoyageAPI->>Rails: Return query vector
+    Rails->>Postgres: Vector similarity search (<=> operator)
+    Postgres->>Rails: Return matching conversations
+    Rails->>User: Display search results
+#+end_src
+
+#+RESULTS:
+[[file:images/vector-search-process-flow.svg]]
