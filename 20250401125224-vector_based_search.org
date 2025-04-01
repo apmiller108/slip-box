@@ -1,0 +1,240 @@
+:PROPERTIES:
+:ID:       DE0F8A28-4BF8-426C-A91D-E4BBD1590F7E
+:END:
+#+title: Vector based search
+#+date: 2025-04-01 12:52 PM
+#+updated:  2025-04-01 15:22 PM
+#+filetags: :rails:ruby:
+
+Notes from a recent feature on a Ruby on Rails side project.
+
+Vector search is for semantic search that allows finding content based on
+meaning rather than exact keyword matches. This document outlines the
+implementation of vector search in a Ruby on Rails application using the
+[[https://github.com/pgvector/pgvector][pgvector]] PostgreSQL extension.
+
+#+begin_src mermaid :file images/vector-search-architecture-overview.svg
+  flowchart TD
+    User[User] -->|Search Query| WebApp[Rails Application]
+    WebApp -->|Store Conversations| DB[(PostgreSQL + pgvector)]
+    WebApp -->|Generate Embeddings| EmbeddingAPI[Voyage Embedding API]
+    WebApp -->|Queue Jobs| SidekiqQueue[Sidekiq Queue]
+    SidekiqQueue -->|Process Jobs| EmbeddingWorker[Embedding Worker]
+    EmbeddingWorker -->|Generate Embeddings| EmbeddingAPI
+    EmbeddingWorker -->|Update Embeddings| DB
+    WebApp -->|Vector Similarity Search| DB
+#+end_src
+
+#+RESULTS:
+[[file:images/vector-search-architecture-overview.svg]]
+
+* Docker configuration uses a specialized image:
+  https://hub.docker.com/r/ankane/pgvector
+  This docker image comes with pgvector installed. Otherwise use the regular PG
+  image with a custom Dockerfile.
+#+begin_src dockerfile
+database:
+  image: pgvector/pgvector:pg16
+  # ...
+#+end_src
+
+* PostgreSQL Configuration
+The implementation relies on the pgvector extension for PostgreSQL:
+
+Migration to enable the pgvector extension
+#+begin_src ruby
+class EnablePgvectorExtension < ActiveRecord::Migration[8.0]
+  def up
+    ActiveRecord::Base.connection.execute 'CREATE EXTENSION IF NOT EXISTS vector'
+  end
+
+  def down
+    ActiveRecord::Base.connection.execute 'DROP EXTENSION IF EXISTS vector'
+  end
+end
+#+end_src
+
+* Database Schema
+Adding vector columns to store embeddings (aka vectors)
+
+This limit depends on how the vectors are created. Different models will create
+vectors in differing dimensions. I am using VoyageAI's voyage3 model which does
+1024 dimensions.
+
+#+begin_src ruby
+class AddEmbeddingToConversations < ActiveRecord::Migration[8.0]
+  def change
+    add_column :conversations, :embedding, :vector, limit: 1024
+  end
+end
+#+end_src
+
+
+* Model Configuration
+The Conversation model includes special handling for vector attributes:
+
+The ~blobify~ method compiles together all the relevant text that gets vectorized.
+
+#+begin_src ruby
+class Conversation < ApplicationRecord
+  # excluding :embedding because it fill up the console with numbers
+  self.attributes_for_inspect = %i[id title image_quality user_id memo_id create_at updated_at]
+
+  # When getting the nearest neighbors, this attribute holds the distance if
+  # included in the select statement
+  attribute :neighbor_distance
+
+  # Method to create text representation for embedding
+  def blobify
+    [
+      title,
+      generate_text_requests.completed.map(&:blobify)
+    ].join
+  end
+end
+#+end_src
+
+
+* Embedding Generation
+Using the Voyage API for generating embeddings:
+
+- Queries and documents are embedded differently; hence the ~input_type~. Queries
+are embedded with a baked in prompt. See
+https://docs.voyageai.com/reference/embeddings-api
+- Optionally cache the embedding response if worth it.
+
+#+begin_src ruby
+module Embeddings
+  module Voyage
+    HOST = 'https://api.voyageai.com/'.freeze
+
+    class << self
+      def create_embeddings(text:, input_type:)
+        raise ArgumentError, 'input_type must be one of :query or :document' unless input_type.in?(%i[document query])
+
+        case input_type
+        when :query
+          cache_key = "query_embedding/#{Digest::MD5.hexdigest(text.to_s.downcase.strip)}"
+          Rails.cache.fetch(cache_key, expires_in: 24.hours) do
+            _create_embeddings(text:, input_type:)
+          end
+        else
+          _create_embeddings(text:, input_type:)
+        end
+      end
+    end
+
+    private
+
+    def _create_embeddings(text:, input_type:)
+      request = EmbeddingRequest.new(
+        input: Array[text],
+        input_type:
+      )
+
+      Client.new.create_embeddings(request)
+    end
+  end
+end
+#+end_src
+
+
+* Background Processing
+Using Sidekiq for asynchronous embedding generation:
+
+#+begin_src ruby
+class ConversationEmbeddingJob
+  include Sidekiq::Job
+
+  sidekiq_options lock: :until_executed
+
+  def perform(conversation_id)
+    conversation = Conversation.find(conversation_id)
+    response = Embeddings::Voyage.create_embeddings(text: conversation.blobify, input_type: :document)
+
+    conversation.update!(embedding: response.embeddings.first.vector)
+  end
+end
+#+end_src
+
+
+** Triggering embedding generation after text generation
+ Update the conversation embedding when the content changes. schedule it out
+ some minutes with a unique job constraint so we don't create too many
+ unecessary jobs.
+
+#+begin_src ruby
+class GenerateTextJob
+  # ...
+  def perform(generate_text_request_id)
+    # ...
+    ConversationEmbeddingJob.perform_in(5.minutes, generate_text_request.conversation_id)
+  end
+end
+#+end_src
+
+
+* Search Implementation
+The search query class handles vector similarity search:
+
+The steps are:
+1. create a vector for the search query
+2. select all conversations where the semantic similarity is above a certain
+   threshold
+3. Include the neighbor_distance if we need to show the user relevance scores
+
+#+begin_src ruby
+class ConversationSearch
+  # Threshold for vector similarity search relevance
+  # 0.0 means exact match, 1.0 means completely dissimilar
+  VECTOR_RELEVANCE_THRESHOLD = 0.75
+
+  def initialize(relation:, params: {})
+    @params = params || {}
+    @relation = relation
+    @applied_filters = []
+  end
+
+  # ...
+
+  def apply_semantic_filter
+    return unless search_term
+
+    vector = Embeddings::Voyage.create_embeddings(
+      text: search_term,
+      input_type: :query
+    ).embeddings.first.vector
+
+    @relation = relation.select("conversations.*, (embedding <=> '#{vector}') AS neighbor_distance")
+                        .where('embedding <=> ? < ?', vector.to_s, VECTOR_RELEVANCE_THRESHOLD)
+
+    applied_filters << :semantic
+  end
+end
+#+end_src
+
+This uses cosine distance ~<=>~ since the comparison is between a query (a short
+string) and a document that is longer by comparison. See also pgvector docs
+
+Cosine Distance:
+- It normalizes for document length, which is important when comparing documents of varying sizes
+- It focuses on the orientation/direction of vectors rather than their magnitude
+- It works well with sparse, high-dimensional data typical in text embeddings
+- It effectively captures semantic similarity by measuring the angle between vectors
+- It’s widely used in production semantic search systems and has proven effectiveness
+
+
+* Implementation Flow
+
+Setup: Enable pgvector extension and add vector column to conversations table
+
+Content Processing: Generate text representation of conversations using blobify methods
+
+Embedding Generation: Use Voyage API to create vector embeddings of conversations
+
+Background Processing: Schedule embedding generation after content changes
+
+Search: Implement vector similarity search using the <=> operator with a relevance threshold
+
+UI: Create search interface components for user interaction
+
