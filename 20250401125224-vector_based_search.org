@@ -3,7 +3,7 @@
 :END:
 #+title: Vector based search
 #+date: 2025-04-01 12:52 PM
-#+updated:  2025-04-01 15:33 PM
+#+updated:  2025-04-01 15:35 PM
 #+filetags: :rails:ruby:
 
 Notes from a recent feature on a Ruby on Rails side project.
@@ -68,6 +68,9 @@ class AddEmbeddingToConversations < ActiveRecord::Migration[8.0]
   end
 end
 #+end_src
+
+Consider indexes if using large datasets and it makes sense. There are options
+with trade-offs: See also https://tembo.io/blog/vector-indexes-in-pgvector
 
 
 * Model Configuration
