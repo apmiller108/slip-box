@@ -3,7 +3,7 @@
 :END:
 #+title: Vector based search
 #+date: 2025-04-01 12:52 PM
-#+updated:  2025-04-01 15:29 PM
+#+updated:  2025-04-01 15:30 PM
 #+filetags: :rails:ruby:
 
 Notes from a recent feature on a Ruby on Rails side project.
@@ -237,7 +237,6 @@ Background Processing: Schedule embedding generation after content changes
 Search: Implement vector similarity search using the <=> operator with a relevance threshold
 
 UI: Create search interface components for user interaction
-
 
 #+begin_src mermaid :file images/vector-search-process-flow.svg
   sequenceDiagram

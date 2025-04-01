@@ -120,6 +120,10 @@ pre {
   font-family: 'Oxygen Mono', monospace;
 }
 
+pre.src-mermaid {
+  display: none;
+}
+
 .sitemap-entries a {
   margin: 0 0.5rem;
 }
