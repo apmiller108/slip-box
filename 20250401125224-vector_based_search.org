@@ -3,7 +3,7 @@
 :END:
 #+title: Vector based search
 #+date: 2025-04-01 12:52 PM
-#+updated:  2025-04-01 15:35 PM
+#+updated:  2025-04-01 20:35 PM
 #+filetags: :rails:ruby:
 
 Notes from a recent feature on a Ruby on Rails side project.
@@ -28,7 +28,9 @@ implementation of vector search in a Ruby on Rails application using the
 #+RESULTS:
 [[file:images/vector-search-architecture-overview.svg]]
 
-* Docker configuration uses a specialized image:
+* pgvector
+Install and enable the extension. See also https://github.com/pgvector/pgvector.
+** Docker
   https://hub.docker.com/r/ankane/pgvector
   This docker image comes with pgvector installed. Otherwise use the regular PG
   image with a custom Dockerfile.
@@ -38,7 +40,7 @@ database:
   # ...
 #+end_src
 
-* PostgreSQL Configuration
+** create extension
 The implementation relies on the pgvector extension for PostgreSQL:
 
 Migration to enable the pgvector extension
@@ -61,6 +63,9 @@ This limit depends on how the vectors are created. Different models will create
 vectors in differing dimensions. I am using VoyageAI's voyage3 model which does
 1024 dimensions.
 
+This migration, and dumping vector columns to schema.rb, needs the [[https://github.com/ankane/neighbor][neighbor gem]];
+otherwise use regular SQL and structures.sql
+
 #+begin_src ruby
 class AddEmbeddingToConversations < ActiveRecord::Migration[8.0]
   def change
@@ -78,9 +83,12 @@ The Conversation model includes special handling for vector attributes:
 
 The ~blobify~ method compiles together all the relevant text that gets vectorized.
 
+Note: if using the neighbor gem, the ~neighbor_distance~ attribute is added when
+you use the ~has_neighbors :embedding~ macro.
+
 #+begin_src ruby
 class Conversation < ApplicationRecord
-  # excluding :embedding because it fill up the console with numbers
+  # excluding :embedding because it fills up the console with numbers
   self.attributes_for_inspect = %i[id title image_quality user_id memo_id create_at updated_at]
 
   # When getting the nearest neighbors, this attribute holds the distance if
@@ -97,13 +105,11 @@ class Conversation < ApplicationRecord
 end
 #+end_src
 
-
 * Embedding Generation
 Using the Voyage API for generating embeddings:
 
 - Queries and documents are embedded differently; hence the ~input_type~. Queries
-are embedded with a baked in prompt. See
-https://docs.voyageai.com/reference/embeddings-api
+are embedded with a baked in prompt. See https://docs.voyageai.com/reference/embeddings-api
 - Optionally cache the embedding response if worth it.
 
 #+begin_src ruby
