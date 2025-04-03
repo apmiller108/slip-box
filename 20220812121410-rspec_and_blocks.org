@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec things
 #+date: 2022-08-12 12:14 PM
-#+updated: 2025-03-11 20:55 PM
+#+updated: 2025-04-02 21:05 PM
 #+filetags: :rspec:ruby:
 
 * Blocks
@@ -49,6 +49,17 @@
           end
         end
       end
+    #+end_src
+
+    Chain and combine with ~and_return~
+    #+begin_src ruby
+      allow(generative_text).to receive(:invoke_model_stream).and_yield(response_chunks[0])
+                                                             .and_yield(response_chunks[1])
+                                                             .and_yield(response_chunks[2])
+                                                             .and_yield(response_chunks[3])
+                                                             .and_yield(response_chunks[4])
+                                                             .and_yield(response_chunks[5])
+                                                             .and_return(response)
     #+end_src
 
 ** Expecting
