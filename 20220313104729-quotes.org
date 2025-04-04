@@ -3,23 +3,80 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2024-06-13 15:36 PM
+#+updated: 2025-04-04 12:43 PM
 #+filetags: :philosophy:
 
-#+begin_quote
-Remember, it is not enough to be hit or insulted to be harmed, you must believe
-that you are being harmed. If someone succeeds in provoking you, realize that
-your mind is complicit in the provocation. Which is why it is essential that we
-not respond impulsively to impressions; take a moment before reacting, and you
-will find it easier to maintain control.
 
---- Epictetus, The Art of Living: The Classical Manual on Virtue, Happiness and Effectiveness 
+#+begin_quote
+It's more fun to be competent
+
+--- DHH
 #+end_quote
 
 #+begin_quote
-Man can do what he wills but he cannot will what he wills.
+It's more fun when you freak out.
 
---- Arthur Schopenhauer, Essays and Aphorisms
+--- Dominique Miller
+#+end_quote
+
+#+begin_quote
+That's the Native way of teaching. We have this, traditional pedagogy of, "just
+get out there and learn, fucker."
+
+--- Spirit, [[https://www.youtube.com/watch?v=qBD-pMDbTqg][Reservation Dogs]]
+#+end_quote
+
+
+#+begin_quote
+Rats racing to populate an island don’t leave a little aside as a preserve where
+the few rats who live there can live happy lives producing artwork. Cancer cells
+don’t agree to leave the lungs alone because they realize it’s important for the
+body to get oxygen. Competition and optimization are blind idiotic processes and
+they fully intend to deny us even one lousy galaxy.
+
+--- [[https://slatestarcodex.com/2014/07/30/meditations-on-moloch/][Medidations on Maloch]]
+#+end_quote
+
+#+begin_quote
+Fear is the cheapest room in the house
+I would like to see you living
+In better conditions
+
+--- [[https://en.wikipedia.org/wiki/Hafez][Hafez]]
+#+end_quote
+
+#+begin_quote
+The devil always shits on the biggest pile.
+
+--- German Proverb
+#+end_quote
+
+#+begin_quote
+In answer to the question of why it happened, I offer the modest proposal that
+our Universe is simply one of those things which happen from time to time.
+
+--- Edward P. Tryon
+#+end_quote
+
+#+begin_quote
+Make your work look like it happened all by itself.
+
+--- Alan Watts
+#+end_quote
+
+#+begin_quote
+We labour at our daily work more ardently and thoughtlessly than is necessary to
+sustain our life because to us it is even more necessary not to have leisure to
+stop and think. Haste is universal because everyone is in flight from himself
+
+--- Nietzsche
+#+end_quote
+
+#+begin_quote
+I Am an Old Man and Have Known a Great Many Troubles, But Most of Them Never
+Happened
+
+--- Commonly attributed to Mark Twain but could have been someone else.
 #+end_quote
 
 #+begin_quote
@@ -41,67 +98,18 @@ Never let a good crisis go to waste.
 #+end_quote
 
 #+begin_quote
-I Am an Old Man and Have Known a Great Many Troubles, But Most of Them Never
-Happened
+Man can do what he wills but he cannot will what he wills.
 
---- Commonly attributed to Mark Twain but could have been someone else.
+--- Arthur Schopenhauer, Essays and Aphorisms
 #+end_quote
 
 #+begin_quote
-We labour at our daily work more ardently and thoughtlessly than is necessary to
-sustain our life because to us it is even more necessary not to have leisure to
-stop and think. Haste is universal because everyone is in flight from himself
+Remember, it is not enough to be hit or insulted to be harmed, you must believe
+that you are being harmed. If someone succeeds in provoking you, realize that
+your mind is complicit in the provocation. Which is why it is essential that we
+not respond impulsively to impressions; take a moment before reacting, and you
+will find it easier to maintain control.
 
---- Nietzsche
+--- Epictetus, The Art of Living: The Classical Manual on Virtue, Happiness and Effectiveness 
 #+end_quote
 
-#+begin_quote
-Make your work look like it happened all by itself.
-
---- Alan Watts
-#+end_quote
-
-#+begin_quote
-In answer to the question of why it happened, I offer the modest proposal that
-our Universe is simply one of those things which happen from time to time.
-
---- Edward P. Tryon
-#+end_quote
-
-
-#+begin_quote
-The devil always shits on the biggest pile.
-
---- German Proverb
-#+end_quote
-
-#+begin_quote
-Fear is the cheapest room in the house
-I would like to see you living
-In better conditions
-
---- [[https://en.wikipedia.org/wiki/Hafez][Hafez]]
-#+end_quote
-
-#+begin_quote
-Rats racing to populate an island don’t leave a little aside as a preserve where
-the few rats who live there can live happy lives producing artwork. Cancer cells
-don’t agree to leave the lungs alone because they realize it’s important for the
-body to get oxygen. Competition and optimization are blind idiotic processes and
-they fully intend to deny us even one lousy galaxy.
-
---- [[https://slatestarcodex.com/2014/07/30/meditations-on-moloch/][Medidations on Maloch]]
-#+end_quote
-
-#+begin_quote
-That's the Native way of teaching. We have this, traditional pedagogy of, "just
-get out there and learn, fucker."
-
---- Spirit, [[https://www.youtube.com/watch?v=qBD-pMDbTqg][Reservation Dogs]]
-#+end_quote
-
-#+begin_quote
-It's more fun when you freak out.
-
---- Dominique Miller
-#+end_quote
