@@ -3,7 +3,7 @@
 :END:
 #+title: Zero config HTTP servers
 #+date: 2022-11-30 13:43 PM
-#+updated: 2025-01-28 12:34 PM
+#+updated: 2025-04-11 20:22 PM
 #+filetags: :web_development:
 
 
@@ -26,7 +26,7 @@
 
 
    See also https://github.com/anderspitman/awesome-tunneling for alternatives
-* ⭐ http-server
+* http-server
   https://www.npmjs.com/package/http-server
 
   This has an option to enable CORS.

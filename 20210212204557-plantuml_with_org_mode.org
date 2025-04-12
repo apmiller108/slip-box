@@ -27,13 +27,16 @@
 * Mermaid alternative
 https://github.com/apmiller108/mermaid-layer
 #+begin_src mermaid :file images/mermaid-demo.png
----
-title: Order example
----
-erDiagram
-    CUSTOMER ||--o{ ORDER : places
-    ORDER ||--|{ LINE-ITEM : contains
-    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+stateDiagram-v2
+    [*] --> MessageStart: Initial Event
+    MessageStart --> ContentBlockStart: Next Event
+    ContentBlockStart --> ContentBlockDelta: Incremental Updates
+    ContentBlockDelta --> ContentBlockDelta: Continue Updating
+    ContentBlockDelta --> ContentBlockStop: Finalize Block
+    ContentBlockStop --> ContentBlockStart: Next Content Block
+    ContentBlockStop --> MessageDelta: Update Metadata
+    MessageDelta --> MessageStop: Finalize Message
+    MessageStop --> [*]: Complete Response
 #+end_src
 
 #+RESULTS:
