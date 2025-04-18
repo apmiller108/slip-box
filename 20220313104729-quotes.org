@@ -3,9 +3,17 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2025-04-04 12:43 PM
+#+updated: 2025-04-18 15:03 PM
 #+filetags: :philosophy:
 
+#+begin_quote
+Society is a joint-stock company, in which the members agree, for the better
+securing of his bread to each shareholder, to surrender the liberty and culture
+of the eater. The virtue in most request is conformity. Self-reliance is its
+aversion. It loves not realities and creators, but names and customs.
+
+-- Ralph Waldo Emerson, Self-Reliance
+#+end_quote
 
 #+begin_quote
 It's more fun to be competent
