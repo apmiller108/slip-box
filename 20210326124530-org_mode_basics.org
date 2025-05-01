@@ -3,13 +3,13 @@
 :END:
 #+title: Org-mode basics
 #+date: 2021-03-26 12:45 PM
-#+updated: 2023-04-03 16:08 PM
+#+updated: 2025-05-01 13:34 PM
 #+filetags: :org_mode:
 
 This is a dump of notes on basic org-mode stuff. I recently switched from
 Boostnote to org-mode.
 
-See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]   
+See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]
 
 * Headings
 ** Rotate heading type
@@ -65,7 +65,7 @@ See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]
    #+begin_src elisp
      (set-face-foreground 'fill-column-indicator "pink")
    #+end_src
-    
+
 * Source code
   - Eval with ~C-c C-c~
   - Edit in another buffer (optional): ~C-c '~
@@ -78,26 +78,26 @@ See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]
    argument that points to a running docker container
    1. Build the docker image. ~docker build -t my-image .~
    2. Run the docker container. It can be helpful to give the container a name.
-      #+begin_src 
+      #+begin_src
       docker run -it --rm -v "$PWD":/app --name my-container --env-file .env my-image
       #+end_src
    3. Add the ~:dir~ header argument
-      
+
       ~#+begin_src ruby :dir /docker:root@my-container:/app~
 
       - root is the user
       - my-container is the container name or ID
 
-   See also https://orgmode.org/manual/Evaluating-Code-Blocks.html 
-      
+   See also https://orgmode.org/manual/Evaluating-Code-Blocks.html
+
 * Capture templates
-  See [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam Capture Templates]]  
+  See [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam Capture Templates]]
 
 * Export Settings
   See the following for more on this topic.
   - [[id:EA505166-BE28-45D4-8390-343AC9B48D05][Org-mode Export Settings]]
-  - [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]] 
-  
+  - [[file:20210414210731-org_mode_publishing.org][Org-mode publishing]]
+
 * Lists
   https://orgmode.org/manual/Plain-Lists.html
 ** Ordered Lists
@@ -108,9 +108,13 @@ See also [[id:7514BB0A-9713-4C61-9FFD-6C93BC0F0374][Org-roam stuff]]
    - Same syntax as markdown.
    - Toggle with ~org-toggle-checkbox~
    - They are hierarchical Add ~[/]~ to the parent to get a 'n out of m'.
-   
+
 * Superscripts
   - Add ~#+OPTIONS: ^:{}~ to your org-mode file
   - Superscript syntax: ~word^{superscript}~
   - Subscript syntax: ~word_{subscript}~
   See example in [[id:d9d045d0-8598-4e5f-be7e-f61312460d3d][Raised vegetable gardening]]
+* Troubleshooting
+** Version mismatch
+  Delete org-x.x.x and org-contrib-x.x.x from spacemacs/elpa/develop and restart
+  emacs
