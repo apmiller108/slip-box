@@ -3,7 +3,7 @@
 :END:
 #+title: GPG
 #+date: 2024-05-30 15:44 PM
-#+updated:  2024-07-20 10:08 AM
+#+updated:  2025-05-01 15:28 PM
 #+filetags: :security:linux:git:emacs:
 
 * Setup
@@ -18,7 +18,7 @@ sudo apt-get install gnupg2 -y
 brew install gpt2 gpt-agent pinentry-mac
 #+end_src
 
-Create ~/.gnupg/gpg-agent.conf~ if it doesn't exist and add the path to
+Create ~~/.gnupg/gpg-agent.conf~ if it doesn't exist and add the path to
 pinentry-mac. This program will shows a GUI prompt asking for the GPG key
 passphrase when needed with the option to add it to the keychain.
 
