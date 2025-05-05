@@ -3,13 +3,20 @@
 :END:
 #+title: CodeMirror, ViewComponent, and Stimulus
 #+date: 2025-05-05 13:55 PM
-#+updated:  2025-05-05 14:06 PM
+#+updated:  2025-05-05 14:19 PM
 
 * Implementing CodeMirror with Ruby on Rails, ViewComponent and StimulusJS
+
+#+attr_html: :width 750
+[[file:images/tmp-json-editor.webp]]
+
 ** Overview
    This document outlines how to implement a JSON editor using CodeMirror 6
    within a Ruby on Rails application, utilizing ViewComponent for
    component-based UI and StimulusJS for JavaScript behavior.
+
+   I used this in [[https://github.com/apmiller108/tmp][TMP]] to build a JSON schema editor for creating and updating
+   LLM tools.
 
 ** Dependencies
    - Ruby on Rails
