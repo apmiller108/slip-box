@@ -3,7 +3,7 @@
 :END:
 #+title: CodeMirror, ViewComponent, and Stimulus
 #+date: 2025-05-05 13:55 PM
-#+updated:  2025-05-05 14:39 PM
+#+updated:  2025-05-05 15:14 PM
 
 * Overview
    This document outlines how to implement a JSON editor using CodeMirror 6
@@ -11,10 +11,13 @@
    component-based UI and StimulusJS for JavaScript behavior.
 
    I used this in [[https://github.com/apmiller108/tmp][TMP]] to build a JSON schema editor for creating and updating
-   LLM tools.
+   LLM tools. This is what is looked like:
 
    #+attr_html: :width 750
    [[file:images/tmp-json-editor.webp]]
+
+   It does line numbers, formatting, basic linting and 2-way binding with a text
+   area form field. Ultimately the JSON is stored in a jsonb field in a PG database.
 
 * Dependencies
    - Ruby on Rails
@@ -179,7 +182,10 @@
 
 * How It Works
   CodeMirror is kind of weird to configure. Once the extensions system is
-  understood, it makes some sense, but certainly not intuitive.
+  understood, it makes some sense, but certainly not intuitive. It's all about
+  the extensions.
+
+  See also https://codemirror.net/docs/guide/
 
   This component was used to create JSON schema for creating LLM tools. As such
   it comes with a get started template because who can remember all that
@@ -192,7 +198,8 @@
 ** Stimulus Integration
     1. The ~json-editor~ controller initializes CodeMirror when connected
     2. It sets up CodeMirror with JSON syntax highlighting and linting
-    3. Changes in the editor are synced back to the hidden textarea
+    3. Changes in the editor are synced back to the hidden textarea using a
+       custom updateListener extension. It's weird.
     4. Provides a button to insert a template JSON schema when the field is empty
 
 ** Key Features
