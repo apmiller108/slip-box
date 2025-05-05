@@ -1,0 +1,228 @@
+:PROPERTIES:
+:ID:       F1038331-823D-49D4-8549-B88AA1A3651A
+:END:
+#+title: CodeMirror, ViewComponent, and Stimulus
+#+date: 2025-05-05 13:55 PM
+#+updated:  2025-05-05 14:06 PM
+
+* Implementing CodeMirror with Ruby on Rails, ViewComponent and StimulusJS
+** Overview
+   This document outlines how to implement a JSON editor using CodeMirror 6
+   within a Ruby on Rails application, utilizing ViewComponent for
+   component-based UI and StimulusJS for JavaScript behavior.
+
+** Dependencies
+   - Ruby on Rails
+   - ViewComponent
+   - StimulusJS
+   - CodeMirror 6 packages:
+     - ~@codemirror/lang-json~
+     - ~@codemirror/lint~
+
+** Implementation Components
+*** ViewComponent Class
+    Create a ViewComponent to encapsulate the JSON editor functionality:
+
+    #+begin_src ruby
+      class JsonEditorComponent < ApplicationViewComponent
+        attr_reader :form, :field_name, :placeholder, :helper_text, :css_class
+
+        def initialize(form:, field_name:, placeholder: '', helper_text: '', css_class: '')
+          @form = form
+          @field_name = field_name
+          @placeholder = placeholder
+          @helper_text = helper_text
+          @css_class = css_class
+        end
+
+        def value
+          return @value if defined? @value
+
+          val = form.object.public_send(field_name)
+          @value ||= val.blank? ? val : val.to_json
+        end
+      end
+    #+end_src
+
+*** Component Template (HAML)
+    Create the component template using HAML:
+
+    #+begin_src haml
+      .editor-container{ class: css_class, data: { controller: 'json-editor' } }
+        = form.text_area field_name, value:, rows: 10, class: ['form-control', 'd-none'], placeholder: placeholder, data: { 'json-editor-target' => 'input' }
+        .editor{ data: { 'json-editor-target' => 'editorElem' } }
+        %small.form-text.text-muted.d-block= helper_text
+        %button.btn.btn-sm.btn-outline-secondary.mt-2{type: "button", disabled: value.present?,
+                                                      data: { 'json-editor-target' => 'templateButton', action: 'click->json-editor#insertSchemaTemplate' }}
+          %i.bi.bi-code-square
+          Insert JSON Schema Template
+    #+end_src
+
+*** Stimulus Controller
+    Create a Stimulus controller to handle the CodeMirror integration:
+
+    #+begin_src javascript
+      import { Controller } from "@hotwired/stimulus";
+      import { EditorView, basicSetup } from "codemirror"
+      import { json, jsonParseLinter } from "@codemirror/lang-json"
+      import { lintGutter, linter } from "@codemirror/lint"
+
+      export default class JsonEditor extends Controller {
+        static targets = ['input', 'editorElem', 'templateButton']
+
+        connect() {
+          this.initializeEditor()
+        }
+
+        disconnect() {
+          if (this.editorView) {
+            this.editorView.destroy();
+            this.editorView = null;
+          }
+        }
+
+        get extensions() {
+          return [
+            basicSetup,
+            json(),
+            lintGutter(),
+            linter(jsonParseLinter()),
+            EditorView.lineWrapping,
+            EditorView.updateListener.of(update => { // of returns an extension
+              if (update.docChanged) {
+                this.inputTarget.value = update.state.doc.toString()
+                this.onInputSchemaChange()
+              }
+            })
+          ]
+        }
+
+        initializeEditor() {
+          this.editorView = new EditorView({
+            doc: this.inputTarget.value,
+            extensions: this.extensions,
+            parent: this.editorElemTarget
+          })
+          this.formatContent()
+        }
+
+        formatContent() {
+          try {
+            const content = this.editorView.state.doc.toString();
+            if (content.length) {
+              // Replace the entire document with the formatted version
+              const transaction = this.editorView.state.update({
+                changes: {
+                  from: 0,
+                  to: this.editorView.state.doc.length,
+                  insert: this.formatJSON(JSON.parse(content)) // content is JSON string
+                }
+              });
+
+              this.editorView.dispatch(transaction);
+            }
+          } catch (e) {
+            console.error("JSON formatting failed:", e);
+          }
+        }
+
+        // Parse and stringify with indentation
+        formatJSON(json) {
+          return JSON.stringify(json, null, 2);
+        }
+
+        onInputSchemaChange() {
+          const val = this.inputTarget.value
+          if (val.length) {
+            this.templateButtonTarget.disabled = true
+          } else {
+            this.templateButtonTarget.disabled = false
+          }
+        }
+
+        insertSchemaTemplate() {
+          const schemaTemplate = {
+            "type": "object",
+            "required": ["name", "age"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The person's full name"
+              },
+              "age": {
+                "type": "integer",
+                "description": "Age in years",
+                "minimum": 0
+              },
+              // ... additional schema properties ...
+            }
+          };
+
+          // Replace the entire document with the template
+          const transaction = this.editorView.state.update({
+            changes: {
+              from: 0,
+              to: this.editorView.state.doc.length,
+              insert: this.formatJSON(schemaTemplate)
+            }
+          });
+
+          this.editorView.dispatch(transaction);
+        }
+      }
+    #+end_src
+
+** How It Works
+  CodeMirror is kind of weird to configure. Once the extensions system is
+  understood, it makes some sense, but certainly not intuitive.
+
+  This component was used to create JSON schema for creating LLM tools. As such
+  it comes with a get started template because who can remember all that
+  nonsense.
+*** Component Structure
+    1. The ~JsonEditorComponent~ encapsulates the form field and editor configuration
+    2. It handles converting the model attribute to JSON format when needed
+    3. The component renders a hidden textarea (actual form field) and a container for CodeMirror
+
+*** Stimulus Integration
+    1. The ~json-editor~ controller initializes CodeMirror when connected
+    2. It sets up CodeMirror with JSON syntax highlighting and linting
+    3. Changes in the editor are synced back to the hidden textarea
+    4. Provides a button to insert a template JSON schema when the field is empty
+
+*** Key Features
+    - *JSON Validation*: Uses CodeMirror's JSON linting to validate input
+    - *Auto-formatting*: Formats JSON with proper indentation
+    - *Template Insertion*: Provides a template button for quick schema creation
+    - *Two-way Binding*: Changes in the editor update the form field value
+
+** Usage Example
+   To use the JSON editor in a Rails view or component. It is intented to be
+   used with a FormBuilder object.
+
+   #+begin_src haml
+      = form_with(model: llm_tool) do |form|
+        .card-body
+          .mb-3
+            = form.label :input_schema, class: 'form-label'
+            = render JsonEditorComponent.new(form:, field_name: :input_schema, css_class: 'input-schema-editor',
+            placeholder: '{"type": "object", "properties": {...}}',
+            helper_text: 'JSON Schema defining the parameters for this tool. Must include "type" and "properties" fields.' )
+        .card-footer
+          .d-flex.justify-content-end.mt-4
+            = link_to 'Cancel', llm_tools_path, class: 'btn btn-outline-secondary me-2'
+            = form.submit class: 'btn btn-primary'
+   #+end_src
+
+** Installation Steps
+*** 1. Install Required Packages
+    #+begin_src bash
+      yarn add codemirror @codemirror/lang-json @codemirror/lint
+    #+end_src
+
+** Notes and Considerations
+   - The hidden textarea ensures compatibility with Rails form handling
+   - The component handles JSON serialization/deserialization automatically
+   - Consider adding error handling for invalid JSON input
+   - The template button is disabled once content exists in the editor to
+     prevent accidental overwrite.
