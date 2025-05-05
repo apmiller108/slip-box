@@ -3,14 +3,9 @@
 :END:
 #+title: CodeMirror, ViewComponent, and Stimulus
 #+date: 2025-05-05 13:55 PM
-#+updated:  2025-05-05 14:19 PM
+#+updated:  2025-05-05 14:39 PM
 
-* Implementing CodeMirror with Ruby on Rails, ViewComponent and StimulusJS
-
-#+attr_html: :width 750
-[[file:images/tmp-json-editor.webp]]
-
-** Overview
+* Overview
    This document outlines how to implement a JSON editor using CodeMirror 6
    within a Ruby on Rails application, utilizing ViewComponent for
    component-based UI and StimulusJS for JavaScript behavior.
@@ -18,7 +13,10 @@
    I used this in [[https://github.com/apmiller108/tmp][TMP]] to build a JSON schema editor for creating and updating
    LLM tools.
 
-** Dependencies
+   #+attr_html: :width 750
+   [[file:images/tmp-json-editor.webp]]
+
+* Dependencies
    - Ruby on Rails
    - ViewComponent
    - StimulusJS
@@ -26,8 +24,8 @@
      - ~@codemirror/lang-json~
      - ~@codemirror/lint~
 
-** Implementation Components
-*** ViewComponent Class
+* Implementation Components
+** ViewComponent Class
     Create a ViewComponent to encapsulate the JSON editor functionality:
 
     #+begin_src ruby
@@ -51,7 +49,7 @@
       end
     #+end_src
 
-*** Component Template (HAML)
+** Component Template (HAML)
     Create the component template using HAML:
 
     #+begin_src haml
@@ -65,7 +63,7 @@
           Insert JSON Schema Template
     #+end_src
 
-*** Stimulus Controller
+** Stimulus Controller
     Create a Stimulus controller to handle the CodeMirror integration:
 
     #+begin_src javascript
@@ -179,31 +177,31 @@
       }
     #+end_src
 
-** How It Works
+* How It Works
   CodeMirror is kind of weird to configure. Once the extensions system is
   understood, it makes some sense, but certainly not intuitive.
 
   This component was used to create JSON schema for creating LLM tools. As such
   it comes with a get started template because who can remember all that
   nonsense.
-*** Component Structure
+** Component Structure
     1. The ~JsonEditorComponent~ encapsulates the form field and editor configuration
     2. It handles converting the model attribute to JSON format when needed
     3. The component renders a hidden textarea (actual form field) and a container for CodeMirror
 
-*** Stimulus Integration
+** Stimulus Integration
     1. The ~json-editor~ controller initializes CodeMirror when connected
     2. It sets up CodeMirror with JSON syntax highlighting and linting
     3. Changes in the editor are synced back to the hidden textarea
     4. Provides a button to insert a template JSON schema when the field is empty
 
-*** Key Features
+** Key Features
     - *JSON Validation*: Uses CodeMirror's JSON linting to validate input
     - *Auto-formatting*: Formats JSON with proper indentation
     - *Template Insertion*: Provides a template button for quick schema creation
     - *Two-way Binding*: Changes in the editor update the form field value
 
-** Usage Example
+* Usage Example
    To use the JSON editor in a Rails view or component. It is intented to be
    used with a FormBuilder object.
 
@@ -221,13 +219,13 @@
             = form.submit class: 'btn btn-primary'
    #+end_src
 
-** Installation Steps
-*** 1. Install Required Packages
+* Installation Steps
+** 1. Install Required Packages
     #+begin_src bash
       yarn add codemirror @codemirror/lang-json @codemirror/lint
     #+end_src
 
-** Notes and Considerations
+* Notes and Considerations
    - The hidden textarea ensures compatibility with Rails form handling
    - The component handles JSON serialization/deserialization automatically
    - Consider adding error handling for invalid JSON input
