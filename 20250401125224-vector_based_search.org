@@ -3,8 +3,8 @@
 :END:
 #+title: Vector based search
 #+date: 2025-04-01 12:52 PM
-#+updated:  2025-04-01 20:35 PM
-#+filetags: :rails:ruby:
+#+updated:  2025-05-06 12:29 PM
+#+filetags: :ai:rails:ruby:
 
 Notes from a recent feature on a Ruby on Rails side project.
 

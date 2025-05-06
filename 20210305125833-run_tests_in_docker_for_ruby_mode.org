@@ -3,7 +3,7 @@
 :END:
 #+title: Run tests in docker for ruby-mode
 #+date: 2021-03-05 12:58 PM
-#+filetags: :ruby_mode:spacemacs:docker:
+#+filetags: :emacs:spacemacs:docker:
 
 See [[https://github.com/pezra/rspec-mode][rspec-mode]] docs for the variables used below
 

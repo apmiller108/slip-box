@@ -3,7 +3,7 @@
 :END:
 #+title: Ruby-mode parenthetical indentation
 #+date: 2021-04-23 08:29 AM
-#+filetags: :ruby_mode:emacs:
+#+filetags: :emacs:
 
 * How to fix this messed up parenthetical indentation
 

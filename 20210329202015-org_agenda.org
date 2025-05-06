@@ -3,7 +3,7 @@
 :END:
 #+title: Org-agenda
 #+date: 2021-03-29 20:20 PM
-#+filetags: :org_agenda:org_mode:
+#+filetags: :org_mode:
 
 See also [[id:E67BF8C6-A54C-4E71-A9B3-F2FE1D14632A][Org-mode basics]]
 

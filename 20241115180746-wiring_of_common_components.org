@@ -3,8 +3,8 @@
 :END:
 #+title: Wiring of common components
 #+date: 2024-11-15 18:07 PM
-#+updated:  2024-11-19 15:09 PM
-#+filetags: :electroncis:ardunio:
+#+updated:  2025-05-06 12:37 PM
+#+filetags: :electronics:arduino:
 
 * LEDs
  See also [[id:BA461725-12D2-4F3D-883C-29FA4B3EA91E][LEDs]]

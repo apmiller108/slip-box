@@ -3,8 +3,8 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2025-02-24 08:17 AM
-#+filetags: :rails:
+#+updated:  2025-05-06 12:30 PM
+#+filetags: :hotwire:rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
  The idea with turbo streams is to have the server render some HTML, but the

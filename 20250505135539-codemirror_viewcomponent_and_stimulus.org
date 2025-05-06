@@ -3,7 +3,8 @@
 :END:
 #+title: CodeMirror, ViewComponent, and Stimulus
 #+date: 2025-05-05 13:55 PM
-#+updated:  2025-05-05 15:14 PM
+#+updated:  2025-05-06 12:30 PM
+#+filetags: :hotwire:rails:
 
 * Overview
    This document outlines how to implement a JSON editor using CodeMirror 6
