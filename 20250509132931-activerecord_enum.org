@@ -1,0 +1,58 @@
+:PROPERTIES:
+:ID:       E2EF4BF9-FCC0-4414-943F-150E2A158580
+:END:
+#+title: ActiveRecord::Enum
+#+date: 2025-05-09 13:29 PM
+#+updated:  2025-05-09 13:39 PM
+#+filetags: :rails:
+
+See also https://api.rubyonrails.org/v8.0.0/classes/ActiveRecord/Enum.html
+See also [[id:40FFCDB2-F065-4EDC-9DED-C3007827B470][ActiveRecord]] notes
+
+I often use the following pattern with declaring an enum on an ActiveRecord
+model:
+
+Migration:
+#+begin_src ruby
+  class AddStatusToGenerateImageRequests < ActiveRecord::Migration[7.2]
+    def up
+      add_column :generate_image_requests, :status, :text
+
+      add_check_constraint :generate_image_requests, "status in ('created', 'queued', 'in_progress', 'failed', 'completed')", name: 'status_check'
+
+      ActiveRecord::Base.connection.execute(<<~SQL)
+        UPDATE generate_image_requests
+        SET status = 'completed'
+      SQL
+
+      change_column_null :generate_image_requests, :status, false
+    end
+
+    def down
+      remove_check_constraint :generate_image_requests, name: 'status_check'
+      remove_column :generate_image_requests, :status
+    end
+  end
+#+end_src
+
+In the model
+#+begin_src ruby
+    enum :status, {
+      created: 'created',
+      queued: 'queued',
+      in_progress: 'in_progress',
+      failed: 'failed',
+      completed: 'completed'
+    }, default: 'created'
+
+    validates :status, inclusion: { in: statuses.values, message: "%<value>s must be one of #{statuses.values}" }
+#+end_src
+
+- I like using strings for visibility and querying outside the context of the
+  application
+- I'll use check constraints to enforce proper values at the database layer. I
+  don't always do this. There are some cases where the enum list is expected to
+  grow over time, like maybe a category or taxonomy in which case it's a pain to
+  have to create a migration every time.
+- Proper values also enforces at the model layer.
+- I might create an index if expected to query for records based on the enum value.
