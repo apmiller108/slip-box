@@ -3,7 +3,7 @@
 :END:
 #+title: Turbo Streams
 #+date: 2023-11-25 15:06 PM
-#+updated:  2025-05-06 12:30 PM
+#+updated:  2025-05-19 08:20 AM
 #+filetags: :hotwire:rails:
 
  [[https://turbo.hotwired.dev/handbook/streams][Turbo streams]] are part of the Turbo library, which itself is part of [[https://hotwired.dev/][Hotwire]].
@@ -209,6 +209,7 @@
    to narrow scope of the stream. Include the a user object to setup a stream
    for a particular user's posts
 
+** Broacast turbo streams
    Now to broadcast a message, you can do this from the code:
    #+begin_src ruby
      Turbo::StreamsChannel.broadcast_prepend_to([user, 'posts'], target: 'posts', content: 'HELLO')
@@ -220,8 +221,13 @@
    - https://github.com/hotwired/turbo-rails/blob/main/app/channels/turbo/streams/broadcasts.rb
    - https://www.driftingruby.com/episodes/broadcasting-progress-from-background-jobs
 
-   *NOTE*: instead of ~content~ one can use ~partial~ and point to the partial path.
-** with view_component components
+   *NOTE*: instead of ~content~ one can use the ~partial~ option and point to the
+   partial path. Include the ~formats~ option if rendering a turbo_stream.
+
+    #+begin_src ruby
+      Turbo::StreamsChannel.broadcast_prepend_to([user, 'posts'], target: 'posts', partial: 'posts/show', locals: { post: }, formats: [:turbo_stream] )
+    #+end_src
+*** with view_component components
    There are several approaches to this, all kind of hacky.
    See also https://github.com/ViewComponent/view_component/issues/1106
 
