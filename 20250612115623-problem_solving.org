@@ -1,0 +1,26 @@
+:PROPERTIES:
+:ID:       A9265454-4D95-44B9-96CB-EEC2E824D0A8
+:END:
+#+title: Problem solving
+#+date: 2025-06-12 11:56 AM
+#+updated:  2025-06-12 12:31 PM
+#+filetags: :philosophy:
+
+Non-exhaustive general guidelines for problem solving
+
+* For narrowly focused problems
+  - Simulate the problem. Imagine having to solve the problem manually and codify
+    that. Translate what you’d do manually into loops, conditionals and state
+    tracking.
+  - Break it down into discrete steps.
+  - Keep track of state. Identify things that change, things that persist and
+    what must be put into memory to be referenced later to complete other steps.
+  - Visualize progress. Log data to the console as the program progresses.
+  - Recognize patterns
+  - Write tests for base and edge cases
+* For broadly focused problems
+  - Study the problem space. Discuss and document the details. Understand the
+     domain.
+  - Design the most optimum solution
+  - Design the simplest solution that would lead to the optimum solution
+  - Include plan to gather performance data
