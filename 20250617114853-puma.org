@@ -1,0 +1,60 @@
+:PROPERTIES:
+:ID:       4ED73BAB-481F-4CFA-9449-EA46446C07DF
+:END:
+#+title: Puma
+#+date: 2025-06-17 11:48 AM
+#+updated:  2025-06-17 12:35 PM
+#+filetags: :rails:ruby:
+
+* Puma Concurrency and Load Balancing
+
+See also https://github.com/puma/puma/blob/master/docs/architecture.md
+
+#+BEGIN_SRC mermaid :file images/puma_concurrency.png
+graph TD
+    A[Client Connections] --> B[Socket Accept Queue]
+    B --> C[Shared Listening Socket]
+    C --> D1[Worker 1]
+    C --> D2[Worker 2]
+    C --> D3[Worker 3]
+    D1 --> E1[Thread Pool 1]
+    D2 --> E2[Thread Pool 2]
+    D3 --> E3[Thread Pool 3]
+    subgraph Operating System
+      B
+      C
+    end
+    subgraph Puma
+        D1
+        D2
+        D3
+        E1
+        E2
+        E3
+    end
+#+END_SRC
+
+#+RESULTS:
+[[file:images/puma_concurrency.png]]
+
+** Concurrency Model
+
+- *Threads*: Each Puma worker has a thread pool to handle multiple requests concurrently.
+  - Configured via: ~threads min_threads, max_threads~
+- *Workers*: Separate processes forked from the master process.
+  - Configured via: ~workers count~
+  - Each worker has its own thread pool.
+
+** Load Balancing and Socket Accept Queue
+
+- The *master process* creates a shared listening socket.
+- All *workers* inherit this socket and compete to accept connections.
+- The *OS* manages a *socket accept queue* for incoming TCP connections.
+- When a connection is ready, the OS wakes one of the sleeping workers to handle it.
+
+** Sleep and Wake Behavior
+
+- When a worker thread calls ~accept()~, it blocks (sleeps) until a connection is available.
+- The OS wakes up one thread or process to handle the connection.
+- This is efficient and avoids CPU waste.
+
