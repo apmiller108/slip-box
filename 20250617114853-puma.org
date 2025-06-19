@@ -3,7 +3,7 @@
 :END:
 #+title: Puma
 #+date: 2025-06-17 11:48 AM
-#+updated:  2025-06-17 12:35 PM
+#+updated:  2025-06-19 10:43 AM
 #+filetags: :rails:ruby:
 
 * Puma Concurrency and Load Balancing
@@ -50,11 +50,47 @@ graph TD
 - The *master process* creates a shared listening socket.
 - All *workers* inherit this socket and compete to accept connections.
 - The *OS* manages a *socket accept queue* for incoming TCP connections.
-- When a connection is ready, the OS wakes one of the sleeping workers to handle it.
+- When a connection is ready, the OS "wakes" one of the sleeping workers to handle it.
 
 ** Sleep and Wake Behavior
 
-- When a worker thread calls ~accept()~, it blocks (sleeps) until a connection is available.
-- The OS wakes up one thread or process to handle the connection.
-- This is efficient and avoids CPU waste.
+- When a worker thread is ready to accept a request, it blocks (sleeps) until a connection is available.
+- The OS "wakes" up one thread or process to handle the connection.
 
+* Low level error handler
+
+See also https://github.com/puma/puma/blob/master/README.md#error-handling
+
+In ~config/puma.rb~
+#+BEGIN_SRC ruby
+  lowlevel_error_handler do |e, env, status|
+    # Do stuff like report the error to your favorite error tracking service
+    # the `env` object could have useful data to include in the reporting:
+    #   env['REQUEST_URI']
+    #   env['PATH_INFO']
+    #   env['REQUEST_METHOD']
+    #   env['REMOTE_ADDR']
+    [500, {}, ["An error has occurred. Try again."]]
+  end
+#+END_SRC
+
+** Test it
+  Maybe try to send a malformed HTTP request using nc or openssl (if running
+  on 443) but probably the easiest way is to inject some middleware in ~config.ru~
+  that just raises an error:
+
+  #+begin_src ruby
+    class LowleveErrorTest
+      def initialize(app)
+        @app = app
+      end
+      def call(env)
+        raise "Simulated crash before app"
+      end
+    end
+
+    use LowlevelErrorTest
+
+    run Rails.application
+    Rails.application.load_server
+  #+end_src
