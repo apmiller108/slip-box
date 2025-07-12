@@ -121,3 +121,9 @@ will find it easier to maintain control.
 --- Epictetus, The Art of Living: The Classical Manual on Virtue, Happiness and Effectiveness 
 #+end_quote
 
+#+begin_quote
+If you want to improve, be content to be thought foolish and stupid.
+
+--- Epictetus
+#+end_quote
+
