@@ -3,7 +3,49 @@
 :END:
 #+title: capybara window management
 #+date: 2021-03-03 14:49 PM
-#+filetags: :ruby:testing:
+#+filetags: :rspec:ruby:testing:
+
+* Attaching files
+
+** Capybara File Upload Issue: Zero-Byte Files
+
+*Problem*
+When using Capybara’s attach_file in system tests, the attached file has a size of 0 bytes, even if the source file contains data. This causes JavaScript fetch requests to fail with TypeError: Failed to fetch because:
+
+- Browsers may reject requests with empty files
+- Servers often reject zero-byte uploads
+- FormData doesn’t handle zero-byte files reliably
+
+*Solution*
+Create files programmatically in the browser with actual content using JavaScript:
+
+#+begin_src  ruby
+def attach_file_to_input(input_id:, filename: 'test.txt', content: nil, content_type: 'text/plain')
+  file_content = content || 'This is a test file for upload testing.'
+
+  page.execute_script(<<~JS)
+    const fileContent = #{file_content.to_json};
+
+    const file = new File([fileContent], #{filename.to_json}, {
+      type: #{content_type.to_json},
+      lastModified: Date.now()
+    });
+
+    const fileInput = document.getElementById(#{input_id.to_json});
+    const dataTransfer = new DataTransfer();
+    dataTransfer.items.add(file);
+    fileInput.files = dataTransfer.files;
+
+    fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+  JS
+end
+#+end_src
+
+This creates a proper File object with real content that JavaScript can
+successfully upload via fetch requests.
+
+*** Why Capybara Creates Zero-Byte Files
+Capybara’s attach_file method doesn’t actually read the file content in system tests. Instead, it creates a file reference with metadata (name, type) but no actual bytes. This is likely an optimization to avoid reading potentially large files during test execution, but it breaks JavaScript file upload functionality that expects real file content.
 
 * Capybara::Window
   See also:
