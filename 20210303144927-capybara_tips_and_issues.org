@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       CFC5691E-3B33-4A45-A1A9-4188031DCBE5
 :END:
-#+title: capybara window management
+#+title: Capybara tips and issues
 #+date: 2021-03-03 14:49 PM
 #+filetags: :rspec:ruby:testing:
 
