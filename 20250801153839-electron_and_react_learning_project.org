@@ -1,0 +1,313 @@
+:PROPERTIES:
+:ID:       C5149989-9B88-4C01-9453-E00707B59535
+:END:
+#+title: Electron and react learning project
+#+date: 2025-08-01 15:38 PM
+#+updated:  2025-08-01 15:45 PM
+
+* Mixxx Claude Assistant - Project Requirements & Plan
+:PROPERTIES:
+:CUSTOM_ID: mixxx-claude-assistant---project-requirements-plan
+:END:
+** *Project Overview*
+:PROPERTIES:
+:CUSTOM_ID: project-overview
+:END:
+A cross-platform Electron desktop application that provides an
+intelligent interface to Mixxx DJ software's music library using Claude
+AI for playlist generation and music discovery.
+
+** *Core Functionality*
+:PROPERTIES:
+:CUSTOM_ID: core-functionality
+:END:
+*** *1. Database Integration*
+:PROPERTIES:
+:CUSTOM_ID: database-integration
+:END:
+- *Read-only access* to =mixxxdb.sqlite=
+- *Auto-detection* of Mixxx database location by platform
+- *Manual file selection* as fallback option
+- *Real-time monitoring* for database changes with automatic refresh
+- *Lock contention handling* with retry logic and user error
+  notifications
+
+*** *2. Library Management*
+:PROPERTIES:
+:CUSTOM_ID: library-management
+:END:
+- Display tracks, crates, and playlists from Mixxx database
+- *Sortable table interface* with comprehensive track metadata
+- *Search and filtering* capabilities across all library content
+- Real-time updates when Mixxx database changes
+
+*** *3. Claude AI Integration*
+:PROPERTIES:
+:CUSTOM_ID: claude-ai-integration
+:END:
+- User-configurable API key storage in application settings
+- Natural language queries about music library content
+- *Intelligent playlist generation* based on user prompts
+- Context-aware responses using actual library data
+
+*** *4. Playlist Export*
+:PROPERTIES:
+:CUSTOM_ID: playlist-export
+:END:
+- Generate *Extended M3U format* playlists
+- Include track names and metadata in export
+- Local file system export for manual Mixxx import
+- User-friendly file save dialogs
+
+** *Technical Architecture*
+:PROPERTIES:
+:CUSTOM_ID: technical-architecture
+:END:
+*** *Technology Stack*
+:PROPERTIES:
+:CUSTOM_ID: technology-stack
+:END:
+- *Frontend*: React + Bootstrap for responsive UI
+- *Backend*: Electron main process with Node.js
+- *Database*: SQLite3 with read-only access
+- *AI Integration*: Anthropic Claude API
+- *File Monitoring*: Node.js file system watchers
+
+*** *Database Schema Integration*
+:PROPERTIES:
+:CUSTOM_ID: database-schema-integration
+:END:
+Based on the provided schema, key tables include:
+
+**** *Primary Tables*
+:PROPERTIES:
+:CUSTOM_ID: primary-tables
+:END:
+- *=library=*: Main track metadata (artist, title, album, BPM, key,
+  genre, etc.)
+- *=track_locations=*: File paths and metadata
+- *=crates=*: User-created track collections
+- *=crate_tracks=*: Track-to-crate relationships
+- *=Playlists=*: User playlists
+- *=PlaylistTracks=*: Playlist contents
+
+**** *Metadata Available to Claude*
+:PROPERTIES:
+:CUSTOM_ID: metadata-available-to-claude
+:END:
+- Track identification (artist, title, album)
+- Technical specs (BPM, key, duration, bitrate)
+- Categorization (genre, year, rating)
+- User organization (crates, playlists)
+- Play statistics (times played, last played)
+
+*** *Platform-Specific Database Locations*
+:PROPERTIES:
+:CUSTOM_ID: platform-specific-database-locations
+:END:
+| Platform  | Default Path                                                                                 |
+|-----------+----------------------------------------------------------------------------------------------|
+| *Windows* | =C:\Users\<Username>\AppData\Local\Mixxx\mixxxdb.sqlite=                                     |
+| *macOS*   | =~/Library/Containers/org.mixxx.mixxx/Data/Library/Application Support/Mixxx/mixxxdb.sqlite= |
+| *Linux*   | =~/.mixxx/mixxxdb.sqlite=                                                                    |
+
+** *User Interface Design*
+:PROPERTIES:
+:CUSTOM_ID: user-interface-design
+:END:
+*** *Proposed Layout Structure*
+:PROPERTIES:
+:CUSTOM_ID: proposed-layout-structure
+:END:
+#+begin_example
+┌─────────────────────────────────────────────────────────┐
+│ Menu Bar (File, Settings, Help)                        │
+├─────────────────────────────────────────────────────────┤
+│ ┌─────────────────┐ ┌─────────────────────────────────┐ │
+│ │   Navigation    │ │                                 │ │
+│ │   Sidebar       │ │        Main Content Area        │ │
+│ │                 │ │                                 │ │
+│ │ • Library       │ │   ┌─────────────────────────┐   │ │
+│ │ • Crates        │ │   │   Library Table         │   │ │
+│ │ • Playlists     │ │   │   (Sortable/Filterable) │   │ │
+│ │ • Claude Chat   │ │   └─────────────────────────┘   │ │
+│ │                 │ │                                 │ │
+│ └─────────────────┘ └─────────────────────────────────┘ │
+├─────────────────────────────────────────────────────────┤
+│ Status Bar (DB Status, Connection Status)              │
+└─────────────────────────────────────────────────────────┘
+#+end_example
+
+*** *Key UI Components*
+:PROPERTIES:
+:CUSTOM_ID: key-ui-components
+:END:
+**** *1. Library Table*
+:PROPERTIES:
+:CUSTOM_ID: library-table
+:END:
+- *Columns*: Artist, Title, Album, BPM, Key, Genre, Duration, Rating
+- *Features*: Click-to-sort, multi-column filtering, search bar
+- *Bootstrap Components*: Table, Form controls, Input groups
+
+**** *2. Claude Chat Interface*
+:PROPERTIES:
+:CUSTOM_ID: claude-chat-interface
+:END:
+- *Chat-style interface* for natural language queries
+- *Prompt examples* for playlist generation
+- *Response display* with formatted playlist suggestions
+- *Export buttons* for generated playlists
+
+**** *3. Settings Panel*
+:PROPERTIES:
+:CUSTOM_ID: settings-panel
+:END:
+- *API Key management* with secure storage
+- *Database path configuration*
+- *Export preferences*
+- *Application preferences*
+
+** *Core Features Specification*
+:PROPERTIES:
+:CUSTOM_ID: core-features-specification
+:END:
+*** *Database Operations*
+:PROPERTIES:
+:CUSTOM_ID: database-operations
+:END:
+#+begin_src javascript
+// Read-only database operations
+- getAllTracks()
+- getTracksByFilter(criteria)
+- getCrates()
+- getPlaylists()
+- getTrackMetadata(trackId)
+- searchLibrary(query)
+#+end_src
+
+*** *File System Monitoring*
+:PROPERTIES:
+:CUSTOM_ID: file-system-monitoring
+:END:
+#+begin_src javascript
+// Watch for database changes
+- watchDatabaseFile()
+- handleDatabaseUpdate()
+- refreshLibraryData()
+- notifyUserOfChanges()
+#+end_src
+
+*** *Claude Integration*
+:PROPERTIES:
+:CUSTOM_ID: claude-integration
+:END:
+#+begin_src javascript
+// AI interaction methods
+- sendQueryToClaude(prompt, libraryContext)
+- generatePlaylist(criteria)
+- formatPlaylistResponse()
+- exportToM3U(playlist)
+#+end_src
+
+** *Error Handling Strategy*
+:PROPERTIES:
+:CUSTOM_ID: error-handling-strategy
+:END:
+*** *Database Lock Contention*
+:PROPERTIES:
+:CUSTOM_ID: database-lock-contention
+:END:
+1. *Retry Logic*: 3 attempts with exponential backoff
+2. *Timeout*: 10-second maximum wait
+3. *User Notification*: Clear error message with suggested actions
+4. *Graceful Degradation*: Show last known data state
+
+*** *API Failures*
+:PROPERTIES:
+:CUSTOM_ID: api-failures
+:END:
+1. *Network Issues*: Retry with timeout
+2. *Authentication*: Clear API key validation messages
+3. *Rate Limiting*: Respect API limits with user feedback
+4. *Service Unavailable*: Offline mode with cached responses
+
+*** *File System Issues*
+:PROPERTIES:
+:CUSTOM_ID: file-system-issues
+:END:
+1. *Missing Database*: Guide user to locate file manually
+2. *Permission Errors*: Clear instructions for file access
+3. *Corrupted Database*: Validation and recovery suggestions
+
+** *Security Considerations*
+:PROPERTIES:
+:CUSTOM_ID: security-considerations
+:END:
+*** *API Key Management*
+:PROPERTIES:
+:CUSTOM_ID: api-key-management
+:END:
+- *Encrypted storage* using Electron's safeStorage API
+- *No plaintext storage* of sensitive credentials
+- *Secure transmission* to Anthropic API only
+
+*** *Database Access*
+:PROPERTIES:
+:CUSTOM_ID: database-access
+:END:
+- *Read-only mode* enforcement
+- *SQL injection prevention* through parameterized queries
+- *File permission validation*
+
+** *Development Phases*
+:PROPERTIES:
+:CUSTOM_ID: development-phases
+:END:
+*** *Phase 1: Foundation*
+:PROPERTIES:
+:CUSTOM_ID: phase-1-foundation
+:END:
+- Set up Electron + React + Bootstrap boilerplate
+- Implement database auto-detection and manual selection
+- Create basic library table with sorting/filtering
+
+*** *Phase 2: Core Features*
+:PROPERTIES:
+:CUSTOM_ID: phase-2-core-features
+:END:
+- Add Claude API integration
+- Implement settings management
+- Create chat interface for AI queries
+
+*** *Phase 3: Advanced Features*
+:PROPERTIES:
+:CUSTOM_ID: phase-3-advanced-features
+:END:
+- Add real-time database monitoring
+- Implement M3U export functionality
+- Polish UI/UX and error handling
+
+*** *Phase 4: Testing & Distribution*
+:PROPERTIES:
+:CUSTOM_ID: phase-4-testing-distribution
+:END:
+- Cross-platform testing
+- Performance optimization
+- Build and packaging setup
+
+** *Success Criteria*
+:PROPERTIES:
+:CUSTOM_ID: success-criteria
+:END:
+- ✅ Successfully reads Mixxx database across all platforms
+- ✅ Provides intuitive library browsing with search/filter
+- ✅ Enables natural language queries about music collection
+- ✅ Generates contextually relevant playlist suggestions
+- ✅ Exports usable M3U files for Mixxx import
+- ✅ Handles errors gracefully with clear user feedback
+- ✅ Updates automatically when Mixxx database changes
+
+This comprehensive plan provides a solid foundation for building your
+Mixxx Claude Assistant while learning both Electron and React
+development!
