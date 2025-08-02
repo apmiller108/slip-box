@@ -3,13 +3,13 @@
 :END:
 #+title: Electron and react learning project
 #+date: 2025-08-01 15:38 PM
-#+updated:  2025-08-02 15:20 PM
+#+updated:  2025-08-02 15:33 PM
 
 * Mixxx Claude Assistant - Project Requirements & Plan
 :PROPERTIES:
 :CUSTOM_ID: mixxx-claude-assistant---project-requirements-plan
 :END:
-** *Project Overview*
+** Project Overview
 :PROPERTIES:
 :CUSTOM_ID: project-overview
 :END:
@@ -17,11 +17,11 @@ A cross-platform Electron desktop application that provides an
 intelligent interface to Mixxx DJ software's music library using Claude
 AI for playlist generation and music discovery.
 
-** *Core Functionality*
+** Core Functionality
 :PROPERTIES:
 :CUSTOM_ID: core-functionality
 :END:
-*** *1. Database Integration*
+*** 1. Database Integration
 :PROPERTIES:
 :CUSTOM_ID: database-integration
 :END:
@@ -33,7 +33,7 @@ AI for playlist generation and music discovery.
   notifications
 - Read and write access to an application database (also sqlite)
 
-*** *2. Library Management*
+*** 2. Library Management
 :PROPERTIES:
 :CUSTOM_ID: library-management
 :END:
@@ -42,7 +42,7 @@ AI for playlist generation and music discovery.
 - *Search and filtering* capabilities across all library content
 - Real-time updates when Mixxx database changes
 
-*** *3. Claude AI Integration*
+*** 3. Claude AI Integration
 :PROPERTIES:
 :CUSTOM_ID: claude-ai-integration
 :END:
@@ -51,7 +51,7 @@ AI for playlist generation and music discovery.
 - *Intelligent playlist generation* based on user prompts
 - Context-aware responses using actual library data
 
-*** *4. Playlist Export*
+*** 4. Playlist Export
 :PROPERTIES:
 :CUSTOM_ID: playlist-export
 :END:
@@ -60,11 +60,11 @@ AI for playlist generation and music discovery.
 - Local file system export for manual Mixxx import
 - User-friendly file save dialogs
 
-** *Technical Architecture*
+** Technical Architecture
 :PROPERTIES:
 :CUSTOM_ID: technical-architecture
 :END:
-*** *Technology Stack*
+*** Technology Stack
 :PROPERTIES:
 :CUSTOM_ID: technology-stack
 :END:
@@ -74,17 +74,17 @@ AI for playlist generation and music discovery.
 - *AI Integration*: Anthropic Claude API
 - *File Monitoring*: Node.js file system watchers
 
-*** *Database Schema Integration*
+*** Database Schema Integration
 :PROPERTIES:
 :CUSTOM_ID: database-schema-integration
 :END:
 
-**** Application databse
+**** Application database
 Schema will depend on the application state that will need to be persisted.
 Specific database schema TBD.
 
 **** mixxxdb.sqlite
-***** *Primary Tables*
+***** Primary Tables
 :PROPERTIES:
 :CUSTOM_ID: primary-tables
 :END:
@@ -96,7 +96,7 @@ Specific database schema TBD.
 - *=Playlists=*: User playlists
 - *=PlaylistTracks=*: Playlist contents
 
-***** *Metadata Available to Claude*
+***** Metadata Available to Claude
 :PROPERTIES:
 :CUSTOM_ID: metadata-available-to-claude
 :END:
@@ -106,7 +106,7 @@ Specific database schema TBD.
 - User organization (crates, playlists)
 - Play statistics (times played, last played)
 
-*** *Platform-Specific Database Locations*
+*** Platform-Specific Database Locations
 :PROPERTIES:
 :CUSTOM_ID: platform-specific-database-locations
 :END:
@@ -116,11 +116,11 @@ Specific database schema TBD.
 | *macOS*   | =~/Library/Containers/org.mixxx.mixxx/Data/Library/Application Support/Mixxx/mixxxdb.sqlite= |
 | *Linux*   | =~/.mixxx/mixxxdb.sqlite=                                                                    |
 
-** *User Interface Design*
+** User Interface Design
 :PROPERTIES:
 :CUSTOM_ID: user-interface-design
 :END:
-*** *Proposed Layout Structure*
+*** Proposed Layout Structure
 :PROPERTIES:
 :CUSTOM_ID: proposed-layout-structure
 :END:
@@ -143,11 +143,11 @@ Specific database schema TBD.
 └─────────────────────────────────────────────────────────┘
 #+end_example
 
-*** *Key UI Components*
+*** Key UI Components
 :PROPERTIES:
 :CUSTOM_ID: key-ui-components
 :END:
-**** *1. Library Table*
+**** 1. Library Table
 :PROPERTIES:
 :CUSTOM_ID: library-table
 :END:
@@ -155,7 +155,7 @@ Specific database schema TBD.
 - *Features*: Click-to-sort, multi-column filtering, search bar
 - *Bootstrap Components*: Table, Form controls, Input groups
 
-**** *2. Claude Chat Interface*
+**** 2. Claude Chat Interface
 :PROPERTIES:
 :CUSTOM_ID: claude-chat-interface
 :END:
@@ -164,7 +164,7 @@ Specific database schema TBD.
 - *Response display* with formatted playlist suggestions
 - *Export buttons* for generated playlists
 
-**** *3. Settings Panel*
+**** 3. Settings Panel
 :PROPERTIES:
 :CUSTOM_ID: settings-panel
 :END:
@@ -173,11 +173,11 @@ Specific database schema TBD.
 - *Export preferences*
 - *Application preferences*
 
-** *Core Features Specification*
+** Core Features Specification
 :PROPERTIES:
 :CUSTOM_ID: core-features-specification
 :END:
-*** *Database Operations*
+*** Database Operations
 :PROPERTIES:
 :CUSTOM_ID: database-operations
 :END:
@@ -191,7 +191,7 @@ Specific database schema TBD.
 - searchLibrary(query)
 #+end_src
 
-*** *File System Monitoring*
+*** File System Monitoring
 :PROPERTIES:
 :CUSTOM_ID: file-system-monitoring
 :END:
@@ -203,7 +203,7 @@ Specific database schema TBD.
 - notifyUserOfChanges()
 #+end_src
 
-*** *Claude Integration*
+*** Claude Integration
 :PROPERTIES:
 :CUSTOM_ID: claude-integration
 :END:
@@ -215,11 +215,11 @@ Specific database schema TBD.
 - exportToM3U(playlist)
 #+end_src
 
-** *Error Handling Strategy*
+** Error Handling Strategy
 :PROPERTIES:
 :CUSTOM_ID: error-handling-strategy
 :END:
-*** *Database Lock Contention*
+*** Database Lock Contention
 :PROPERTIES:
 :CUSTOM_ID: database-lock-contention
 :END:
@@ -228,7 +228,7 @@ Specific database schema TBD.
 3. *User Notification*: Clear error message with suggested actions
 4. *Graceful Degradation*: Show last known data state
 
-*** *API Failures*
+*** API Failures
 :PROPERTIES:
 :CUSTOM_ID: api-failures
 :END:
@@ -237,7 +237,7 @@ Specific database schema TBD.
 3. *Rate Limiting*: Respect API limits with user feedback
 4. *Service Unavailable*: Offline mode with cached responses
 
-*** *File System Issues*
+*** File System Issues
 :PROPERTIES:
 :CUSTOM_ID: file-system-issues
 :END:
@@ -245,11 +245,11 @@ Specific database schema TBD.
 2. *Permission Errors*: Clear instructions for file access
 3. *Corrupted Database*: Validation and recovery suggestions
 
-** *Security Considerations*
+** Security Considerations
 :PROPERTIES:
 :CUSTOM_ID: security-considerations
 :END:
-*** *API Key Management*
+*** API Key Management
 :PROPERTIES:
 :CUSTOM_ID: api-key-management
 :END:
@@ -257,7 +257,7 @@ Specific database schema TBD.
 - *No plaintext storage* of sensitive credentials
 - *Secure transmission* to Anthropic API only
 
-*** *Database Access*
+*** Database Access
 :PROPERTIES:
 :CUSTOM_ID: database-access
 :END:
@@ -265,7 +265,7 @@ Specific database schema TBD.
 - *SQL injection prevention* through parameterized queries
 - *File permission validation*
 
-** *Development Phases*
+** Development Phases
 :PROPERTIES:
 :CUSTOM_ID: development-phases
 :END:
@@ -301,7 +301,7 @@ Specific database schema TBD.
 - Performance optimization
 - Build and packaging setup
 
-** *Success Criteria*
+** Success Criteria
 :PROPERTIES:
 :CUSTOM_ID: success-criteria
 :END:
