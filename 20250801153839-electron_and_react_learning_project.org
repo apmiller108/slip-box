@@ -3,7 +3,7 @@
 :END:
 #+title: Electron and react learning project
 #+date: 2025-08-01 15:38 PM
-#+updated:  2025-08-01 15:45 PM
+#+updated:  2025-08-02 15:20 PM
 
 * Mixxx Claude Assistant - Project Requirements & Plan
 :PROPERTIES:
@@ -31,6 +31,7 @@ AI for playlist generation and music discovery.
 - *Real-time monitoring* for database changes with automatic refresh
 - *Lock contention handling* with retry logic and user error
   notifications
+- Read and write access to an application database (also sqlite)
 
 *** *2. Library Management*
 :PROPERTIES:
@@ -77,9 +78,13 @@ AI for playlist generation and music discovery.
 :PROPERTIES:
 :CUSTOM_ID: database-schema-integration
 :END:
-Based on the provided schema, key tables include:
 
-**** *Primary Tables*
+**** Application databse
+Schema will depend on the application state that will need to be persisted.
+Specific database schema TBD.
+
+**** mixxxdb.sqlite
+***** *Primary Tables*
 :PROPERTIES:
 :CUSTOM_ID: primary-tables
 :END:
@@ -91,7 +96,7 @@ Based on the provided schema, key tables include:
 - *=Playlists=*: User playlists
 - *=PlaylistTracks=*: Playlist contents
 
-**** *Metadata Available to Claude*
+***** *Metadata Available to Claude*
 :PROPERTIES:
 :CUSTOM_ID: metadata-available-to-claude
 :END:
