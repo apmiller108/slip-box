@@ -3,7 +3,7 @@
 :END:
 #+title: Electron and react learning project
 #+date: 2025-08-01 15:38 PM
-#+updated:  2025-08-02 15:33 PM
+#+updated:  2025-08-02 16:19 PM
 
 * Mixxx Claude Assistant - Project Requirements & Plan
 :PROPERTIES:
@@ -313,6 +313,21 @@ Specific database schema TBD.
 - ✅ Handles errors gracefully with clear user feedback
 - ✅ Updates automatically when Mixxx database changes
 
-This comprehensive plan provides a solid foundation for building your
-Mixxx Claude Assistant while learning both Electron and React
-development!
+** Questions and considerations
+*** Database monitoring
+- How frequently to poll for changes?
+- Consider using SQLite’s PRAGMA user_version to detect schema changes
+- Might want to hash the database file or check modification timestamps before doing full refreshes.
+*** Claude context management
+- How to handle large libraries that may exceed context window?
+- Limit the columns to include to only the ones that would be useful.
+- Could I have users choose which crates, playlists, or genres to include in the
+  library context?
+- Use prompt caching
+- Include instructions for harmonic mixing. Include the camelot wheel.
+*** Keyboard shortcuts
+*** Logging
+*** Dark mode
+*** Electron security
+- Should I disable nodejs integration in renderer process?
+- Should I use context isolation?
