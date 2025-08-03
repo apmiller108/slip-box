@@ -1,0 +1,227 @@
+:PROPERTIES:
+:ID:       6213405b-b26a-4f33-a1d1-1cbf76f7f2b1
+:END:
+#+title: Harmonic mixing
+#+date: 2025-08-03 18:29 PM
+#+updated:  2025-08-03 18:41 PM
+#+filetags: :audio:
+
+* The Camelot Wheel System
+  :PROPERTIES:
+  :CUSTOM_ID: the-camelot-wheel-system
+  :END:
+
+The Camelot Wheel is a simplified representation of the Circle of
+Fifths, designed specifically for DJs. It uses numbers (1-12) to
+represent different keys and letters (A for major, B for minor) to
+indicate the mode.
+
+*Inner Ring (Major Keys - A):*
+- 1A = C Major
+- 2A = G Major
+- 3A = D Major
+- 4A = A Major
+- 5A = E Major
+- 6A = B Major
+- 7A = F# Major
+- 8A = C# Major
+- 9A = G# Major
+- 10A = D# Major
+- 11A = A# Major
+- 12A = F Major
+
+*Outer Ring (Minor Keys - B):*
+- 1B = A Minor
+- 2B = E Minor
+- 3B = B Minor
+- 4B = F# Minor
+- 5B = C# Minor
+- 6B = G# Minor
+- 7B = D# Minor
+- 8B = A# Minor
+- 9B = F Minor
+- 10B = C Minor
+- 11B = G Minor
+- 12B = D Minor
+
+* Harmonic Mixing Techniques
+  :PROPERTIES:
+  :CUSTOM_ID: harmonic-mixing-techniques
+  :END:
+
+The following is sourced from https://dj.studio/blog/dj-mix-chart.
+
+** 1. *Perfect Mix*
+   :PROPERTIES:
+   :CUSTOM_ID: perfect-mix
+   :END:
+
+- *Rule*: Same key to same key
+- *Energy Change*: Neutral
+- *Description*: The most seamless transition possible. Both tracks are
+  in identical keys, creating perfect harmonic compatibility.
+- *Use Case*: Maintaining consistent energy, creating extended mixes
+
+** 2. *Scale Change*
+   :PROPERTIES:
+   :CUSTOM_ID: scale-change
+   :END:
+
+- *Rule*: Switch between relative major/minor (A ↔ B)
+- *Energy Change*: Neutral to slight mood shift
+- *Description*: Major and minor relatives share the same notes but
+  different tonal centers. Creates subtle mood changes while maintaining
+  harmonic compatibility.
+- *Use Case*: Adding emotional variation without energy disruption
+
+** 3. *Energy Boost*
+   :PROPERTIES:
+   :CUSTOM_ID: energy-boost
+   :END:
+
+- *Rule*: Move +2 steps clockwise
+- *Energy Change*: Dramatic increase
+- *Description*: Raises the key by a major second interval, creating a
+  noticeable lift in energy and excitement.
+- *Use Case*: Peak moments, building to drops, creating climactic
+  moments
+
+** 4. *+1 Mix*
+   :PROPERTIES:
+   :CUSTOM_ID: mix
+   :END:
+
+- *Rule*: Move +1 step clockwise
+- *Energy Change*: Slight increase
+- *Description*: Moves up by a perfect fifth interval, creating a gentle
+  energy boost that feels natural and uplifting.
+- *Use Case*: Gradual energy building, smooth progression upward
+
+** 5. *-1 Mix*
+   :PROPERTIES:
+   :CUSTOM_ID: mix-1
+   :END:
+
+- *Rule*: Move -1 step counterclockwise
+- *Energy Change*: Slight decrease
+- *Description*: Moves down by a perfect fifth interval, creating a
+  subtle energy drop while maintaining harmonic compatibility.
+- *Use Case*: Gentle energy reduction, creating breathing room in sets
+
+** 6. *Diagonal Mix*
+   :PROPERTIES:
+   :CUSTOM_ID: diagonal-mix
+   :END:
+
+- *Rule*: Move diagonally across the wheel
+- *Energy Change*: Varies
+- *Description*: Creates interesting harmonic relationships by jumping
+  across the wheel, often used for creative transitions.
+- *Use Case*: Surprising transitions, creative mixing, genre changes
+
+** 7. *Jaw's Mix*
+   :PROPERTIES:
+   :CUSTOM_ID: jaws-mix
+   :END:
+
+- *Rule*: Specific harmonic intervals
+- *Energy Change*: Varies
+- *Description*: Named after DJ Jaw, these are specific harmonic
+  relationships that create unique but compatible transitions.
+- *Use Case*: Advanced mixing techniques, creating signature sounds
+
+** 8. *Mood Shifter*
+   :PROPERTIES:
+   :CUSTOM_ID: mood-shifter
+   :END:
+
+- *Rule*: Switch major/minor + move 3 steps clockwise
+- *Energy Change*: Dramatic mood change
+- *Description*: Combines a mode change with a significant key shift,
+  creating dramatic emotional transitions while maintaining harmonic
+  compatibility.
+- *Use Case*: Genre transitions, dramatic set changes, emotional
+  storytelling
+
+* Harmonic Mixing Reference Table
+  :PROPERTIES:
+  :CUSTOM_ID: harmonic-mixing-reference-table
+  :END:
+
+| Starting Key | Perfect Mix | -1 Mix | +1 Mix | Energy Boost | Scale Change | Diagonal Mix | Jaw's Mix | Mood Shifter |
+|--------------+-------------+--------+--------+--------------+--------------+--------------+-----------+--------------|
+| *1A*         | 1A          | 12A    | 2A     | 3A           | 1B           | 12B          | 8A        | 4B           |
+| *2A*         | 2A          | 1A     | 3A     | 4A           | 2B           | 1B           | 9A        | 5B           |
+| *3A*         | 3A          | 2A     | 4A     | 5A           | 3B           | 2B           | 10A       | 6B           |
+| *4A*         | 4A          | 3A     | 5A     | 6A           | 4B           | 3B           | 11A       | 7B           |
+| *5A*         | 5A          | 4A     | 6A     | 7A           | 5B           | 4B           | 12A       | 8B           |
+| *6A*         | 6A          | 5A     | 7A     | 8A           | 6B           | 5B           | 1A        | 9B           |
+| *7A*         | 7A          | 6A     | 8A     | 9A           | 7B           | 6B           | 2A        | 10B          |
+| *8A*         | 8A          | 7A     | 9A     | 10A          | 8B           | 7B           | 3A        | 11B          |
+| *9A*         | 9A          | 8A     | 10A    | 11A          | 9B           | 8B           | 4A        | 12B          |
+| *10A*        | 10A         | 9A     | 11A    | 12A          | 10B          | 9B           | 5A        | 1B           |
+| *11A*        | 11A         | 10A    | 12A    | 1A           | 11B          | 10B          | 6A        | 2B           |
+| *12A*        | 12A         | 11A    | 1A     | 2A           | 12B          | 11B          | 7A        | 3B           |
+| *1B*         | 1B          | 12B    | 2B     | 3B           | 1A           | 2A           | 8B        | 10A          |
+| *2B*         | 2B          | 1B     | 3B     | 4B           | 2A           | 3A           | 9B        | 11A          |
+| *3B*         | 3B          | 2B     | 4B     | 5B           | 3A           | 4A           | 10B       | 12A          |
+| *4B*         | 4B          | 3B     | 5B     | 6B           | 4A           | 5A           | 11B       | 1A           |
+| *5B*         | 5B          | 4B     | 6B     | 7B           | 5A           | 6A           | 12B       | 2A           |
+| *6B*         | 6B          | 5B     | 7B     | 8B           | 6A           | 7A           | 1B        | 3A           |
+| *7B*         | 7B          | 6B     | 8B     | 9B           | 7A           | 8A           | 2B        | 4A           |
+| *8B*         | 8B          | 7B     | 9B     | 10B          | 8A           | 9A           | 3B        | 5A           |
+| *9B*         | 9B          | 8B     | 10B    | 11B          | 9A           | 10A          | 4B        | 6A           |
+| *10B*        | 10B         | 9B     | 11B    | 12B          | 10A          | 11A          | 5B        | 7A           |
+| *11B*        | 11B         | 10B    | 12B    | 1B           | 11A          | 12A          | 6B        | 8A           |
+| *12B*        | 12B         | 11B    | 1B     | 2B           | 12A          | 1A           | 7B        | 9A           |
+
+** *Energy Management*
+   :PROPERTIES:
+   :CUSTOM_ID: energy-management
+   :END:
+
+- Use *+1 mixes* for gradual building
+- Use *Energy Boosts* for dramatic peaks
+- Use *-1 mixes* for gentle comedowns
+- Use *Perfect Mixes* to maintain energy levels
+
+** *Creative Mixing*
+   :PROPERTIES:
+   :CUSTOM_ID: creative-mixing
+   :END:
+
+- *Scale Changes* add emotional depth
+- *Mood Shifters* create dramatic moments
+- *Diagonal Mixes* surprise the audience
+- Combine techniques for complex transitions
+
+** *Common Mistakes to Avoid*
+   :PROPERTIES:
+   :CUSTOM_ID: common-mistakes-to-avoid
+   :END:
+
+- Don't rely solely on harmonic mixing - rhythm and energy matter too
+- Avoid too many dramatic changes in succession
+- Consider the musical context, not just the key compatibility
+
+** Advanced Techniques
+   :PROPERTIES:
+   :CUSTOM_ID: advanced-techniques
+   :END:
+
+*** *Multi-Key Transitions*
+    :PROPERTIES:
+    :CUSTOM_ID: multi-key-transitions
+    :END:
+
+Chain multiple harmonic relationships for extended mixes:
+- 1A → 2A → 3A (gradual energy building)
+- 5A → 5B → 8B (mood shift with energy change)
+
+*** *Genre Bridging*
+    :PROPERTIES:
+    :CUSTOM_ID: genre-bridging
+    :END:
+
+Use harmonic mixing to transition between different genres while
+maintaining musical coherence.
