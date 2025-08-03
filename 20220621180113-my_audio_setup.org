@@ -3,10 +3,12 @@
 :END:
 #+title: My audio setup
 #+date: 2022-06-21 18:01 PM
-#+updated: 2025-08-03 13:38 PM
+#+updated: 2025-08-03 14:51 PM
 #+filetags: :audio:
 
 #+attr_html: :width 750
+
+<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2141291940&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/alex-miller4" title="Alex Miller - Ensō" target="_blank" style="color: #cccccc; text-decoration: none;">Alex Miller - Ensō</a> · <a href="https://soundcloud.com/alex-miller4/ensosessions-2025-08-03" title="EnsoSessions-2025-08-03" target="_blank" style="color: #cccccc; text-decoration: none;">EnsoSessions-2025-08-03</a></div>
 
 * Diagram
 [[file:images/audio-setup-2025-08-03-0933.png]]
@@ -39,12 +41,14 @@
   https://github.com/apmiller108/audio/blob/main/pipewire_mixxx_startup.sh
 
 * Pics
- WIP NEEDS TO BE UPDATED
 ** Overview
-[[file:images/my-audio-setup-pic_1.webp]]
+[[file:images/audio-setup_1.webp]]
 
-** Poly Effects Beebo
-[[file:images/my-audio-setup-pic_2.webp]]
+** Drum machine, sample and synth
+[[file:images/audio-setup_2.webp]]
 
-** Roland SDE-1000 with 2 Channel EQ
-[[file:images/my-audio-setup-pic_3.webp]]
+** Mixxx Midi Clock
+[[file:images/audio-setup_3.webp]]
+
+** Mixer, Midi Controllers and FX
+[[file:images/audio-setup_4.webp]]
