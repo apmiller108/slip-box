@@ -3,7 +3,7 @@
 :END:
 #+title: Electron and react learning project
 #+date: 2025-08-01 15:38 PM
-#+updated:  2025-08-02 16:19 PM
+#+updated:  2025-08-03 17:56 PM
 
 * Mixxx Claude Assistant - Project Requirements & Plan
 :PROPERTIES:
@@ -325,9 +325,12 @@ Specific database schema TBD.
   library context?
 - Use prompt caching
 - Include instructions for harmonic mixing. Include the camelot wheel.
-*** Keyboard shortcuts
 *** Logging
-*** Dark mode
+*** Additional features
+**** Keyboard shortcuts
+**** Dark mode
+**** Playlist description
+Generate a Soundcloud description and tracklist to accompany the playlist
 *** Electron security
 - Should I disable nodejs integration in renderer process?
 - Should I use context isolation?
