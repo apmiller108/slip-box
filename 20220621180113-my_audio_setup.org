@@ -3,12 +3,10 @@
 :END:
 #+title: My audio setup
 #+date: 2022-06-21 18:01 PM
-#+updated: 2025-08-03 14:51 PM
+#+updated: 2025-08-03 15:01 PM
 #+filetags: :audio:
 
 #+attr_html: :width 750
-
-<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2141291940&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/alex-miller4" title="Alex Miller - Ensō" target="_blank" style="color: #cccccc; text-decoration: none;">Alex Miller - Ensō</a> · <a href="https://soundcloud.com/alex-miller4/ensosessions-2025-08-03" title="EnsoSessions-2025-08-03" target="_blank" style="color: #cccccc; text-decoration: none;">EnsoSessions-2025-08-03</a></div>
 
 * Diagram
 [[file:images/audio-setup-2025-08-03-0933.png]]
@@ -52,3 +50,9 @@
 
 ** Mixer, Midi Controllers and FX
 [[file:images/audio-setup_4.webp]]
+
+* Set produced with this setup
+
+#+begin_export html
+<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2141291940&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/alex-miller4" title="Alex Miller - Ensō" target="_blank" style="color: #cccccc; text-decoration: none;">Alex Miller - Ensō</a> · <a href="https://soundcloud.com/alex-miller4/ensosessions-2025-08-03" title="EnsoSessions-2025-08-03" target="_blank" style="color: #cccccc; text-decoration: none;">EnsoSessions-2025-08-03</a></div>
+#+end_export
