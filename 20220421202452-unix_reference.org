@@ -3,7 +3,7 @@
 :END:
 #+title: Unix reference
 #+date: 2022-04-21 20:24 PM
-#+updated: 2024-12-27 19:39 PM
+#+updated: 2025-08-07 13:25 PM
 #+filetags: unix:linux:
 
 This is a quick reference for some common Unix commands, tools and
@@ -57,6 +57,16 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
   #+end_src
 
    Need to restart after changing group membership
+
+* Switching users
+| Command          | Login shell? | Home dir | Full env reset | Profile scripts? |
+|------------------|--------------|----------|----------------|------------------|
+| `sudo su - foo`  | Yes          | Yes      | Yes            | Yes              |
+| `sudo su foo`    | No           | No       | No             | Maybe            |
+
+**Rule of thumb:**  
+Use `sudo su - foo` if you want to simulate a real login as user `foo`, with their normal environment and paths.
+Use `sudo su foo` if you just want to become user `foo` but keep your current environment and directory.
 
 * Magic SysRq key
   Send low level commands regardless of system state (freeze)
