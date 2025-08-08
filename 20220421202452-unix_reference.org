@@ -64,7 +64,7 @@ See also [[id:3453ED9D-38E6-4EDA-9652-189BCABA429F][Shell tips]]
 | `sudo su - foo`  | Yes          | Yes      | Yes            | Yes              |
 | `sudo su foo`    | No           | No       | No             | Maybe            |
 
-**Rule of thumb:**  
+**Rule of thumb:**
 Use `sudo su - foo` if you want to simulate a real login as user `foo`, with their normal environment and paths.
 Use `sudo su foo` if you just want to become user `foo` but keep your current environment and directory.
 
