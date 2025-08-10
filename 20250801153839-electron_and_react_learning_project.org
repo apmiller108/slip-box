@@ -3,7 +3,7 @@
 :END:
 #+title: Electron and react learning project
 #+date: 2025-08-01 15:38 PM
-#+updated:  2025-08-10 15:10 PM
+#+updated:  2025-08-10 18:06 PM
 
 * Mixxx Claude Assistant - Project Requirements & Plan
 :PROPERTIES:
@@ -119,6 +119,12 @@ Specific database schema TBD.
 | *Linux*   | =~/.mixxx/mixxxdb.sqlite=                                                                    |
 
 ** Dependencies
+better-sqlite3
+bootstrap
+chokidar
+react
+react-bootstrap
+react-dom
 ** User Interface Design
 :PROPERTIES:
 :CUSTOM_ID: user-interface-design
@@ -356,3 +362,36 @@ Generate a Soundcloud description and tracklist to accompany the playlist
     alerts.
   - The application now runs successfully with a Bootstrap UI
 *** <2025-08-10 Sun> Added ESlint and Prettier
+*** <2025-08-10 Sun> Application Database Setup
+- Implemented application SQLite database using better-sqlite3 library for
+  storing user preferences and settings
+- Created AppDatabase class with methods for managing settings and user
+  preferences across two tables (app_settings and user_preferences)
+- Integrated database initialization into Electron main process with proper cleanup on app exit
+** TODOs for Feature: Mixxx Database Detection
+*** TODO Database Detection & Management
+Platform-specific Mixxx database path detection - Implement auto-detection logic for Windows, macOS, and Linux default locations
+*** TODO Read-only Mixxx database connection
+Create module to safely connect to and query mixxxdb.sqlite
+*** TODO Database file monitoring
+Implement file system watchers to detect changes to Mixxx database
+*** TODO Database IPC handlers
+Create main process handlers for database operations
+*** TODO Status communication
+Implement events for database status updates between main and renderer
+*** TODO Manual file selection
+*** TODO Add IPC handler for opening file dialog to select Mixxx database
+*** TODO UI Database status indicator
+Create React component to show connection status in UI
+*** TODO Manual file selection button
+Add UI button for browsing/selecting database file manually
+*** TODO Status bar integration
+Display database connection status in application status bar
+** Core Features (Future Phases)
+- Real-time database monitoring - Auto-refresh when Mixxx database changes
+- Settings management UI - Create interface for API keys and preferences
+- Claude AI integration - Add API integration for natural language queries
+- Playlist generation - Implement AI-powered playlist creation
+- M3U export functionality - Generate and export playlists in M3U format
+- Library table display - Show tracks, crates, and playlists from Mixxx database
+- Search and filtering - Implement library browsing with sort/filter capabilities
