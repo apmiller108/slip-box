@@ -3,7 +3,7 @@
 :END:
 #+title: Vue testing
 #+date: 2023-10-17 15:14 PM
-#+updated:  2024-02-29 09:24 AM
+#+updated:  2025-08-12 11:26 AM
 #+filetags: :vuejs:
 
 Some VueJS unit testing things for a quick reference.
@@ -125,9 +125,12 @@ found here https://v1.test-utils.vuejs.org/
     it(() => { expect(myFunction).toHaveBeenCalledWith("foo") })
   #+end_src
 
-  Use ~mockReturnValue~ for synchronous returns
+  👀👀👀
+  - Use ~mockReturnValue~ for synchronous returns
+  - Use ~mockRejectedValue(new Error('foo'))~ for rejection
+  - Use ~myFunction.mockReturnValue(new Promise(() => {}))~ to simulate a pending promise
 
-  *Warning: Typescript will not like this approach* Use this instead:
+ 🚨 *Typescript will not like this approach* Use this instead:
 
   #+begin_src js
     import { vi } from 'vitest';

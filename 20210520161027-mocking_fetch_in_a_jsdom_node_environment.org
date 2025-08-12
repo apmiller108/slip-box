@@ -3,7 +3,7 @@
 :END:
 #+title: Mocking fetch in a jsdom node environment
 #+date: 2021-05-20 16:10 PM
-#+updated: 2021-05-20 18:41 PM
+#+updated: 2025-08-12 13:05 PM
 #+filetags: :javascript:testing:typescript:
 
 * The problem
@@ -35,6 +35,7 @@
 
     describe('something', () => {
       const data = { foo: 'bar' }
+
       const fakeJson = sinon.fake.resolves(data);
       const fakeResponse: FakeResponse = { ok: true, status: 200, json: fakeJson };
       const fetchStub = sinon.stub();
