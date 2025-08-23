@@ -3,7 +3,7 @@
 :END:
 #+title: pipewire
 #+date: 2022-11-29 13:59 PM
-#+updated: 2024-11-13 14:33 PM
+#+updated: 2025-08-23 14:46 PM
 #+filetags: :linux:audio:
 
 https://docs.pipewire.org/index.html
@@ -92,3 +92,11 @@ see also [[id:959acd5a-c6f7-4247-baf6-d8f5c7fd765a][pulseaudio]]
    See also [[id:959acd5a-c6f7-4247-baf6-d8f5c7fd765a][pulseaudio]] for how to set that up
 * Troubleshooting
   https://support.system76.com/articles/audio/
+* Configuration
+See also https://github.com/apmiller108/audio
+...and
+- https://www.reddit.com/r/linux_gaming/comments/1gao420/low_latency_guide_for_linux_using_pipewire/
+- https://docs.pipewire.org/page_man_pipewire_conf_5.html
+- https://codeberg.org/rtcqs/rtcqs
+- https://manual.ardour.org/setting-up-your-system/the-right-computer-system-for-digital-audio/
+- https://manual.ardour.org/setting-up-your-system/the-right-computer-system-for-digital-audio/
