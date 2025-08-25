@@ -3,7 +3,7 @@
 :END:
 #+title: pipewire
 #+date: 2022-11-29 13:59 PM
-#+updated: 2025-08-23 14:46 PM
+#+updated: 2025-08-25 15:52 PM
 #+filetags: :linux:audio:
 
 https://docs.pipewire.org/index.html
@@ -99,4 +99,52 @@ See also https://github.com/apmiller108/audio
 - https://docs.pipewire.org/page_man_pipewire_conf_5.html
 - https://codeberg.org/rtcqs/rtcqs
 - https://manual.ardour.org/setting-up-your-system/the-right-computer-system-for-digital-audio/
-- https://manual.ardour.org/setting-up-your-system/the-right-computer-system-for-digital-audio/
+** wireplumber lua scripts
+I used these scripts to configure my audio interfaces.
+See also https://github.com/apmiller108/audio/tree/main/config/wireplumber/main.lua.d
+** Multiple audio interfaces
+Different hardware clocks can create problems. Pipewire will correct for
+different clock rates with adaptive resampling. I found this could create audio
+problems (eg, pops and clicks) when applying audio processing on the output
+streams.
+
+From the [[https://docs.pipewire.org/page_man_pipewire-props_7.html][docs]]:
+
+#+begin_quote
+  Source, sinks, capture and playback streams contain a high quality adaptive
+  resampler. It uses sinc based resampling with linear interpolation of filter
+  banks to perform arbitrary resample factors. The resampler is activated in the
+  following cases:
+
+  The hardware of a device node does not support the graph samplerate.
+  Resampling will occur from the graph samplerate to the hardware samplerate.
+  The hardware clock of a device does not run at the same speed as the graph
+  clock and adaptive resampling is required to match the clocks. A stream does
+  not have the same samplerate as the graph and needs to be resampled. An
+  application wants to activate adaptive resampling in a stream to make it match
+  some other clock. PipeWire performs most of the sample conversions and
+  resampling in the client (Or in the case of the PulseAudio server, in the
+  pipewire-pulse server that creates the streams). This ensures all the
+  conversions are offloaded to the clients and the server can deal with one
+  single format for performance reasons.
+#+end_quote
+
+*** Set the clock.name
+  Setting the ~clock.name~ property on the output nodes of both interfaces to the
+  same value seemed to fix it for me. By sharing the ~clock.name~ pipewire will
+  not apply adaptive resampling.
+
+  #+begin_quote
+    The name of the clock. This name is auto generated from the card index and
+    stream direction. Devices with the same clock name will not use a resampler to
+    align the clocks. This can be used to link devices together with a shared word
+    clock.
+
+    In Pro Audio mode, nodes from the same device are assumed to have the same clock
+    and no resampling will happen when linked together. So, linking a capture port
+    to a playback port will not use any adaptive resampling in Pro Audio mode.
+
+    In Non Pro Audio profile, no such assumption is made and adaptive resampling is
+    done in all cases by default. This can also be disabled by setting the same
+    clock.name on the nodes.
+  #+end_quote
