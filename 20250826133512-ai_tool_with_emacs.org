@@ -1,0 +1,23 @@
+:PROPERTIES:
+:ID:       7FB70A98-08ED-4B77-A9DD-AA1F98A8E843
+:END:
+#+title: AI tool with emacs
+#+date: 2025-08-26 13:35 PM
+#+updated:  2025-08-26 13:44 PM
+
+* General purpose
+- https://github.com/karthink/gptel
+- https://github.com/s-kostyaev/ellama
+** Spacemacs
+- https://www.spacemacs.org/layers/+web-services/llm-client/README.html
+* Github Copilot
+- https://github.com/copilot-emacs/copilot.el
+- https://github.com/chep/copilot-chat.el
+** Spacemacs
+https://www.spacemacs.org/layers/+web-services/github-copilot/README.html
+* Windsurf
+- Apparently they have a plugin so you don't have to use their silly IDE
+- Windsurf was originally called Codium
+- There is an unmaintained, probably broken package
+  https://github.com/Exafunction/codeium.el
+- This was forked and updated https://github.com/jeff-phil/comingle.el
