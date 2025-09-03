@@ -3,7 +3,7 @@
 :END:
 #+title: Shell tips
 #+date: 2022-05-13 13:59 PM
-#+updated: 2023-08-08 08:09 AM
+#+updated: 2025-09-03 09:10 AM
 #+filetags: :shell:
 
 Just some various tips for writing shell scripts or doing cmd line stuff.
@@ -117,3 +117,15 @@ Just some various tips for writing shell scripts or doing cmd line stuff.
 
   If the real time is much higher compared to CPU times then there is some I/O
   waiting happening.
+* Batch rename files in a directory
+~cd~ to the directory and run the following
+#+begin_src  sh
+#!/bin/bash
+new_filename="some_new_name"
+index=1
+for file in *.*; do
+  extension="${file##*.}"
+  mv "$file" "${new_filename}_${index}.${extension}"
+  ((index++))
+done
+#+end_src
