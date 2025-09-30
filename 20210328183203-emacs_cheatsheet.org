@@ -3,7 +3,7 @@
 :END:
 #+title: Emacs cheatsheet
 #+date: 2021-03-28 18:32 PM
-#+updated: 2025-01-26 10:01 AM
+#+updated: 2025-09-30 15:30 PM
 #+filetags: :emacs:
 
 This is just a dump or random things I've learned how to do in Emacs but will
@@ -118,7 +118,11 @@ probably forget.
   #+end_src
 
   ~cs'~ to replace surround (example using single quote, but can be anything)
-
+** Surrounding each line
+Wrap each value that sits on it's own line followed by a comma
+- ~M-x replace-regexp~
+- Regexp: ~^\(.*\)$~
+- Replace with: ~'\1',~
 ** Selecting text within surround
 ~vi~ [Option]
 * Repeating text
