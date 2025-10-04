@@ -3,12 +3,13 @@
 :END:
 #+title: pipewire
 #+date: 2022-11-29 13:59 PM
-#+updated: 2025-08-25 15:52 PM
+#+updated: 2025-10-04 10:26 AM
 #+filetags: :linux:audio:
 
 https://docs.pipewire.org/index.html
 
 see also [[id:959acd5a-c6f7-4247-baf6-d8f5c7fd765a][pulseaudio]]
+see also [[id:d5d67aa4-e66e-48de-90d1-051ef3a8df77][Pop_os]]
 
 * GUI
   [[https://gitlab.freedesktop.org/rncbc/qpwgraph][qpwgraph]] works just like qjackctl
@@ -60,6 +61,9 @@ see also [[id:959acd5a-c6f7-4247-baf6-d8f5c7fd765a][pulseaudio]]
   | 256 samples  | 5.3ms   |
   | 512 samples  | 10.67ms |
   | 1024 samples | 21.3ms  |
+
+** Configuration
+https://www.reddit.com/r/rhythmgames/comments/1gamrnc/low_latency_guide_for_linux_using_pipewire/
 * Issues
 ** Volume very low
 *** Set volume using a mixer tool
