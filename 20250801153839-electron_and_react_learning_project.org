@@ -3,7 +3,10 @@
 :END:
 #+title: Electron and react learning project
 #+date: 2025-08-01 15:38 PM
-#+updated:  2025-08-10 18:06 PM
+#+updated:  2025-10-04 10:17 AM
+
+🚨🚨🚨 This is no longer being updated here. Moved to the repository:
+https://github.com/apmiller108/beatbrain/blob/main/PROJECT.md
 
 * Mixxx Claude Assistant - Project Requirements & Plan
 :PROPERTIES:
@@ -395,3 +398,54 @@ Display database connection status in application status bar
 - M3U export functionality - Generate and export playlists in M3U format
 - Library table display - Show tracks, crates, and playlists from Mixxx database
 - Search and filtering - Implement library browsing with sort/filter capabilities
+
+* Example playlist description
+
+This set hypnotic techno aesthetic—characterized by relentless,
+pulsing rhythms, intricate percussion layers, poly-rhythms, and atmospheric
+textures. From deep, meditative grooves to raw, driving energy, this mix
+captures the essence of modern, underground techno culture where repetition becomes transcendence.
+
+Featured Artists & Standout Tracks
+
+Lakej brings raw, peak-time energy with “Assimilation (Biorc Remix),” “Blocked,” and the closing “Requisition”—powerful tracks that showcase his signature driving sound and impeccable production quality.
+
+Stef Mendesidis contributes multiple gems including “Cyberfox” and “Kinio”—hypnotic compositions that blend intricate percussion with deep, rolling basslines.
+
+Bartig Move provides essential grooves with “Asta” and “Via Anima”—tracks that exemplify the raw, deep hypnotic style with their stripped-back arrangements and infectious rhythms.
+
+CONCEPTUAL (IT) brings Italian techno excellence with “Closer than expected” and
+“Sand fury”—tracks that showcase the raw and unique sonic textures
+
+Marc Faenger contributes hard-hitting productions “Stuck In 99” and “Margin Of
+Error"
+
+There are many more amazing techno artists featured on this set. Thank you to
+all the producers. Techno is thriving thanks to you are all those who appreciate
+the depth of these sonic explorations. Full track list:
+
+Amotik - Tihatar
+Elias Garcia - Parasite
+Entropia Variabile - Viels, Pyramidal Decode
+Cyberfox - Stef Mendesidis
+Asta - Bartig Move
+Unleashed - Lakej
+Via Anima - Bartig Move
+Parallel Lines (D-Leria Remix) - Alexander Kowalski, D-Leria
+Triple View - Elias Garcia
+Assimilation (Biorc Remix) - Lakej, Biorc
+Kinio - Stef Mendesidis
+Neon Pulse Reverie - Yoikol
+Tan - Yoikol
+Closer than expected - CONCEPTUAL (IT)
+Stuck In 99 - Marc Faenger
+Margin Of Error - Marc Faenger
+Sand fury (Original Mix) - CONCEPTUAL (IT)
+Anger - AgainstMe, Red Rooms
+On Balance - P.E.A.R.L.
+Default Privacy - Tarker
+The Chastening - Elias Garcia
+Wrong Direction - Lidvall
+Tough Call (Any Mello Remix) - Vinicius Honorio, Any Mello
+Blocked - Lakej
+Requisition - Lakej
