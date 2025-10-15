@@ -3,8 +3,14 @@
 :END:
 #+title: Quotes
 #+date: 2022-03-13 10:47 AM
-#+updated: 2025-04-18 15:03 PM
+#+updated: 2025-10-15 15:13 PM
 #+filetags: :philosophy:
+
+#+begin_quote
+Doing nothing is better than being busy doing nothing.
+
+--- Unknown, but often attributed to Lao Tzu
+#+end_quote
 
 #+begin_quote
 Society is a joint-stock company, in which the members agree, for the better
@@ -42,7 +48,7 @@ don’t agree to leave the lungs alone because they realize it’s important for
 body to get oxygen. Competition and optimization are blind idiotic processes and
 they fully intend to deny us even one lousy galaxy.
 
---- [[https://slatestarcodex.com/2014/07/30/meditations-on-moloch/][Medidations on Maloch]]
+--- [[https://slatestarcodex.com/2014/07/30/meditations-on-moloch/][Meditations on Maloch]]
 #+end_quote
 
 #+begin_quote
