@@ -3,7 +3,7 @@
 :END:
 #+title: Electron and react learning project
 #+date: 2025-08-01 15:38 PM
-#+updated:  2025-10-04 10:17 AM
+#+updated:  2025-10-04 11:25 AM
 
 🚨🚨🚨 This is no longer being updated here. Moved to the repository:
 https://github.com/apmiller108/beatbrain/blob/main/PROJECT.md
@@ -401,10 +401,7 @@ Display database connection status in application status bar
 
 * Example playlist description
 
-This set hypnotic techno aesthetic—characterized by relentless,
-pulsing rhythms, intricate percussion layers, poly-rhythms, and atmospheric
-textures. From deep, meditative grooves to raw, driving energy, this mix
-captures the essence of modern, underground techno culture where repetition becomes transcendence.
+This set is all in on the hypnotic techno aesthetic—characterized by relentless, pulsing rhythms, intricate percussion layers, poly-rhythms, and atmospheric textures. From deep, meditative grooves to raw, driving energy, this mix captures the essence of modern, underground techno culture where repetition becomes transcendence.
 
 Featured Artists & Standout Tracks
 
@@ -414,15 +411,11 @@ Stef Mendesidis contributes multiple gems including “Cyberfox” and “Kinio�
 
 Bartig Move provides essential grooves with “Asta” and “Via Anima”—tracks that exemplify the raw, deep hypnotic style with their stripped-back arrangements and infectious rhythms.
 
-CONCEPTUAL (IT) brings Italian techno excellence with “Closer than expected” and
-“Sand fury”—tracks that showcase the raw and unique sonic textures
+CONCEPTUAL (IT) brings Italian techno excellence with “Closer than expected” and “Sand fury”—tracks that showcase the raw and unique sonic textures
 
-Marc Faenger contributes hard-hitting productions “Stuck In 99” and “Margin Of
-Error"
+Marc Faenger contributes hard-hitting productions “Stuck In 99” and “Margin Of Error"
 
-There are many more amazing techno artists featured on this set. Thank you to
-all the producers. Techno is thriving thanks to you are all those who appreciate
-the depth of these sonic explorations. Full track list:
+There are many more amazing techno artists featured on this set. Thank you to all the producers. Techno is thriving thanks to you are all those who appreciate the depth of these sonic explorations. Full track list:
 
 Amotik - Tihatar
 Elias Garcia - Parasite
