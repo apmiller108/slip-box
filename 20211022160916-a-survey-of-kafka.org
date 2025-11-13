@@ -3,13 +3,13 @@
 :END:
 #+title: A Survey of Kafka
 #+date: 2021-10-22 16:09 PM
-#+updated: 2021-11-12 13:18 PM
+#+updated: 2025-11-13 13:30 PM
 #+filetags: :kafka:
 
 * What is it?
   See also https://kafka.apache.org/
-  
-  It's a distributed event streaming platform.
+
+  *It's a distributed event streaming platform.*
 
 ** General use case
    Share data (ie, events, messages, etc) between applications. Producers
@@ -38,11 +38,32 @@
 
   #+RESULTS:
   [[file:images/kafka_overview.png]]
- 
+
    A good way to learn how Kafka works is to spin it up locally and use the CLI
    to create topics, publish and consume messages. See CLI usages below.
 
    See [[id:80A19143-BA7E-480C-B5AF-0A2EECA9FD88][Kafka docker]] for a super quick way to get up and running locally.
+* Concepts
+** Topics
+- a named message stream
+** Partitions
+- Topics are split into partitions (message logs)
+- Messages for a given topic are placed into partitions
+- Messages that have the same key are always placed in the same partition
+  guaranteeing order
+- Messages without a key are plopped into partitions round robin
+** Producer
+- Something that sends messages
+** Consumer
+- Something that reads messages
+- Consumers can define which offset they begin reading from (the beginning of
+  the log, the current position, the last position the consumer read from)
+** Groups
+- Consumers can be put into groups that consume the same topic. Example: An
+  application can have multiple consumers for a topic. When in a group, Kafka
+  will assign each consumer partitions to read from. This allows parallel reads.
+- Can have more consumers than partitions, but extra consumers will only consume
+  if other consumers go down.
 * Kafka CLI
 ** kafka-topics
    See also
@@ -81,7 +102,7 @@
    Create messages. This opens a prompt where you can add one or more messages.
    Press enter key to add the next message. ~C-c~ to exit prompt.
 
-   #+begin_src shell 
+   #+begin_src shell
    kafka-console-producer --broker-list 127.0.0.1:9092 --topic first_topic --producer-property acks=all
    #+end_src
 
@@ -116,7 +137,7 @@
       kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic --group app-foo
       #+end_src
 
-** kafka-consumer-groups     
+** kafka-consumer-groups
    Use this to list, describe, delete groups. Also reset consumer group offsets
 
 *** List groups
@@ -141,7 +162,7 @@
 
 * Ruby
   See also [[https://medium.com/zendesk-engineering/kafka-on-ruby-fdab12302146][this Zendesk post]] for a nice breakdown of the differences between
-  these libraries. 
+  these libraries.
 ** Libraries
    - [[https://github.com/zendesk/ruby-kafka][ruby-kafka]]
    - [[https://github.com/appsignal/rdkafka-ruby][rdkafka-ruby]]
@@ -149,7 +170,7 @@
    - [[https://github.com/zendesk/racecar][racecar]]
    - [[https://github.com/phobos/phobos][phobos]]
    - [[https://github.com/karafka/karafka][karafka]]
-   
+
 * Resources
   - https://medium.com/event-driven-utopia/understanding-kafka-topic-partitions-ae40f80552e8
   - https://medium.com/latentview-data-services/how-to-use-apache-kafka-to-guarantee-message-ordering-ac2d00da6c22

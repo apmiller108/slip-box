@@ -3,7 +3,7 @@
 :END:
 #+title: Kafka docker
 #+date: 2021-10-22 15:33 PM
-#+updated: 2021-11-11 10:24 AM
+#+updated: 2025-11-13 12:20 PM
 #+filetags: :kafka:docker
 
 * Docker-compose
@@ -25,7 +25,7 @@
           ZOOKEEPER_TICK_TIME: 2000
         ports:
           - 22181:2181
-      
+
       kafka:
         image: confluentinc/cp-kafka:latest
         depends_on:
