@@ -3,7 +3,7 @@
 :END:
 #+title: AI tool with emacs
 #+date: 2025-08-26 13:35 PM
-#+updated:  2025-08-26 13:44 PM
+#+updated:  2025-11-25 13:06 PM
 
 * General purpose
 - https://github.com/karthink/gptel
@@ -21,3 +21,17 @@ https://www.spacemacs.org/layers/+web-services/github-copilot/README.html
 - There is an unmaintained, probably broken package
   https://github.com/Exafunction/codeium.el
 - This was forked and updated https://github.com/jeff-phil/comingle.el
+* Copilot
+** copilot-mode
+https://github.com/copilot-emacs/copilot.el
+** copilot-chat
+https://github.com/chep/copilot-chat.el
+
+To append a section of code to a prompt:
+
+1. Select the region
+2. call ~copilot-chat-custom-prompt-selection~
+3. enter the prompt in the mini buffer
+4. press enter
+5. Go to the copilot buffer. The input should be there.
+6. Inside the "chat-input" section type ~,~ and select ~copilot-chat-prompt-send~
