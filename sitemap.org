@@ -6,7 +6,6 @@
 <span id="filter-arduino" uk-filter-control="filter: .arduino; group: tag"><a href="#">arduino</a></span>
 <span id="filter-astronomy" uk-filter-control="filter: .astronomy; group: tag"><a href="#">astronomy</a></span>
 <span id="filter-audio" uk-filter-control="filter: .audio; group: tag"><a href="#">audio</a></span>
-<span id="filter-capybara" uk-filter-control="filter: .capybara; group: tag"><a href="#">capybara</a></span>
 <span id="filter-countrylife" uk-filter-control="filter: .countrylife; group: tag"><a href="#">countrylife</a></span>
 <span id="filter-cpp" uk-filter-control="filter: .cpp; group: tag"><a href="#">cpp</a></span>
 <span id="filter-crypto" uk-filter-control="filter: .crypto; group: tag"><a href="#">crypto</a></span>
@@ -19,18 +18,17 @@
 <span id="filter-ffpeg" uk-filter-control="filter: .ffpeg; group: tag"><a href="#">ffpeg</a></span>
 <span id="filter-gardening" uk-filter-control="filter: .gardening; group: tag"><a href="#">gardening</a></span>
 <span id="filter-git" uk-filter-control="filter: .git; group: tag"><a href="#">git</a></span>
-<span id="filter-ipfs" uk-filter-control="filter: .ipfs; group: tag"><a href="#">ipfs</a></span>
+<span id="filter-hotwire" uk-filter-control="filter: .hotwire; group: tag"><a href="#">hotwire</a></span>
 <span id="filter-javascript" uk-filter-control="filter: .javascript; group: tag"><a href="#">javascript</a></span>
 <span id="filter-kafka" uk-filter-control="filter: .kafka; group: tag"><a href="#">kafka</a></span>
 <span id="filter-kubernetes" uk-filter-control="filter: .kubernetes; group: tag"><a href="#">kubernetes</a></span>
 <span id="filter-linux" uk-filter-control="filter: .linux; group: tag"><a href="#">linux</a></span>
 <span id="filter-lsp" uk-filter-control="filter: .lsp; group: tag"><a href="#">lsp</a></span>
-<span id="filter-magit" uk-filter-control="filter: .magit; group: tag"><a href="#">magit</a></span>
+<span id="filter-mermaid" uk-filter-control="filter: .mermaid; group: tag"><a href="#">mermaid</a></span>
 <span id="filter-midi" uk-filter-control="filter: .midi; group: tag"><a href="#">midi</a></span>
 <span id="filter-mocha" uk-filter-control="filter: .mocha; group: tag"><a href="#">mocha</a></span>
 <span id="filter-mssql" uk-filter-control="filter: .mssql; group: tag"><a href="#">mssql</a></span>
 <span id="filter-npm" uk-filter-control="filter: .npm; group: tag"><a href="#">npm</a></span>
-<span id="filter-org_agenda" uk-filter-control="filter: .org_agenda; group: tag"><a href="#">org_agenda</a></span>
 <span id="filter-org_mode" uk-filter-control="filter: .org_mode; group: tag"><a href="#">org_mode</a></span>
 <span id="filter-org_roam" uk-filter-control="filter: .org_roam; group: tag"><a href="#">org_roam</a></span>
 <span id="filter-pandoc" uk-filter-control="filter: .pandoc; group: tag"><a href="#">pandoc</a></span>
@@ -39,10 +37,8 @@
 <span id="filter-postgres" uk-filter-control="filter: .postgres; group: tag"><a href="#">postgres</a></span>
 <span id="filter-rails" uk-filter-control="filter: .rails; group: tag"><a href="#">rails</a></span>
 <span id="filter-rake" uk-filter-control="filter: .rake; group: tag"><a href="#">rake</a></span>
-<span id="filter-robe" uk-filter-control="filter: .robe; group: tag"><a href="#">robe</a></span>
 <span id="filter-rspec" uk-filter-control="filter: .rspec; group: tag"><a href="#">rspec</a></span>
 <span id="filter-ruby" uk-filter-control="filter: .ruby; group: tag"><a href="#">ruby</a></span>
-<span id="filter-ruby_mode" uk-filter-control="filter: .ruby_mode; group: tag"><a href="#">ruby_mode</a></span>
 <span id="filter-security" uk-filter-control="filter: .security; group: tag"><a href="#">security</a></span>
 <span id="filter-shell" uk-filter-control="filter: .shell; group: tag"><a href="#">shell</a></span>
 <span id="filter-spacemacs" uk-filter-control="filter: .spacemacs; group: tag"><a href="#">spacemacs</a></span>
@@ -53,18 +49,23 @@
 <span id="filter-vuejs" uk-filter-control="filter: .vuejs; group: tag"><a href="#">vuejs</a></span>
 <span id="filter-web_development" uk-filter-control="filter: .web_development; group: tag"><a href="#">web_development</a></span></div><ul class="uk-subnav uk-subnav-pill"><li uk-filter-control="sort: data-date; group: date"><a href="#">Ascending</a></li><li uk-filter-control="sort: data-date; order: desc; group: date" class="uk-active"><a href="#">Descending</a></li></ul><ul class="sitemap-entries uk-list uk-list-emphasis js-filter"><li data-date="2021-07-04" class="crypto"><span class="sitemap-entry-date">2021-07-04</span><a href="20210704104332-24_word_mnemonic_to_secret_key">24 word mnemonic to secret key</a><span class="sitemap-entry-tags">(crypto)</span></li>
 <li data-date="2021-10-22" class="kafka"><span class="sitemap-entry-date">2021-10-22</span><a href="20211022160916-a-survey-of-kafka">A Survey of Kafka</a><span class="sitemap-entry-tags">(kafka)</span></li>
+<li data-date="2025-08-26" class=""><span class="sitemap-entry-date">2025-08-26</span><a href="20250826133512-ai_tool_with_emacs">AI tool with emacs</a></li>
 <li data-date="2021-05-20" class="typescript"><span class="sitemap-entry-date">2021-05-20</span><a href="20210520091407-access_private_property_in_typescript">Access private property in Typescript</a><span class="sitemap-entry-tags">(typescript)</span></li>
 <li data-date="2018-04-12" class="ruby rails"><span class="sitemap-entry-date">2018-04-12</span><a href="20180412021233-activerecord">ActiveRecord</a><span class="sitemap-entry-tags">(ruby, rails)</span></li>
 <li data-date="2018-04-17" class="postgres sql rails ruby"><span class="sitemap-entry-date">2018-04-17</span><a href="20180417025641-activerecord_migrations_cheatsheet">ActiveRecord Migrations Cheatsheet</a><span class="sitemap-entry-tags">(postgres, sql, rails, ruby)</span></li>
 <li data-date="2018-04-17" class="rails ruby"><span class="sitemap-entry-date">2018-04-17</span><a href="20180417025641-activerecord_querying_has_many_associations">ActiveRecord Querying</a><span class="sitemap-entry-tags">(rails, ruby)</span></li>
 <li data-date="2024-08-16" class="rails"><span class="sitemap-entry-date">2024-08-16</span><a href="20240816113603-activerecord_query_objects">ActiveRecord query objects</a><span class="sitemap-entry-tags">(rails)</span></li>
+<li data-date="2025-05-09" class="rails"><span class="sitemap-entry-date">2025-05-09</span><a href="20250509132931-activerecord_enum">ActiveRecord::Enum</a><span class="sitemap-entry-tags">(rails)</span></li>
 <li data-date="2023-07-16" class="linux midi audio"><span class="sitemap-entry-date">2023-07-16</span><a href="20230712073857-ardour">Ardour</a><span class="sitemap-entry-tags">(linux, midi, audio)</span></li>
 <li data-date="2021-12-03" class="astronomy"><span class="sitemap-entry-date">2021-12-03</span><a href="20211203223926-astrophotography">Astrophotography</a><span class="sitemap-entry-tags">(astronomy)</span></li>
+<li data-date="2025-09-11" class="philosophy"><span class="sitemap-entry-date">2025-09-11</span><a href="20250911081913-attention_parasites">Attention Parasites</a><span class="sitemap-entry-tags">(philosophy)</span></li>
 <li data-date="2021-05-07" class="org_mode emacs"><span class="sitemap-entry-date">2021-05-07</span><a href="20210507153704-automatically_generate_an_updated_at_timestamp_when_saving_an_org_file">Automatically generate an updated at timestamp when saving an org file</a><span class="sitemap-entry-tags">(org_mode, emacs)</span></li>
 <li data-date="2018-04-11" class="ruby"><span class="sitemap-entry-date">2018-04-11</span><a href="20180411021724-build_a_ruby_gem">Build a Ruby Gem</a><span class="sitemap-entry-tags">(ruby)</span></li>
+<li data-date="2021-03-03" class="rspec ruby testing"><span class="sitemap-entry-date">2021-03-03</span><a href="20210303144927-capybara_tips_and_issues">Capybara tips and issues</a><span class="sitemap-entry-tags">(rspec, ruby, testing)</span></li>
 <li data-date="2021-05-19" class="crypto"><span class="sitemap-entry-date">2021-05-19</span><a href="20210519211550-cardono">Cardono</a><span class="sitemap-entry-tags">(crypto)</span></li>
 <li data-date="2022-07-07" class="sql mssql"><span class="sitemap-entry-date">2022-07-07</span><a href="20220707142205-change_column_default_value">Change column default value</a><span class="sitemap-entry-tags">(sql, mssql)</span></li>
 <li data-date="2022-02-13" class="ruby"><span class="sitemap-entry-date">2022-02-13</span><a href="20220213164140-class_macro_and_wrapping_methods">Class macro and wrapping methods</a><span class="sitemap-entry-tags">(ruby)</span></li>
+<li data-date="2025-05-05" class="hotwire rails"><span class="sitemap-entry-date">2025-05-05</span><a href="20250505135539-codemirror_viewcomponent_and_stimulus">CodeMirror, ViewComponent, and Stimulus</a><span class="sitemap-entry-tags">(hotwire, rails)</span></li>
 <li data-date="2021-05-24" class="typescript"><span class="sitemap-entry-date">2021-05-24</span><a href="20210524163842-constants_interfaces_and_types">Constants, interfaces and types</a><span class="sitemap-entry-tags">(typescript)</span></li>
 <li data-date="2020-11-19" class="docker ruby"><span class="sitemap-entry-date">2020-11-19</span><a href="20201119184845-containerized_project_environments">Containerized project environments</a><span class="sitemap-entry-tags">(docker, ruby)</span></li>
 <li data-date="2022-06-16" class="cpp"><span class="sitemap-entry-date">2022-06-16</span><a href="20220616204143-cpp_reference">Cpp reference</a><span class="sitemap-entry-tags">(cpp)</span></li>
@@ -78,6 +79,7 @@
 <li data-date="2021-11-12" class="elasticsearch"><span class="sitemap-entry-date">2021-11-12</span><a href="20211112132113-elasticsearch">Elasticsearch</a><span class="sitemap-entry-tags">(elasticsearch)</span></li>
 <li data-date="2021-11-11" class="elasticsearch docker"><span class="sitemap-entry-date">2021-11-11</span><a href="20211111104440-elasticsearch_docker">Elasticsearch Docker</a><span class="sitemap-entry-tags">(elasticsearch, docker)</span></li>
 <li data-date="2024-11-15" class="arduino electronics"><span class="sitemap-entry-date">2024-11-15</span><a href="20241115092414-electrical_units">Electrical units</a><span class="sitemap-entry-tags">(arduino, electronics)</span></li>
+<li data-date="2025-08-01" class=""><span class="sitemap-entry-date">2025-08-01</span><a href="20250801153839-electron_and_react_learning_project">Electron and react learning project</a></li>
 <li data-date="2023-03-22" class="emacs"><span class="sitemap-entry-date">2023-03-22</span><a href="20230322083321-elisp">Elisp</a><span class="sitemap-entry-tags">(emacs)</span></li>
 <li data-date="2021-03-28" class="emacs"><span class="sitemap-entry-date">2021-03-28</span><a href="20210328183203-emacs_cheatsheet">Emacs cheatsheet</a><span class="sitemap-entry-tags">(emacs)</span></li>
 <li data-date="2021-03-26" class="emacs"><span class="sitemap-entry-date">2021-03-26</span><a href="20210326092932-emacs_profiles">Emacs profiles</a><span class="sitemap-entry-tags">(emacs)</span></li>
@@ -86,12 +88,13 @@
 <li data-date="2021-05-21" class="typescript"><span class="sitemap-entry-date">2021-05-21</span><a href="20210521113053-function_signature_type_declarations">Function signature type declarations</a><span class="sitemap-entry-tags">(typescript)</span></li>
 <li data-date="2024-05-30" class="security linux git emacs"><span class="sitemap-entry-date">2024-05-30</span><a href="20240530154405-gpg">GPG</a><span class="sitemap-entry-tags">(security, linux, git, emacs)</span></li>
 <li data-date="2021-03-23" class="git"><span class="sitemap-entry-date">2021-03-23</span><a href="20210323143404-git_hooks">Git hooks</a><span class="sitemap-entry-tags">(git)</span></li>
-<li data-date="2021-04-09" class="spacemacs magit git"><span class="sitemap-entry-date">2021-04-09</span><a href="20210409082725-git_layer_in_spacemacs">Git layer in Spacemacs</a><span class="sitemap-entry-tags">(spacemacs, magit, git)</span></li>
+<li data-date="2021-04-09" class="spacemacs emacs git"><span class="sitemap-entry-date">2021-04-09</span><a href="20210409082725-git_layer_in_spacemacs">Git layer in Spacemacs</a><span class="sitemap-entry-tags">(spacemacs, emacs, git)</span></li>
 <li data-date="2021-04-06" class="web_development security"><span class="sitemap-entry-date">2021-04-06</span><a href="20210406092859-http_cookies">HTTP Cookies</a><span class="sitemap-entry-tags">(web_development, security)</span></li>
 <li data-date="2024-10-23" class="cpp arduino"><span class="sitemap-entry-date">2024-10-23</span><a href="20241023085642-hardware_timer_interrupts">Hardware timer interrupts</a><span class="sitemap-entry-tags">(cpp, arduino)</span></li>
+<li data-date="2025-08-03" class="audio"><span class="sitemap-entry-date">2025-08-03</span><a href="20250803182938-harmonic_mixing">Harmonic mixing</a><span class="sitemap-entry-tags">(audio)</span></li>
 <li data-date="2021-04-06" class="spacemacs emacs"><span class="sitemap-entry-date">2021-04-06</span><a href="20210406180044-helm">Helm</a><span class="sitemap-entry-tags">(spacemacs, emacs)</span></li>
 <li data-date="2021-08-21" class="javascript ruby rails"><span class="sitemap-entry-date">2021-08-21</span><a href="20210821171131-hotwire_rails">Hotwire rails</a><span class="sitemap-entry-tags">(javascript, ruby, rails)</span></li>
-<li data-date="2021-05-29" class="ipfs"><span class="sitemap-entry-date">2021-05-29</span><a href="20210529144839-ipfs">IPFS</a><span class="sitemap-entry-tags">(ipfs)</span></li>
+<li data-date="2021-05-29" class=""><span class="sitemap-entry-date">2021-05-29</span><a href="20210529144839-ipfs">IPFS</a></li>
 <li data-date="2021-08-19" class="typescript"><span class="sitemap-entry-date">2021-08-19</span><a href="20210819100328-index_signature">Index signature</a><span class="sitemap-entry-tags">(typescript)</span></li>
 <li data-date="2021-08-20" class="org_roam emacs"><span class="sitemap-entry-date">2021-08-20</span><a href="20210820150353-interpolate_variables_into_org_source_blocks_on_babel_tangle">Interpolate variables into org source blocks on babel tangle</a><span class="sitemap-entry-tags">(org_roam, emacs)</span></li>
 <li data-date="2024-04-01" class="ruby"><span class="sitemap-entry-date">2024-04-01</span><a href="20240401085706-issues_installing_ruby_gems_with_native_extensions">Issues installing Ruby gems with native extensions</a><span class="sitemap-entry-tags">(ruby)</span></li>
@@ -116,28 +119,30 @@
 <li data-date="2022-06-21" class="audio"><span class="sitemap-entry-date">2022-06-21</span><a href="20220621180113-my_audio_setup">My audio setup</a><span class="sitemap-entry-tags">(audio)</span></li>
 <li data-date="2021-09-23" class="shell"><span class="sitemap-entry-date">2021-09-23</span><a href="20210923212206-new_computer_setup">New computer setup</a><span class="sitemap-entry-tags">(shell)</span></li>
 <li data-date="2018-09-25" class="sql postgres"><span class="sitemap-entry-date">2018-09-25</span><a href="20180925150335-on_conflict_(upsert)">ON CONFLICT (UPSERT)</a><span class="sitemap-entry-tags">(sql, postgres)</span></li>
-<li data-date="2021-03-29" class="org_agenda org_mode"><span class="sitemap-entry-date">2021-03-29</span><a href="20210329202015-org_agenda">Org-agenda</a><span class="sitemap-entry-tags">(org_agenda, org_mode)</span></li>
+<li data-date="2021-03-29" class="org_mode"><span class="sitemap-entry-date">2021-03-29</span><a href="20210329202015-org_agenda">Org-agenda</a><span class="sitemap-entry-tags">(org_mode)</span></li>
 <li data-date="2021-02-14" class="org_mode emacs"><span class="sitemap-entry-date">2021-02-14</span><a href="20210214104302-org_mode_export_settings">Org-mode Export Settings</a><span class="sitemap-entry-tags">(org_mode, emacs)</span></li>
 <li data-date="2021-03-26" class="org_mode"><span class="sitemap-entry-date">2021-03-26</span><a href="20210326124530-org_mode_basics">Org-mode basics</a><span class="sitemap-entry-tags">(org_mode)</span></li>
 <li data-date="2021-05-11" class="org_mode emacs"><span class="sitemap-entry-date">2021-05-11</span><a href="20210511154646-org_mode_mapping_api">Org-mode mapping API</a><span class="sitemap-entry-tags">(org_mode, emacs)</span></li>
 <li data-date="2021-02-13" class="org_roam org_mode emacs"><span class="sitemap-entry-date">2021-02-13</span><a href="20210213184252-org_roam">Org-roam</a><span class="sitemap-entry-tags">(org_roam, org_mode, emacs)</span></li>
 <li data-date="2021-04-08" class="emacs elisp"><span class="sitemap-entry-date">2021-04-08</span><a href="20210408090222-overriding_package_functions_in_emacs">Overriding package functions in emacs</a><span class="sitemap-entry-tags">(emacs, elisp)</span></li>
 <li data-date="2021-03-31" class="plantuml"><span class="sitemap-entry-date">2021-03-31</span><a href="20210331084615-plantuml">Plantuml</a><span class="sitemap-entry-tags">(plantuml)</span></li>
-<li data-date="2021-02-12" class="org_mode plantuml emacs"><span class="sitemap-entry-date">2021-02-12</span><a href="20210212204557-plantuml_with_org_mode">Plantuml and Mermaid with org-mode</a><span class="sitemap-entry-tags">(org_mode, plantuml, emacs)</span></li>
+<li data-date="2021-02-12" class="org_mode plantuml emacs mermaid"><span class="sitemap-entry-date">2021-02-12</span><a href="20210212204557-plantuml_with_org_mode">Plantuml and Mermaid with org-mode</a><span class="sitemap-entry-tags">(org_mode, plantuml, emacs, mermaid)</span></li>
 <li data-date="2021-11-26" class="linux"><span class="sitemap-entry-date">2021-11-26</span><a href="20211126182001-pop_os">Pop_os</a><span class="sitemap-entry-tags">(linux)</span></li>
 <li data-date="2021-03-23" class="postgres sql"><span class="sitemap-entry-date">2021-03-23</span><a href="20210323162128-prepared_sql_statements">Prepared SQL statements</a><span class="sitemap-entry-tags">(postgres, sql)</span></li>
+<li data-date="2025-06-12" class="philosophy"><span class="sitemap-entry-date">2025-06-12</span><a href="20250612115623-problem_solving">Problem solving</a><span class="sitemap-entry-tags">(philosophy)</span></li>
 <li data-date="2022-02-03" class="ruby javascript sql typescript emacs"><span class="sitemap-entry-date">2022-02-03</span><a href="20220203105614-programming_posts_of_interest">Programming posts of interest</a><span class="sitemap-entry-tags">(ruby, javascript, sql, typescript, emacs)</span></li>
 <li data-date="2021-04-07" class="spacemacs emacs"><span class="sitemap-entry-date">2021-04-07</span><a href="20210407075214-project_wide_find_and_replace_in_spacemacs">Project-wide find and replace in Spacemacs</a><span class="sitemap-entry-tags">(spacemacs, emacs)</span></li>
 <li data-date="2021-04-02" class="emacs"><span class="sitemap-entry-date">2021-04-02</span><a href="20210402135722-projectile">Projectile</a><span class="sitemap-entry-tags">(emacs)</span></li>
+<li data-date="2025-06-17" class="rails ruby"><span class="sitemap-entry-date">2025-06-17</span><a href="20250617114853-puma">Puma</a><span class="sitemap-entry-tags">(rails, ruby)</span></li>
 <li data-date="2022-03-13" class="philosophy"><span class="sitemap-entry-date">2022-03-13</span><a href="20220313104729-quotes">Quotes</a><span class="sitemap-entry-tags">(philosophy)</span></li>
-<li data-date="2022-08-12" class="rspec ruby"><span class="sitemap-entry-date">2022-08-12</span><a href="20220812121410-rspec_and_blocks">RSpec things</a><span class="sitemap-entry-tags">(rspec, ruby)</span></li>
+<li data-date="2022-08-12" class="testing rspec ruby"><span class="sitemap-entry-date">2022-08-12</span><a href="20220812121410-rspec_and_blocks">RSpec things</a><span class="sitemap-entry-tags">(testing, rspec, ruby)</span></li>
 <li data-date="2023-04-02" class="countrylife gardening"><span class="sitemap-entry-date">2023-04-02</span><a href="20230402080434-raised_vegetable_gardening">Raised vegetable gardening</a><span class="sitemap-entry-tags">(countrylife, gardening)</span></li>
 <li data-date="2018-04-17" class="rails rake ruby"><span class="sitemap-entry-date">2018-04-17</span><a href="20180417025641-rake_tasks">Rake Tasks</a><span class="sitemap-entry-tags">(rails, rake, ruby)</span></li>
 <li data-date="2022-02-14" class="npm security javascript"><span class="sitemap-entry-date">2022-02-14</span><a href="20220214105352-resolving_npm_security_vulernabilities">Resolving NPM security vulernabilities</a><span class="sitemap-entry-tags">(npm, security, javascript)</span></li>
 <li data-date="2021-09-09" class="git"><span class="sitemap-entry-date">2021-09-09</span><a href="20210909090509-rewriting_history">Rewriting history</a><span class="sitemap-entry-tags">(git)</span></li>
 <li data-date="2023-10-13" class="ruby"><span class="sitemap-entry-date">2023-10-13</span><a href="20231013134628-ruby_gems">Ruby gems</a><span class="sitemap-entry-tags">(ruby)</span></li>
-<li data-date="2021-04-23" class="ruby_mode emacs"><span class="sitemap-entry-date">2021-04-23</span><a href="20210423082908-ruby_mode_parenthetical_indentation">Ruby-mode parenthetical indentation</a><span class="sitemap-entry-tags">(ruby_mode, emacs)</span></li>
-<li data-date="2021-03-05" class="ruby_mode spacemacs docker"><span class="sitemap-entry-date">2021-03-05</span><a href="20210305125833-run_tests_in_docker_for_ruby_mode">Run tests in docker for ruby-mode</a><span class="sitemap-entry-tags">(ruby_mode, spacemacs, docker)</span></li>
+<li data-date="2021-04-23" class="emacs"><span class="sitemap-entry-date">2021-04-23</span><a href="20210423082908-ruby_mode_parenthetical_indentation">Ruby-mode parenthetical indentation</a><span class="sitemap-entry-tags">(emacs)</span></li>
+<li data-date="2021-03-05" class="emacs spacemacs docker"><span class="sitemap-entry-date">2021-03-05</span><a href="20210305125833-run_tests_in_docker_for_ruby_mode">Run tests in docker for ruby-mode</a><span class="sitemap-entry-tags">(emacs, spacemacs, docker)</span></li>
 <li data-date="2020-01-21" class="sql postgres"><span class="sitemap-entry-date">2020-01-21</span><a href="20200121141321-sql_procedural_language">SQL Procedural Language</a><span class="sitemap-entry-tags">(sql, postgres)</span></li>
 <li data-date="2023-09-29" class="postgres"><span class="sitemap-entry-date">2023-09-29</span><a href="20230929133010-scrubbing_data">Scrubbing data</a><span class="sitemap-entry-tags">(postgres)</span></li>
 <li data-date="2021-10-12" class="javascript"><span class="sitemap-entry-date">2021-10-12</span><a href="20211012093247-sharedworker">SharedWorker</a><span class="sitemap-entry-tags">(javascript)</span></li>
@@ -148,19 +153,21 @@
 <li data-date="2023-08-24" class="rails ruby"><span class="sitemap-entry-date">2023-08-24</span><a href="20230824090710-form_objects">The Utility of ActiveModel</a><span class="sitemap-entry-tags">(rails, ruby)</span></li>
 <li data-date="2024-05-31" class="typescript"><span class="sitemap-entry-date">2024-05-31</span><a href="20240531093142-thoughts_on_typescript">Thoughts on TypeScript</a><span class="sitemap-entry-tags">(typescript)</span></li>
 <li data-date="2023-12-05" class="ruby ai ffpeg"><span class="sitemap-entry-date">2023-12-05</span><a href="20231205212716-transcribing_wavs">Transcribing wavs</a><span class="sitemap-entry-tags">(ruby, ai, ffpeg)</span></li>
-<li data-date="2023-11-25" class="rails"><span class="sitemap-entry-date">2023-11-25</span><a href="20231125150622-turbo_streams">Turbo Streams</a><span class="sitemap-entry-tags">(rails)</span></li>
+<li data-date="2023-11-25" class="hotwire rails"><span class="sitemap-entry-date">2023-11-25</span><a href="20231125150622-turbo_streams">Turbo Streams</a><span class="sitemap-entry-tags">(hotwire, rails)</span></li>
 <li data-date="2022-04-21" class="unix linux"><span class="sitemap-entry-date">2022-04-21</span><a href="20220421202452-unix_reference">Unix reference</a><span class="sitemap-entry-tags">(unix, linux)</span></li>
 <li data-date="2021-03-22" class="shell"><span class="sitemap-entry-date">2021-03-22</span><a href="20210322114758-upterm">Upterm</a><span class="sitemap-entry-tags">(shell)</span></li>
-<li data-date="2021-03-08" class="robe emacs"><span class="sitemap-entry-date">2021-03-08</span><a href="20210308094318-using_robe_with_docker">Using robe with docker</a><span class="sitemap-entry-tags">(robe, emacs)</span></li>
+<li data-date="2021-03-08" class="emacs"><span class="sitemap-entry-date">2021-03-08</span><a href="20210308094318-using_robe_with_docker">Using robe with docker</a><span class="sitemap-entry-tags">(emacs)</span></li>
 <li data-date="2024-05-20" class="ruby rails"><span class="sitemap-entry-date">2024-05-20</span><a href="20240520151247-value_objects">Value objects</a><span class="sitemap-entry-tags">(ruby, rails)</span></li>
+<li data-date="2025-04-01" class="ai rails ruby"><span class="sitemap-entry-date">2025-04-01</span><a href="20250401125224-vector_based_search">Vector based search</a><span class="sitemap-entry-tags">(ai, rails, ruby)</span></li>
 <li data-date="2023-10-09" class=""><span class="sitemap-entry-date">2023-10-09</span><a href="20231009151337-vue_resources">Vue resources</a></li>
 <li data-date="2023-10-17" class="vuejs"><span class="sitemap-entry-date">2023-10-17</span><a href="20231017151443-vue_testing">Vue testing</a><span class="sitemap-entry-tags">(vuejs)</span></li>
 <li data-date="2021-12-21" class="javascript"><span class="sitemap-entry-date">2021-12-21</span><a href="20211221142151-wait_for_websocket_open">Wait for WebSocket open</a><span class="sitemap-entry-tags">(javascript)</span></li>
 <li data-date="2021-03-25" class="security"><span class="sitemap-entry-date">2021-03-25</span><a href="20210325084112-web_security_resources">Web security resources</a><span class="sitemap-entry-tags">(security)</span></li>
 <li data-date="2021-12-05" class="linux"><span class="sitemap-entry-date">2021-12-05</span><a href="20211205205232-wine">Wine</a><span class="sitemap-entry-tags">(linux)</span></li>
+<li data-date="2024-11-15" class="electronics arduino"><span class="sitemap-entry-date">2024-11-15</span><a href="20241115180746-wiring_of_common_components">Wiring of common components</a><span class="sitemap-entry-tags">(electronics, arduino)</span></li>
 <li data-date="2022-08-10" class="ruby"><span class="sitemap-entry-date">2022-08-10</span><a href="20220810081621-yaml_store_marshal_and_storing_data">YAML::Store, Marshal and storing data</a><span class="sitemap-entry-tags">(ruby)</span></li>
 <li data-date="2022-11-30" class="web_development"><span class="sitemap-entry-date">2022-11-30</span><a href="20221130134345-zero_config_http_servers">Zero config HTTP servers</a><span class="sitemap-entry-tags">(web_development)</span></li>
-<li data-date="2021-03-03" class="capybara ruby"><span class="sitemap-entry-date">2021-03-03</span><a href="20210303144927-capybara_window_management">capybara window management</a><span class="sitemap-entry-tags">(capybara, ruby)</span></li>
+<li data-date="2024-12-27" class=""><span class="sitemap-entry-date">2024-12-27</span><a href="20241227110454-arduino_cli">arduino-cli</a></li>
 <li data-date="2020-06-05" class="emacs spacemacs"><span class="sitemap-entry-date">2020-06-05</span><a href="20200605164846-dap-mode">dap-mode</a><span class="sitemap-entry-tags">(emacs, spacemacs)</span></li>
 <li data-date="2024-07-19" class="ruby"><span class="sitemap-entry-date">2024-07-19</span><a href="20240719144956-debug">debug</a><span class="sitemap-entry-tags">(ruby)</span></li>
 <li data-date="2020-09-18" class="docker rails"><span class="sitemap-entry-date">2020-09-18</span><a href="20200918194228-docker-compose_rails_pg_redis_sidekiq_travis-ci">docker-compose Rails PG Redis Sidekiq Travis-CI</a><span class="sitemap-entry-tags">(docker, rails)</span></li>
