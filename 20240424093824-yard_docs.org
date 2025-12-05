@@ -3,7 +3,8 @@
 :END:
 #+title: yard docs
 #+date: 2024-04-24 09:38 AM
-#+updated:  2024-06-14 11:30 AM
+#+updated:  2025-12-05 13:05 PM
+#+filetags: :ruby:
 
 I can never remember [[https://yardoc.org/guides/index.html][yard]] doc syntax.
 

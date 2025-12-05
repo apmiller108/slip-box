@@ -3,7 +3,8 @@
 :END:
 #+title: Vue resources
 #+date: 2023-10-09 15:13 PM
-#+updated:  2023-10-09 15:31 PM
+#+updated:  2025-12-05 13:06 PM
+#+filetags: :vuejs:
 
 This is just a link dump of some resources for doing VueJS development
 

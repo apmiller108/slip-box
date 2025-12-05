@@ -3,7 +3,8 @@
 :END:
 #+title: AI tool with emacs
 #+date: 2025-08-26 13:35 PM
-#+updated:  2025-11-25 13:06 PM
+#+updated:  2025-12-05 13:04 PM
+#+filetags: :emacs:ai:
 
 * General purpose
 - https://github.com/karthink/gptel

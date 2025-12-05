@@ -3,7 +3,8 @@
 :END:
 #+title: Electron and react learning project
 #+date: 2025-08-01 15:38 PM
-#+updated:  2025-10-04 11:25 AM
+#+updated:  2025-12-05 13:05 PM
+#+filetags: :javascript:react:electron:
 
 🚨🚨🚨 This is no longer being updated here. Moved to the repository:
 https://github.com/apmiller108/beatbrain/blob/main/PROJECT.md
