@@ -3,7 +3,7 @@
 :END:
 #+title: Pop_os
 #+date: 2021-11-26 18:20 PM
-#+updated: 2025-08-17 21:44 PM
+#+updated: 2026-01-05 11:09 AM
 #+filetags: :linux:
 
 * System Information
@@ -195,6 +195,18 @@
    See also https://www.linux.org/threads/solved-cannot-get-wifi-recognized-when-installing-popos-22-04-on-2015-macbook-pro.40277/post-183971
 * Webcam
   This should just work out of the box. Test it with [[https://wiki.gnome.org/Apps/Cheese][cheese]].
+* Reinstall Nvidia driver
+I've had to do this a few times when the machine randomly locks up.
+#+begin_src A
+sudo apt purge "~nnvidia"
+sudo apt autoremove
+sudo apt clean
+sudo apt update
+sudo apt full-upgrade
+sudo apt install system76-driver-nvidia
+sudo systemctl reboot
+#+end_src
+
 * Tips for performance turning for audio
 https://www.reddit.com/r/pop_os/comments/13yjaky/improve_jackpipewire_performance_on_pop_os/
 * Resources
