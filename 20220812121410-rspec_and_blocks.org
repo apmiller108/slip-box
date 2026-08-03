@@ -3,7 +3,7 @@
 :END:
 #+title: RSpec things
 #+date: 2022-08-12 12:14 PM
-#+updated: 2025-05-06 12:31 PM
+#+updated: 2026-08-03 10:47 AM
 #+filetags: :testing:rspec:ruby:
 
 * Blocks
@@ -138,12 +138,21 @@
     end
   #+end_src
 * Testing base classes
-  You can test them by themselves or subclass them with a dummy class
+  You can test them by themselves or subclass them with a dummy class.
+
+  =NOTE= if you need to reference ~let~ block values in the dummy class method
+  definitions, use `define_method` with a block and cache the ~let~ method call to
+  a variable. See example
 
   #+begin_src ruby
     RSpec.describe Thing::Base do
+      let(:thing) { 1 }
+
       let(:dummy_thing) do
-        Class.new(described_class)
+        t = thing
+        Class.new(described_class) do
+          define_method(:foo) { t }
+        end
       end
 
       before do
