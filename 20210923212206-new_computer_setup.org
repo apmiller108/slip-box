@@ -4,7 +4,7 @@
 
 #+title: New computer setup
 #+date: 2021-09-23 21:22 PM
-#+updated: 2026-08-17 08:30 AM
+#+updated: 2026-08-17 02:47 PM
 #+filetags: :shell:
 
 A got a new laptop, a System 76 Gazelle with [[https://pop.system76.com][pop_os]]. This was the first I time
@@ -306,6 +306,113 @@ this shit out and maybe automate some of it too.
    udev rules are installed to ~/usr/local/share/mixxx/udev~. Installing the
    files doesn't activate them. If a USB controller isn't detected, that's the
    first place to look.
+* Audio on a 2016 MacBook Pro (MacBookPro13,1)
+  Only relevant to that machine. Out of the box there is *no sound at all*, from
+  speakers or headphones.
+
+  The cause: it uses a Cirrus ~CS8409~ HDA bridge with a ~CS42L83~ sub-codec.
+  Mainline's ~snd-hda-codec-cs8409~ only has quirks for Dell's ~CS42L42~, but it
+  binds anyway on the bridge-only alias, so the sub-codec is never initialized.
+  Symptoms are diagnostic: no Master/Speaker mixers, both jacks report as
+  "Phantom Jack", and playback exits 0 into silence. Nothing in PipeWire or
+  ALSA config can fix this; it needs an out-of-tree driver.
+
+** The driver
+   [[https://github.com/davidjo/snd_hda_macbookpro][davidjo/snd_hda_macbookpro]], installed via DKMS so it rebuilds on kernel
+   updates.
+   #+begin_src shell
+     sudo apt install dkms build-essential linux-source-6.8.0 \
+          linux-headers-$(uname -r)
+     git clone https://github.com/davidjo/snd_hda_macbookpro.git ~/dev/snd_hda_macbookpro
+     cd ~/dev/snd_hda_macbookpro && sudo ./dkms.sh
+   #+end_src
+   Confirm it took: ~cat /proc/asound/card0/codec#0 | head -2~ should say
+   *CS8409/CS42L83*, not just ~CS8409~.
+
+   ~dkms.sh~ symlinks ~/usr/src/snd_hda_macbookpro-0.1~ to the clone rather than
+   copying it, so don't move or delete ~~/dev/snd_hda_macbookpro~ — future
+   kernel updates rebuild from it.
+
+*** Gotcha: dkms.conf has the wrong module path on pre-6.17 kernels
+    Upstream ships ~BUILT_MODULE_LOCATION[0]="build/hda/codecs/cirrus"~ (the
+    6.17+ source layout). On 6.8 the module builds at ~build/hda~, so DKMS
+    reports a build failure even though ~make.log~ shows a clean compile. The
+    installer tries to ~sed~ this itself, but runs as ~PRE_BUILD~ — after DKMS
+    has already parsed the file, and against DKMS's throwaway copy — so it never
+    takes effect. Edit ~dkms.conf~ in the repo directly. A ~git pull~ will
+    conflict on that line.
+
+    This edit is *only* correct for pre-6.17 kernels. If this box ever lands on
+    6.17+ (a release upgrade, say), revert the line to upstream's value or the
+    build will fail the other way around.
+
+** Stay on the 6.8 GA kernel line
+   The driver needs kernel source to build against, and Ubuntu ships *no*
+   ~linux-source~ package for HWE kernels. So the HWE line (7.0) can't work with
+   DKMS at all — audio would silently break on every kernel update. Removed HWE
+   and pinned to GA:
+   #+begin_src shell
+     sudo apt install linux-generic linux-headers-generic
+     sudo apt purge 'linux-*-generic-hwe-24.04' 'linux-*-7.0.0-*'
+   #+end_src
+
+** Wifi needs pcie_port_pm=off on 6.8
+   Unrelated to audio, but discovered together: on 6.8 the BCM4350 fails to
+   probe (~brcmf_chip_recognition: MMIO read failed: 0xffffffff~) because the
+   card gets powered down behind its PCIe root port. 7.0 didn't have this. Add
+   to ~GRUB_CMDLINE_LINUX_DEFAULT~ in ~/etc/default/grub~, then ~sudo
+   update-grub~:
+   #+begin_src shell
+     GRUB_CMDLINE_LINUX_DEFAULT="quiet splash mem_sleep_default=s2idle pcie_port_pm=off"
+   #+end_src
+   This is load bearing. Removing it kills wifi. It is *not* a missing
+   driver/firmware problem, so no package install will fix it.
+
+** Mixxx travel rig: Xone:K2 as the only interface
+   The K2's built-in soundcard is *4 out, 0 in* (S16_LE, 44.1/48k). That's
+   enough for a standalone rig with no external mixer: one stereo pair for
+   master, one for headphone cue.
+
+   Mixxx talks to it directly over ALSA (~hw:2,0~) rather than through
+   PipeWire. Left alone, PipeWire claims the card and forces it into the
+   ~analog-surround-40~ profile — one sink with an FL/FR/FC/LFE map, which is
+   the wrong shape (channel 3 is not a center speaker) — and holds the ALSA
+   device open so Mixxx can't get it. So tell WirePlumber not to manage it, in
+   ~~/.config/wireplumber/main.lua.d/51-xonek2-reserve-for-mixxx.lua~:
+   #+begin_src lua
+     xonek2_reserve = {
+       matches = { { { "device.name", "equals",
+                       "alsa_card.usb-ALLEN_HEATH_LTD._XONE_K2-00" }, }, },
+       apply_properties = { ["device.disabled"] = true, },
+     }
+     table.insert(alsa_monitor.rules, xonek2_reserve)
+   #+end_src
+   ~device.disabled~ scopes the session manager, it doesn't disable hardware.
+   Only the audio device is affected — MIDI goes through the ALSA sequencer, so
+   the controller still works. Cost: the K2 no longer shows up in the GNOME
+   volume applet. Delete the file and restart wireplumber to undo.
+
+   Since PipeWire is out of the path entirely, none of the ~pipewire.conf~ /
+   ~jack.conf~ latency tuning in [[https://github.com/apmiller108/audio][my audio repo]] applies here. Buffer size is
+   set in Mixxx's own preferences.
+
+   Sound Hardware: API *ALSA*, 44100 Hz. Channel assignment as it actually
+   landed — headphones on the first pair, master on the second:
+   #+begin_src xml
+     <output type="Headphones" channel="0" channel_count="2"/>  <!-- ch 1-2 -->
+     <output type="Master"     channel="2" channel_count="2"/>  <!-- ch 3-4 -->
+   #+end_src
+
+*** Use the stock Mixxx K2 mapping here, not mine
+    [[https://github.com/apmiller108/allen_and_heath_xonek2_mixxx_mapping][My K2 mapping]] is built for an external mixer — faders and EQ knobs are
+    deliberately unmapped so they can drive VST params instead. With no
+    external mixer there'd be nothing to mix with. The stock
+    ~Allen and Heath Xone K2.midi.xml~ that ships with Mixxx has the full
+    internal-mixer layout. Both use the same MIDI-channel layout scheme
+    (0xA–0xE), so the hardware channel setting carries over either way.
+
+    Note Mixxx only scans files directly in ~~/.mixxx/controllers~ — a cloned
+    repo in a subdirectory there is invisible to it.
 * Install optional tools
 ** rclone
    https://github.com/apmiller108/rclone
