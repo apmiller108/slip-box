@@ -4,7 +4,7 @@
 
 #+title: New computer setup
 #+date: 2021-09-23 21:22 PM
-#+updated: 2025-09-07 17:07 PM
+#+updated: 2026-08-17 08:30 AM
 #+filetags: :shell:
 
 A got a new laptop, a System 76 Gazelle with [[https://pop.system76.com][pop_os]]. This was the first I time
@@ -51,6 +51,74 @@ this shit out and maybe automate some of it too.
      #+begin_src shell
      ln -s ~/dotfiles/shell/zshrc ~/.zshrc
      #+end_src
+* Install Alacritty
+  My dotfiles carry ~shell/alacritty.toml~ and ~install.sh~ symlinks it to
+  ~~/.config/alacritty/alacritty.toml~, so the config lands even when the
+  terminal itself isn't installed. Don't be fooled by that.
+
+  That config uses the ~[general]~ and ~[terminal]~ sections, which need
+  Alacritty 0.14 or newer. Distro packages lag badly here (Ubuntu 24.04 ships
+  0.13.2), and on an older version those keys are silently misread rather than
+  rejected. So build from source.
+** Install a Rust toolchain
+   Alacritty declares a minimum supported Rust version (0.17.0 wants 1.85). The
+   distro ~rustc~ is usually too old and might not even ship ~cargo~ (Ubuntu
+   24.04: rustc 1.75, no cargo). Use rustup instead.
+   #+begin_src shell
+     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
+       -y --no-modify-path --profile minimal
+   #+end_src
+   ~--no-modify-path~ matters: without it rustup appends to ~~/.zshrc~, which is
+   a symlink into the dotfiles repo. Cargo ends up at ~~/.cargo/bin/cargo~ and
+   is not on ~$PATH~ unless you add it in ~zshenv.zsh~.
+** Build dependencies
+   The package list lives in ~INSTALL.md~ in the repo. As of 0.17:
+   #+begin_src shell
+     sudo apt install cmake g++ pkg-config libfontconfig1-dev \
+       libxcb-xfixes0-dev libxkbcommon-dev python3 scdoc gzip desktop-file-utils
+   #+end_src
+   ~scdoc~ and ~gzip~ are for the man pages, ~desktop-file-utils~ for the
+   launcher entry.
+** Build it
+   #+begin_src shell
+     git clone https://github.com/alacritty/alacritty.git ~/dev/alacritty
+     cd ~/dev/alacritty
+     git checkout v0.17.0 # or the latest release tag
+     ~/.cargo/bin/cargo build --release
+   #+end_src
+** Install it
+   The binary by itself is not enough. Without the desktop entry it never shows
+   up in the app launcher, and without the terminfo ~TERM=alacritty~ breaks over
+   SSH.
+   #+begin_src shell
+     sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+     sudo cp target/release/alacritty /usr/local/bin
+     sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
+     sudo desktop-file-install extra/linux/Alacritty.desktop
+     sudo update-desktop-database
+   #+end_src
+   Man pages and zsh completions:
+   #+begin_src shell
+     sudo mkdir -p /usr/local/share/man/man1 /usr/local/share/man/man5
+     scdoc < extra/man/alacritty.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+     scdoc < extra/man/alacritty-msg.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+     scdoc < extra/man/alacritty.5.scd | gzip -c | sudo tee /usr/local/share/man/man5/alacritty.5.gz > /dev/null
+     scdoc < extra/man/alacritty-bindings.5.scd | gzip -c | sudo tee /usr/local/share/man/man5/alacritty-bindings.5.gz > /dev/null
+     cp extra/completions/_alacritty "${ZSH_CACHE_DIR:-$HOME/.cache/oh-my-zsh}/completions/"
+   #+end_src
+   Check the config still parses against the version you built with
+   ~alacritty migrate --dry-run~. It prints the config back unchanged if there's
+   nothing to migrate.
+** Install the font
+   The config asks for JetBrains Mono. If it's missing, fontconfig silently
+   substitutes some other monospace and everything just looks wrong.
+   #+begin_src shell
+     sudo apt install fonts-jetbrains-mono
+   #+end_src
+   Confirm it actually resolves:
+   #+begin_src shell
+     fc-match "JetBrains Mono:style=Regular"
+   #+end_src
 * Install fzf
   https://github.com/junegunn/fzf
 * Install npm and yarn
@@ -143,6 +211,101 @@ this shit out and maybe automate some of it too.
 
    See also [[id:4EB81167-F7EB-4C72-B62B-9FB666D2446E][Emacs profiles]]
 * Install spacemacs
+* Install Mixxx
+  [[https://github.com/mixxxdj/mixxx][Mixxx]] digital DJ software, built from source. CMake + Qt6.
+** Clone and pick a version
+   #+begin_src shell
+     git clone https://github.com/mixxxdj/mixxx.git ~/dev/mixxx
+     cd ~/dev/mixxx
+     git tag --list '[0-9]*' --sort=-v:refname | head   # see what's out
+     git checkout 2.5.6                                 # a release tag, not main
+   #+end_src
+   ~main~ is the development branch (2.7-alpha as of this writing). For
+   something I actually DJ on, use the latest release tag.
+** Checkout the tag BEFORE installing dependencies
+   This is the part that will bite me if I forget. The dependency list lives in
+   the repo at ~tools/debian_buildenv.sh~ and *it differs between versions*.
+   Running ~main~'s script against a 2.5.6 checkout installs the wrong packages.
+
+   Concretely, 2.5.6 vs main on Ubuntu 24.04:
+   - Qt5Compat: 2.5.6 wants ~libqt6core5compat6-dev~, main wants ~qt6-5compat-dev~
+   - main adds ~libpipewire-0.3-dev~ and ~libspa-0.2-dev~ (native PipeWire)
+   - main adds ~qt6-multimedia-dev~ and several extra ~qml6-module-*~ packages
+   - main drops ~qt6-qpa-plugins~
+
+   So always run the script from the checked-out tag:
+   #+begin_src shell
+     tools/debian_buildenv.sh setup
+   #+end_src
+   ~200MB download. It uses ~sudo~ internally. It also has an interactive
+   prompt if ~fonts-ubuntu~ is unavailable, but on Ubuntu that package exists so
+   the prompt never fires.
+** Build
+   #+begin_src shell
+     mkdir build && cd build
+     cmake .. -DCMAKE_BUILD_TYPE=Release \
+       -DCMAKE_INSTALL_PREFIX=/usr/local \
+       -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+       -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+     cmake --build . -j"$(nproc)"
+   #+end_src
+   ~30 min on the 2016 MacBook Pro (i7-6660U, 2 cores / 4 threads). The
+   ~ccache~ launcher args aren't required but make rebuilds much cheaper.
+*** Optional features that don't get found, and why it's fine
+    - *FAAD (AAC/M4A)* ends up ~OFF~ because ~libmp4~ / ~libmp4v2~ headers
+      aren't in upstream's dependency list. This does *not* lose M4A playback:
+      ~FFMPEG:BOOL=ON~ and libavcodec handles AAC. FAAD is just the other path.
+    - *DjInterop* is off. That's Engine Prime / Denon library export.
+    - ~Could NOT find Protobuf (missing: Protobuf_DIR)~ is a red herring. That's
+      the CONFIG-mode probe failing; module mode finds it on the next line.
+    - Mixxx may say the system libshout "is suffering from issue #10305" and use
+      its bundled copy instead. Broadcasting still works.
+** Install
+   #+begin_src shell
+     sudo cmake --install .
+     sudo update-desktop-database
+     sudo gtk-update-icon-cache -f -t /usr/local/share/icons/hicolor
+   #+end_src
+   ~2800 files. ~/usr/local/share/~ is already on ~XDG_DATA_DIRS~ on Ubuntu, so
+   the desktop entry is picked up by the app launcher without extra work.
+
+   Mixxx can also just be run out of the build dir (~./mixxx~) without
+   installing, but then there's no launcher entry and no ~mixxx~ on ~$PATH~.
+** Upgrading to a new release
+   There is *no* ~make uninstall~ target. ~cmake --install~ happily writes a new
+   version over the old one and leaves orphaned files behind (skins, qml, and
+   translations move around between releases). So uninstall explicitly first,
+   using the manifest from the build that installed it:
+   #+begin_src shell
+     cd ~/dev/mixxx/build
+     sudo xargs rm -f < install_manifest.txt   # remove the OLD install first
+   #+end_src
+   Then update and rebuild from scratch. Don't reuse the old build directory: a
+   new tag changes dependencies and CMake options, and a stale ~CMakeCache.txt~
+   will happily carry the old values forward.
+   #+begin_src shell
+     cd ~/dev/mixxx
+     git fetch --tags
+     git checkout 2.6.0                 # whatever the new tag is
+     tools/debian_buildenv.sh setup     # RE-RUN. deps change between versions
+     rm -rf build && mkdir build && cd build
+     cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
+     cmake --build . -j"$(nproc)"
+     sudo cmake --install .
+   #+end_src
+   Back up settings and the library database before a major version bump.
+   Mixxx migrates its schema on first launch and that is one-way, so going back
+   to the older version afterwards is not reliable:
+   #+begin_src shell
+     cp -a ~/.mixxx ~/.mixxx.bak-$(date +%Y%m%d)
+   #+end_src
+   Note 2.6 adds native PipeWire support (hence ~libpipewire-0.3-dev~ in its
+   dependency list). 2.5.x reaches PipeWire only through PortAudio's ALSA/JACK
+   compatibility layers.
+** Controllers
+   udev rules are installed to ~/usr/local/share/mixxx/udev~. Installing the
+   files doesn't activate them. If a USB controller isn't detected, that's the
+   first place to look.
 * Install optional tools
 ** rclone
    https://github.com/apmiller108/rclone
