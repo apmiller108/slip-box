@@ -4,7 +4,7 @@
 
 #+title: New computer setup
 #+date: 2021-09-23 21:22 PM
-#+updated: 2026-08-17 02:47 PM
+#+updated: 2026-08-18 03:58 PM
 #+filetags: :shell:
 
 A got a new laptop, a System 76 Gazelle with [[https://pop.system76.com][pop_os]]. This was the first I time
@@ -413,9 +413,159 @@ this shit out and maybe automate some of it too.
 
     Note Mixxx only scans files directly in ~~/.mixxx/controllers~ — a cloned
     repo in a subdirectory there is invisible to it.
+* Bluetooth on a 2016 MacBook Pro (MacBookPro13,1)
+  Same machine as the audio section above. Symptom: the Bluetooth switch in
+  GNOME Settings will not stay in the on position. ~hciconfig~ shows ~hci0~
+  DOWN with BD address all zeros, TX bytes but *zero RX*, and dmesg has:
+  #+begin_src
+    Bluetooth: hci0: command 0xfc18 tx timeout
+    Bluetooth: hci0: BCM: failed to write update baudrate (-110)
+    Bluetooth: hci0: BCM: Reset failed (-110)
+  #+end_src
+
+  The radio is a BCM4350C0 attached over *UART*, not USB. It lives at
+  ~\_SB.PCI0.URT0.BLTH~ (ACPI HID ~BCM2E7C~) on the Intel LPSS
+  ~dw-apb-uart.2~ and never appears in ~lsusb~, so all the usual
+  USB-dongle advice is irrelevant. It is also *not* a missing firmware or
+  missing driver problem — no package install will change anything.
+
+** It's a race, not a permanent failure
+   This is the whole insight and it took hours to see. The driver loses a race
+   against the controller's power-up roughly *half the time*. Check the journal
+   across previous boots:
+   #+begin_src shell
+     for b in $(journalctl --list-boots --no-pager -q | awk '{print $1}'); do
+       printf "boot %-4s : %s\n" "$b" \
+         "$(journalctl -k -b "$b" | grep -oE 'BCM4350C0|Reset failed' | head -1)"
+     done
+   #+end_src
+   6 of the last 12 boots came up fine with no intervention at all. Bluetooth
+   was already working half the time; I just happened to look on a bad boot.
+
+   Corollary: *never conclude anything here from a single boot.* Any change has
+   to be measured over repeated trials or you're just reading a coin flip.
+
+*** Don't go down the DKMS patch road
+    Searching these symptoms leads straight to [[https://github.com/Dunedan/mbp-2016-linux/issues/29][mbp-2016-linux#29]], [[https://bugzilla.kernel.org/show_bug.cgi?id=205115][kernel bug 205115]],
+    the [[https://github.com/christophgysin/linux/commit/ddf622a0a19697af473051c8019fffc1eb66efe7][christophgysin patch]] (drop the ~set_device_wakeup()~ / ~BTLP~ call from
+    ~bcm_gpio_set_power()~) and the [[https://github.com/leifliddy/macbook12-bluetooth-driver][leifliddy DKMS package]] that automates it.
+    Everything points there. *It's the wrong tree for this machine.*
+
+    I built that patch against ~linux-source-6.8.0~ and measured it: it failed
+    all 4 attempts, while stock driver logic passed 4 of 6. With a 50/50 base
+    rate that's suggestive rather than conclusive, but there is no reason to
+    adopt an out-of-tree module that at best does nothing.
+
+    The reason that 2017-2020 thread never converged is that everyone was
+    testing patches one boot at a time against this coin flip, so the same
+    patch "worked" for some people and not others.
+
+** The fix: retry the module load
+   No patch, no DKMS, no kernel taint, and kernel updates can't break it. If
+   ~hci0~ didn't initialize, reloading ~hci_uart~ just re-rolls the dice.
+
+   ~/usr/local/sbin/bt-init-retry.sh~:
+   #+begin_src shell
+     #!/bin/bash
+     MAX_ATTEMPTS=10
+
+     hci_bd() {
+         hciconfig hci0 2>/dev/null |
+             sed -n 's/.*BD Address: \([0-9A-F:]\{17\}\).*/\1/p'
+     }
+     up() {
+         local bd; bd=$(hci_bd)
+         [ -n "$bd" ] && [ "$bd" != "00:00:00:00:00:00" ]
+     }
+
+     rfkill unblock bluetooth 2>/dev/null
+
+     for attempt in $(seq 1 "$MAX_ATTEMPTS"); do
+         up && { echo "hci0 up: $(hci_bd) (attempt $attempt)"; exit 0; }
+         echo "attempt $attempt: hci0 not initialized, reloading hci_uart"
+         modprobe -r hci_uart 2>/dev/null
+         sleep 1
+         modprobe hci_uart || { echo "modprobe failed"; exit 1; }
+         # success shows up in ~1s; the failure path takes ~10s to time out
+         for _ in $(seq 1 12); do sleep 1; up && break; done
+     done
+
+     up && { echo "hci0 up: $(hci_bd)"; exit 0; }
+     echo "hci0 did not initialize after $MAX_ATTEMPTS attempts" >&2
+     exit 1
+   #+end_src
+
+   ~/etc/systemd/system/bt-init-retry.service~:
+   #+begin_src conf
+     [Unit]
+     Description=Retry Broadcom UART Bluetooth initialization (MacBookPro13,1)
+     After=bluetooth.service
+     Wants=bluetooth.service
+
+     [Service]
+     Type=oneshot
+     RemainAfterExit=yes
+     ExecStart=/usr/local/sbin/bt-init-retry.sh
+
+     [Install]
+     WantedBy=multi-user.target
+   #+end_src
+
+   #+begin_src shell
+     sudo systemctl enable --now bt-init-retry.service
+   #+end_src
+   At ~50% per attempt, 10 attempts leaves about a 1-in-1000 chance of a boot
+   without Bluetooth. A bad boot costs ~12s in the background and blocks
+   nothing. ~bluetoothd~ picks up the controller whenever it appears, so
+   there's no ordering requirement beyond running after ~bluetooth.service~.
+
+   Use ~modprobe~, not ~insmod~: removing ~hci_uart~ also unloads ~btbcm~,
+   ~btqca~, ~btrtl~ and ~btintel~, and ~insmod~ won't pull them back in.
+   You'll get a wall of "Unknown symbol" errors if you try.
+
+** Messages that look like problems but aren't
+   These appear on *successful* initialization too. Don't chase them.
+   - ~Unexpected ACPI gpio_int_idx: -1~ and ~Unexpected number of ACPI GPIOs: 0~
+     — normal on all Apple hardware. The Mac DSDT describes no GPIO resources
+     because power is done through custom ACPI methods (~BTPU~ / ~BTPD~ /
+     ~BTLP~) instead.
+   - ~No reset resource, using default baud rate~ — same reason; on the Apple
+     code path ~dev->shutdown~ is always NULL.
+   - ~BCM: failed to write update baudrate (-16)~ — note *-16* (EBUSY), which
+     is the *working* case. The failing case is *-110* (ETIMEDOUT). Easy to
+     confuse at a glance, and it's the single most useful line for telling a
+     good boot from a bad one.
+   - ~BCM: Patch brcm/BCM.hcd not found~ — no patchram blob ships in
+     ~linux-firmware~ for this chip and none is needed for basic operation.
+     The generic ~BCM.hcd~ name means the subver wasn't in the driver's UART
+     table, not that a specific file is missing.
+
+   A good boot looks like:
+   #+begin_src
+     Bluetooth: hci0: BCM: chip id 92
+     Bluetooth: hci0: BCM4350C0 UART 37.4 MHz Gamay USI UHE
+     Bluetooth: hci0: BCM (003.001.134) build 1532
+   #+end_src
+
+** A2DP audio
+   Upstream documents A2DP as "still choppy for unknown reasons" on these
+   models, so I expected trouble.
+
+   Worth ruling out before blaming this hardware, in order:
+   1. The headphones are connected to a second host (multipoint).
+   2. The GNOME Bluetooth settings panel is open — that runs a continuous
+      BR/EDR inquiry which does disrupt an active audio link. Close the
+      window, then confirm with ~bluetoothctl show | grep Discovering~.
+   3. Wifi on 2.4GHz. This is a combo chip sharing the radio; 5GHz is much
+      better behaved. Check with ~nmcli dev wifi list~.
+
+   Useful counters: ~hciconfig -a hci0~ should show ~errors:0~ — if the UART
+   link were actually corrupting, that's where it would show.
 * Install optional tools
 ** rclone
    https://github.com/apmiller108/rclone
 ** syncthing
    https://apt.syncthing.net/
    https://docs.syncthing.net/users/autostart#using-systemd
+** Rustdesk
+Download the client from the releases github page
