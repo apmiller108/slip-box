@@ -1,0 +1,42 @@
+:PROPERTIES:
+:ID:       FC3D2AC3-0CD8-424A-9F83-8D31B50F6F6C
+:END:
+#+title: Window Functions
+#+filetags: :postgres:
+#+date: 2026-09-24 11:09 AM
+#+updated:  2026-09-24 11:26 AM
+
+When ~group by~'s limitation of collapsing rows into an aggregate aren't what you
+want, but you still need to partition data while keeping rows expanded, reach for a
+window function.
+
+A window function keeps every row, but adds a computed column based on the rows
+neighbors.
+
+#+begin_src sql
+select id, body, count(*) over (partition by user_id) from posts;
+#+end_src
+
+| id | body | count |
+|----+------+-------|
+|  1 | foo  |     2 |
+|  2 | bar  |     2 |
+|  3 | baz  |     1 |
+
+There's better examples in the docs https://www.postgresql.org/docs/current/tutorial-window.html
+
+~over(...)~ makes a window function.
+
+#+begin_src sql
+some_function(args) over (
+  partition by <cols>   -- split rows into independent groups
+  order by    <cols>    -- sequence rows WITHIN each group
+  <frame>               -- which neighbors in the group are visible
+)
+#+end_src
+
+For ranking rows, use one of:
+
+- ~row_number()~
+- ~rank()~
+- ~dense_rank()~
